@@ -121,12 +121,14 @@ class Trenitalia(Provider):
             solution = item.get("solution") if isinstance(item, dict) else None
             if not isinstance(solution, dict):
                 continue
-            leg = self._to_leg(solution, origin, destination)
+            leg = self._to_leg(solution, origin, destination, item)
             if leg is not None:
                 legs.append(leg)
         return legs
 
-    def _to_leg(self, solution: dict, origin: Node, destination: Node) -> Leg | None:
+    def _to_leg(
+        self, solution: dict, origin: Node, destination: Node, item: dict | None = None
+    ) -> Leg | None:
         depart = _parse_dt(solution.get("departureTime"))
         arrive = _parse_dt(solution.get("arrivalTime"))
         if depart is None or arrive is None or arrive <= depart:
@@ -179,6 +181,15 @@ class Trenitalia(Provider):
         else:
             notes.append("prezzo non esposto dal motore di ricerca")
 
+        if fare is not None and item is not None:
+            ridotta = _conditional_total(item, float(amount))
+            if ridotta is not None:
+                totale, condizioni = ridotta
+                notes.append(
+                    f"con {' e '.join(sorted(condizioni))}: {totale:.2f} EUR invece di "
+                    f"{amount:.2f} — prezzo dell'operatore, se ne hai diritto"
+                )
+
         segments = [
             f"{node.get('origin')} {_hhmm(node.get('departureTime'))}"
             f" -> {node.get('destination')} {_hhmm(node.get('arrivalTime'))}"
@@ -203,6 +214,66 @@ class Trenitalia(Provider):
             segments=segments,
             notes=notes,
         )
+
+
+def _price(value: Any) -> float | None:
+    if isinstance(value, dict) and isinstance(value.get("amount"), (int, float)):
+        return float(value["amount"])
+    return None
+
+
+def _conditional_total(item: dict, esposto: float) -> tuple[float, set[str]] | None:
+    """Il totale piu' basso che si pagherebbe avendo la tessera giusta.
+
+    Le tariffe ridotte di Trenitalia **arrivano gia'** nella risposta: stanno in
+    `grids[].services[].offers[]` con il loro nome (FrecciaYOUNG, FrecciaSENIOR,
+    YOUNG, SENIOR) e il loro prezzo. Non compaiono nel prezzo esposto perche'
+    `minPrice` le esclude di proposito: richiedono una tessera e spesso un'eta',
+    e il motore non sa se chi cerca ne ha diritto. L'array `discounts` resta
+    vuoto per lo stesso motivo — gli sconti non sono modellati li'.
+
+    Qui si calcola solo *quanto* costerebbero, e lo si dice. Non si applica
+    niente: presumere una tessera che l'utente non ha significherebbe mostrare
+    un prezzo che alla cassa non esiste, e in questo progetto vale la regola
+    opposta — nel dubbio si applica meno, perche' uno sconto mancato si scopre
+    con piacere e uno inventato fa perdere il viaggio."""
+    grids = item.get("grids") or []
+    if not grids:
+        return None
+
+    totale = 0.0
+    condizioni: set[str] = set()
+    for grid in grids:
+        migliore_libera: float | None = None
+        migliore_assoluta: float | None = None
+        nome_assoluta: str | None = None
+
+        for service in grid.get("services") or []:
+            minimo = _price(service.get("minPrice"))
+            if minimo is not None:
+                migliore_libera = minimo if migliore_libera is None else min(migliore_libera, minimo)
+            for offer in service.get("offers") or []:
+                if not isinstance(offer, dict) or offer.get("status") != "SALEABLE":
+                    continue
+                prezzo = _price(offer.get("price"))
+                if prezzo is None:
+                    continue
+                if migliore_assoluta is None or prezzo < migliore_assoluta:
+                    migliore_assoluta, nome_assoluta = prezzo, str(offer.get("name") or "")
+
+        if migliore_assoluta is None:
+            return None
+        totale += migliore_assoluta
+        if (
+            migliore_libera is not None
+            and migliore_assoluta < migliore_libera - 0.01
+            and nome_assoluta
+        ):
+            condizioni.add(nome_assoluta)
+
+    if not condizioni or totale >= esposto - 0.01:
+        return None
+    return round(totale, 2), condizioni
 
 
 def _no_solutions_or_raise(response: Any) -> dict:

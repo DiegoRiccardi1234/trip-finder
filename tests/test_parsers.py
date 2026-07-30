@@ -90,6 +90,91 @@ def test_ogni_adapter_con_fixture_e_registrato() -> None:
         assert registry.get(provider_id) is not None
 
 
+# ------------------------------------------- tariffe ridotte di Trenitalia
+
+
+def test_una_tariffa_ridotta_non_entra_nel_prezzo_esposto() -> None:
+    """`minPrice` esclude di proposito le offerte legate a una tessera.
+
+    E' il motivo per cui il prezzo esposto non e' il piu' basso in assoluto: chi
+    cerca non ha necessariamente la CartaFRECCIA, e il motore non lo sa."""
+    from app.providers.rail import trenitalia
+
+    grid = {
+        "services": [
+            {
+                "minPrice": {"amount": 37.90},
+                "offers": [
+                    {"status": "SALEABLE", "name": "Super Economy", "price": {"amount": 37.90}},
+                    {"status": "SALEABLE", "name": "FrecciaYOUNG", "price": {"amount": 29.00}},
+                ],
+            }
+        ]
+    }
+    assert trenitalia._conditional_total({"grids": [grid]}, 37.90) == (29.00, {"FrecciaYOUNG"})
+
+
+def test_senza_offerte_condizionate_non_si_promette_niente() -> None:
+    """Se sotto il minimo non c'e' nulla, non c'e' niente da dire: una riga in
+    piu' su ogni treno sarebbe rumore, e il rumore si smette di leggere."""
+    from app.providers.rail import trenitalia
+
+    grid = {
+        "services": [
+            {
+                "minPrice": {"amount": 37.90},
+                "offers": [
+                    {"status": "SALEABLE", "name": "Super Economy", "price": {"amount": 37.90}},
+                    {"status": "SALEABLE", "name": "BASE", "price": {"amount": 61.00}},
+                ],
+            }
+        ]
+    }
+    assert trenitalia._conditional_total({"grids": [grid]}, 37.90) is None
+
+
+def test_un_esaurito_non_diventa_una_tariffa_ridotta() -> None:
+    """La stessa regola del prezzo SOLD_OUT: quello che non si puo' comprare non
+    e' un'opzione, e prometterlo sarebbe peggio che tacerlo."""
+    from app.providers.rail import trenitalia
+
+    grid = {
+        "services": [
+            {
+                "minPrice": {"amount": 37.90},
+                "offers": [
+                    {"status": "SALEABLE", "name": "Super Economy", "price": {"amount": 37.90}},
+                    {"status": "SOLD_OUT", "name": "FrecciaYOUNG", "price": {"amount": 29.00}},
+                ],
+            }
+        ]
+    }
+    assert trenitalia._conditional_total({"grids": [grid]}, 37.90) is None
+
+
+@pytest.mark.skipif(
+    not (FIXTURES_DIR / "trenitalia" / "torino-bari.json").exists(),
+    reason="fixture Trenitalia assente",
+)
+def test_le_tariffe_ridotte_arrivano_gia_nella_risposta_vera() -> None:
+    """Sulla risposta reale congelata: le offerte con tessera ci sono da sempre,
+    e fino a oggi venivano buttate insieme al resto della griglia."""
+    payload = orjson.loads((FIXTURES_DIR / "trenitalia" / "torino-bari.json").read_bytes())
+    provider = registry.get("trenitalia")
+    ctx = SearchContext(date=date.fromisoformat(payload["captured_for"]["date"]))
+
+    legs = provider.parse(
+        payload["raw"],
+        Node(**payload["origin_node"]),
+        Node(**payload["destination_node"]),
+        ctx,
+    )
+
+    ridotte = [nota for leg in legs for nota in leg.notes if "invece di" in nota]
+    assert ridotte, "nessuna tariffa ridotta riconosciuta su una risposta che ne contiene"
+    assert any("Freccia" in nota or "YOUNG" in nota for nota in ridotte)
+
+
 def test_albatross_converte_gli_orari_utc_in_locali() -> None:
     """Il fuso della piattaforma Albatross, bloccato contro il sito reale.
 

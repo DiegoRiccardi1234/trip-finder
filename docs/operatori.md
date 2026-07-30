@@ -150,6 +150,7 @@ l'evidenza e il punto da cui ripartire.
 | Operatore | Stato |
 |---|---|
 | **Volotea** | Manca solo lo stato di sessione, vedi la riga nella tabella dei bloccati: e' il candidato piu' vicino a diventare un adapter |
+| **Trenitalia, tariffe ridotte** | ~~Da sondare~~ **fatto**: erano gia' nella risposta, vedi in fondo. Resta da collegarle al profilo |
 | **Aeroitalia** | Non affrontato: stessa forma di Volotea (SPA con storage statico) |
 | **GNV, SNAV** | API mappate, entrambe a `401`: serve capire come nasce la sessione |
 | **DB** | Resta solo `BrowserFormProvider` su `bahn.de`, mai tentato |
@@ -289,10 +290,37 @@ resta marcata **«dichiarato da te»** finche' il prezzo ridotto non arriva
 dall'operatore. Non e' un ripiego elegante ma e' onesto: un totale che ignora
 la tessera che uno ha in tasca sbaglia il confronto, non solo la cifra.
 
-**Trenitalia e' il candidato piu' promettente e non e' stato sondato.** Nella
-risposta compaiono gia' i nomi delle offerte (`FrecciaYOUNG`, `YOUNG`,
-`isCartaFrecciaProgram`) e un array `discounts` che arriva vuoto: la strada e'
-capire quale parametro della richiesta lo riempie.
+**Trenitalia: risolto, e la premessa era sbagliata.** Non serviva nessun
+parametro in piu' nella richiesta. Le tariffe ridotte **arrivano gia'**, in
+`grids[].services[].offers[]`, con nome e prezzo: `FrecciaYOUNG` e
+`FrecciaSENIOR` (id 1825 e 1850, riservate ai possessori CartaFRECCIA con
+un'eta' minima o massima), `YOUNG` e `SENIOR` (id 1814 e 1549) su Intercity e
+regionali.
+
+Non comparivano nel prezzo esposto perche' **`minPrice` le esclude di
+proposito**: richiedono una tessera, e il motore non sa se chi cerca ne ha
+diritto. Verificato sulle fixture: `solution.price` e' sempre la somma esatta
+dei `minPrice` di ogni griglia, e su 160 servizi esaminati 10 avevano un'offerta
+sotto quel minimo. Esempi reali:
+
+| Servizio | `minPrice` | Offerta esclusa |
+|---|---|---|
+| STANDARD (Frecciarossa Torino-Bari) | 37,90 | FrecciaYOUNG 29,00 · FrecciaSENIOR 29,00 |
+| 2ª CLASSE EASY | 18,90 | YOUNG 16,40 |
+| 1ª CLASSE PLUS | 51,00 | SENIOR 35,70 |
+| Cuccetta Comfort | 75,70 | YOUNG 60,60 |
+
+E l'array `discounts` resta vuoto perche' gli sconti **non sono modellati li'**:
+stanno nelle offerte. Cercare il parametro che lo riempie sarebbe stato un giro
+a vuoto.
+
+L'adapter ora calcola il totale piu' basso ottenibile con una tessera e lo
+**dichiara in nota** (`con FrecciaYOUNG: 122,00 EUR invece di 130,90`), senza
+applicarlo: presumere una tessera che l'utente non ha significherebbe mostrare
+un prezzo che alla cassa non esiste. Il passo successivo, se servira', e'
+collegarlo al profilo: chi dichiara la CartaFRECCIA vede la tariffa ridotta
+entrare davvero nella classifica, con un prezzo dell'operatore invece di una
+percentuale stimata.
 
 ---
 
