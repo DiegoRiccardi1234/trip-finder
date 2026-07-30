@@ -1,0 +1,3875 @@
+{
+  "captured_for": {
+    "origin_query": "Milano",
+    "destination_query": "Roma",
+    "date": "2026-08-14",
+    "pax": 1
+  },
+  "origin_node": {
+    "id": "tl:8490",
+    "name": "Milano Centrale",
+    "kind": "station",
+    "lat": 45.487143,
+    "lon": 9.204828,
+    "country": "IT",
+    "city": "Milano",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {
+      "trenitalia": "8301700",
+      "italo": "MC_",
+      "sncf": "ITBGE",
+      "sbb": "8301700"
+    },
+    "is_main": true
+  },
+  "destination_node": {
+    "id": "tl:8544",
+    "name": "Roma Termini",
+    "kind": "station",
+    "lat": 41.900833,
+    "lon": 12.501944,
+    "country": "IT",
+    "city": "Roma",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {
+      "trenitalia": "8308409",
+      "italo": "RMT",
+      "oebb": "8300263"
+    },
+    "is_main": true
+  },
+  "raw": {
+    "action": "Api-Travels",
+    "queryString": "adults=1&children=0&code=&datestart=2026-08-14&destination=ROM_T&membership=false&origin=MIL_T",
+    "locale": "it",
+    "originalUri": "https://www.itabus.it/Sites-ITABUS-Site/it/Api-Travels?origin=MIL_T&destination=ROM_T&datestart=2026-08-14&adults=1&children=0&membership=false&code=",
+    "data": {
+      "outbound": {
+        "direction": "outbound",
+        "origin": "Milano",
+        "destination": "Roma",
+        "routes": [
+          {
+            "direction": "outbound",
+            "travel_duration": "8h 20m",
+            "id": "0:RDA|3887|ITABUS2|2026-08-13|2026-08-14T00:30|2026-08-14T08:50;MIL2;ROM1",
+            "origin": {
+              "name": "Milano (San Donato M3)",
+              "code": "MIL2"
+            },
+            "origin_code": "Milano (San Donato M3)",
+            "destination": {
+              "name": "Roma (Tiburtina Terminal Bus)",
+              "code": "ROM1"
+            },
+            "departure_timestamp": "2026-08-14T00:30:00+0200",
+            "arrival_timestamp": "2026-08-14T08:50:00+0200",
+            "service_identifier": "0:RDA|3887|ITABUS2|2026-08-13|2026-08-14T00:30|2026-08-14T08:50",
+            "service_name": "3887",
+            "services": [
+              {
+                "code": "USB",
+                "description": "Caricatore USB"
+              },
+              {
+                "code": "Outlets",
+                "description": "Spina elettrica"
+              },
+              {
+                "code": "VendingMachine",
+                "description": "Distributore automatico bevande e cibo"
+              },
+              {
+                "code": "WC",
+                "description": "Bagno a bordo"
+              },
+              {
+                "code": "WIFI",
+                "description": "WIFI"
+              }
+            ],
+            "transferNumber": 0,
+            "available": true,
+            "rates": {
+              "available": true,
+              "ITABUS": {
+                "ECONOMY": {
+                  "COMFORT": {
+                    "product_family_id": "ECONOMY_COMFORT",
+                    "price": 29.99,
+                    "original_price": 29.99,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_COMFORT",
+                        "product_family_id": "ECONOMY_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3887|ITABUS2|2026-08-13|2026-08-14T00:30|2026-08-14T08:50;MIL2;ROM1"
+                        ],
+                        "name": "Economy Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "DD",
+                            "original_price": 29.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 29.99,
+                            "tariff_code": "ECOCOMFORT_DD"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 29.99,
+                    "average_original_price": 29.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0,
+                    "alertLabel": "Ultimi 3 posti"
+                  },
+                  "TOP": {
+                    "product_family_id": "ECONOMY_TOP",
+                    "price": 44.89,
+                    "original_price": 44.89,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_TOP",
+                        "product_family_id": "ECONOMY_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3887|ITABUS2|2026-08-13|2026-08-14T00:30|2026-08-14T08:50;MIL2;ROM1"
+                        ],
+                        "name": "Economy Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "D1",
+                            "original_price": 44.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 44.89,
+                            "tariff_code": "ECOTOP_D1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 44.89,
+                    "average_original_price": 44.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0,
+                    "alertLabel": "Ultimi 2 posti"
+                  },
+                  "label": "Economy"
+                },
+                "FLEX": {
+                  "COMFORT": {
+                    "product_family_id": "FLEX_COMFORT",
+                    "price": 39.99,
+                    "original_price": 39.99,
+                    "items": [
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3887|ITABUS2|2026-08-13|2026-08-14T00:30|2026-08-14T08:50;MIL2;ROM1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "CC",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_CC"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 39.99,
+                    "average_original_price": 39.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "FLEX_TOP",
+                    "price": 59.89,
+                    "original_price": 59.89,
+                    "items": [
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3887|ITABUS2|2026-08-13|2026-08-14T00:30|2026-08-14T08:50;MIL2;ROM1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "C1",
+                            "original_price": 59.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 59.89,
+                            "tariff_code": "FLEXTOP_C1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 59.89,
+                    "average_original_price": 59.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0,
+                    "alertLabel": "Ultimi 3 posti"
+                  },
+                  "label": "Super Flex"
+                }
+              },
+              "PARTNER": []
+            },
+            "legs": [
+              {
+                "origin": "Milano (San Donato M3)",
+                "departure_timestamp": "2026-08-14T00:30:00+0200",
+                "destination": "Roma (Tiburtina Terminal Bus)",
+                "arrival_timestamp": "2026-08-14T08:50:00+0200",
+                "service_schedule_date": "2026-08-13T00:00:00+0200",
+                "origin_station_code": "MIL2",
+                "destination_station_code": "ROM1",
+                "service_identifier": "0:RDA|3887|ITABUS2|2026-08-13|2026-08-14T00:30|2026-08-14T08:50",
+                "service_name": "3887",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|3887|ITABUS2|2026-08-13|2026-08-14T00:30|2026-08-14T08:50;MIL2;ROM1"
+              }
+            ],
+            "hasPartnerLeg": false,
+            "transfers": [],
+            "isItaloRoute": false,
+            "italoData": {}
+          },
+          {
+            "direction": "outbound",
+            "travel_duration": "7h 35m",
+            "id": "0:RDA|2409|ITABUS2|2026-08-14|2026-08-14T08:00|2026-08-14T15:35;MIL2;ROM1",
+            "origin": {
+              "name": "Milano (San Donato M3)",
+              "code": "MIL2"
+            },
+            "origin_code": "Milano (San Donato M3)",
+            "destination": {
+              "name": "Roma (Tiburtina Terminal Bus)",
+              "code": "ROM1"
+            },
+            "departure_timestamp": "2026-08-14T08:00:00+0200",
+            "arrival_timestamp": "2026-08-14T15:35:00+0200",
+            "service_identifier": "0:RDA|2409|ITABUS2|2026-08-14|2026-08-14T08:00|2026-08-14T15:35",
+            "service_name": "2409",
+            "services": [
+              {
+                "code": "USB",
+                "description": "Caricatore USB"
+              },
+              {
+                "code": "Outlets",
+                "description": "Spina elettrica"
+              },
+              {
+                "code": "VendingMachine",
+                "description": "Distributore automatico bevande e cibo"
+              },
+              {
+                "code": "WC",
+                "description": "Bagno a bordo"
+              },
+              {
+                "code": "WIFI",
+                "description": "WIFI"
+              }
+            ],
+            "transferNumber": 0,
+            "available": true,
+            "rates": {
+              "available": true,
+              "ITABUS": {
+                "ECONOMY": {
+                  "COMFORT": {
+                    "product_family_id": "ECONOMY_COMFORT",
+                    "price": 24.99,
+                    "original_price": 24.99,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_COMFORT",
+                        "product_family_id": "ECONOMY_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2409|ITABUS2|2026-08-14|2026-08-14T08:00|2026-08-14T15:35;MIL2;ROM1"
+                        ],
+                        "name": "Economy Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "EE",
+                            "original_price": 24.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 24.99,
+                            "tariff_code": "ECOCOMFORT_EE"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 24.99,
+                    "average_original_price": 24.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "ECONOMY_TOP",
+                    "price": 34.89,
+                    "original_price": 34.89,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_TOP",
+                        "product_family_id": "ECONOMY_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2409|ITABUS2|2026-08-14|2026-08-14T08:00|2026-08-14T15:35;MIL2;ROM1"
+                        ],
+                        "name": "Economy Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "E1",
+                            "original_price": 34.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 34.89,
+                            "tariff_code": "ECOTOP_E1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 34.89,
+                    "average_original_price": 34.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0,
+                    "alertLabel": "Ultimi 2 posti"
+                  },
+                  "label": "Economy"
+                },
+                "FLEX": {
+                  "COMFORT": {
+                    "product_family_id": "FLEX_COMFORT",
+                    "price": 39.99,
+                    "original_price": 39.99,
+                    "items": [
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2409|ITABUS2|2026-08-14|2026-08-14T08:00|2026-08-14T15:35;MIL2;ROM1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "CC",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_CC"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 39.99,
+                    "average_original_price": 39.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "FLEX_TOP",
+                    "price": 59.89,
+                    "original_price": 59.89,
+                    "items": [
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2409|ITABUS2|2026-08-14|2026-08-14T08:00|2026-08-14T15:35;MIL2;ROM1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "C1",
+                            "original_price": 59.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 59.89,
+                            "tariff_code": "FLEXTOP_C1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 59.89,
+                    "average_original_price": 59.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "label": "Super Flex"
+                }
+              },
+              "PARTNER": []
+            },
+            "legs": [
+              {
+                "origin": "Milano (San Donato M3)",
+                "departure_timestamp": "2026-08-14T08:00:00+0200",
+                "destination": "Roma (Tiburtina Terminal Bus)",
+                "arrival_timestamp": "2026-08-14T15:35:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "MIL2",
+                "destination_station_code": "ROM1",
+                "service_identifier": "0:RDA|2409|ITABUS2|2026-08-14|2026-08-14T08:00|2026-08-14T15:35",
+                "service_name": "2409",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|2409|ITABUS2|2026-08-14|2026-08-14T08:00|2026-08-14T15:35;MIL2;ROM1"
+              }
+            ],
+            "hasPartnerLeg": false,
+            "transfers": [],
+            "isItaloRoute": false,
+            "italoData": {}
+          },
+          {
+            "direction": "outbound",
+            "travel_duration": "8h 35m",
+            "id": "0:RDA|2125|ITABUS2|2026-08-14|2026-08-14T10:40|2026-08-14T19:15;MIL1;ROM1",
+            "origin": {
+              "name": "Milano (Lampugnano M1)",
+              "code": "MIL1"
+            },
+            "origin_code": "Milano (Lampugnano M1)",
+            "destination": {
+              "name": "Roma (Tiburtina Terminal Bus)",
+              "code": "ROM1"
+            },
+            "departure_timestamp": "2026-08-14T10:40:00+0200",
+            "arrival_timestamp": "2026-08-14T19:15:00+0200",
+            "service_identifier": "0:RDA|2125|ITABUS2|2026-08-14|2026-08-14T10:40|2026-08-14T19:15",
+            "service_name": "2125",
+            "services": [
+              {
+                "code": "USB",
+                "description": "Caricatore USB"
+              },
+              {
+                "code": "Outlets",
+                "description": "Spina elettrica"
+              },
+              {
+                "code": "VendingMachine",
+                "description": "Distributore automatico bevande e cibo"
+              },
+              {
+                "code": "WC",
+                "description": "Bagno a bordo"
+              },
+              {
+                "code": "WIFI",
+                "description": "WIFI"
+              }
+            ],
+            "transferNumber": 0,
+            "available": true,
+            "rates": {
+              "available": true,
+              "ITABUS": {
+                "ECONOMY": {
+                  "COMFORT": {
+                    "product_family_id": "ECONOMY_COMFORT",
+                    "price": 16.99,
+                    "original_price": 16.99,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_COMFORT",
+                        "product_family_id": "ECONOMY_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2125|ITABUS2|2026-08-14|2026-08-14T10:40|2026-08-14T19:15;MIL1;ROM1"
+                        ],
+                        "name": "Economy Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "G",
+                            "original_price": 16.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 16.99,
+                            "tariff_code": "ECOCOMFORT_G"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 16.99,
+                    "average_original_price": 16.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "ECONOMY_TOP",
+                    "price": 21.89,
+                    "original_price": 21.89,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_TOP",
+                        "product_family_id": "ECONOMY_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2125|ITABUS2|2026-08-14|2026-08-14T10:40|2026-08-14T19:15;MIL1;ROM1"
+                        ],
+                        "name": "Economy Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "G1",
+                            "original_price": 21.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 21.89,
+                            "tariff_code": "ECOTOP_G1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 21.89,
+                    "average_original_price": 21.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0,
+                    "alertLabel": "Ultimi 2 posti"
+                  },
+                  "label": "Economy"
+                },
+                "FLEX": {
+                  "COMFORT": {
+                    "product_family_id": "FLEX_COMFORT",
+                    "price": 39.99,
+                    "original_price": 39.99,
+                    "items": [
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2125|ITABUS2|2026-08-14|2026-08-14T10:40|2026-08-14T19:15;MIL1;ROM1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "CC",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_CC"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 39.99,
+                    "average_original_price": 39.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "FLEX_TOP",
+                    "price": 59.89,
+                    "original_price": 59.89,
+                    "items": [
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2125|ITABUS2|2026-08-14|2026-08-14T10:40|2026-08-14T19:15;MIL1;ROM1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "C1",
+                            "original_price": 59.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 59.89,
+                            "tariff_code": "FLEXTOP_C1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 59.89,
+                    "average_original_price": 59.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "label": "Super Flex"
+                }
+              },
+              "PARTNER": []
+            },
+            "legs": [
+              {
+                "origin": "Milano (Lampugnano M1)",
+                "departure_timestamp": "2026-08-14T10:40:00+0200",
+                "destination": "Roma (Tiburtina Terminal Bus)",
+                "arrival_timestamp": "2026-08-14T19:15:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "MIL1",
+                "destination_station_code": "ROM1",
+                "service_identifier": "0:RDA|2125|ITABUS2|2026-08-14|2026-08-14T10:40|2026-08-14T19:15",
+                "service_name": "2125",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|2125|ITABUS2|2026-08-14|2026-08-14T10:40|2026-08-14T19:15;MIL1;ROM1"
+              }
+            ],
+            "hasPartnerLeg": false,
+            "transfers": [],
+            "isItaloRoute": false,
+            "italoData": {}
+          },
+          {
+            "direction": "outbound",
+            "travel_duration": "8h 20m",
+            "id": "0:RDA|3803|ITABUS2|2026-08-14|2026-08-14T12:50|2026-08-14T21:10;MIL1;ROM1",
+            "origin": {
+              "name": "Milano (Lampugnano M1)",
+              "code": "MIL1"
+            },
+            "origin_code": "Milano (Lampugnano M1)",
+            "destination": {
+              "name": "Roma (Tiburtina Terminal Bus)",
+              "code": "ROM1"
+            },
+            "departure_timestamp": "2026-08-14T12:50:00+0200",
+            "arrival_timestamp": "2026-08-14T21:10:00+0200",
+            "service_identifier": "0:RDA|3803|ITABUS2|2026-08-14|2026-08-14T12:50|2026-08-14T21:10",
+            "service_name": "3803",
+            "services": [
+              {
+                "code": "USB",
+                "description": "Caricatore USB"
+              },
+              {
+                "code": "Outlets",
+                "description": "Spina elettrica"
+              },
+              {
+                "code": "VendingMachine",
+                "description": "Distributore automatico bevande e cibo"
+              },
+              {
+                "code": "WC",
+                "description": "Bagno a bordo"
+              },
+              {
+                "code": "WIFI",
+                "description": "WIFI"
+              }
+            ],
+            "transferNumber": 0,
+            "available": true,
+            "rates": {
+              "available": true,
+              "ITABUS": {
+                "ECONOMY": {
+                  "COMFORT": {
+                    "product_family_id": "ECONOMY_COMFORT",
+                    "price": 19.99,
+                    "original_price": 19.99,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_COMFORT",
+                        "product_family_id": "ECONOMY_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3803|ITABUS2|2026-08-14|2026-08-14T12:50|2026-08-14T21:10;MIL1;ROM1"
+                        ],
+                        "name": "Economy Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "FF",
+                            "original_price": 19.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 19.99,
+                            "tariff_code": "ECOCOMFORT_FF"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 19.99,
+                    "average_original_price": 19.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0,
+                    "alertLabel": "Ultimi 3 posti"
+                  },
+                  "TOP": {
+                    "product_family_id": "ECONOMY_TOP",
+                    "price": 30.89,
+                    "original_price": 30.89,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_TOP",
+                        "product_family_id": "ECONOMY_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3803|ITABUS2|2026-08-14|2026-08-14T12:50|2026-08-14T21:10;MIL1;ROM1"
+                        ],
+                        "name": "Economy Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "F1",
+                            "original_price": 30.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 30.89,
+                            "tariff_code": "ECOTOP_F1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 30.89,
+                    "average_original_price": 30.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0,
+                    "alertLabel": "Ultimi 2 posti"
+                  },
+                  "label": "Economy"
+                },
+                "FLEX": {
+                  "COMFORT": {
+                    "product_family_id": "FLEX_COMFORT",
+                    "price": 39.99,
+                    "original_price": 39.99,
+                    "items": [
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3803|ITABUS2|2026-08-14|2026-08-14T12:50|2026-08-14T21:10;MIL1;ROM1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "CC",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_CC"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 39.99,
+                    "average_original_price": 39.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "FLEX_TOP",
+                    "price": 59.89,
+                    "original_price": 59.89,
+                    "items": [
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3803|ITABUS2|2026-08-14|2026-08-14T12:50|2026-08-14T21:10;MIL1;ROM1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "C1",
+                            "original_price": 59.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 59.89,
+                            "tariff_code": "FLEXTOP_C1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 59.89,
+                    "average_original_price": 59.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "label": "Super Flex"
+                }
+              },
+              "PARTNER": []
+            },
+            "legs": [
+              {
+                "origin": "Milano (Lampugnano M1)",
+                "departure_timestamp": "2026-08-14T12:50:00+0200",
+                "destination": "Roma (Tiburtina Terminal Bus)",
+                "arrival_timestamp": "2026-08-14T21:10:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "MIL1",
+                "destination_station_code": "ROM1",
+                "service_identifier": "0:RDA|3803|ITABUS2|2026-08-14|2026-08-14T12:50|2026-08-14T21:10",
+                "service_name": "3803",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|3803|ITABUS2|2026-08-14|2026-08-14T12:50|2026-08-14T21:10;MIL1;ROM1"
+              }
+            ],
+            "hasPartnerLeg": false,
+            "transfers": [],
+            "isItaloRoute": false,
+            "italoData": {}
+          },
+          {
+            "direction": "outbound",
+            "travel_duration": "7h 35m",
+            "id": "0:RDA|3803|ITABUS2|2026-08-14|2026-08-14T13:35|2026-08-14T21:10;MIL2;ROM1",
+            "origin": {
+              "name": "Milano (San Donato M3)",
+              "code": "MIL2"
+            },
+            "origin_code": "Milano (San Donato M3)",
+            "destination": {
+              "name": "Roma (Tiburtina Terminal Bus)",
+              "code": "ROM1"
+            },
+            "departure_timestamp": "2026-08-14T13:35:00+0200",
+            "arrival_timestamp": "2026-08-14T21:10:00+0200",
+            "service_identifier": "0:RDA|3803|ITABUS2|2026-08-14|2026-08-14T13:35|2026-08-14T21:10",
+            "service_name": "3803",
+            "services": [
+              {
+                "code": "USB",
+                "description": "Caricatore USB"
+              },
+              {
+                "code": "Outlets",
+                "description": "Spina elettrica"
+              },
+              {
+                "code": "VendingMachine",
+                "description": "Distributore automatico bevande e cibo"
+              },
+              {
+                "code": "WC",
+                "description": "Bagno a bordo"
+              },
+              {
+                "code": "WIFI",
+                "description": "WIFI"
+              }
+            ],
+            "transferNumber": 0,
+            "available": true,
+            "rates": {
+              "available": true,
+              "ITABUS": {
+                "ECONOMY": {
+                  "COMFORT": {
+                    "product_family_id": "ECONOMY_COMFORT",
+                    "price": 19.99,
+                    "original_price": 19.99,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_COMFORT",
+                        "product_family_id": "ECONOMY_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3803|ITABUS2|2026-08-14|2026-08-14T13:35|2026-08-14T21:10;MIL2;ROM1"
+                        ],
+                        "name": "Economy Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "FF",
+                            "original_price": 19.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 19.99,
+                            "tariff_code": "ECOCOMFORT_FF"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 19.99,
+                    "average_original_price": 19.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0,
+                    "alertLabel": "Ultimi 3 posti"
+                  },
+                  "TOP": {
+                    "product_family_id": "ECONOMY_TOP",
+                    "price": 30.89,
+                    "original_price": 30.89,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_TOP",
+                        "product_family_id": "ECONOMY_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3803|ITABUS2|2026-08-14|2026-08-14T13:35|2026-08-14T21:10;MIL2;ROM1"
+                        ],
+                        "name": "Economy Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "F1",
+                            "original_price": 30.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 30.89,
+                            "tariff_code": "ECOTOP_F1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 30.89,
+                    "average_original_price": 30.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0,
+                    "alertLabel": "Ultimi 2 posti"
+                  },
+                  "label": "Economy"
+                },
+                "FLEX": {
+                  "COMFORT": {
+                    "product_family_id": "FLEX_COMFORT",
+                    "price": 39.99,
+                    "original_price": 39.99,
+                    "items": [
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3803|ITABUS2|2026-08-14|2026-08-14T13:35|2026-08-14T21:10;MIL2;ROM1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "CC",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_CC"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 39.99,
+                    "average_original_price": 39.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "FLEX_TOP",
+                    "price": 59.89,
+                    "original_price": 59.89,
+                    "items": [
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3803|ITABUS2|2026-08-14|2026-08-14T13:35|2026-08-14T21:10;MIL2;ROM1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "C1",
+                            "original_price": 59.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 59.89,
+                            "tariff_code": "FLEXTOP_C1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 59.89,
+                    "average_original_price": 59.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "label": "Super Flex"
+                }
+              },
+              "PARTNER": []
+            },
+            "legs": [
+              {
+                "origin": "Milano (San Donato M3)",
+                "departure_timestamp": "2026-08-14T13:35:00+0200",
+                "destination": "Roma (Tiburtina Terminal Bus)",
+                "arrival_timestamp": "2026-08-14T21:10:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "MIL2",
+                "destination_station_code": "ROM1",
+                "service_identifier": "0:RDA|3803|ITABUS2|2026-08-14|2026-08-14T13:35|2026-08-14T21:10",
+                "service_name": "3803",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|3803|ITABUS2|2026-08-14|2026-08-14T13:35|2026-08-14T21:10;MIL2;ROM1"
+              }
+            ],
+            "hasPartnerLeg": false,
+            "transfers": [],
+            "isItaloRoute": false,
+            "italoData": {}
+          },
+          {
+            "direction": "outbound",
+            "travel_duration": "7h 45m",
+            "id": "0:RDA|3491|ITABUS2|2026-08-14|2026-08-14T16:00|2026-08-14T23:45;MIL1;ROM1",
+            "origin": {
+              "name": "Milano (Lampugnano M1)",
+              "code": "MIL1"
+            },
+            "origin_code": "Milano (Lampugnano M1)",
+            "destination": {
+              "name": "Roma (Tiburtina Terminal Bus)",
+              "code": "ROM1"
+            },
+            "departure_timestamp": "2026-08-14T16:00:00+0200",
+            "arrival_timestamp": "2026-08-14T23:45:00+0200",
+            "service_identifier": "0:RDA|3491|ITABUS2|2026-08-14|2026-08-14T16:00|2026-08-14T23:45",
+            "service_name": "3491",
+            "services": [
+              {
+                "code": "USB",
+                "description": "Caricatore USB"
+              },
+              {
+                "code": "Outlets",
+                "description": "Spina elettrica"
+              },
+              {
+                "code": "VendingMachine",
+                "description": "Distributore automatico bevande e cibo"
+              },
+              {
+                "code": "WC",
+                "description": "Bagno a bordo"
+              },
+              {
+                "code": "WIFI",
+                "description": "WIFI"
+              }
+            ],
+            "transferNumber": 0,
+            "available": true,
+            "rates": {
+              "available": true,
+              "ITABUS": {
+                "ECONOMY": {
+                  "COMFORT": {
+                    "product_family_id": "ECONOMY_COMFORT",
+                    "price": 16.99,
+                    "original_price": 16.99,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_COMFORT",
+                        "product_family_id": "ECONOMY_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3491|ITABUS2|2026-08-14|2026-08-14T16:00|2026-08-14T23:45;MIL1;ROM1"
+                        ],
+                        "name": "Economy Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "G",
+                            "original_price": 16.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 16.99,
+                            "tariff_code": "ECOCOMFORT_G"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 16.99,
+                    "average_original_price": 16.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "label": "Economy"
+                },
+                "FLEX": {
+                  "COMFORT": {
+                    "product_family_id": "FLEX_COMFORT",
+                    "price": 39.99,
+                    "original_price": 39.99,
+                    "items": [
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3491|ITABUS2|2026-08-14|2026-08-14T16:00|2026-08-14T23:45;MIL1;ROM1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "CC",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_CC"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 39.99,
+                    "average_original_price": 39.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "label": "Super Flex"
+                }
+              },
+              "PARTNER": []
+            },
+            "legs": [
+              {
+                "origin": "Milano (Lampugnano M1)",
+                "departure_timestamp": "2026-08-14T16:00:00+0200",
+                "destination": "Roma (Tiburtina Terminal Bus)",
+                "arrival_timestamp": "2026-08-14T23:45:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "MIL1",
+                "destination_station_code": "ROM1",
+                "service_identifier": "0:RDA|3491|ITABUS2|2026-08-14|2026-08-14T16:00|2026-08-14T23:45",
+                "service_name": "3491",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|3491|ITABUS2|2026-08-14|2026-08-14T16:00|2026-08-14T23:45;MIL1;ROM1"
+              }
+            ],
+            "hasPartnerLeg": false,
+            "transfers": [],
+            "isItaloRoute": false,
+            "italoData": {}
+          },
+          {
+            "direction": "outbound",
+            "travel_duration": "9h 10m",
+            "id": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00;MIL1;BOL1,0:RDA|2413|ITABUS2|2026-08-14|2026-08-14T23:50|2026-08-15T04:30;BOL1;ROM1",
+            "origin": {
+              "name": "Milano (Lampugnano M1)",
+              "code": "MIL1"
+            },
+            "origin_code": "Milano (Lampugnano M1)",
+            "destination": {
+              "name": "Roma (Tiburtina Terminal Bus)",
+              "code": "ROM1"
+            },
+            "departure_timestamp": "2026-08-14T19:20:00+0200",
+            "arrival_timestamp": "2026-08-15T04:30:00+0200",
+            "service_identifier": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00",
+            "service_name": "2213",
+            "services": [
+              {
+                "code": "USB",
+                "description": "Caricatore USB"
+              },
+              {
+                "code": "Outlets",
+                "description": "Spina elettrica"
+              },
+              {
+                "code": "VendingMachine",
+                "description": "Distributore automatico bevande e cibo"
+              },
+              {
+                "code": "WC",
+                "description": "Bagno a bordo"
+              },
+              {
+                "code": "WIFI",
+                "description": "WIFI"
+              }
+            ],
+            "transferNumber": 1,
+            "available": true,
+            "rates": {
+              "available": true,
+              "ITABUS": {
+                "ECONOMY": {
+                  "label": "Economy"
+                },
+                "FLEX": {
+                  "COMFORT": {
+                    "product_family_id": "FLEX_COMFORT",
+                    "price": 79.98,
+                    "original_price": 79.98,
+                    "items": [
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2413|ITABUS2|2026-08-14|2026-08-14T23:50|2026-08-15T04:30;BOL1;ROM1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "CC",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_CC"
+                          }
+                        ]
+                      },
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00;MIL1;BOL1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "AA",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_AA"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 2,
+                    "average_price": 79.98,
+                    "average_original_price": 79.98,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "FLEX_TOP",
+                    "price": 113.78,
+                    "original_price": 113.78,
+                    "items": [
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00;MIL1;BOL1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "A1",
+                            "original_price": 56.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 56.89,
+                            "tariff_code": "FLEXTOP_A1"
+                          }
+                        ]
+                      },
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2413|ITABUS2|2026-08-14|2026-08-14T23:50|2026-08-15T04:30;BOL1;ROM1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "C1",
+                            "original_price": 56.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 56.89,
+                            "tariff_code": "FLEXTOP_C1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 2,
+                    "average_price": 113.78,
+                    "average_original_price": 113.78,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "label": "Super Flex"
+                }
+              },
+              "PARTNER": []
+            },
+            "legs": [
+              {
+                "origin": "Milano (Lampugnano M1)",
+                "departure_timestamp": "2026-08-14T19:20:00+0200",
+                "destination": "Bologna",
+                "arrival_timestamp": "2026-08-14T23:00:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "MIL1",
+                "destination_station_code": "BOL1",
+                "service_identifier": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00",
+                "service_name": "2213",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00;MIL1;BOL1"
+              },
+              {
+                "origin": "Bologna",
+                "departure_timestamp": "2026-08-14T23:50:00+0200",
+                "destination": "Roma (Tiburtina Terminal Bus)",
+                "arrival_timestamp": "2026-08-15T04:30:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "BOL1",
+                "destination_station_code": "ROM1",
+                "service_identifier": "0:RDA|2413|ITABUS2|2026-08-14|2026-08-14T23:50|2026-08-15T04:30",
+                "service_name": "2413",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|2413|ITABUS2|2026-08-14|2026-08-14T23:50|2026-08-15T04:30;BOL1;ROM1"
+              }
+            ],
+            "hasPartnerLeg": false,
+            "transfers": [
+              {
+                "origin": "Bologna",
+                "destination": "Bologna",
+                "departure_timestamp": "2026-08-14T23:00:00+0200",
+                "arrival_timestamp": "2026-08-14T23:50:00+0200"
+              }
+            ],
+            "isItaloRoute": false,
+            "italoData": {}
+          },
+          {
+            "direction": "outbound",
+            "travel_duration": "9h 35m",
+            "id": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00;MIL1;BOL1,0:RDA|2771|ITABUS2|2026-08-14|2026-08-15T00:15|2026-08-15T04:55;BOL1;ROM1",
+            "origin": {
+              "name": "Milano (Lampugnano M1)",
+              "code": "MIL1"
+            },
+            "origin_code": "Milano (Lampugnano M1)",
+            "destination": {
+              "name": "Roma (Tiburtina Terminal Bus)",
+              "code": "ROM1"
+            },
+            "departure_timestamp": "2026-08-14T19:20:00+0200",
+            "arrival_timestamp": "2026-08-15T04:55:00+0200",
+            "service_identifier": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00",
+            "service_name": "2213",
+            "services": [
+              {
+                "code": "USB",
+                "description": "Caricatore USB"
+              },
+              {
+                "code": "Outlets",
+                "description": "Spina elettrica"
+              },
+              {
+                "code": "VendingMachine",
+                "description": "Distributore automatico bevande e cibo"
+              },
+              {
+                "code": "WC",
+                "description": "Bagno a bordo"
+              },
+              {
+                "code": "WIFI",
+                "description": "WIFI"
+              }
+            ],
+            "transferNumber": 1,
+            "available": true,
+            "rates": {
+              "available": true,
+              "ITABUS": {
+                "ECONOMY": {
+                  "label": "Economy"
+                },
+                "FLEX": {
+                  "COMFORT": {
+                    "product_family_id": "FLEX_COMFORT",
+                    "price": 79.98,
+                    "original_price": 79.98,
+                    "items": [
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00;MIL1;BOL1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "AA",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_AA"
+                          }
+                        ]
+                      },
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2771|ITABUS2|2026-08-14|2026-08-15T00:15|2026-08-15T04:55;BOL1;ROM1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "CC",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_CC"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 2,
+                    "average_price": 79.98,
+                    "average_original_price": 79.98,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "FLEX_TOP",
+                    "price": 113.78,
+                    "original_price": 113.78,
+                    "items": [
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2771|ITABUS2|2026-08-14|2026-08-15T00:15|2026-08-15T04:55;BOL1;ROM1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "C1",
+                            "original_price": 56.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 56.89,
+                            "tariff_code": "FLEXTOP_C1"
+                          }
+                        ]
+                      },
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00;MIL1;BOL1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "A1",
+                            "original_price": 56.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 56.89,
+                            "tariff_code": "FLEXTOP_A1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 2,
+                    "average_price": 113.78,
+                    "average_original_price": 113.78,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "label": "Super Flex"
+                }
+              },
+              "PARTNER": []
+            },
+            "legs": [
+              {
+                "origin": "Milano (Lampugnano M1)",
+                "departure_timestamp": "2026-08-14T19:20:00+0200",
+                "destination": "Bologna",
+                "arrival_timestamp": "2026-08-14T23:00:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "MIL1",
+                "destination_station_code": "BOL1",
+                "service_identifier": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00",
+                "service_name": "2213",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00;MIL1;BOL1"
+              },
+              {
+                "origin": "Bologna",
+                "departure_timestamp": "2026-08-15T00:15:00+0200",
+                "destination": "Roma (Tiburtina Terminal Bus)",
+                "arrival_timestamp": "2026-08-15T04:55:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "BOL1",
+                "destination_station_code": "ROM1",
+                "service_identifier": "0:RDA|2771|ITABUS2|2026-08-14|2026-08-15T00:15|2026-08-15T04:55",
+                "service_name": "2771",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|2771|ITABUS2|2026-08-14|2026-08-15T00:15|2026-08-15T04:55;BOL1;ROM1"
+              }
+            ],
+            "hasPartnerLeg": false,
+            "transfers": [
+              {
+                "origin": "Bologna",
+                "destination": "Bologna",
+                "departure_timestamp": "2026-08-14T23:00:00+0200",
+                "arrival_timestamp": "2026-08-15T00:15:00+0200"
+              }
+            ],
+            "isItaloRoute": false,
+            "italoData": {}
+          },
+          {
+            "direction": "outbound",
+            "travel_duration": "10h 5m",
+            "id": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00;MIL1;BOL1,0:RDA|2421|ITABUS2|2026-08-14|2026-08-15T00:45|2026-08-15T05:25;BOL1;ROM1",
+            "origin": {
+              "name": "Milano (Lampugnano M1)",
+              "code": "MIL1"
+            },
+            "origin_code": "Milano (Lampugnano M1)",
+            "destination": {
+              "name": "Roma (Tiburtina Terminal Bus)",
+              "code": "ROM1"
+            },
+            "departure_timestamp": "2026-08-14T19:20:00+0200",
+            "arrival_timestamp": "2026-08-15T05:25:00+0200",
+            "service_identifier": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00",
+            "service_name": "2213",
+            "services": [
+              {
+                "code": "USB",
+                "description": "Caricatore USB"
+              },
+              {
+                "code": "Outlets",
+                "description": "Spina elettrica"
+              },
+              {
+                "code": "VendingMachine",
+                "description": "Distributore automatico bevande e cibo"
+              },
+              {
+                "code": "WC",
+                "description": "Bagno a bordo"
+              },
+              {
+                "code": "WIFI",
+                "description": "WIFI"
+              }
+            ],
+            "transferNumber": 1,
+            "available": true,
+            "rates": {
+              "available": true,
+              "ITABUS": {
+                "ECONOMY": {
+                  "label": "Economy"
+                },
+                "FLEX": {
+                  "COMFORT": {
+                    "product_family_id": "FLEX_COMFORT",
+                    "price": 79.98,
+                    "original_price": 79.98,
+                    "items": [
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2421|ITABUS2|2026-08-14|2026-08-15T00:45|2026-08-15T05:25;BOL1;ROM1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "CC",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_CC"
+                          }
+                        ]
+                      },
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00;MIL1;BOL1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "AA",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_AA"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 2,
+                    "average_price": 79.98,
+                    "average_original_price": 79.98,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "FLEX_TOP",
+                    "price": 113.78,
+                    "original_price": 113.78,
+                    "items": [
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00;MIL1;BOL1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "A1",
+                            "original_price": 56.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 56.89,
+                            "tariff_code": "FLEXTOP_A1"
+                          }
+                        ]
+                      },
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2421|ITABUS2|2026-08-14|2026-08-15T00:45|2026-08-15T05:25;BOL1;ROM1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "C1",
+                            "original_price": 56.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 56.89,
+                            "tariff_code": "FLEXTOP_C1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 2,
+                    "average_price": 113.78,
+                    "average_original_price": 113.78,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "label": "Super Flex"
+                }
+              },
+              "PARTNER": []
+            },
+            "legs": [
+              {
+                "origin": "Milano (Lampugnano M1)",
+                "departure_timestamp": "2026-08-14T19:20:00+0200",
+                "destination": "Bologna",
+                "arrival_timestamp": "2026-08-14T23:00:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "MIL1",
+                "destination_station_code": "BOL1",
+                "service_identifier": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00",
+                "service_name": "2213",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00;MIL1;BOL1"
+              },
+              {
+                "origin": "Bologna",
+                "departure_timestamp": "2026-08-15T00:45:00+0200",
+                "destination": "Roma (Tiburtina Terminal Bus)",
+                "arrival_timestamp": "2026-08-15T05:25:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "BOL1",
+                "destination_station_code": "ROM1",
+                "service_identifier": "0:RDA|2421|ITABUS2|2026-08-14|2026-08-15T00:45|2026-08-15T05:25",
+                "service_name": "2421",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|2421|ITABUS2|2026-08-14|2026-08-15T00:45|2026-08-15T05:25;BOL1;ROM1"
+              }
+            ],
+            "hasPartnerLeg": false,
+            "transfers": [
+              {
+                "origin": "Bologna",
+                "destination": "Bologna",
+                "departure_timestamp": "2026-08-14T23:00:00+0200",
+                "arrival_timestamp": "2026-08-15T00:45:00+0200"
+              }
+            ],
+            "isItaloRoute": false,
+            "italoData": {}
+          },
+          {
+            "direction": "outbound",
+            "travel_duration": "8h 50m",
+            "id": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T20:05|2026-08-14T23:00;MIL2;BOL1,0:RDA|2771|ITABUS2|2026-08-14|2026-08-15T00:15|2026-08-15T04:55;BOL1;ROM1",
+            "origin": {
+              "name": "Milano (San Donato M3)",
+              "code": "MIL2"
+            },
+            "origin_code": "Milano (San Donato M3)",
+            "destination": {
+              "name": "Roma (Tiburtina Terminal Bus)",
+              "code": "ROM1"
+            },
+            "departure_timestamp": "2026-08-14T20:05:00+0200",
+            "arrival_timestamp": "2026-08-15T04:55:00+0200",
+            "service_identifier": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T20:05|2026-08-14T23:00",
+            "service_name": "2213",
+            "services": [
+              {
+                "code": "USB",
+                "description": "Caricatore USB"
+              },
+              {
+                "code": "Outlets",
+                "description": "Spina elettrica"
+              },
+              {
+                "code": "VendingMachine",
+                "description": "Distributore automatico bevande e cibo"
+              },
+              {
+                "code": "WC",
+                "description": "Bagno a bordo"
+              },
+              {
+                "code": "WIFI",
+                "description": "WIFI"
+              }
+            ],
+            "transferNumber": 1,
+            "available": true,
+            "rates": {
+              "available": true,
+              "ITABUS": {
+                "ECONOMY": {
+                  "label": "Economy"
+                },
+                "FLEX": {
+                  "COMFORT": {
+                    "product_family_id": "FLEX_COMFORT",
+                    "price": 79.98,
+                    "original_price": 79.98,
+                    "items": [
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T20:05|2026-08-14T23:00;MIL2;BOL1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "AA",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_AA"
+                          }
+                        ]
+                      },
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2771|ITABUS2|2026-08-14|2026-08-15T00:15|2026-08-15T04:55;BOL1;ROM1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "CC",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_CC"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 2,
+                    "average_price": 79.98,
+                    "average_original_price": 79.98,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "FLEX_TOP",
+                    "price": 113.78,
+                    "original_price": 113.78,
+                    "items": [
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T20:05|2026-08-14T23:00;MIL2;BOL1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "A1",
+                            "original_price": 56.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 56.89,
+                            "tariff_code": "FLEXTOP_A1"
+                          }
+                        ]
+                      },
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2771|ITABUS2|2026-08-14|2026-08-15T00:15|2026-08-15T04:55;BOL1;ROM1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "C1",
+                            "original_price": 56.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 56.89,
+                            "tariff_code": "FLEXTOP_C1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 2,
+                    "average_price": 113.78,
+                    "average_original_price": 113.78,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "label": "Super Flex"
+                }
+              },
+              "PARTNER": []
+            },
+            "legs": [
+              {
+                "origin": "Milano (San Donato M3)",
+                "departure_timestamp": "2026-08-14T20:05:00+0200",
+                "destination": "Bologna",
+                "arrival_timestamp": "2026-08-14T23:00:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "MIL2",
+                "destination_station_code": "BOL1",
+                "service_identifier": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T20:05|2026-08-14T23:00",
+                "service_name": "2213",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T20:05|2026-08-14T23:00;MIL2;BOL1"
+              },
+              {
+                "origin": "Bologna",
+                "departure_timestamp": "2026-08-15T00:15:00+0200",
+                "destination": "Roma (Tiburtina Terminal Bus)",
+                "arrival_timestamp": "2026-08-15T04:55:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "BOL1",
+                "destination_station_code": "ROM1",
+                "service_identifier": "0:RDA|2771|ITABUS2|2026-08-14|2026-08-15T00:15|2026-08-15T04:55",
+                "service_name": "2771",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|2771|ITABUS2|2026-08-14|2026-08-15T00:15|2026-08-15T04:55;BOL1;ROM1"
+              }
+            ],
+            "hasPartnerLeg": false,
+            "transfers": [
+              {
+                "origin": "Bologna",
+                "destination": "Bologna",
+                "departure_timestamp": "2026-08-14T23:00:00+0200",
+                "arrival_timestamp": "2026-08-15T00:15:00+0200"
+              }
+            ],
+            "isItaloRoute": false,
+            "italoData": {}
+          },
+          {
+            "direction": "outbound",
+            "travel_duration": "9h 40m",
+            "id": "0:RDA|3505|ITABUS2|2026-08-14|2026-08-14T20:25|2026-08-15T06:05;MIL1;ROM1",
+            "origin": {
+              "name": "Milano (Lampugnano M1)",
+              "code": "MIL1"
+            },
+            "origin_code": "Milano (Lampugnano M1)",
+            "destination": {
+              "name": "Roma (Tiburtina Terminal Bus)",
+              "code": "ROM1"
+            },
+            "departure_timestamp": "2026-08-14T20:25:00+0200",
+            "arrival_timestamp": "2026-08-15T06:05:00+0200",
+            "service_identifier": "0:RDA|3505|ITABUS2|2026-08-14|2026-08-14T20:25|2026-08-15T06:05",
+            "service_name": "3505",
+            "services": [
+              {
+                "code": "USB",
+                "description": "Caricatore USB"
+              },
+              {
+                "code": "Outlets",
+                "description": "Spina elettrica"
+              },
+              {
+                "code": "VendingMachine",
+                "description": "Distributore automatico bevande e cibo"
+              },
+              {
+                "code": "WC",
+                "description": "Bagno a bordo"
+              },
+              {
+                "code": "WIFI",
+                "description": "WIFI"
+              }
+            ],
+            "transferNumber": 0,
+            "available": true,
+            "rates": {
+              "available": true,
+              "ITABUS": {
+                "ECONOMY": {
+                  "COMFORT": {
+                    "product_family_id": "ECONOMY_COMFORT",
+                    "price": 29.99,
+                    "original_price": 29.99,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_COMFORT",
+                        "product_family_id": "ECONOMY_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3505|ITABUS2|2026-08-14|2026-08-14T20:25|2026-08-15T06:05;MIL1;ROM1"
+                        ],
+                        "name": "Economy Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "DD",
+                            "original_price": 29.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 29.99,
+                            "tariff_code": "ECOCOMFORT_DD"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 29.99,
+                    "average_original_price": 29.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0,
+                    "alertLabel": "Ultimi 3 posti"
+                  },
+                  "TOP": {
+                    "product_family_id": "ECONOMY_TOP",
+                    "price": 44.89,
+                    "original_price": 44.89,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_TOP",
+                        "product_family_id": "ECONOMY_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3505|ITABUS2|2026-08-14|2026-08-14T20:25|2026-08-15T06:05;MIL1;ROM1"
+                        ],
+                        "name": "Economy Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "D1",
+                            "original_price": 44.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 44.89,
+                            "tariff_code": "ECOTOP_D1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 44.89,
+                    "average_original_price": 44.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0,
+                    "alertLabel": "Ultimi 2 posti"
+                  },
+                  "label": "Economy"
+                },
+                "FLEX": {
+                  "COMFORT": {
+                    "product_family_id": "FLEX_COMFORT",
+                    "price": 39.99,
+                    "original_price": 39.99,
+                    "items": [
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3505|ITABUS2|2026-08-14|2026-08-14T20:25|2026-08-15T06:05;MIL1;ROM1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "CC",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_CC"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 39.99,
+                    "average_original_price": 39.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "FLEX_TOP",
+                    "price": 59.89,
+                    "original_price": 59.89,
+                    "items": [
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3505|ITABUS2|2026-08-14|2026-08-14T20:25|2026-08-15T06:05;MIL1;ROM1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "C1",
+                            "original_price": 59.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 59.89,
+                            "tariff_code": "FLEXTOP_C1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 59.89,
+                    "average_original_price": 59.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0,
+                    "alertLabel": "Ultimi 3 posti"
+                  },
+                  "label": "Super Flex"
+                }
+              },
+              "PARTNER": []
+            },
+            "legs": [
+              {
+                "origin": "Milano (Lampugnano M1)",
+                "departure_timestamp": "2026-08-14T20:25:00+0200",
+                "destination": "Roma (Tiburtina Terminal Bus)",
+                "arrival_timestamp": "2026-08-15T06:05:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "MIL1",
+                "destination_station_code": "ROM1",
+                "service_identifier": "0:RDA|3505|ITABUS2|2026-08-14|2026-08-14T20:25|2026-08-15T06:05",
+                "service_name": "3505",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|3505|ITABUS2|2026-08-14|2026-08-14T20:25|2026-08-15T06:05;MIL1;ROM1"
+              }
+            ],
+            "hasPartnerLeg": false,
+            "transfers": [],
+            "isItaloRoute": false,
+            "italoData": {}
+          },
+          {
+            "direction": "outbound",
+            "travel_duration": "7h 30m",
+            "id": "0:RDA|2413|ITABUS2|2026-08-14|2026-08-14T21:00|2026-08-15T04:30;MIL2;ROM1",
+            "origin": {
+              "name": "Milano (San Donato M3)",
+              "code": "MIL2"
+            },
+            "origin_code": "Milano (San Donato M3)",
+            "destination": {
+              "name": "Roma (Tiburtina Terminal Bus)",
+              "code": "ROM1"
+            },
+            "departure_timestamp": "2026-08-14T21:00:00+0200",
+            "arrival_timestamp": "2026-08-15T04:30:00+0200",
+            "service_identifier": "0:RDA|2413|ITABUS2|2026-08-14|2026-08-14T21:00|2026-08-15T04:30",
+            "service_name": "2413",
+            "services": [
+              {
+                "code": "USB",
+                "description": "Caricatore USB"
+              },
+              {
+                "code": "Outlets",
+                "description": "Spina elettrica"
+              },
+              {
+                "code": "VendingMachine",
+                "description": "Distributore automatico bevande e cibo"
+              },
+              {
+                "code": "WC",
+                "description": "Bagno a bordo"
+              },
+              {
+                "code": "WIFI",
+                "description": "WIFI"
+              }
+            ],
+            "transferNumber": 0,
+            "available": true,
+            "rates": {
+              "available": true,
+              "ITABUS": {
+                "ECONOMY": {
+                  "label": "Economy"
+                },
+                "FLEX": {
+                  "COMFORT": {
+                    "product_family_id": "FLEX_COMFORT",
+                    "price": 39.99,
+                    "original_price": 39.99,
+                    "items": [
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2413|ITABUS2|2026-08-14|2026-08-14T21:00|2026-08-15T04:30;MIL2;ROM1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "CC",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_CC"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 39.99,
+                    "average_original_price": 39.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "FLEX_TOP",
+                    "price": 59.89,
+                    "original_price": 59.89,
+                    "items": [
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2413|ITABUS2|2026-08-14|2026-08-14T21:00|2026-08-15T04:30;MIL2;ROM1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "C1",
+                            "original_price": 59.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 59.89,
+                            "tariff_code": "FLEXTOP_C1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 59.89,
+                    "average_original_price": 59.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0,
+                    "alertLabel": "Ultimi 2 posti"
+                  },
+                  "label": "Super Flex"
+                }
+              },
+              "PARTNER": []
+            },
+            "legs": [
+              {
+                "origin": "Milano (San Donato M3)",
+                "departure_timestamp": "2026-08-14T21:00:00+0200",
+                "destination": "Roma (Tiburtina Terminal Bus)",
+                "arrival_timestamp": "2026-08-15T04:30:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "MIL2",
+                "destination_station_code": "ROM1",
+                "service_identifier": "0:RDA|2413|ITABUS2|2026-08-14|2026-08-14T21:00|2026-08-15T04:30",
+                "service_name": "2413",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|2413|ITABUS2|2026-08-14|2026-08-14T21:00|2026-08-15T04:30;MIL2;ROM1"
+              }
+            ],
+            "hasPartnerLeg": false,
+            "transfers": [],
+            "isItaloRoute": false,
+            "italoData": {}
+          },
+          {
+            "direction": "outbound",
+            "travel_duration": "9h 25m",
+            "id": "0:RDA|2205|ITABUS2|2026-08-14|2026-08-14T21:05|2026-08-15T00:20;MIL1;BOL1,0:RDA|2701|ITABUS2|2026-08-14|2026-08-15T01:50|2026-08-15T06:30;BOL1;ROM1",
+            "origin": {
+              "name": "Milano (Lampugnano M1)",
+              "code": "MIL1"
+            },
+            "origin_code": "Milano (Lampugnano M1)",
+            "destination": {
+              "name": "Roma (Tiburtina Terminal Bus)",
+              "code": "ROM1"
+            },
+            "departure_timestamp": "2026-08-14T21:05:00+0200",
+            "arrival_timestamp": "2026-08-15T06:30:00+0200",
+            "service_identifier": "0:RDA|2205|ITABUS2|2026-08-14|2026-08-14T21:05|2026-08-15T00:20",
+            "service_name": "2205",
+            "services": [
+              {
+                "code": "USB",
+                "description": "Caricatore USB"
+              },
+              {
+                "code": "Outlets",
+                "description": "Spina elettrica"
+              },
+              {
+                "code": "VendingMachine",
+                "description": "Distributore automatico bevande e cibo"
+              },
+              {
+                "code": "WC",
+                "description": "Bagno a bordo"
+              },
+              {
+                "code": "WIFI",
+                "description": "WIFI"
+              }
+            ],
+            "transferNumber": 1,
+            "available": true,
+            "rates": {
+              "available": true,
+              "ITABUS": {
+                "ECONOMY": {
+                  "label": "Economy"
+                },
+                "FLEX": {
+                  "COMFORT": {
+                    "product_family_id": "FLEX_COMFORT",
+                    "price": 64.98,
+                    "original_price": 64.98,
+                    "items": [
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2701|ITABUS2|2026-08-14|2026-08-15T01:50|2026-08-15T06:30;BOL1;ROM1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "CC",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_CC"
+                          }
+                        ]
+                      },
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2205|ITABUS2|2026-08-14|2026-08-14T21:05|2026-08-15T00:20;MIL1;BOL1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "BB",
+                            "original_price": 24.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 24.99,
+                            "tariff_code": "FLEXCOMFORT_BB"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 2,
+                    "average_price": 64.98,
+                    "average_original_price": 64.98,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "FLEX_TOP",
+                    "price": 93.78,
+                    "original_price": 93.78,
+                    "items": [
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2701|ITABUS2|2026-08-14|2026-08-15T01:50|2026-08-15T06:30;BOL1;ROM1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "C1",
+                            "original_price": 56.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 56.89,
+                            "tariff_code": "FLEXTOP_C1"
+                          }
+                        ]
+                      },
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2205|ITABUS2|2026-08-14|2026-08-14T21:05|2026-08-15T00:20;MIL1;BOL1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "B1",
+                            "original_price": 36.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 36.89,
+                            "tariff_code": "FLEXTOP_B1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 2,
+                    "average_price": 93.78,
+                    "average_original_price": 93.78,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "label": "Super Flex"
+                }
+              },
+              "PARTNER": []
+            },
+            "legs": [
+              {
+                "origin": "Milano (Lampugnano M1)",
+                "departure_timestamp": "2026-08-14T21:05:00+0200",
+                "destination": "Bologna",
+                "arrival_timestamp": "2026-08-15T00:20:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "MIL1",
+                "destination_station_code": "BOL1",
+                "service_identifier": "0:RDA|2205|ITABUS2|2026-08-14|2026-08-14T21:05|2026-08-15T00:20",
+                "service_name": "2205",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|2205|ITABUS2|2026-08-14|2026-08-14T21:05|2026-08-15T00:20;MIL1;BOL1"
+              },
+              {
+                "origin": "Bologna",
+                "departure_timestamp": "2026-08-15T01:50:00+0200",
+                "destination": "Roma (Tiburtina Terminal Bus)",
+                "arrival_timestamp": "2026-08-15T06:30:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "BOL1",
+                "destination_station_code": "ROM1",
+                "service_identifier": "0:RDA|2701|ITABUS2|2026-08-14|2026-08-15T01:50|2026-08-15T06:30",
+                "service_name": "2701",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|2701|ITABUS2|2026-08-14|2026-08-15T01:50|2026-08-15T06:30;BOL1;ROM1"
+              }
+            ],
+            "hasPartnerLeg": false,
+            "transfers": [
+              {
+                "origin": "Bologna",
+                "destination": "Bologna",
+                "departure_timestamp": "2026-08-15T00:20:00+0200",
+                "arrival_timestamp": "2026-08-15T01:50:00+0200"
+              }
+            ],
+            "isItaloRoute": false,
+            "italoData": {}
+          },
+          {
+            "direction": "outbound",
+            "travel_duration": "7h 50m",
+            "id": "0:RDA|2421|ITABUS2|2026-08-14|2026-08-14T21:35|2026-08-15T05:25;MIL2;ROM1",
+            "origin": {
+              "name": "Milano (San Donato M3)",
+              "code": "MIL2"
+            },
+            "origin_code": "Milano (San Donato M3)",
+            "destination": {
+              "name": "Roma (Tiburtina Terminal Bus)",
+              "code": "ROM1"
+            },
+            "departure_timestamp": "2026-08-14T21:35:00+0200",
+            "arrival_timestamp": "2026-08-15T05:25:00+0200",
+            "service_identifier": "0:RDA|2421|ITABUS2|2026-08-14|2026-08-14T21:35|2026-08-15T05:25",
+            "service_name": "2421",
+            "services": [
+              {
+                "code": "USB",
+                "description": "Caricatore USB"
+              },
+              {
+                "code": "Outlets",
+                "description": "Spina elettrica"
+              },
+              {
+                "code": "VendingMachine",
+                "description": "Distributore automatico bevande e cibo"
+              },
+              {
+                "code": "WC",
+                "description": "Bagno a bordo"
+              },
+              {
+                "code": "WIFI",
+                "description": "WIFI"
+              }
+            ],
+            "transferNumber": 0,
+            "available": true,
+            "rates": {
+              "available": true,
+              "ITABUS": {
+                "ECONOMY": {
+                  "COMFORT": {
+                    "product_family_id": "ECONOMY_COMFORT",
+                    "price": 24.99,
+                    "original_price": 24.99,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_COMFORT",
+                        "product_family_id": "ECONOMY_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2421|ITABUS2|2026-08-14|2026-08-14T21:35|2026-08-15T05:25;MIL2;ROM1"
+                        ],
+                        "name": "Economy Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "EE",
+                            "original_price": 24.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 24.99,
+                            "tariff_code": "ECOCOMFORT_EE"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 24.99,
+                    "average_original_price": 24.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "ECONOMY_TOP",
+                    "price": 34.89,
+                    "original_price": 34.89,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_TOP",
+                        "product_family_id": "ECONOMY_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2421|ITABUS2|2026-08-14|2026-08-14T21:35|2026-08-15T05:25;MIL2;ROM1"
+                        ],
+                        "name": "Economy Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "E1",
+                            "original_price": 34.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 34.89,
+                            "tariff_code": "ECOTOP_E1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 34.89,
+                    "average_original_price": 34.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0,
+                    "alertLabel": "Ultimo posto"
+                  },
+                  "label": "Economy"
+                },
+                "FLEX": {
+                  "COMFORT": {
+                    "product_family_id": "FLEX_COMFORT",
+                    "price": 39.99,
+                    "original_price": 39.99,
+                    "items": [
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2421|ITABUS2|2026-08-14|2026-08-14T21:35|2026-08-15T05:25;MIL2;ROM1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "CC",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_CC"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 39.99,
+                    "average_original_price": 39.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "FLEX_TOP",
+                    "price": 59.89,
+                    "original_price": 59.89,
+                    "items": [
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2421|ITABUS2|2026-08-14|2026-08-14T21:35|2026-08-15T05:25;MIL2;ROM1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "C1",
+                            "original_price": 59.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 59.89,
+                            "tariff_code": "FLEXTOP_C1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 59.89,
+                    "average_original_price": 59.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "label": "Super Flex"
+                }
+              },
+              "PARTNER": []
+            },
+            "legs": [
+              {
+                "origin": "Milano (San Donato M3)",
+                "departure_timestamp": "2026-08-14T21:35:00+0200",
+                "destination": "Roma (Tiburtina Terminal Bus)",
+                "arrival_timestamp": "2026-08-15T05:25:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "MIL2",
+                "destination_station_code": "ROM1",
+                "service_identifier": "0:RDA|2421|ITABUS2|2026-08-14|2026-08-14T21:35|2026-08-15T05:25",
+                "service_name": "2421",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|2421|ITABUS2|2026-08-14|2026-08-14T21:35|2026-08-15T05:25;MIL2;ROM1"
+              }
+            ],
+            "hasPartnerLeg": false,
+            "transfers": [],
+            "isItaloRoute": false,
+            "italoData": {}
+          },
+          {
+            "direction": "outbound",
+            "travel_duration": "8h 30m",
+            "id": "0:RDA|3897|ITABUS2|2026-08-14|2026-08-14T22:30|2026-08-15T07:00;MIL1;ROM1",
+            "origin": {
+              "name": "Milano (Lampugnano M1)",
+              "code": "MIL1"
+            },
+            "origin_code": "Milano (Lampugnano M1)",
+            "destination": {
+              "name": "Roma (Tiburtina Terminal Bus)",
+              "code": "ROM1"
+            },
+            "departure_timestamp": "2026-08-14T22:30:00+0200",
+            "arrival_timestamp": "2026-08-15T07:00:00+0200",
+            "service_identifier": "0:RDA|3897|ITABUS2|2026-08-14|2026-08-14T22:30|2026-08-15T07:00",
+            "service_name": "3897",
+            "services": [
+              {
+                "code": "USB",
+                "description": "Caricatore USB"
+              },
+              {
+                "code": "Outlets",
+                "description": "Spina elettrica"
+              },
+              {
+                "code": "VendingMachine",
+                "description": "Distributore automatico bevande e cibo"
+              },
+              {
+                "code": "WC",
+                "description": "Bagno a bordo"
+              },
+              {
+                "code": "WIFI",
+                "description": "WIFI"
+              }
+            ],
+            "transferNumber": 0,
+            "available": true,
+            "rates": {
+              "available": true,
+              "ITABUS": {
+                "ECONOMY": {
+                  "label": "Economy"
+                },
+                "FLEX": {
+                  "COMFORT": {
+                    "product_family_id": "FLEX_COMFORT",
+                    "price": 39.99,
+                    "original_price": 39.99,
+                    "items": [
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3897|ITABUS2|2026-08-14|2026-08-14T22:30|2026-08-15T07:00;MIL1;ROM1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "CC",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_CC"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 39.99,
+                    "average_original_price": 39.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "FLEX_TOP",
+                    "price": 59.89,
+                    "original_price": 59.89,
+                    "items": [
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3897|ITABUS2|2026-08-14|2026-08-14T22:30|2026-08-15T07:00;MIL1;ROM1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "C1",
+                            "original_price": 59.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 59.89,
+                            "tariff_code": "FLEXTOP_C1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 59.89,
+                    "average_original_price": 59.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0,
+                    "alertLabel": "Ultimi 2 posti"
+                  },
+                  "label": "Super Flex"
+                }
+              },
+              "PARTNER": []
+            },
+            "legs": [
+              {
+                "origin": "Milano (Lampugnano M1)",
+                "departure_timestamp": "2026-08-14T22:30:00+0200",
+                "destination": "Roma (Tiburtina Terminal Bus)",
+                "arrival_timestamp": "2026-08-15T07:00:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "MIL1",
+                "destination_station_code": "ROM1",
+                "service_identifier": "0:RDA|3897|ITABUS2|2026-08-14|2026-08-14T22:30|2026-08-15T07:00",
+                "service_name": "3897",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|3897|ITABUS2|2026-08-14|2026-08-14T22:30|2026-08-15T07:00;MIL1;ROM1"
+              }
+            ],
+            "hasPartnerLeg": false,
+            "transfers": [],
+            "isItaloRoute": false,
+            "italoData": {}
+          },
+          {
+            "direction": "outbound",
+            "travel_duration": "9h 25m",
+            "id": "0:RDA|2495|ITABUS2|2026-08-14|2026-08-14T22:45|2026-08-15T08:10;MIL1;ROM1",
+            "origin": {
+              "name": "Milano (Lampugnano M1)",
+              "code": "MIL1"
+            },
+            "origin_code": "Milano (Lampugnano M1)",
+            "destination": {
+              "name": "Roma (Tiburtina Terminal Bus)",
+              "code": "ROM1"
+            },
+            "departure_timestamp": "2026-08-14T22:45:00+0200",
+            "arrival_timestamp": "2026-08-15T08:10:00+0200",
+            "service_identifier": "0:RDA|2495|ITABUS2|2026-08-14|2026-08-14T22:45|2026-08-15T08:10",
+            "service_name": "2495",
+            "services": [
+              {
+                "code": "USB",
+                "description": "Caricatore USB"
+              },
+              {
+                "code": "Outlets",
+                "description": "Spina elettrica"
+              },
+              {
+                "code": "VendingMachine",
+                "description": "Distributore automatico bevande e cibo"
+              },
+              {
+                "code": "WC",
+                "description": "Bagno a bordo"
+              },
+              {
+                "code": "WIFI",
+                "description": "WIFI"
+              }
+            ],
+            "transferNumber": 0,
+            "available": true,
+            "rates": {
+              "available": true,
+              "ITABUS": {
+                "ECONOMY": {
+                  "COMFORT": {
+                    "product_family_id": "ECONOMY_COMFORT",
+                    "price": 19.99,
+                    "original_price": 19.99,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_COMFORT",
+                        "product_family_id": "ECONOMY_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2495|ITABUS2|2026-08-14|2026-08-14T22:45|2026-08-15T08:10;MIL1;ROM1"
+                        ],
+                        "name": "Economy Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "FF",
+                            "original_price": 19.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 19.99,
+                            "tariff_code": "ECOCOMFORT_FF"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 19.99,
+                    "average_original_price": 19.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0,
+                    "alertLabel": "Ultimi 2 posti"
+                  },
+                  "label": "Economy"
+                },
+                "FLEX": {
+                  "COMFORT": {
+                    "product_family_id": "FLEX_COMFORT",
+                    "price": 39.99,
+                    "original_price": 39.99,
+                    "items": [
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2495|ITABUS2|2026-08-14|2026-08-14T22:45|2026-08-15T08:10;MIL1;ROM1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "CC",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_CC"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 39.99,
+                    "average_original_price": 39.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "label": "Super Flex"
+                }
+              },
+              "PARTNER": []
+            },
+            "legs": [
+              {
+                "origin": "Milano (Lampugnano M1)",
+                "departure_timestamp": "2026-08-14T22:45:00+0200",
+                "destination": "Roma (Tiburtina Terminal Bus)",
+                "arrival_timestamp": "2026-08-15T08:10:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "MIL1",
+                "destination_station_code": "ROM1",
+                "service_identifier": "0:RDA|2495|ITABUS2|2026-08-14|2026-08-14T22:45|2026-08-15T08:10",
+                "service_name": "2495",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|2495|ITABUS2|2026-08-14|2026-08-14T22:45|2026-08-15T08:10;MIL1;ROM1"
+              }
+            ],
+            "hasPartnerLeg": false,
+            "transfers": [],
+            "isItaloRoute": false,
+            "italoData": {}
+          },
+          {
+            "direction": "outbound",
+            "travel_duration": "8h 40m",
+            "id": "0:RDA|2495|ITABUS2|2026-08-14|2026-08-14T23:30|2026-08-15T08:10;MIL2;ROM1",
+            "origin": {
+              "name": "Milano (San Donato M3)",
+              "code": "MIL2"
+            },
+            "origin_code": "Milano (San Donato M3)",
+            "destination": {
+              "name": "Roma (Tiburtina Terminal Bus)",
+              "code": "ROM1"
+            },
+            "departure_timestamp": "2026-08-14T23:30:00+0200",
+            "arrival_timestamp": "2026-08-15T08:10:00+0200",
+            "service_identifier": "0:RDA|2495|ITABUS2|2026-08-14|2026-08-14T23:30|2026-08-15T08:10",
+            "service_name": "2495",
+            "services": [
+              {
+                "code": "USB",
+                "description": "Caricatore USB"
+              },
+              {
+                "code": "Outlets",
+                "description": "Spina elettrica"
+              },
+              {
+                "code": "VendingMachine",
+                "description": "Distributore automatico bevande e cibo"
+              },
+              {
+                "code": "WC",
+                "description": "Bagno a bordo"
+              },
+              {
+                "code": "WIFI",
+                "description": "WIFI"
+              }
+            ],
+            "transferNumber": 0,
+            "available": true,
+            "rates": {
+              "available": true,
+              "ITABUS": {
+                "ECONOMY": {
+                  "COMFORT": {
+                    "product_family_id": "ECONOMY_COMFORT",
+                    "price": 19.99,
+                    "original_price": 19.99,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_COMFORT",
+                        "product_family_id": "ECONOMY_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2495|ITABUS2|2026-08-14|2026-08-14T23:30|2026-08-15T08:10;MIL2;ROM1"
+                        ],
+                        "name": "Economy Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "FF",
+                            "original_price": 19.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 19.99,
+                            "tariff_code": "ECOCOMFORT_FF"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 19.99,
+                    "average_original_price": 19.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0,
+                    "alertLabel": "Ultimi 2 posti"
+                  },
+                  "label": "Economy"
+                },
+                "FLEX": {
+                  "COMFORT": {
+                    "product_family_id": "FLEX_COMFORT",
+                    "price": 39.99,
+                    "original_price": 39.99,
+                    "items": [
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|2495|ITABUS2|2026-08-14|2026-08-14T23:30|2026-08-15T08:10;MIL2;ROM1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "CC",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_CC"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 39.99,
+                    "average_original_price": 39.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "label": "Super Flex"
+                }
+              },
+              "PARTNER": []
+            },
+            "legs": [
+              {
+                "origin": "Milano (San Donato M3)",
+                "departure_timestamp": "2026-08-14T23:30:00+0200",
+                "destination": "Roma (Tiburtina Terminal Bus)",
+                "arrival_timestamp": "2026-08-15T08:10:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "MIL2",
+                "destination_station_code": "ROM1",
+                "service_identifier": "0:RDA|2495|ITABUS2|2026-08-14|2026-08-14T23:30|2026-08-15T08:10",
+                "service_name": "2495",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|2495|ITABUS2|2026-08-14|2026-08-14T23:30|2026-08-15T08:10;MIL2;ROM1"
+              }
+            ],
+            "hasPartnerLeg": false,
+            "transfers": [],
+            "isItaloRoute": false,
+            "italoData": {}
+          },
+          {
+            "direction": "outbound",
+            "travel_duration": "9h",
+            "id": "0:RDA|3887|ITABUS2|2026-08-14|2026-08-14T23:50|2026-08-15T08:50;MIL1;ROM1",
+            "origin": {
+              "name": "Milano (Lampugnano M1)",
+              "code": "MIL1"
+            },
+            "origin_code": "Milano (Lampugnano M1)",
+            "destination": {
+              "name": "Roma (Tiburtina Terminal Bus)",
+              "code": "ROM1"
+            },
+            "departure_timestamp": "2026-08-14T23:50:00+0200",
+            "arrival_timestamp": "2026-08-15T08:50:00+0200",
+            "service_identifier": "0:RDA|3887|ITABUS2|2026-08-14|2026-08-14T23:50|2026-08-15T08:50",
+            "service_name": "3887",
+            "services": [
+              {
+                "code": "USB",
+                "description": "Caricatore USB"
+              },
+              {
+                "code": "Outlets",
+                "description": "Spina elettrica"
+              },
+              {
+                "code": "VendingMachine",
+                "description": "Distributore automatico bevande e cibo"
+              },
+              {
+                "code": "WC",
+                "description": "Bagno a bordo"
+              },
+              {
+                "code": "WIFI",
+                "description": "WIFI"
+              }
+            ],
+            "transferNumber": 0,
+            "available": true,
+            "rates": {
+              "available": true,
+              "ITABUS": {
+                "ECONOMY": {
+                  "COMFORT": {
+                    "product_family_id": "ECONOMY_COMFORT",
+                    "price": 24.99,
+                    "original_price": 24.99,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_COMFORT",
+                        "product_family_id": "ECONOMY_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3887|ITABUS2|2026-08-14|2026-08-14T23:50|2026-08-15T08:50;MIL1;ROM1"
+                        ],
+                        "name": "Economy Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "EE",
+                            "original_price": 24.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 24.99,
+                            "tariff_code": "ECOCOMFORT_EE"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 24.99,
+                    "average_original_price": 24.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "ECONOMY_TOP",
+                    "price": 34.89,
+                    "original_price": 34.89,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_TOP",
+                        "product_family_id": "ECONOMY_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3887|ITABUS2|2026-08-14|2026-08-14T23:50|2026-08-15T08:50;MIL1;ROM1"
+                        ],
+                        "name": "Economy Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "E1",
+                            "original_price": 34.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 34.89,
+                            "tariff_code": "ECOTOP_E1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 34.89,
+                    "average_original_price": 34.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0,
+                    "alertLabel": "Ultimi 2 posti"
+                  },
+                  "label": "Economy"
+                },
+                "FLEX": {
+                  "COMFORT": {
+                    "product_family_id": "FLEX_COMFORT",
+                    "price": 39.99,
+                    "original_price": 39.99,
+                    "items": [
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3887|ITABUS2|2026-08-14|2026-08-14T23:50|2026-08-15T08:50;MIL1;ROM1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "CC",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_CC"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 39.99,
+                    "average_original_price": 39.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "FLEX_TOP",
+                    "price": 59.89,
+                    "original_price": 59.89,
+                    "items": [
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3887|ITABUS2|2026-08-14|2026-08-14T23:50|2026-08-15T08:50;MIL1;ROM1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "C1",
+                            "original_price": 59.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 59.89,
+                            "tariff_code": "FLEXTOP_C1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 59.89,
+                    "average_original_price": 59.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "label": "Super Flex"
+                }
+              },
+              "PARTNER": []
+            },
+            "legs": [
+              {
+                "origin": "Milano (Lampugnano M1)",
+                "departure_timestamp": "2026-08-14T23:50:00+0200",
+                "destination": "Roma (Tiburtina Terminal Bus)",
+                "arrival_timestamp": "2026-08-15T08:50:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "MIL1",
+                "destination_station_code": "ROM1",
+                "service_identifier": "0:RDA|3887|ITABUS2|2026-08-14|2026-08-14T23:50|2026-08-15T08:50",
+                "service_name": "3887",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|3887|ITABUS2|2026-08-14|2026-08-14T23:50|2026-08-15T08:50;MIL1;ROM1"
+              }
+            ],
+            "hasPartnerLeg": false,
+            "transfers": [],
+            "isItaloRoute": false,
+            "italoData": {}
+          },
+          {
+            "direction": "outbound",
+            "travel_duration": "8h 20m",
+            "id": "0:RDA|3887|ITABUS2|2026-08-14|2026-08-15T00:30|2026-08-15T08:50;MIL2;ROM1",
+            "origin": {
+              "name": "Milano (San Donato M3)",
+              "code": "MIL2"
+            },
+            "origin_code": "Milano (San Donato M3)",
+            "destination": {
+              "name": "Roma (Tiburtina Terminal Bus)",
+              "code": "ROM1"
+            },
+            "departure_timestamp": "2026-08-15T00:30:00+0200",
+            "arrival_timestamp": "2026-08-15T08:50:00+0200",
+            "service_identifier": "0:RDA|3887|ITABUS2|2026-08-14|2026-08-15T00:30|2026-08-15T08:50",
+            "service_name": "3887",
+            "services": [
+              {
+                "code": "USB",
+                "description": "Caricatore USB"
+              },
+              {
+                "code": "Outlets",
+                "description": "Spina elettrica"
+              },
+              {
+                "code": "VendingMachine",
+                "description": "Distributore automatico bevande e cibo"
+              },
+              {
+                "code": "WC",
+                "description": "Bagno a bordo"
+              },
+              {
+                "code": "WIFI",
+                "description": "WIFI"
+              }
+            ],
+            "transferNumber": 0,
+            "available": true,
+            "rates": {
+              "available": true,
+              "ITABUS": {
+                "ECONOMY": {
+                  "COMFORT": {
+                    "product_family_id": "ECONOMY_COMFORT",
+                    "price": 24.99,
+                    "original_price": 24.99,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_COMFORT",
+                        "product_family_id": "ECONOMY_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3887|ITABUS2|2026-08-14|2026-08-15T00:30|2026-08-15T08:50;MIL2;ROM1"
+                        ],
+                        "name": "Economy Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "EE",
+                            "original_price": 24.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 24.99,
+                            "tariff_code": "ECOCOMFORT_EE"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 24.99,
+                    "average_original_price": 24.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "ECONOMY_TOP",
+                    "price": 34.89,
+                    "original_price": 34.89,
+                    "items": [
+                      {
+                        "product_code": "ECONOMY_TOP",
+                        "product_family_id": "ECONOMY_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3887|ITABUS2|2026-08-14|2026-08-15T00:30|2026-08-15T08:50;MIL2;ROM1"
+                        ],
+                        "name": "Economy Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "E1",
+                            "original_price": 34.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 34.89,
+                            "tariff_code": "ECOTOP_E1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 34.89,
+                    "average_original_price": 34.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0,
+                    "alertLabel": "Ultimi 2 posti"
+                  },
+                  "label": "Economy"
+                },
+                "FLEX": {
+                  "COMFORT": {
+                    "product_family_id": "FLEX_COMFORT",
+                    "price": 39.99,
+                    "original_price": 39.99,
+                    "items": [
+                      {
+                        "product_code": "FLEX_COMFORT",
+                        "product_family_id": "FLEX_COMFORT",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3887|ITABUS2|2026-08-14|2026-08-15T00:30|2026-08-15T08:50;MIL2;ROM1"
+                        ],
+                        "name": "Super Flex Comfort",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "CC",
+                            "original_price": 39.99,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S1",
+                            "price": 39.99,
+                            "tariff_code": "FLEXCOMFORT_CC"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 39.99,
+                    "average_original_price": 39.99,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "TOP": {
+                    "product_family_id": "FLEX_TOP",
+                    "price": 59.89,
+                    "original_price": 59.89,
+                    "items": [
+                      {
+                        "product_code": "FLEX_TOP",
+                        "product_family_id": "FLEX_TOP",
+                        "product_type": "ST",
+                        "leg_ids": [
+                          "0:RDA|3887|ITABUS2|2026-08-14|2026-08-15T00:30|2026-08-15T08:50;MIL2;ROM1"
+                        ],
+                        "name": "Super Flex Top",
+                        "meta_data": [],
+                        "passenger_fares": [
+                          {
+                            "bucket_code": "C1",
+                            "original_price": 59.89,
+                            "passenger_id": "passenger_1",
+                            "inventory_class": "S2",
+                            "price": 59.89,
+                            "tariff_code": "FLEXTOP_C1"
+                          }
+                        ]
+                      }
+                    ],
+                    "passengers_count": 1,
+                    "average_price": 59.89,
+                    "average_original_price": 59.89,
+                    "hasPartner": false,
+                    "exchange_average_price": 0
+                  },
+                  "label": "Super Flex"
+                }
+              },
+              "PARTNER": []
+            },
+            "legs": [
+              {
+                "origin": "Milano (San Donato M3)",
+                "departure_timestamp": "2026-08-15T00:30:00+0200",
+                "destination": "Roma (Tiburtina Terminal Bus)",
+                "arrival_timestamp": "2026-08-15T08:50:00+0200",
+                "service_schedule_date": "2026-08-14T00:00:00+0200",
+                "origin_station_code": "MIL2",
+                "destination_station_code": "ROM1",
+                "service_identifier": "0:RDA|3887|ITABUS2|2026-08-14|2026-08-15T00:30|2026-08-15T08:50",
+                "service_name": "3887",
+                "service_type": "ITABUS2",
+                "id": "0:RDA|3887|ITABUS2|2026-08-14|2026-08-15T00:30|2026-08-15T08:50;MIL2;ROM1"
+              }
+            ],
+            "hasPartnerLeg": false,
+            "transfers": [],
+            "isItaloRoute": false,
+            "italoData": {},
+            "isTomorrow": true
+          }
+        ]
+      }
+    },
+    "dataLayer": [
+      {
+        "ecommerce": null
+      },
+      {
+        "event": "view_item_list",
+        "ecommerce": {
+          "item_list_id": "MIL_T-ROM_T",
+          "item_list_name": "Milano - Roma",
+          "items": [
+            {
+              "item_id": "0:RDA|3887|ITABUS2|2026-08-13|2026-08-14T00:30|2026-08-14T08:50;MIL2;ROM1",
+              "item_name": "MIL2-ROM1",
+              "discount": 0,
+              "index": 1,
+              "item_brand": "Itabus",
+              "item_category": "travels",
+              "price": 29.99,
+              "departureTimestamp_item": "2026-08-14T00:30:00+0200",
+              "arrivalTimestamp_item": "2026-08-14T08:50:00+0200",
+              "originStationCode_item": "MIL2",
+              "destinationStationCode_item": "ROM1",
+              "originStationName_item": "Milano (San Donato M3)",
+              "destinationStationName_item": "Roma (Tiburtina Terminal Bus)",
+              "type_item": "A"
+            },
+            {
+              "item_id": "0:RDA|2409|ITABUS2|2026-08-14|2026-08-14T08:00|2026-08-14T15:35;MIL2;ROM1",
+              "item_name": "MIL2-ROM1",
+              "discount": 0,
+              "index": 2,
+              "item_brand": "Itabus",
+              "item_category": "travels",
+              "price": 24.99,
+              "departureTimestamp_item": "2026-08-14T08:00:00+0200",
+              "arrivalTimestamp_item": "2026-08-14T15:35:00+0200",
+              "originStationCode_item": "MIL2",
+              "destinationStationCode_item": "ROM1",
+              "originStationName_item": "Milano (San Donato M3)",
+              "destinationStationName_item": "Roma (Tiburtina Terminal Bus)",
+              "type_item": "A"
+            },
+            {
+              "item_id": "0:RDA|2125|ITABUS2|2026-08-14|2026-08-14T10:40|2026-08-14T19:15;MIL1;ROM1",
+              "item_name": "MIL1-ROM1",
+              "discount": 0,
+              "index": 3,
+              "item_brand": "Itabus",
+              "item_category": "travels",
+              "price": 16.99,
+              "departureTimestamp_item": "2026-08-14T10:40:00+0200",
+              "arrivalTimestamp_item": "2026-08-14T19:15:00+0200",
+              "originStationCode_item": "MIL1",
+              "destinationStationCode_item": "ROM1",
+              "originStationName_item": "Milano (Lampugnano M1)",
+              "destinationStationName_item": "Roma (Tiburtina Terminal Bus)",
+              "type_item": "A"
+            },
+            {
+              "item_id": "0:RDA|3803|ITABUS2|2026-08-14|2026-08-14T12:50|2026-08-14T21:10;MIL1;ROM1",
+              "item_name": "MIL1-ROM1",
+              "discount": 0,
+              "index": 4,
+              "item_brand": "Itabus",
+              "item_category": "travels",
+              "price": 19.99,
+              "departureTimestamp_item": "2026-08-14T12:50:00+0200",
+              "arrivalTimestamp_item": "2026-08-14T21:10:00+0200",
+              "originStationCode_item": "MIL1",
+              "destinationStationCode_item": "ROM1",
+              "originStationName_item": "Milano (Lampugnano M1)",
+              "destinationStationName_item": "Roma (Tiburtina Terminal Bus)",
+              "type_item": "A"
+            },
+            {
+              "item_id": "0:RDA|3803|ITABUS2|2026-08-14|2026-08-14T13:35|2026-08-14T21:10;MIL2;ROM1",
+              "item_name": "MIL2-ROM1",
+              "discount": 0,
+              "index": 5,
+              "item_brand": "Itabus",
+              "item_category": "travels",
+              "price": 19.99,
+              "departureTimestamp_item": "2026-08-14T13:35:00+0200",
+              "arrivalTimestamp_item": "2026-08-14T21:10:00+0200",
+              "originStationCode_item": "MIL2",
+              "destinationStationCode_item": "ROM1",
+              "originStationName_item": "Milano (San Donato M3)",
+              "destinationStationName_item": "Roma (Tiburtina Terminal Bus)",
+              "type_item": "A"
+            },
+            {
+              "item_id": "0:RDA|3491|ITABUS2|2026-08-14|2026-08-14T16:00|2026-08-14T23:45;MIL1;ROM1",
+              "item_name": "MIL1-ROM1",
+              "discount": 0,
+              "index": 6,
+              "item_brand": "Itabus",
+              "item_category": "travels",
+              "price": 16.99,
+              "departureTimestamp_item": "2026-08-14T16:00:00+0200",
+              "arrivalTimestamp_item": "2026-08-14T23:45:00+0200",
+              "originStationCode_item": "MIL1",
+              "destinationStationCode_item": "ROM1",
+              "originStationName_item": "Milano (Lampugnano M1)",
+              "destinationStationName_item": "Roma (Tiburtina Terminal Bus)",
+              "type_item": "A"
+            },
+            {
+              "item_id": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00;MIL1;BOL1,0:RDA|2413|ITABUS2|2026-08-14|2026-08-14T23:50|2026-08-15T04:30;BOL1;ROM1",
+              "item_name": "MIL1-ROM1",
+              "discount": 0,
+              "index": 7,
+              "item_brand": "Itabus",
+              "item_category": "travels",
+              "price": 79.98,
+              "departureTimestamp_item": "2026-08-14T19:20:00+0200",
+              "arrivalTimestamp_item": "2026-08-15T04:30:00+0200",
+              "originStationCode_item": "MIL1",
+              "destinationStationCode_item": "ROM1",
+              "originStationName_item": "Milano (Lampugnano M1)",
+              "destinationStationName_item": "Roma (Tiburtina Terminal Bus)",
+              "type_item": "A"
+            },
+            {
+              "item_id": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00;MIL1;BOL1,0:RDA|2771|ITABUS2|2026-08-14|2026-08-15T00:15|2026-08-15T04:55;BOL1;ROM1",
+              "item_name": "MIL1-ROM1",
+              "discount": 0,
+              "index": 8,
+              "item_brand": "Itabus",
+              "item_category": "travels",
+              "price": 79.98,
+              "departureTimestamp_item": "2026-08-14T19:20:00+0200",
+              "arrivalTimestamp_item": "2026-08-15T04:55:00+0200",
+              "originStationCode_item": "MIL1",
+              "destinationStationCode_item": "ROM1",
+              "originStationName_item": "Milano (Lampugnano M1)",
+              "destinationStationName_item": "Roma (Tiburtina Terminal Bus)",
+              "type_item": "A"
+            },
+            {
+              "item_id": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T19:20|2026-08-14T23:00;MIL1;BOL1,0:RDA|2421|ITABUS2|2026-08-14|2026-08-15T00:45|2026-08-15T05:25;BOL1;ROM1",
+              "item_name": "MIL1-ROM1",
+              "discount": 0,
+              "index": 9,
+              "item_brand": "Itabus",
+              "item_category": "travels",
+              "price": 79.98,
+              "departureTimestamp_item": "2026-08-14T19:20:00+0200",
+              "arrivalTimestamp_item": "2026-08-15T05:25:00+0200",
+              "originStationCode_item": "MIL1",
+              "destinationStationCode_item": "ROM1",
+              "originStationName_item": "Milano (Lampugnano M1)",
+              "destinationStationName_item": "Roma (Tiburtina Terminal Bus)",
+              "type_item": "A"
+            },
+            {
+              "item_id": "0:RDA|2213|ITABUS2|2026-08-14|2026-08-14T20:05|2026-08-14T23:00;MIL2;BOL1,0:RDA|2771|ITABUS2|2026-08-14|2026-08-15T00:15|2026-08-15T04:55;BOL1;ROM1",
+              "item_name": "MIL2-ROM1",
+              "discount": 0,
+              "index": 10,
+              "item_brand": "Itabus",
+              "item_category": "travels",
+              "price": 79.98,
+              "departureTimestamp_item": "2026-08-14T20:05:00+0200",
+              "arrivalTimestamp_item": "2026-08-15T04:55:00+0200",
+              "originStationCode_item": "MIL2",
+              "destinationStationCode_item": "ROM1",
+              "originStationName_item": "Milano (San Donato M3)",
+              "destinationStationName_item": "Roma (Tiburtina Terminal Bus)",
+              "type_item": "A"
+            },
+            {
+              "item_id": "0:RDA|3505|ITABUS2|2026-08-14|2026-08-14T20:25|2026-08-15T06:05;MIL1;ROM1",
+              "item_name": "MIL1-ROM1",
+              "discount": 0,
+              "index": 11,
+              "item_brand": "Itabus",
+              "item_category": "travels",
+              "price": 29.99,
+              "departureTimestamp_item": "2026-08-14T20:25:00+0200",
+              "arrivalTimestamp_item": "2026-08-15T06:05:00+0200",
+              "originStationCode_item": "MIL1",
+              "destinationStationCode_item": "ROM1",
+              "originStationName_item": "Milano (Lampugnano M1)",
+              "destinationStationName_item": "Roma (Tiburtina Terminal Bus)",
+              "type_item": "A"
+            },
+            {
+              "item_id": "0:RDA|2413|ITABUS2|2026-08-14|2026-08-14T21:00|2026-08-15T04:30;MIL2;ROM1",
+              "item_name": "MIL2-ROM1",
+              "discount": 0,
+              "index": 12,
+              "item_brand": "Itabus",
+              "item_category": "travels",
+              "price": 39.99,
+              "departureTimestamp_item": "2026-08-14T21:00:00+0200",
+              "arrivalTimestamp_item": "2026-08-15T04:30:00+0200",
+              "originStationCode_item": "MIL2",
+              "destinationStationCode_item": "ROM1",
+              "originStationName_item": "Milano (San Donato M3)",
+              "destinationStationName_item": "Roma (Tiburtina Terminal Bus)",
+              "type_item": "A"
+            },
+            {
+              "item_id": "0:RDA|2205|ITABUS2|2026-08-14|2026-08-14T21:05|2026-08-15T00:20;MIL1;BOL1,0:RDA|2701|ITABUS2|2026-08-14|2026-08-15T01:50|2026-08-15T06:30;BOL1;ROM1",
+              "item_name": "MIL1-ROM1",
+              "discount": 0,
+              "index": 13,
+              "item_brand": "Itabus",
+              "item_category": "travels",
+              "price": 64.98,
+              "departureTimestamp_item": "2026-08-14T21:05:00+0200",
+              "arrivalTimestamp_item": "2026-08-15T06:30:00+0200",
+              "originStationCode_item": "MIL1",
+              "destinationStationCode_item": "ROM1",
+              "originStationName_item": "Milano (Lampugnano M1)",
+              "destinationStationName_item": "Roma (Tiburtina Terminal Bus)",
+              "type_item": "A"
+            },
+            {
+              "item_id": "0:RDA|2421|ITABUS2|2026-08-14|2026-08-14T21:35|2026-08-15T05:25;MIL2;ROM1",
+              "item_name": "MIL2-ROM1",
+              "discount": 0,
+              "index": 14,
+              "item_brand": "Itabus",
+              "item_category": "travels",
+              "price": 24.99,
+              "departureTimestamp_item": "2026-08-14T21:35:00+0200",
+              "arrivalTimestamp_item": "2026-08-15T05:25:00+0200",
+              "originStationCode_item": "MIL2",
+              "destinationStationCode_item": "ROM1",
+              "originStationName_item": "Milano (San Donato M3)",
+              "destinationStationName_item": "Roma (Tiburtina Terminal Bus)",
+              "type_item": "A"
+            },
+            {
+              "item_id": "0:RDA|3897|ITABUS2|2026-08-14|2026-08-14T22:30|2026-08-15T07:00;MIL1;ROM1",
+              "item_name": "MIL1-ROM1",
+              "discount": 0,
+              "index": 15,
+              "item_brand": "Itabus",
+              "item_category": "travels",
+              "price": 39.99,
+              "departureTimestamp_item": "2026-08-14T22:30:00+0200",
+              "arrivalTimestamp_item": "2026-08-15T07:00:00+0200",
+              "originStationCode_item": "MIL1",
+              "destinationStationCode_item": "ROM1",
+              "originStationName_item": "Milano (Lampugnano M1)",
+              "destinationStationName_item": "Roma (Tiburtina Terminal Bus)",
+              "type_item": "A"
+            },
+            {
+              "item_id": "0:RDA|2495|ITABUS2|2026-08-14|2026-08-14T22:45|2026-08-15T08:10;MIL1;ROM1",
+              "item_name": "MIL1-ROM1",
+              "discount": 0,
+              "index": 16,
+              "item_brand": "Itabus",
+              "item_category": "travels",
+              "price": 19.99,
+              "departureTimestamp_item": "2026-08-14T22:45:00+0200",
+              "arrivalTimestamp_item": "2026-08-15T08:10:00+0200",
+              "originStationCode_item": "MIL1",
+              "destinationStationCode_item": "ROM1",
+              "originStationName_item": "Milano (Lampugnano M1)",
+              "destinationStationName_item": "Roma (Tiburtina Terminal Bus)",
+              "type_item": "A"
+            },
+            {
+              "item_id": "0:RDA|2495|ITABUS2|2026-08-14|2026-08-14T23:30|2026-08-15T08:10;MIL2;ROM1",
+              "item_name": "MIL2-ROM1",
+              "discount": 0,
+              "index": 17,
+              "item_brand": "Itabus",
+              "item_category": "travels",
+              "price": 19.99,
+              "departureTimestamp_item": "2026-08-14T23:30:00+0200",
+              "arrivalTimestamp_item": "2026-08-15T08:10:00+0200",
+              "originStationCode_item": "MIL2",
+              "destinationStationCode_item": "ROM1",
+              "originStationName_item": "Milano (San Donato M3)",
+              "destinationStationName_item": "Roma (Tiburtina Terminal Bus)",
+              "type_item": "A"
+            },
+            {
+              "item_id": "0:RDA|3887|ITABUS2|2026-08-14|2026-08-14T23:50|2026-08-15T08:50;MIL1;ROM1",
+              "item_name": "MIL1-ROM1",
+              "discount": 0,
+              "index": 18,
+              "item_brand": "Itabus",
+              "item_category": "travels",
+              "price": 24.99,
+              "departureTimestamp_item": "2026-08-14T23:50:00+0200",
+              "arrivalTimestamp_item": "2026-08-15T08:50:00+0200",
+              "originStationCode_item": "MIL1",
+              "destinationStationCode_item": "ROM1",
+              "originStationName_item": "Milano (Lampugnano M1)",
+              "destinationStationName_item": "Roma (Tiburtina Terminal Bus)",
+              "type_item": "A"
+            },
+            {
+              "item_id": "0:RDA|3887|ITABUS2|2026-08-14|2026-08-15T00:30|2026-08-15T08:50;MIL2;ROM1",
+              "item_name": "MIL2-ROM1",
+              "discount": 0,
+              "index": 19,
+              "item_brand": "Itabus",
+              "item_category": "travels",
+              "price": 24.99,
+              "departureTimestamp_item": "2026-08-15T00:30:00+0200",
+              "arrivalTimestamp_item": "2026-08-15T08:50:00+0200",
+              "originStationCode_item": "MIL2",
+              "destinationStationCode_item": "ROM1",
+              "originStationName_item": "Milano (San Donato M3)",
+              "destinationStationName_item": "Roma (Tiburtina Terminal Bus)",
+              "type_item": "A"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

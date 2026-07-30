@@ -1,0 +1,582 @@
+{
+  "captured_for": {
+    "origin_query": "Roma",
+    "destination_query": "Napoli",
+    "date": "2026-08-14",
+    "pax": 1
+  },
+  "origin_node": {
+    "id": "tl:8544",
+    "name": "Roma Termini",
+    "kind": "station",
+    "lat": 41.900833,
+    "lon": 12.501944,
+    "country": "IT",
+    "city": "Roma",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {
+      "trenitalia": "8308409",
+      "italo": "RMT",
+      "oebb": "8300263"
+    },
+    "is_main": true
+  },
+  "destination_node": {
+    "id": "tl:8497",
+    "name": "Napoli Centrale",
+    "kind": "station",
+    "lat": 40.852826,
+    "lon": 14.273072,
+    "country": "IT",
+    "city": "Napoli",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {
+      "trenitalia": "8309218",
+      "italo": "NAC"
+    },
+    "is_main": true
+  },
+  "raw": [
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T13:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "fc70dd78-1704-4189-8af6-101a00953936",
+            "lineId": "23fe96c4-464a-41af-a664-0bb900a6918f",
+            "routeId": "21fcb3fb-2a26-4ca3-a5a8-0bb900b30139",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 0.0
+              }
+            ],
+            "carrierId": "marozzi",
+            "canSelectSeat": true,
+            "vehicleDescription": "51 P",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "08b9a2eb-3e1f-42e5-afe2-0bb900a8d5cf",
+          "departureDateTime": "2026-08-14T13:00:00+00:00",
+          "arrivalStopId": "551e3bd1-e40a-4e50-b25e-0bb900dd44e8",
+          "arrivalDateTime": "2026-08-14T16:00:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "65c60d23-04db-49c1-a5d6-462706a52fde"
+        }
+      ],
+      "calculatedPrice": 22.0,
+      "fullPrice": 22.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T13:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "fc70dd78-1704-4189-8af6-101a00953936",
+            "lineId": "23fe96c4-464a-41af-a664-0bb900a6918f",
+            "routeId": "21fcb3fb-2a26-4ca3-a5a8-0bb900b30139",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 0.0
+              }
+            ],
+            "carrierId": "marozzi",
+            "canSelectSeat": true,
+            "vehicleDescription": "51 P",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "08b9a2eb-3e1f-42e5-afe2-0bb900a8d5cf",
+          "departureDateTime": "2026-08-14T13:00:00+00:00",
+          "arrivalStopId": "a72805b0-da27-4a27-ac87-0bb900dc957c",
+          "arrivalDateTime": "2026-08-14T16:10:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "c1df0685-e890-4a07-82ea-399fcc103be5"
+        }
+      ],
+      "calculatedPrice": 22.0,
+      "fullPrice": 22.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T13:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "fc70dd78-1704-4189-8af6-101a00953936",
+            "lineId": "23fe96c4-464a-41af-a664-0bb900a6918f",
+            "routeId": "21fcb3fb-2a26-4ca3-a5a8-0bb900b30139",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 0.0
+              }
+            ],
+            "carrierId": "marozzi",
+            "canSelectSeat": true,
+            "vehicleDescription": "51 P",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "08b9a2eb-3e1f-42e5-afe2-0bb900a8d5cf",
+          "departureDateTime": "2026-08-14T13:00:00+00:00",
+          "arrivalStopId": "f5b157f7-e752-4f53-8533-0bb900d214b6",
+          "arrivalDateTime": "2026-08-14T16:25:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "67aa0c76-6421-4e4e-812e-dfaf1422f31c"
+        }
+      ],
+      "calculatedPrice": 23.0,
+      "fullPrice": 23.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T13:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "fc70dd78-1704-4189-8af6-101a00953936",
+            "lineId": "23fe96c4-464a-41af-a664-0bb900a6918f",
+            "routeId": "21fcb3fb-2a26-4ca3-a5a8-0bb900b30139",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 0.0
+              }
+            ],
+            "carrierId": "marozzi",
+            "canSelectSeat": true,
+            "vehicleDescription": "51 P",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "08b9a2eb-3e1f-42e5-afe2-0bb900a8d5cf",
+          "departureDateTime": "2026-08-14T13:00:00+00:00",
+          "arrivalStopId": "78aa761b-dd1c-48ad-97b9-0bb900cf2d04",
+          "arrivalDateTime": "2026-08-14T16:30:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "642df470-4a1a-45dd-8800-bc9ce34519ef"
+        }
+      ],
+      "calculatedPrice": 23.0,
+      "fullPrice": 23.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T13:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "fc70dd78-1704-4189-8af6-101a00953936",
+            "lineId": "23fe96c4-464a-41af-a664-0bb900a6918f",
+            "routeId": "21fcb3fb-2a26-4ca3-a5a8-0bb900b30139",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 0.0
+              }
+            ],
+            "carrierId": "marozzi",
+            "canSelectSeat": true,
+            "vehicleDescription": "51 P",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "08b9a2eb-3e1f-42e5-afe2-0bb900a8d5cf",
+          "departureDateTime": "2026-08-14T13:00:00+00:00",
+          "arrivalStopId": "00a1ca8a-8f73-48f3-b75f-0bb900f49cfd",
+          "arrivalDateTime": "2026-08-14T16:40:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "a66c0768-be48-47fa-ad75-7742c11dff6f"
+        }
+      ],
+      "calculatedPrice": 23.0,
+      "fullPrice": 23.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T13:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "fc70dd78-1704-4189-8af6-101a00953936",
+            "lineId": "23fe96c4-464a-41af-a664-0bb900a6918f",
+            "routeId": "21fcb3fb-2a26-4ca3-a5a8-0bb900b30139",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 0.0
+              }
+            ],
+            "carrierId": "marozzi",
+            "canSelectSeat": true,
+            "vehicleDescription": "51 P",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "08b9a2eb-3e1f-42e5-afe2-0bb900a8d5cf",
+          "departureDateTime": "2026-08-14T13:00:00+00:00",
+          "arrivalStopId": "679e83e3-b178-435a-9404-0bb900a85587",
+          "arrivalDateTime": "2026-08-14T16:45:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "e1134052-6703-4fac-a329-df465c864d67"
+        }
+      ],
+      "calculatedPrice": 23.0,
+      "fullPrice": 23.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T13:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "fc70dd78-1704-4189-8af6-101a00953936",
+            "lineId": "23fe96c4-464a-41af-a664-0bb900a6918f",
+            "routeId": "21fcb3fb-2a26-4ca3-a5a8-0bb900b30139",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 0.0
+              }
+            ],
+            "carrierId": "marozzi",
+            "canSelectSeat": true,
+            "vehicleDescription": "51 P",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "08b9a2eb-3e1f-42e5-afe2-0bb900a8d5cf",
+          "departureDateTime": "2026-08-14T13:00:00+00:00",
+          "arrivalStopId": "126b2139-0d78-4f05-b933-0bb900a7f74b",
+          "arrivalDateTime": "2026-08-14T17:00:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "966d459c-788a-4f91-8753-3d34bca6bcc5"
+        }
+      ],
+      "calculatedPrice": 23.0,
+      "fullPrice": 23.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-08-14T05:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c014a9a5-0519-4a02-9c52-101a0098f901",
+            "lineId": "77cc7fb4-cd32-44b6-b6e4-0bbb0097fc12",
+            "routeId": "6b008b2a-3ddd-4c12-86a0-0bbb009e8121",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 0.0
+              }
+            ],
+            "carrierId": "marozzi",
+            "canSelectSeat": true,
+            "vehicleDescription": "51 P",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "08b9a2eb-3e1f-42e5-afe2-0bb900a8d5cf",
+          "departureDateTime": "2026-08-14T05:00:00+00:00",
+          "arrivalStopId": "551e3bd1-e40a-4e50-b25e-0bb900dd44e8",
+          "arrivalDateTime": "2026-08-14T08:00:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "65c60d23-04db-49c1-a5d6-462706a52fde"
+        }
+      ],
+      "calculatedPrice": 22.0,
+      "fullPrice": 22.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-08-14T05:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c014a9a5-0519-4a02-9c52-101a0098f901",
+            "lineId": "77cc7fb4-cd32-44b6-b6e4-0bbb0097fc12",
+            "routeId": "6b008b2a-3ddd-4c12-86a0-0bbb009e8121",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 0.0
+              }
+            ],
+            "carrierId": "marozzi",
+            "canSelectSeat": true,
+            "vehicleDescription": "51 P",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "08b9a2eb-3e1f-42e5-afe2-0bb900a8d5cf",
+          "departureDateTime": "2026-08-14T05:00:00+00:00",
+          "arrivalStopId": "a72805b0-da27-4a27-ac87-0bb900dc957c",
+          "arrivalDateTime": "2026-08-14T08:10:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "c1df0685-e890-4a07-82ea-399fcc103be5"
+        }
+      ],
+      "calculatedPrice": 22.0,
+      "fullPrice": 22.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-08-14T05:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c014a9a5-0519-4a02-9c52-101a0098f901",
+            "lineId": "77cc7fb4-cd32-44b6-b6e4-0bbb0097fc12",
+            "routeId": "6b008b2a-3ddd-4c12-86a0-0bbb009e8121",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 0.0
+              }
+            ],
+            "carrierId": "marozzi",
+            "canSelectSeat": true,
+            "vehicleDescription": "51 P",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "08b9a2eb-3e1f-42e5-afe2-0bb900a8d5cf",
+          "departureDateTime": "2026-08-14T05:00:00+00:00",
+          "arrivalStopId": "f5b157f7-e752-4f53-8533-0bb900d214b6",
+          "arrivalDateTime": "2026-08-14T08:25:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "67aa0c76-6421-4e4e-812e-dfaf1422f31c"
+        }
+      ],
+      "calculatedPrice": 23.0,
+      "fullPrice": 23.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-08-14T05:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c014a9a5-0519-4a02-9c52-101a0098f901",
+            "lineId": "77cc7fb4-cd32-44b6-b6e4-0bbb0097fc12",
+            "routeId": "6b008b2a-3ddd-4c12-86a0-0bbb009e8121",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 0.0
+              }
+            ],
+            "carrierId": "marozzi",
+            "canSelectSeat": true,
+            "vehicleDescription": "51 P",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "08b9a2eb-3e1f-42e5-afe2-0bb900a8d5cf",
+          "departureDateTime": "2026-08-14T05:00:00+00:00",
+          "arrivalStopId": "78aa761b-dd1c-48ad-97b9-0bb900cf2d04",
+          "arrivalDateTime": "2026-08-14T08:30:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "642df470-4a1a-45dd-8800-bc9ce34519ef"
+        }
+      ],
+      "calculatedPrice": 23.0,
+      "fullPrice": 23.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-08-14T05:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c014a9a5-0519-4a02-9c52-101a0098f901",
+            "lineId": "77cc7fb4-cd32-44b6-b6e4-0bbb0097fc12",
+            "routeId": "6b008b2a-3ddd-4c12-86a0-0bbb009e8121",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 0.0
+              }
+            ],
+            "carrierId": "marozzi",
+            "canSelectSeat": true,
+            "vehicleDescription": "51 P",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "08b9a2eb-3e1f-42e5-afe2-0bb900a8d5cf",
+          "departureDateTime": "2026-08-14T05:00:00+00:00",
+          "arrivalStopId": "00a1ca8a-8f73-48f3-b75f-0bb900f49cfd",
+          "arrivalDateTime": "2026-08-14T08:40:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "a66c0768-be48-47fa-ad75-7742c11dff6f"
+        }
+      ],
+      "calculatedPrice": 23.0,
+      "fullPrice": 23.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-08-14T05:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c014a9a5-0519-4a02-9c52-101a0098f901",
+            "lineId": "77cc7fb4-cd32-44b6-b6e4-0bbb0097fc12",
+            "routeId": "6b008b2a-3ddd-4c12-86a0-0bbb009e8121",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 0.0
+              }
+            ],
+            "carrierId": "marozzi",
+            "canSelectSeat": true,
+            "vehicleDescription": "51 P",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "08b9a2eb-3e1f-42e5-afe2-0bb900a8d5cf",
+          "departureDateTime": "2026-08-14T05:00:00+00:00",
+          "arrivalStopId": "679e83e3-b178-435a-9404-0bb900a85587",
+          "arrivalDateTime": "2026-08-14T08:45:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "e1134052-6703-4fac-a329-df465c864d67"
+        }
+      ],
+      "calculatedPrice": 23.0,
+      "fullPrice": 23.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-08-14T05:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c014a9a5-0519-4a02-9c52-101a0098f901",
+            "lineId": "77cc7fb4-cd32-44b6-b6e4-0bbb0097fc12",
+            "routeId": "6b008b2a-3ddd-4c12-86a0-0bbb009e8121",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 0.0
+              }
+            ],
+            "carrierId": "marozzi",
+            "canSelectSeat": true,
+            "vehicleDescription": "51 P",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "08b9a2eb-3e1f-42e5-afe2-0bb900a8d5cf",
+          "departureDateTime": "2026-08-14T05:00:00+00:00",
+          "arrivalStopId": "126b2139-0d78-4f05-b933-0bb900a7f74b",
+          "arrivalDateTime": "2026-08-14T08:50:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "966d459c-788a-4f91-8753-3d34bca6bcc5"
+        }
+      ],
+      "calculatedPrice": 23.0,
+      "fullPrice": 23.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    }
+  ]
+}

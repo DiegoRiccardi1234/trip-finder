@@ -1,0 +1,3263 @@
+{
+  "captured_for": {
+    "origin_query": "Zurich",
+    "destination_query": "Bern",
+    "date": "2026-08-20",
+    "pax": 1
+  },
+  "origin_node": {
+    "id": "tl:6245",
+    "name": "Zürich HB",
+    "kind": "station",
+    "lat": 47.378186,
+    "lon": 8.539203,
+    "country": "CH",
+    "city": "Zurich",
+    "timezone": "Europe/Zurich",
+    "iata": null,
+    "provider_ids": {
+      "trenitalia": "8503000",
+      "sncf": "CHAJD",
+      "db": "8503000",
+      "oebb": "8503000",
+      "sbb": "8503000",
+      "benerail": "CHAJD"
+    },
+    "is_main": true
+  },
+  "destination_node": {
+    "id": "tl:6300",
+    "name": "Bern Hbf",
+    "kind": "station",
+    "lat": 46.949113,
+    "lon": 7.438483,
+    "country": "CH",
+    "city": "Bern",
+    "timezone": "Europe/Zurich",
+    "iata": null,
+    "provider_ids": {
+      "trenitalia": "8507000",
+      "sncf": "CHBRN",
+      "db": "8507000",
+      "sbb": "8507000",
+      "benerail": "CHBRN"
+    },
+    "is_main": true
+  },
+  "raw": {
+    "connections": [
+      {
+        "from": {
+          "station": {
+            "id": "8503000",
+            "name": "Zürich HB",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 47.377847,
+              "y": 8.540502
+            },
+            "distance": null
+          },
+          "arrival": null,
+          "arrivalTimestamp": null,
+          "departure": "2026-08-20T00:02:00+0200",
+          "departureTimestamp": 1787176920,
+          "delay": null,
+          "platform": "13",
+          "prognosis": {
+            "platform": null,
+            "arrival": null,
+            "departure": null,
+            "capacity1st": null,
+            "capacity2nd": null
+          },
+          "realtimeAvailability": null,
+          "location": {
+            "id": "8503000",
+            "name": "Zürich HB",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 47.377847,
+              "y": 8.540502
+            },
+            "distance": null
+          }
+        },
+        "to": {
+          "station": {
+            "id": "8507000",
+            "name": "Bern",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 46.948823,
+              "y": 7.439123
+            },
+            "distance": null
+          },
+          "arrival": "2026-08-20T01:02:00+0200",
+          "arrivalTimestamp": 1787180520,
+          "departure": null,
+          "departureTimestamp": null,
+          "delay": null,
+          "platform": "7",
+          "prognosis": {
+            "platform": null,
+            "arrival": null,
+            "departure": null,
+            "capacity1st": null,
+            "capacity2nd": null
+          },
+          "realtimeAvailability": null,
+          "location": {
+            "id": "8507000",
+            "name": "Bern",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 46.948823,
+              "y": 7.439123
+            },
+            "distance": null
+          }
+        },
+        "duration": "00d01:00:00",
+        "transfers": 0,
+        "service": null,
+        "products": [
+          "IC 8"
+        ],
+        "capacity1st": null,
+        "capacity2nd": null,
+        "sections": [
+          {
+            "journey": {
+              "name": "000842",
+              "category": "IC",
+              "subcategory": null,
+              "categoryCode": null,
+              "number": "8",
+              "operator": "SBB",
+              "to": "Bern",
+              "passList": [
+                {
+                  "station": {
+                    "id": "8503000",
+                    "name": "Zürich HB",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.377847,
+                      "y": 8.540502
+                    },
+                    "distance": null
+                  },
+                  "arrival": null,
+                  "arrivalTimestamp": null,
+                  "departure": "2026-08-20T00:02:00+0200",
+                  "departureTimestamp": 1787176920,
+                  "delay": null,
+                  "platform": "13",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8503000",
+                    "name": "Zürich HB",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.377847,
+                      "y": 8.540502
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8500218",
+                    "name": "Olten",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.351927,
+                      "y": 7.907693
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T00:32:00+0200",
+                  "arrivalTimestamp": 1787178720,
+                  "departure": "2026-08-20T00:35:00+0200",
+                  "departureTimestamp": 1787178900,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8500218",
+                    "name": "Olten",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.351927,
+                      "y": 7.907693
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "0000132",
+                    "name": "Bahn-2000-Strecke",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.196371,
+                      "y": 7.689354
+                    },
+                    "distance": null
+                  },
+                  "arrival": null,
+                  "arrivalTimestamp": null,
+                  "departure": null,
+                  "departureTimestamp": null,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "0000132",
+                    "name": "Bahn-2000-Strecke",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.196371,
+                      "y": 7.689354
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8507000",
+                    "name": "Bern",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 46.948823,
+                      "y": 7.439123
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T01:02:00+0200",
+                  "arrivalTimestamp": 1787180520,
+                  "departure": null,
+                  "departureTimestamp": null,
+                  "delay": null,
+                  "platform": "7",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8507000",
+                    "name": "Bern",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 46.948823,
+                      "y": 7.439123
+                    },
+                    "distance": null
+                  }
+                }
+              ],
+              "capacity1st": null,
+              "capacity2nd": null
+            },
+            "walk": null,
+            "departure": {
+              "station": {
+                "id": "8503000",
+                "name": "Zürich HB",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.377847,
+                  "y": 8.540502
+                },
+                "distance": null
+              },
+              "arrival": null,
+              "arrivalTimestamp": null,
+              "departure": "2026-08-20T00:02:00+0200",
+              "departureTimestamp": 1787176920,
+              "delay": null,
+              "platform": "13",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8503000",
+                "name": "Zürich HB",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.377847,
+                  "y": 8.540502
+                },
+                "distance": null
+              }
+            },
+            "arrival": {
+              "station": {
+                "id": "8507000",
+                "name": "Bern",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 46.948823,
+                  "y": 7.439123
+                },
+                "distance": null
+              },
+              "arrival": "2026-08-20T01:02:00+0200",
+              "arrivalTimestamp": 1787180520,
+              "departure": null,
+              "departureTimestamp": null,
+              "delay": null,
+              "platform": "7",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8507000",
+                "name": "Bern",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 46.948823,
+                  "y": 7.439123
+                },
+                "distance": null
+              }
+            }
+          }
+        ]
+      },
+      {
+        "from": {
+          "station": {
+            "id": "8503000",
+            "name": "Zürich HB",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 47.377847,
+              "y": 8.540502
+            },
+            "distance": null
+          },
+          "arrival": null,
+          "arrivalTimestamp": null,
+          "departure": "2026-08-20T00:08:00+0200",
+          "departureTimestamp": 1787177280,
+          "delay": null,
+          "platform": "18",
+          "prognosis": {
+            "platform": null,
+            "arrival": null,
+            "departure": null,
+            "capacity1st": null,
+            "capacity2nd": null
+          },
+          "realtimeAvailability": null,
+          "location": {
+            "id": "8503000",
+            "name": "Zürich HB",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 47.377847,
+              "y": 8.540502
+            },
+            "distance": null
+          }
+        },
+        "to": {
+          "station": {
+            "id": "8507000",
+            "name": "Bern",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 46.948823,
+              "y": 7.439123
+            },
+            "distance": null
+          },
+          "arrival": "2026-08-20T05:53:00+0200",
+          "arrivalTimestamp": 1787197980,
+          "departure": null,
+          "departureTimestamp": null,
+          "delay": null,
+          "platform": "9",
+          "prognosis": {
+            "platform": null,
+            "arrival": null,
+            "departure": null,
+            "capacity1st": null,
+            "capacity2nd": null
+          },
+          "realtimeAvailability": null,
+          "location": {
+            "id": "8507000",
+            "name": "Bern",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 46.948823,
+              "y": 7.439123
+            },
+            "distance": null
+          }
+        },
+        "duration": "00d05:45:00",
+        "transfers": 2,
+        "service": null,
+        "products": [
+          "IR 37",
+          "S29",
+          "IR 17"
+        ],
+        "capacity1st": null,
+        "capacity2nd": null,
+        "sections": [
+          {
+            "journey": {
+              "name": "002290",
+              "category": "IR",
+              "subcategory": null,
+              "categoryCode": null,
+              "number": "37",
+              "operator": "SBB",
+              "to": "Basel SBB",
+              "passList": [
+                {
+                  "station": {
+                    "id": "8503000",
+                    "name": "Zürich HB",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.377847,
+                      "y": 8.540502
+                    },
+                    "distance": null
+                  },
+                  "arrival": null,
+                  "arrivalTimestamp": null,
+                  "departure": "2026-08-20T00:08:00+0200",
+                  "departureTimestamp": 1787177280,
+                  "delay": null,
+                  "platform": "18",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8503000",
+                    "name": "Zürich HB",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.377847,
+                      "y": 8.540502
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8502119",
+                    "name": "Lenzburg",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.39119,
+                      "y": 8.170394
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T00:27:00+0200",
+                  "arrivalTimestamp": 1787178420,
+                  "departure": "2026-08-20T00:29:00+0200",
+                  "departureTimestamp": 1787178540,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8502119",
+                    "name": "Lenzburg",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.39119,
+                      "y": 8.170394
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8502113",
+                    "name": "Aarau",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.391352,
+                      "y": 8.05127
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T00:35:00+0200",
+                  "arrivalTimestamp": 1787178900,
+                  "departure": null,
+                  "departureTimestamp": null,
+                  "delay": null,
+                  "platform": "5",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8502113",
+                    "name": "Aarau",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.391352,
+                      "y": 8.05127
+                    },
+                    "distance": null
+                  }
+                }
+              ],
+              "capacity1st": null,
+              "capacity2nd": null
+            },
+            "walk": null,
+            "departure": {
+              "station": {
+                "id": "8503000",
+                "name": "Zürich HB",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.377847,
+                  "y": 8.540502
+                },
+                "distance": null
+              },
+              "arrival": null,
+              "arrivalTimestamp": null,
+              "departure": "2026-08-20T00:08:00+0200",
+              "departureTimestamp": 1787177280,
+              "delay": null,
+              "platform": "18",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8503000",
+                "name": "Zürich HB",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.377847,
+                  "y": 8.540502
+                },
+                "distance": null
+              }
+            },
+            "arrival": {
+              "station": {
+                "id": "8502113",
+                "name": "Aarau",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.391352,
+                  "y": 8.05127
+                },
+                "distance": null
+              },
+              "arrival": "2026-08-20T00:35:00+0200",
+              "arrivalTimestamp": 1787178900,
+              "departure": null,
+              "departureTimestamp": null,
+              "delay": null,
+              "platform": "5",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8502113",
+                "name": "Aarau",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.391352,
+                  "y": 8.05127
+                },
+                "distance": null
+              }
+            }
+          },
+          {
+            "journey": {
+              "name": "008994",
+              "category": "S",
+              "subcategory": null,
+              "categoryCode": null,
+              "number": "29",
+              "operator": "SBB",
+              "to": "Olten",
+              "passList": [
+                {
+                  "station": {
+                    "id": "8502113",
+                    "name": "Aarau",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.391352,
+                      "y": 8.05127
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T00:35:00+0200",
+                  "arrivalTimestamp": 1787178900,
+                  "departure": "2026-08-20T00:57:00+0200",
+                  "departureTimestamp": 1787180220,
+                  "delay": null,
+                  "platform": "5",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8502113",
+                    "name": "Aarau",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.391352,
+                      "y": 8.05127
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8502112",
+                    "name": "Schönenwerd SO",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.371419,
+                      "y": 8.00016
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T01:00:00+0200",
+                  "arrivalTimestamp": 1787180400,
+                  "departure": "2026-08-20T01:00:00+0200",
+                  "departureTimestamp": 1787180400,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8502112",
+                    "name": "Schönenwerd SO",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.371419,
+                      "y": 8.00016
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8502111",
+                    "name": "Däniken SO",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.356383,
+                      "y": 7.978771
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T01:03:00+0200",
+                  "arrivalTimestamp": 1787180580,
+                  "departure": "2026-08-20T01:03:00+0200",
+                  "departureTimestamp": 1787180580,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8502111",
+                    "name": "Däniken SO",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.356383,
+                      "y": 7.978771
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8502110",
+                    "name": "Dulliken",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.354272,
+                      "y": 7.946494
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T01:06:00+0200",
+                  "arrivalTimestamp": 1787180760,
+                  "departure": "2026-08-20T01:06:00+0200",
+                  "departureTimestamp": 1787180760,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8502110",
+                    "name": "Dulliken",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.354272,
+                      "y": 7.946494
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8500218",
+                    "name": "Olten",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.351927,
+                      "y": 7.907693
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T01:11:00+0200",
+                  "arrivalTimestamp": 1787181060,
+                  "departure": null,
+                  "departureTimestamp": null,
+                  "delay": null,
+                  "platform": "9",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8500218",
+                    "name": "Olten",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.351927,
+                      "y": 7.907693
+                    },
+                    "distance": null
+                  }
+                }
+              ],
+              "capacity1st": null,
+              "capacity2nd": null
+            },
+            "walk": null,
+            "departure": {
+              "station": {
+                "id": "8502113",
+                "name": "Aarau",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.391352,
+                  "y": 8.05127
+                },
+                "distance": null
+              },
+              "arrival": "2026-08-20T00:35:00+0200",
+              "arrivalTimestamp": 1787178900,
+              "departure": "2026-08-20T00:57:00+0200",
+              "departureTimestamp": 1787180220,
+              "delay": null,
+              "platform": "5",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8502113",
+                "name": "Aarau",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.391352,
+                  "y": 8.05127
+                },
+                "distance": null
+              }
+            },
+            "arrival": {
+              "station": {
+                "id": "8500218",
+                "name": "Olten",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.351927,
+                  "y": 7.907693
+                },
+                "distance": null
+              },
+              "arrival": "2026-08-20T01:11:00+0200",
+              "arrivalTimestamp": 1787181060,
+              "departure": null,
+              "departureTimestamp": null,
+              "delay": null,
+              "platform": "9",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8500218",
+                "name": "Olten",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.351927,
+                  "y": 7.907693
+                },
+                "distance": null
+              }
+            }
+          },
+          {
+            "journey": {
+              "name": "002806",
+              "category": "IR",
+              "subcategory": null,
+              "categoryCode": null,
+              "number": "17",
+              "operator": "BLS-bls",
+              "to": "Bern",
+              "passList": [
+                {
+                  "station": {
+                    "id": "8500218",
+                    "name": "Olten",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.351927,
+                      "y": 7.907693
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T01:11:00+0200",
+                  "arrivalTimestamp": 1787181060,
+                  "departure": "2026-08-20T05:06:00+0200",
+                  "departureTimestamp": 1787195160,
+                  "delay": null,
+                  "platform": "9",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8500218",
+                    "name": "Olten",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.351927,
+                      "y": 7.907693
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8508100",
+                    "name": "Langenthal",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.217298,
+                      "y": 7.784714
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T05:17:00+0200",
+                  "arrivalTimestamp": 1787195820,
+                  "departure": "2026-08-20T05:18:00+0200",
+                  "departureTimestamp": 1787195880,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8508100",
+                    "name": "Langenthal",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.217298,
+                      "y": 7.784714
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8508008",
+                    "name": "Herzogenbuchsee",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.188079,
+                      "y": 7.700952
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T05:23:00+0200",
+                  "arrivalTimestamp": 1787196180,
+                  "departure": "2026-08-20T05:24:00+0200",
+                  "departureTimestamp": 1787196240,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8508008",
+                    "name": "Herzogenbuchsee",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.188079,
+                      "y": 7.700952
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8508006",
+                    "name": "Wynigen",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.105172,
+                      "y": 7.663502
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T05:30:00+0200",
+                  "arrivalTimestamp": 1787196600,
+                  "departure": "2026-08-20T05:31:00+0200",
+                  "departureTimestamp": 1787196660,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8508006",
+                    "name": "Wynigen",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.105172,
+                      "y": 7.663502
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8508005",
+                    "name": "Burgdorf",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.060694,
+                      "y": 7.621694
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T05:37:00+0200",
+                  "arrivalTimestamp": 1787197020,
+                  "departure": "2026-08-20T05:38:00+0200",
+                  "departureTimestamp": 1787197080,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8508005",
+                    "name": "Burgdorf",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.060694,
+                      "y": 7.621694
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8507000",
+                    "name": "Bern",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 46.948823,
+                      "y": 7.439123
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T05:53:00+0200",
+                  "arrivalTimestamp": 1787197980,
+                  "departure": null,
+                  "departureTimestamp": null,
+                  "delay": null,
+                  "platform": "9",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8507000",
+                    "name": "Bern",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 46.948823,
+                      "y": 7.439123
+                    },
+                    "distance": null
+                  }
+                }
+              ],
+              "capacity1st": null,
+              "capacity2nd": null
+            },
+            "walk": null,
+            "departure": {
+              "station": {
+                "id": "8500218",
+                "name": "Olten",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.351927,
+                  "y": 7.907693
+                },
+                "distance": null
+              },
+              "arrival": "2026-08-20T01:11:00+0200",
+              "arrivalTimestamp": 1787181060,
+              "departure": "2026-08-20T05:06:00+0200",
+              "departureTimestamp": 1787195160,
+              "delay": null,
+              "platform": "9",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8500218",
+                "name": "Olten",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.351927,
+                  "y": 7.907693
+                },
+                "distance": null
+              }
+            },
+            "arrival": {
+              "station": {
+                "id": "8507000",
+                "name": "Bern",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 46.948823,
+                  "y": 7.439123
+                },
+                "distance": null
+              },
+              "arrival": "2026-08-20T05:53:00+0200",
+              "arrivalTimestamp": 1787197980,
+              "departure": null,
+              "departureTimestamp": null,
+              "delay": null,
+              "platform": "9",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8507000",
+                "name": "Bern",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 46.948823,
+                  "y": 7.439123
+                },
+                "distance": null
+              }
+            }
+          }
+        ]
+      },
+      {
+        "from": {
+          "station": {
+            "id": "8503000",
+            "name": "Zürich HB",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 47.377847,
+              "y": 8.540502
+            },
+            "distance": null
+          },
+          "arrival": null,
+          "arrivalTimestamp": null,
+          "departure": "2026-08-20T05:08:00+0200",
+          "departureTimestamp": 1787195280,
+          "delay": null,
+          "platform": "10",
+          "prognosis": {
+            "platform": null,
+            "arrival": null,
+            "departure": null,
+            "capacity1st": null,
+            "capacity2nd": null
+          },
+          "realtimeAvailability": null,
+          "location": {
+            "id": "8503000",
+            "name": "Zürich HB",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 47.377847,
+              "y": 8.540502
+            },
+            "distance": null
+          }
+        },
+        "to": {
+          "station": {
+            "id": "8507000",
+            "name": "Bern",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 46.948823,
+              "y": 7.439123
+            },
+            "distance": null
+          },
+          "arrival": "2026-08-20T06:26:00+0200",
+          "arrivalTimestamp": 1787199960,
+          "departure": null,
+          "departureTimestamp": null,
+          "delay": null,
+          "platform": "7",
+          "prognosis": {
+            "platform": null,
+            "arrival": null,
+            "departure": null,
+            "capacity1st": null,
+            "capacity2nd": null
+          },
+          "realtimeAvailability": null,
+          "location": {
+            "id": "8507000",
+            "name": "Bern",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 46.948823,
+              "y": 7.439123
+            },
+            "distance": null
+          }
+        },
+        "duration": "00d01:18:00",
+        "transfers": 2,
+        "service": null,
+        "products": [
+          "IR 37",
+          "S23",
+          "IC 61"
+        ],
+        "capacity1st": null,
+        "capacity2nd": null,
+        "sections": [
+          {
+            "journey": {
+              "name": "002252",
+              "category": "IR",
+              "subcategory": null,
+              "categoryCode": null,
+              "number": "37",
+              "operator": "SBB",
+              "to": "Basel SBB",
+              "passList": [
+                {
+                  "station": {
+                    "id": "8503000",
+                    "name": "Zürich HB",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.377847,
+                      "y": 8.540502
+                    },
+                    "distance": null
+                  },
+                  "arrival": null,
+                  "arrivalTimestamp": null,
+                  "departure": "2026-08-20T05:08:00+0200",
+                  "departureTimestamp": 1787195280,
+                  "delay": null,
+                  "platform": "10",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8503000",
+                    "name": "Zürich HB",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.377847,
+                      "y": 8.540502
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8502119",
+                    "name": "Lenzburg",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.39119,
+                      "y": 8.170394
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T05:27:00+0200",
+                  "arrivalTimestamp": 1787196420,
+                  "departure": "2026-08-20T05:29:00+0200",
+                  "departureTimestamp": 1787196540,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8502119",
+                    "name": "Lenzburg",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.39119,
+                      "y": 8.170394
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8502113",
+                    "name": "Aarau",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.391352,
+                      "y": 8.05127
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T05:35:00+0200",
+                  "arrivalTimestamp": 1787196900,
+                  "departure": null,
+                  "departureTimestamp": null,
+                  "delay": null,
+                  "platform": "5",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8502113",
+                    "name": "Aarau",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.391352,
+                      "y": 8.05127
+                    },
+                    "distance": null
+                  }
+                }
+              ],
+              "capacity1st": null,
+              "capacity2nd": null
+            },
+            "walk": null,
+            "departure": {
+              "station": {
+                "id": "8503000",
+                "name": "Zürich HB",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.377847,
+                  "y": 8.540502
+                },
+                "distance": null
+              },
+              "arrival": null,
+              "arrivalTimestamp": null,
+              "departure": "2026-08-20T05:08:00+0200",
+              "departureTimestamp": 1787195280,
+              "delay": null,
+              "platform": "10",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8503000",
+                "name": "Zürich HB",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.377847,
+                  "y": 8.540502
+                },
+                "distance": null
+              }
+            },
+            "arrival": {
+              "station": {
+                "id": "8502113",
+                "name": "Aarau",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.391352,
+                  "y": 8.05127
+                },
+                "distance": null
+              },
+              "arrival": "2026-08-20T05:35:00+0200",
+              "arrivalTimestamp": 1787196900,
+              "departure": null,
+              "departureTimestamp": null,
+              "delay": null,
+              "platform": "5",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8502113",
+                "name": "Aarau",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.391352,
+                  "y": 8.05127
+                },
+                "distance": null
+              }
+            }
+          },
+          {
+            "journey": {
+              "name": "008416",
+              "category": "S",
+              "subcategory": null,
+              "categoryCode": null,
+              "number": "23",
+              "operator": "SBB",
+              "to": "Langenthal",
+              "passList": [
+                {
+                  "station": {
+                    "id": "8502113",
+                    "name": "Aarau",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.391352,
+                      "y": 8.05127
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T05:35:00+0200",
+                  "arrivalTimestamp": 1787196900,
+                  "departure": "2026-08-20T05:40:00+0200",
+                  "departureTimestamp": 1787197200,
+                  "delay": null,
+                  "platform": "6",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8502113",
+                    "name": "Aarau",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.391352,
+                      "y": 8.05127
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8502112",
+                    "name": "Schönenwerd SO",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.371419,
+                      "y": 8.00016
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T05:44:00+0200",
+                  "arrivalTimestamp": 1787197440,
+                  "departure": "2026-08-20T05:44:00+0200",
+                  "departureTimestamp": 1787197440,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8502112",
+                    "name": "Schönenwerd SO",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.371419,
+                      "y": 8.00016
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8502111",
+                    "name": "Däniken SO",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.356383,
+                      "y": 7.978771
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T05:46:00+0200",
+                  "arrivalTimestamp": 1787197560,
+                  "departure": "2026-08-20T05:46:00+0200",
+                  "departureTimestamp": 1787197560,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8502111",
+                    "name": "Däniken SO",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.356383,
+                      "y": 7.978771
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8502110",
+                    "name": "Dulliken",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.354272,
+                      "y": 7.946494
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T05:49:00+0200",
+                  "arrivalTimestamp": 1787197740,
+                  "departure": "2026-08-20T05:49:00+0200",
+                  "departureTimestamp": 1787197740,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8502110",
+                    "name": "Dulliken",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.354272,
+                      "y": 7.946494
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8500218",
+                    "name": "Olten",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.351927,
+                      "y": 7.907693
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T05:53:00+0200",
+                  "arrivalTimestamp": 1787197980,
+                  "departure": null,
+                  "departureTimestamp": null,
+                  "delay": null,
+                  "platform": "9",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8500218",
+                    "name": "Olten",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.351927,
+                      "y": 7.907693
+                    },
+                    "distance": null
+                  }
+                }
+              ],
+              "capacity1st": null,
+              "capacity2nd": null
+            },
+            "walk": null,
+            "departure": {
+              "station": {
+                "id": "8502113",
+                "name": "Aarau",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.391352,
+                  "y": 8.05127
+                },
+                "distance": null
+              },
+              "arrival": "2026-08-20T05:35:00+0200",
+              "arrivalTimestamp": 1787196900,
+              "departure": "2026-08-20T05:40:00+0200",
+              "departureTimestamp": 1787197200,
+              "delay": null,
+              "platform": "6",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8502113",
+                "name": "Aarau",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.391352,
+                  "y": 8.05127
+                },
+                "distance": null
+              }
+            },
+            "arrival": {
+              "station": {
+                "id": "8500218",
+                "name": "Olten",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.351927,
+                  "y": 7.907693
+                },
+                "distance": null
+              },
+              "arrival": "2026-08-20T05:53:00+0200",
+              "arrivalTimestamp": 1787197980,
+              "departure": null,
+              "departureTimestamp": null,
+              "delay": null,
+              "platform": "9",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8500218",
+                "name": "Olten",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.351927,
+                  "y": 7.907693
+                },
+                "distance": null
+              }
+            }
+          },
+          {
+            "journey": {
+              "name": "000607",
+              "category": "IC",
+              "subcategory": null,
+              "categoryCode": null,
+              "number": "61",
+              "operator": "SBB",
+              "to": "Interlaken Ost",
+              "passList": [
+                {
+                  "station": {
+                    "id": "8500218",
+                    "name": "Olten",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.351927,
+                      "y": 7.907693
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T05:53:00+0200",
+                  "arrivalTimestamp": 1787197980,
+                  "departure": "2026-08-20T05:58:00+0200",
+                  "departureTimestamp": 1787198280,
+                  "delay": null,
+                  "platform": "12",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8500218",
+                    "name": "Olten",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.351927,
+                      "y": 7.907693
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "0000132",
+                    "name": "Bahn-2000-Strecke",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.196371,
+                      "y": 7.689354
+                    },
+                    "distance": null
+                  },
+                  "arrival": null,
+                  "arrivalTimestamp": null,
+                  "departure": null,
+                  "departureTimestamp": null,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "0000132",
+                    "name": "Bahn-2000-Strecke",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.196371,
+                      "y": 7.689354
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8507000",
+                    "name": "Bern",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 46.948823,
+                      "y": 7.439123
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T06:26:00+0200",
+                  "arrivalTimestamp": 1787199960,
+                  "departure": null,
+                  "departureTimestamp": null,
+                  "delay": null,
+                  "platform": "7",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8507000",
+                    "name": "Bern",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 46.948823,
+                      "y": 7.439123
+                    },
+                    "distance": null
+                  }
+                }
+              ],
+              "capacity1st": null,
+              "capacity2nd": null
+            },
+            "walk": null,
+            "departure": {
+              "station": {
+                "id": "8500218",
+                "name": "Olten",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.351927,
+                  "y": 7.907693
+                },
+                "distance": null
+              },
+              "arrival": "2026-08-20T05:53:00+0200",
+              "arrivalTimestamp": 1787197980,
+              "departure": "2026-08-20T05:58:00+0200",
+              "departureTimestamp": 1787198280,
+              "delay": null,
+              "platform": "12",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8500218",
+                "name": "Olten",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.351927,
+                  "y": 7.907693
+                },
+                "distance": null
+              }
+            },
+            "arrival": {
+              "station": {
+                "id": "8507000",
+                "name": "Bern",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 46.948823,
+                  "y": 7.439123
+                },
+                "distance": null
+              },
+              "arrival": "2026-08-20T06:26:00+0200",
+              "arrivalTimestamp": 1787199960,
+              "departure": null,
+              "departureTimestamp": null,
+              "delay": null,
+              "platform": "7",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8507000",
+                "name": "Bern",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 46.948823,
+                  "y": 7.439123
+                },
+                "distance": null
+              }
+            }
+          }
+        ]
+      },
+      {
+        "from": {
+          "station": {
+            "id": "8503000",
+            "name": "Zürich HB",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 47.377847,
+              "y": 8.540502
+            },
+            "distance": null
+          },
+          "arrival": null,
+          "arrivalTimestamp": null,
+          "departure": "2026-08-20T05:19:00+0200",
+          "departureTimestamp": 1787195940,
+          "delay": null,
+          "platform": "13",
+          "prognosis": {
+            "platform": null,
+            "arrival": null,
+            "departure": null,
+            "capacity1st": null,
+            "capacity2nd": null
+          },
+          "realtimeAvailability": null,
+          "location": {
+            "id": "8503000",
+            "name": "Zürich HB",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 47.377847,
+              "y": 8.540502
+            },
+            "distance": null
+          }
+        },
+        "to": {
+          "station": {
+            "id": "8507000",
+            "name": "Bern",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 46.948823,
+              "y": 7.439123
+            },
+            "distance": null
+          },
+          "arrival": "2026-08-20T06:28:00+0200",
+          "arrivalTimestamp": 1787200080,
+          "departure": null,
+          "departureTimestamp": null,
+          "delay": null,
+          "platform": "8",
+          "prognosis": {
+            "platform": null,
+            "arrival": null,
+            "departure": null,
+            "capacity1st": null,
+            "capacity2nd": null
+          },
+          "realtimeAvailability": null,
+          "location": {
+            "id": "8507000",
+            "name": "Bern",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 46.948823,
+              "y": 7.439123
+            },
+            "distance": null
+          }
+        },
+        "duration": "00d01:09:00",
+        "transfers": 0,
+        "service": null,
+        "products": [
+          "IC 1"
+        ],
+        "capacity1st": null,
+        "capacity2nd": null,
+        "sections": [
+          {
+            "journey": {
+              "name": "000704",
+              "category": "IC",
+              "subcategory": null,
+              "categoryCode": null,
+              "number": "1",
+              "operator": "SBB",
+              "to": "Genève-Aéroport",
+              "passList": [
+                {
+                  "station": {
+                    "id": "8503000",
+                    "name": "Zürich HB",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.377847,
+                      "y": 8.540502
+                    },
+                    "distance": null
+                  },
+                  "arrival": null,
+                  "arrivalTimestamp": null,
+                  "departure": "2026-08-20T05:19:00+0200",
+                  "departureTimestamp": 1787195940,
+                  "delay": null,
+                  "platform": "13",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8503000",
+                    "name": "Zürich HB",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.377847,
+                      "y": 8.540502
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8502119",
+                    "name": "Lenzburg",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.39119,
+                      "y": 8.170394
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T05:39:00+0200",
+                  "arrivalTimestamp": 1787197140,
+                  "departure": "2026-08-20T05:40:00+0200",
+                  "departureTimestamp": 1787197200,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8502119",
+                    "name": "Lenzburg",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.39119,
+                      "y": 8.170394
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8502113",
+                    "name": "Aarau",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.391352,
+                      "y": 8.05127
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T05:46:00+0200",
+                  "arrivalTimestamp": 1787197560,
+                  "departure": "2026-08-20T05:48:00+0200",
+                  "departureTimestamp": 1787197680,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8502113",
+                    "name": "Aarau",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.391352,
+                      "y": 8.05127
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8500218",
+                    "name": "Olten",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.351927,
+                      "y": 7.907693
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T05:57:00+0200",
+                  "arrivalTimestamp": 1787198220,
+                  "departure": "2026-08-20T06:02:00+0200",
+                  "departureTimestamp": 1787198520,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8500218",
+                    "name": "Olten",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.351927,
+                      "y": 7.907693
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "0000132",
+                    "name": "Bahn-2000-Strecke",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.196371,
+                      "y": 7.689354
+                    },
+                    "distance": null
+                  },
+                  "arrival": null,
+                  "arrivalTimestamp": null,
+                  "departure": null,
+                  "departureTimestamp": null,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "0000132",
+                    "name": "Bahn-2000-Strecke",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.196371,
+                      "y": 7.689354
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8507000",
+                    "name": "Bern",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 46.948823,
+                      "y": 7.439123
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T06:28:00+0200",
+                  "arrivalTimestamp": 1787200080,
+                  "departure": null,
+                  "departureTimestamp": null,
+                  "delay": null,
+                  "platform": "8",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8507000",
+                    "name": "Bern",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 46.948823,
+                      "y": 7.439123
+                    },
+                    "distance": null
+                  }
+                }
+              ],
+              "capacity1st": null,
+              "capacity2nd": null
+            },
+            "walk": null,
+            "departure": {
+              "station": {
+                "id": "8503000",
+                "name": "Zürich HB",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.377847,
+                  "y": 8.540502
+                },
+                "distance": null
+              },
+              "arrival": null,
+              "arrivalTimestamp": null,
+              "departure": "2026-08-20T05:19:00+0200",
+              "departureTimestamp": 1787195940,
+              "delay": null,
+              "platform": "13",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8503000",
+                "name": "Zürich HB",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.377847,
+                  "y": 8.540502
+                },
+                "distance": null
+              }
+            },
+            "arrival": {
+              "station": {
+                "id": "8507000",
+                "name": "Bern",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 46.948823,
+                  "y": 7.439123
+                },
+                "distance": null
+              },
+              "arrival": "2026-08-20T06:28:00+0200",
+              "arrivalTimestamp": 1787200080,
+              "departure": null,
+              "departureTimestamp": null,
+              "delay": null,
+              "platform": "8",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8507000",
+                "name": "Bern",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 46.948823,
+                  "y": 7.439123
+                },
+                "distance": null
+              }
+            }
+          }
+        ]
+      },
+      {
+        "from": {
+          "station": {
+            "id": "8503000",
+            "name": "Zürich HB",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 47.377847,
+              "y": 8.540502
+            },
+            "distance": null
+          },
+          "arrival": null,
+          "arrivalTimestamp": null,
+          "departure": "2026-08-20T06:02:00+0200",
+          "departureTimestamp": 1787198520,
+          "delay": null,
+          "platform": "11",
+          "prognosis": {
+            "platform": null,
+            "arrival": null,
+            "departure": null,
+            "capacity1st": null,
+            "capacity2nd": null
+          },
+          "realtimeAvailability": null,
+          "location": {
+            "id": "8503000",
+            "name": "Zürich HB",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 47.377847,
+              "y": 8.540502
+            },
+            "distance": null
+          }
+        },
+        "to": {
+          "station": {
+            "id": "8507000",
+            "name": "Bern",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 46.948823,
+              "y": 7.439123
+            },
+            "distance": null
+          },
+          "arrival": "2026-08-20T06:58:00+0200",
+          "arrivalTimestamp": 1787201880,
+          "departure": null,
+          "departureTimestamp": null,
+          "delay": null,
+          "platform": "6",
+          "prognosis": {
+            "platform": null,
+            "arrival": null,
+            "departure": null,
+            "capacity1st": null,
+            "capacity2nd": null
+          },
+          "realtimeAvailability": null,
+          "location": {
+            "id": "8507000",
+            "name": "Bern",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 46.948823,
+              "y": 7.439123
+            },
+            "distance": null
+          }
+        },
+        "duration": "00d00:56:00",
+        "transfers": 0,
+        "service": null,
+        "products": [
+          "IC 8"
+        ],
+        "capacity1st": null,
+        "capacity2nd": null,
+        "sections": [
+          {
+            "journey": {
+              "name": "000804",
+              "category": "IC",
+              "subcategory": null,
+              "categoryCode": null,
+              "number": "8",
+              "operator": "SBB",
+              "to": "Brig",
+              "passList": [
+                {
+                  "station": {
+                    "id": "8503000",
+                    "name": "Zürich HB",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.377847,
+                      "y": 8.540502
+                    },
+                    "distance": null
+                  },
+                  "arrival": null,
+                  "arrivalTimestamp": null,
+                  "departure": "2026-08-20T06:02:00+0200",
+                  "departureTimestamp": 1787198520,
+                  "delay": null,
+                  "platform": "11",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8503000",
+                    "name": "Zürich HB",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.377847,
+                      "y": 8.540502
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "0000132",
+                    "name": "Bahn-2000-Strecke",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.196371,
+                      "y": 7.689354
+                    },
+                    "distance": null
+                  },
+                  "arrival": null,
+                  "arrivalTimestamp": null,
+                  "departure": null,
+                  "departureTimestamp": null,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "0000132",
+                    "name": "Bahn-2000-Strecke",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.196371,
+                      "y": 7.689354
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8507000",
+                    "name": "Bern",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 46.948823,
+                      "y": 7.439123
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T06:58:00+0200",
+                  "arrivalTimestamp": 1787201880,
+                  "departure": null,
+                  "departureTimestamp": null,
+                  "delay": null,
+                  "platform": "6",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8507000",
+                    "name": "Bern",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 46.948823,
+                      "y": 7.439123
+                    },
+                    "distance": null
+                  }
+                }
+              ],
+              "capacity1st": null,
+              "capacity2nd": null
+            },
+            "walk": null,
+            "departure": {
+              "station": {
+                "id": "8503000",
+                "name": "Zürich HB",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.377847,
+                  "y": 8.540502
+                },
+                "distance": null
+              },
+              "arrival": null,
+              "arrivalTimestamp": null,
+              "departure": "2026-08-20T06:02:00+0200",
+              "departureTimestamp": 1787198520,
+              "delay": null,
+              "platform": "11",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8503000",
+                "name": "Zürich HB",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.377847,
+                  "y": 8.540502
+                },
+                "distance": null
+              }
+            },
+            "arrival": {
+              "station": {
+                "id": "8507000",
+                "name": "Bern",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 46.948823,
+                  "y": 7.439123
+                },
+                "distance": null
+              },
+              "arrival": "2026-08-20T06:58:00+0200",
+              "arrivalTimestamp": 1787201880,
+              "departure": null,
+              "departureTimestamp": null,
+              "delay": null,
+              "platform": "6",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8507000",
+                "name": "Bern",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 46.948823,
+                  "y": 7.439123
+                },
+                "distance": null
+              }
+            }
+          }
+        ]
+      },
+      {
+        "from": {
+          "station": {
+            "id": "8503000",
+            "name": "Zürich HB",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 47.377847,
+              "y": 8.540502
+            },
+            "distance": null
+          },
+          "arrival": null,
+          "arrivalTimestamp": null,
+          "departure": "2026-08-20T06:06:00+0200",
+          "departureTimestamp": 1787198760,
+          "delay": null,
+          "platform": "13",
+          "prognosis": {
+            "platform": null,
+            "arrival": null,
+            "departure": null,
+            "capacity1st": null,
+            "capacity2nd": null
+          },
+          "realtimeAvailability": null,
+          "location": {
+            "id": "8503000",
+            "name": "Zürich HB",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 47.377847,
+              "y": 8.540502
+            },
+            "distance": null
+          }
+        },
+        "to": {
+          "station": {
+            "id": "8507000",
+            "name": "Bern",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 46.948823,
+              "y": 7.439123
+            },
+            "distance": null
+          },
+          "arrival": "2026-08-20T07:24:00+0200",
+          "arrivalTimestamp": 1787203440,
+          "departure": null,
+          "departureTimestamp": null,
+          "delay": null,
+          "platform": "12",
+          "prognosis": {
+            "platform": null,
+            "arrival": null,
+            "departure": null,
+            "capacity1st": null,
+            "capacity2nd": null
+          },
+          "realtimeAvailability": null,
+          "location": {
+            "id": "8507000",
+            "name": "Bern",
+            "score": null,
+            "coordinate": {
+              "type": "WGS84",
+              "x": 46.948823,
+              "y": 7.439123
+            },
+            "distance": null
+          }
+        },
+        "duration": "00d01:18:00",
+        "transfers": 0,
+        "service": null,
+        "products": [
+          "IR 16"
+        ],
+        "capacity1st": null,
+        "capacity2nd": null,
+        "sections": [
+          {
+            "journey": {
+              "name": "002158",
+              "category": "IR",
+              "subcategory": null,
+              "categoryCode": null,
+              "number": "16",
+              "operator": "SBB",
+              "to": "Bern",
+              "passList": [
+                {
+                  "station": {
+                    "id": "8503000",
+                    "name": "Zürich HB",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.377847,
+                      "y": 8.540502
+                    },
+                    "distance": null
+                  },
+                  "arrival": null,
+                  "arrivalTimestamp": null,
+                  "departure": "2026-08-20T06:06:00+0200",
+                  "departureTimestamp": 1787198760,
+                  "delay": null,
+                  "platform": "13",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8503000",
+                    "name": "Zürich HB",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.377847,
+                      "y": 8.540502
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8503504",
+                    "name": "Baden",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.476417,
+                      "y": 8.307706
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T06:21:00+0200",
+                  "arrivalTimestamp": 1787199660,
+                  "departure": "2026-08-20T06:22:00+0200",
+                  "departureTimestamp": 1787199720,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8503504",
+                    "name": "Baden",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.476417,
+                      "y": 8.307706
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8500309",
+                    "name": "Brugg AG",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.48085,
+                      "y": 8.208842
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T06:30:00+0200",
+                  "arrivalTimestamp": 1787200200,
+                  "departure": "2026-08-20T06:32:00+0200",
+                  "departureTimestamp": 1787200320,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8500309",
+                    "name": "Brugg AG",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.48085,
+                      "y": 8.208842
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8502113",
+                    "name": "Aarau",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.391352,
+                      "y": 8.05127
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T06:45:00+0200",
+                  "arrivalTimestamp": 1787201100,
+                  "departure": "2026-08-20T06:46:00+0200",
+                  "departureTimestamp": 1787201160,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8502113",
+                    "name": "Aarau",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.391352,
+                      "y": 8.05127
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8500218",
+                    "name": "Olten",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.351927,
+                      "y": 7.907693
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T06:55:00+0200",
+                  "arrivalTimestamp": 1787201700,
+                  "departure": "2026-08-20T06:56:00+0200",
+                  "departureTimestamp": 1787201760,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8500218",
+                    "name": "Olten",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.351927,
+                      "y": 7.907693
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "0000132",
+                    "name": "Bahn-2000-Strecke",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.196371,
+                      "y": 7.689354
+                    },
+                    "distance": null
+                  },
+                  "arrival": null,
+                  "arrivalTimestamp": null,
+                  "departure": null,
+                  "departureTimestamp": null,
+                  "delay": null,
+                  "platform": null,
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "0000132",
+                    "name": "Bahn-2000-Strecke",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 47.196371,
+                      "y": 7.689354
+                    },
+                    "distance": null
+                  }
+                },
+                {
+                  "station": {
+                    "id": "8507000",
+                    "name": "Bern",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 46.948823,
+                      "y": 7.439123
+                    },
+                    "distance": null
+                  },
+                  "arrival": "2026-08-20T07:24:00+0200",
+                  "arrivalTimestamp": 1787203440,
+                  "departure": null,
+                  "departureTimestamp": null,
+                  "delay": null,
+                  "platform": "12",
+                  "prognosis": {
+                    "platform": null,
+                    "arrival": null,
+                    "departure": null,
+                    "capacity1st": null,
+                    "capacity2nd": null
+                  },
+                  "realtimeAvailability": null,
+                  "location": {
+                    "id": "8507000",
+                    "name": "Bern",
+                    "score": null,
+                    "coordinate": {
+                      "type": "WGS84",
+                      "x": 46.948823,
+                      "y": 7.439123
+                    },
+                    "distance": null
+                  }
+                }
+              ],
+              "capacity1st": null,
+              "capacity2nd": null
+            },
+            "walk": null,
+            "departure": {
+              "station": {
+                "id": "8503000",
+                "name": "Zürich HB",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.377847,
+                  "y": 8.540502
+                },
+                "distance": null
+              },
+              "arrival": null,
+              "arrivalTimestamp": null,
+              "departure": "2026-08-20T06:06:00+0200",
+              "departureTimestamp": 1787198760,
+              "delay": null,
+              "platform": "13",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8503000",
+                "name": "Zürich HB",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 47.377847,
+                  "y": 8.540502
+                },
+                "distance": null
+              }
+            },
+            "arrival": {
+              "station": {
+                "id": "8507000",
+                "name": "Bern",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 46.948823,
+                  "y": 7.439123
+                },
+                "distance": null
+              },
+              "arrival": "2026-08-20T07:24:00+0200",
+              "arrivalTimestamp": 1787203440,
+              "departure": null,
+              "departureTimestamp": null,
+              "delay": null,
+              "platform": "12",
+              "prognosis": {
+                "platform": null,
+                "arrival": null,
+                "departure": null,
+                "capacity1st": null,
+                "capacity2nd": null
+              },
+              "realtimeAvailability": null,
+              "location": {
+                "id": "8507000",
+                "name": "Bern",
+                "score": null,
+                "coordinate": {
+                  "type": "WGS84",
+                  "x": 46.948823,
+                  "y": 7.439123
+                },
+                "distance": null
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "from": {
+      "id": "8503000",
+      "name": "Zürich HB",
+      "score": null,
+      "coordinate": {
+        "type": "WGS84",
+        "x": 47.377847,
+        "y": 8.540502
+      },
+      "distance": null
+    },
+    "to": {
+      "id": "8507000",
+      "name": "Bern",
+      "score": null,
+      "coordinate": {
+        "type": "WGS84",
+        "x": 46.948823,
+        "y": 7.439123
+      },
+      "distance": null
+    },
+    "stations": {
+      "from": [
+        {
+          "id": "8503000",
+          "name": "Zürich HB",
+          "score": null,
+          "coordinate": {
+            "type": "WGS84",
+            "x": 47.377847,
+            "y": 8.540502
+          },
+          "distance": null
+        }
+      ],
+      "to": [
+        {
+          "id": "8507000",
+          "name": "Bern",
+          "score": null,
+          "coordinate": {
+            "type": "WGS84",
+            "x": 46.948823,
+            "y": 7.439123
+          },
+          "distance": null
+        }
+      ]
+    }
+  }
+}

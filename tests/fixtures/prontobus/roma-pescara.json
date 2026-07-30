@@ -1,0 +1,642 @@
+{
+  "captured_for": {
+    "origin_query": "Roma",
+    "destination_query": "Pescara",
+    "date": "2026-08-14",
+    "pax": 1
+  },
+  "origin_node": {
+    "id": "tl:8544",
+    "name": "Roma Termini",
+    "kind": "station",
+    "lat": 41.900833,
+    "lon": 12.501944,
+    "country": "IT",
+    "city": "Roma",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {
+      "trenitalia": "8308409",
+      "italo": "RMT",
+      "oebb": "8300263"
+    },
+    "is_main": true
+  },
+  "destination_node": {
+    "id": "tl:19583",
+    "name": "Pescara Centrale",
+    "kind": "station",
+    "lat": 42.468556,
+    "lon": 14.204035,
+    "country": "IT",
+    "city": "Pescara",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {
+      "trenitalia": "8307810"
+    },
+    "is_main": true
+  },
+  "raw": [
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T13:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "e12481b6-b5c4-447f-be92-1042012c3a78",
+            "lineId": "06776f42-405d-4dbe-a33a-0fd400b360bd",
+            "routeId": "3c9e457b-d0d9-4dbf-b2c8-0fd90110773c",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 15.0
+              }
+            ],
+            "carrierId": "prontobus",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "64cfcd70-c0d7-4d77-9134-0fd400c16f6c",
+          "departureDateTime": "2026-08-14T15:15:00+00:00",
+          "arrivalStopId": "32614806-e696-49be-8a3f-0fd400bd8173",
+          "arrivalDateTime": "2026-08-14T17:40:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "c17c4d52-f127-4693-9f8a-da6caa9215ba"
+        }
+      ],
+      "calculatedPrice": 12.5,
+      "returnPrice": 10.5,
+      "fullPrice": 13.0,
+      "returnPriceAvailable": false,
+      "limitations": [
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "7ba9ae34-b791-494c-96d0-101b00b5b57c"
+          ],
+          "Type": 0
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "81d2e7f2-13a9-4173-9230-0fea00b00792"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "59a95836-494d-49be-ad14-0fd900c5ee09"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "8e3cfcab-9020-4048-afdf-0fd900c522a0"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "573c3529-d334-4382-b180-0fd900c588ca"
+          ],
+          "Type": 1
+        }
+      ],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T14:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "90b54afb-0acb-4242-9371-1042012c3a78",
+            "lineId": "06776f42-405d-4dbe-a33a-0fd400b360bd",
+            "routeId": "340f8fac-11f0-4052-bc6e-0fd90110f488",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 15.0
+              }
+            ],
+            "carrierId": "prontobus",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "64cfcd70-c0d7-4d77-9134-0fd400c16f6c",
+          "departureDateTime": "2026-08-14T16:00:00+00:00",
+          "arrivalStopId": "32614806-e696-49be-8a3f-0fd400bd8173",
+          "arrivalDateTime": "2026-08-14T18:25:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "c17c4d52-f127-4693-9f8a-da6caa9215ba"
+        }
+      ],
+      "calculatedPrice": 12.5,
+      "returnPrice": 10.5,
+      "fullPrice": 13.0,
+      "returnPriceAvailable": false,
+      "limitations": [
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "7ba9ae34-b791-494c-96d0-101b00b5b57c"
+          ],
+          "Type": 0
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "81d2e7f2-13a9-4173-9230-0fea00b00792"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "59a95836-494d-49be-ad14-0fd900c5ee09"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "8e3cfcab-9020-4048-afdf-0fd900c522a0"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "573c3529-d334-4382-b180-0fd900c588ca"
+          ],
+          "Type": 1
+        }
+      ],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T18:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "94f6ccb6-d5fc-41e0-898c-1042012c3a7c",
+            "lineId": "06776f42-405d-4dbe-a33a-0fd400b360bd",
+            "routeId": "4eae72d4-81ec-4407-9761-102900a4701b",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 15.0
+              }
+            ],
+            "carrierId": "prontobus",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "64cfcd70-c0d7-4d77-9134-0fd400c16f6c",
+          "departureDateTime": "2026-08-14T19:30:00+00:00",
+          "arrivalStopId": "32614806-e696-49be-8a3f-0fd400bd8173",
+          "arrivalDateTime": "2026-08-14T21:55:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "c17c4d52-f127-4693-9f8a-da6caa9215ba"
+        }
+      ],
+      "calculatedPrice": 16.5,
+      "returnPrice": 14.5,
+      "fullPrice": 16.5,
+      "returnPriceAvailable": false,
+      "limitations": [
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "7ba9ae34-b791-494c-96d0-101b00b5b57c"
+          ],
+          "Type": 0
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "81d2e7f2-13a9-4173-9230-0fea00b00792"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "59a95836-494d-49be-ad14-0fd900c5ee09"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "8e3cfcab-9020-4048-afdf-0fd900c522a0"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "573c3529-d334-4382-b180-0fd900c588ca"
+          ],
+          "Type": 1
+        }
+      ],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T20:25:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "a9f71cf9-f26e-48bd-80cc-1042012c3a7a",
+            "lineId": "06776f42-405d-4dbe-a33a-0fd400b360bd",
+            "routeId": "18b975e1-b29a-4cd0-b327-0fd901156cc1",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 15.0
+              }
+            ],
+            "carrierId": "prontobus",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "64cfcd70-c0d7-4d77-9134-0fd400c16f6c",
+          "departureDateTime": "2026-08-14T21:25:00+00:00",
+          "arrivalStopId": "32614806-e696-49be-8a3f-0fd400bd8173",
+          "arrivalDateTime": "2026-08-14T23:55:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "c17c4d52-f127-4693-9f8a-da6caa9215ba"
+        }
+      ],
+      "calculatedPrice": 16.0,
+      "returnPrice": 14.0,
+      "fullPrice": 16.0,
+      "returnPriceAvailable": false,
+      "limitations": [
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "7ba9ae34-b791-494c-96d0-101b00b5b57c"
+          ],
+          "Type": 0
+        },
+        {
+          "NumberOfSeats": 0,
+          "FareCategoriesIds": [
+            "8e3cfcab-9020-4048-afdf-0fd900c522a0"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 0,
+          "FareCategoriesIds": [
+            "59a95836-494d-49be-ad14-0fd900c5ee09"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "81d2e7f2-13a9-4173-9230-0fea00b00792"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "573c3529-d334-4382-b180-0fd900c588ca"
+          ],
+          "Type": 1
+        }
+      ],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T06:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "862f51d4-2d95-4a6e-807b-1042012c3a74",
+            "lineId": "06776f42-405d-4dbe-a33a-0fd400b360bd",
+            "routeId": "a36e4d66-fa2a-4627-adf9-0fd901011ddf",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 15.0
+              }
+            ],
+            "carrierId": "prontobus",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "64cfcd70-c0d7-4d77-9134-0fd400c16f6c",
+          "departureDateTime": "2026-08-14T07:40:00+00:00",
+          "arrivalStopId": "32614806-e696-49be-8a3f-0fd400bd8173",
+          "arrivalDateTime": "2026-08-14T10:15:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "c17c4d52-f127-4693-9f8a-da6caa9215ba"
+        }
+      ],
+      "calculatedPrice": 12.5,
+      "returnPrice": 10.5,
+      "fullPrice": 13.0,
+      "returnPriceAvailable": false,
+      "limitations": [
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "7ba9ae34-b791-494c-96d0-101b00b5b57c"
+          ],
+          "Type": 0
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "81d2e7f2-13a9-4173-9230-0fea00b00792"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "59a95836-494d-49be-ad14-0fd900c5ee09"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "8e3cfcab-9020-4048-afdf-0fd900c522a0"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "573c3529-d334-4382-b180-0fd900c588ca"
+          ],
+          "Type": 1
+        }
+      ],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T07:30:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "dc352abd-e8a1-45a2-bd6f-1042012c3a75",
+            "lineId": "06776f42-405d-4dbe-a33a-0fd400b360bd",
+            "routeId": "897cb927-51c2-4ac3-ba5d-0fd900fc8291",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 15.0
+              }
+            ],
+            "carrierId": "prontobus",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "64cfcd70-c0d7-4d77-9134-0fd400c16f6c",
+          "departureDateTime": "2026-08-14T08:45:00+00:00",
+          "arrivalStopId": "32614806-e696-49be-8a3f-0fd400bd8173",
+          "arrivalDateTime": "2026-08-14T11:20:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "c17c4d52-f127-4693-9f8a-da6caa9215ba"
+        }
+      ],
+      "calculatedPrice": 12.5,
+      "returnPrice": 10.5,
+      "fullPrice": 13.0,
+      "returnPriceAvailable": false,
+      "limitations": [
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "7ba9ae34-b791-494c-96d0-101b00b5b57c"
+          ],
+          "Type": 0
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "81d2e7f2-13a9-4173-9230-0fea00b00792"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "59a95836-494d-49be-ad14-0fd900c5ee09"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "8e3cfcab-9020-4048-afdf-0fd900c522a0"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "573c3529-d334-4382-b180-0fd900c588ca"
+          ],
+          "Type": 1
+        }
+      ],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T16:30:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "5da94f98-e6b6-4bcc-8db4-1042012c3a79",
+            "lineId": "06776f42-405d-4dbe-a33a-0fd400b360bd",
+            "routeId": "03ef000f-d38b-46a2-92b8-0fd90112789a",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 15.0
+              }
+            ],
+            "carrierId": "prontobus",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "64cfcd70-c0d7-4d77-9134-0fd400c16f6c",
+          "departureDateTime": "2026-08-14T18:05:00+00:00",
+          "arrivalStopId": "32614806-e696-49be-8a3f-0fd400bd8173",
+          "arrivalDateTime": "2026-08-14T20:45:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "c17c4d52-f127-4693-9f8a-da6caa9215ba"
+        }
+      ],
+      "calculatedPrice": 13.0,
+      "returnPrice": 11.0,
+      "fullPrice": 13.0,
+      "returnPriceAvailable": false,
+      "limitations": [
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "7ba9ae34-b791-494c-96d0-101b00b5b57c"
+          ],
+          "Type": 0
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "81d2e7f2-13a9-4173-9230-0fea00b00792"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "59a95836-494d-49be-ad14-0fd900c5ee09"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "8e3cfcab-9020-4048-afdf-0fd900c522a0"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "573c3529-d334-4382-b180-0fd900c588ca"
+          ],
+          "Type": 1
+        }
+      ],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T03:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "27064768-51dc-4fad-a822-1042012c3a73",
+            "lineId": "06776f42-405d-4dbe-a33a-0fd400b360bd",
+            "routeId": "9ac91ffb-bff5-4cb8-9edf-0fdc00e3c6e1",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 15.0
+              }
+            ],
+            "carrierId": "prontobus",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "64cfcd70-c0d7-4d77-9134-0fd400c16f6c",
+          "departureDateTime": "2026-08-14T05:00:00+00:00",
+          "arrivalStopId": "32614806-e696-49be-8a3f-0fd400bd8173",
+          "arrivalDateTime": "2026-08-14T07:40:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "c17c4d52-f127-4693-9f8a-da6caa9215ba"
+        }
+      ],
+      "calculatedPrice": 12.5,
+      "returnPrice": 10.5,
+      "fullPrice": 13.0,
+      "returnPriceAvailable": false,
+      "limitations": [
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "7ba9ae34-b791-494c-96d0-101b00b5b57c"
+          ],
+          "Type": 0
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "81d2e7f2-13a9-4173-9230-0fea00b00792"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "59a95836-494d-49be-ad14-0fd900c5ee09"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "8e3cfcab-9020-4048-afdf-0fd900c522a0"
+          ],
+          "Type": 1
+        },
+        {
+          "NumberOfSeats": 2,
+          "FareCategoriesIds": [
+            "573c3529-d334-4382-b180-0fd900c588ca"
+          ],
+          "Type": 1
+        }
+      ],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "captured_for": {
+    "origin_query": "Torino",
+    "destination_query": "Bari",
+    "date": "2026-08-14",
+    "pax": 1
+  },
+  "origin_node": {
+    "id": "air:TRN",
+    "name": "Turin Airport",
+    "kind": "airport",
+    "lat": 45.200802,
+    "lon": 7.64963,
+    "country": "IT",
+    "city": "Caselle Torinese (TO)",
+    "timezone": "Europe/Rome",
+    "iata": "TRN",
+    "provider_ids": {
+      "trenitalia": "8300088",
+      "flixbus": "124533",
+      "distribusion": "ITTRNTC"
+    },
+    "is_main": true
+  },
+  "destination_node": {
+    "id": "air:BRI",
+    "name": "Bari Karol Wojtyła International Airport",
+    "kind": "airport",
+    "lat": 41.138901,
+    "lon": 16.760599,
+    "country": "IT",
+    "city": "Bari",
+    "timezone": "Europe/Rome",
+    "iata": "BRI",
+    "provider_ids": {
+      "trenitalia": "8355014",
+      "flixbus": "26371",
+      "distribusion": "ITBRIBI"
+    },
+    "is_main": true
+  },
+  "raw": {
+    "arrivalAirportCategories": null,
+    "fares": [
+      {
+        "outbound": {
+          "departureAirport": {
+            "countryName": "Italy",
+            "iataCode": "TRN",
+            "name": "Turin",
+            "seoName": "turin",
+            "city": {
+              "code": "TURIN",
+              "countryCode": "it",
+              "name": "Turin"
+            }
+          },
+          "arrivalAirport": {
+            "countryName": "Italy",
+            "iataCode": "BRI",
+            "name": "Bari",
+            "seoName": "bari",
+            "city": {
+              "code": "BARI",
+              "countryCode": "it",
+              "name": "Bari"
+            }
+          },
+          "departureDate": "2026-08-14T07:55:00",
+          "arrivalDate": "2026-08-14T09:30:00",
+          "price": {
+            "value": 94.71,
+            "valueMainUnit": "94",
+            "valueFractionalUnit": "71",
+            "currencyCode": "EUR",
+            "currencySymbol": "€"
+          },
+          "flightKey": "FR~ 264~ ~~TRN~08/14/2026 07:55~BRI~08/14/2026 09:30~~",
+          "flightNumber": "FR264",
+          "previousPrice": null,
+          "priceUpdated": 1785148139000
+        },
+        "summary": {
+          "price": {
+            "value": 94.71,
+            "valueMainUnit": "94",
+            "valueFractionalUnit": "71",
+            "currencyCode": "EUR",
+            "currencySymbol": "€"
+          },
+          "previousPrice": null,
+          "newRoute": false
+        }
+      }
+    ],
+    "nextPage": null,
+    "size": 1
+  }
+}

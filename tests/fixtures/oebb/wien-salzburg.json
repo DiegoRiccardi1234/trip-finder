@@ -1,0 +1,3431 @@
+{
+  "captured_for": {
+    "origin_query": "Wien",
+    "destination_query": "Salzburg",
+    "date": "2026-08-20",
+    "pax": 1
+  },
+  "origin_node": {
+    "id": "tl:22644",
+    "name": "Wien Hbf",
+    "kind": "station",
+    "lat": 48.184923,
+    "lon": 16.375864,
+    "country": "AT",
+    "city": "Wien",
+    "timezone": "Europe/Vienna",
+    "iata": null,
+    "provider_ids": {
+      "trenitalia": "8101003",
+      "db": "8103000",
+      "oebb": "8103000",
+      "benerail": "ATWIH"
+    },
+    "is_main": true
+  },
+  "destination_node": {
+    "id": "tl:17458",
+    "name": "Salzburg Hbf",
+    "kind": "station",
+    "lat": 47.813046,
+    "lon": 13.045819,
+    "country": "AT",
+    "city": "Salzburg",
+    "timezone": "Europe/Vienna",
+    "iata": null,
+    "provider_ids": {
+      "trenitalia": "8101114",
+      "db": "8100002",
+      "oebb": "8100002",
+      "benerail": "ATSAL",
+      "westbahn": "8",
+      "distribusion": "@ATSZGSBA"
+    },
+    "is_main": true
+  },
+  "raw": {
+    "ver": "1.34",
+    "lang": "deu",
+    "id": "x4iqpsa2wa55p74k",
+    "err": "OK",
+    "graph": {
+      "id": "standard",
+      "index": 0
+    },
+    "subGraph": {
+      "id": "global",
+      "index": 0
+    },
+    "view": {
+      "id": "standard",
+      "index": 0,
+      "type": "WGS84"
+    },
+    "svcResL": [
+      {
+        "id": "1|1|",
+        "meth": "TripSearch",
+        "err": "OK",
+        "res": {
+          "common": {
+            "locL": [
+              {
+                "lid": "A=1@O=Wien Hbf (Bahnsteige 3-12)@X=16377950@Y=48184986@U=81@L=8103000@",
+                "type": "S",
+                "name": "Wien Hbf (Bahnsteige 3-12)",
+                "icoX": 0,
+                "extId": "8103000",
+                "state": "F",
+                "crd": {
+                  "x": 16377950,
+                  "y": 48184986,
+                  "floor": 0
+                },
+                "pCls": 4157,
+                "entry": true,
+                "gidL": [
+                  "U×8101003",
+                  "B×Wbf"
+                ]
+              },
+              {
+                "lid": "A=1@O=Wels Hbf@X=14026507@Y=48165947@U=81@L=8100014@",
+                "type": "S",
+                "name": "Wels Hbf",
+                "icoX": 0,
+                "extId": "8100014",
+                "state": "F",
+                "crd": {
+                  "x": 14026507,
+                  "y": 48165947,
+                  "floor": 0
+                },
+                "pCls": 4157,
+                "gidL": [
+                  "U×8101081",
+                  "B×We"
+                ]
+              },
+              {
+                "lid": "A=1@O=Linz/Donau Hbf@X=14291860@Y=48290241@U=81@L=8100013@",
+                "type": "S",
+                "name": "Linz/Donau Hbf",
+                "icoX": 0,
+                "extId": "8100013",
+                "state": "F",
+                "crd": {
+                  "x": 14291860,
+                  "y": 48290241,
+                  "floor": 0
+                },
+                "pCls": 4159,
+                "gidL": [
+                  "U×8101073",
+                  "B×Lz"
+                ]
+              },
+              {
+                "lid": "A=1@O=Salzburg Hbf@X=13045856@Y=47813057@U=81@L=8100002@",
+                "type": "S",
+                "name": "Salzburg Hbf",
+                "icoX": 0,
+                "extId": "8100002",
+                "state": "F",
+                "crd": {
+                  "x": 13045856,
+                  "y": 47813057,
+                  "floor": 0
+                },
+                "pCls": 4159,
+                "gidL": [
+                  "U×8101114",
+                  "B×Sb"
+                ]
+              }
+            ],
+            "prodL": [
+              {
+                "pid": "L::0::RJ::B1146449194::RJ_1146449194::*",
+                "name": "RJ 820",
+                "nameS": "RJ 820",
+                "number": "820",
+                "icoX": 0,
+                "cls": 1,
+                "oprX": 0,
+                "prodCtx": {
+                  "name": "RJ 820  ",
+                  "num": "820",
+                  "matchId": "820",
+                  "catOut": "RJ      ",
+                  "catOutS": "RJ",
+                  "catOutL": "railjet",
+                  "catIn": "RJ",
+                  "catCode": "0",
+                  "admin": "81____"
+                },
+                "himIdL": [
+                  "HIM_FREETEXT_768111",
+                  "HIM_FREETEXT_836599",
+                  "HIM_FREETEXT_836601",
+                  "HIM_FREETEXT_836602",
+                  "HIM_FREETEXT_836603",
+                  "HIM_FREETEXT_836604",
+                  "HIM_FREETEXT_836605",
+                  "HIM_FREETEXT_836606",
+                  "HIM_FREETEXT_836608",
+                  "HIM_FREETEXT_836610",
+                  "HIM_FREETEXT_836761",
+                  "HIM_FREETEXT_836763",
+                  "HIM_FREETEXT_836784",
+                  "HIM_FREETEXT_836785",
+                  "HIM_FREETEXT_836913",
+                  "HIM_FREETEXT_836981",
+                  "HIM_FREETEXT_868003",
+                  "HIM_FREETEXT_874897",
+                  "HIM_FREETEXT_874904",
+                  "HIM_FREETEXT_874905",
+                  "HIM_FREETEXT_875281",
+                  "HIM_FREETEXT_877706",
+                  "HIM_FREETEXT_877737",
+                  "HIM_FREETEXT_878465",
+                  "HIM_FREETEXT_878466",
+                  "HIM_FREETEXT_879743",
+                  "HIM_FREETEXT_879745",
+                  "HIM_FREETEXT_880061",
+                  "HIM_FREETEXT_880066",
+                  "HIM_FREETEXT_884752",
+                  "HIM_FREETEXT_884754",
+                  "HIM_FREETEXT_886368",
+                  "HIM_FREETEXT_886370",
+                  "HIM_FREETEXT_889048",
+                  "HIM_FREETEXT_893186",
+                  "HIM_FREETEXT_893187",
+                  "HIM_FREETEXT_893188",
+                  "HIM_FREETEXT_893189",
+                  "HIM_FREETEXT_893194",
+                  "HIM_FREETEXT_894133",
+                  "HIM_FREETEXT_894137",
+                  "HIM_FREETEXT_894141",
+                  "HIM_FREETEXT_894157",
+                  "HIM_FREETEXT_894955",
+                  "HIM_FREETEXT_894956",
+                  "HIM_FREETEXT_894958",
+                  "HIM_FREETEXT_894961",
+                  "HIM_FREETEXT_894963",
+                  "HIM_FREETEXT_895565",
+                  "HIM_FREETEXT_895713",
+                  "HIM_FREETEXT_895883",
+                  "HIM_FREETEXT_896449",
+                  "HIM_FREETEXT_897877",
+                  "HIM_FREETEXT_897880",
+                  "HIM_FREETEXT_898163",
+                  "HIM_FREETEXT_898165",
+                  "HIM_FREETEXT_898363",
+                  "HIM_FREETEXT_898951",
+                  "HIM_FREETEXT_898982",
+                  "HIM_FREETEXT_898983",
+                  "HIM_FREETEXT_898986",
+                  "HIM_FREETEXT_898994",
+                  "HIM_FREETEXT_898582",
+                  "HIM_FREETEXT_898583",
+                  "HIM_FREETEXT_896210",
+                  "HIM_FREETEXT_899076",
+                  "HIM_FREETEXT_899081",
+                  "HIM_FREETEXT_899091",
+                  "HIM_FREETEXT_899092",
+                  "HIM_FREETEXT_899093",
+                  "HIM_FREETEXT_899094",
+                  "HIM_FREETEXT_899111",
+                  "HIM_FREETEXT_899233",
+                  "HIM_FREETEXT_899252",
+                  "HIM_FREETEXT_899261",
+                  "HIM_FREETEXT_899262"
+                ]
+              },
+              {
+                "pid": "L::4::REX::B1146449194::at:obb:oov|REX2:::*",
+                "name": "REX 2 (Zug-Nr. 5052)",
+                "nameS": "REX 2",
+                "number": "2",
+                "icoX": 13,
+                "cls": 16,
+                "oprX": 0,
+                "prodCtx": {
+                  "name": "REX 2   ",
+                  "num": "5052",
+                  "line": "2",
+                  "lineId": "at:obb:oov|REX2:",
+                  "matchId": "2",
+                  "catOut": "REX     ",
+                  "catOutS": "REX",
+                  "catOutL": "RegionalExpress",
+                  "catIn": "REX",
+                  "catCode": "4",
+                  "admin": "81____"
+                },
+                "himIdL": [
+                  "HIM_FREETEXT_874860",
+                  "HIM_FREETEXT_874865",
+                  "HIM_FREETEXT_889369",
+                  "HIM_FREETEXT_897851"
+                ]
+              },
+              {
+                "name": "Umstieg",
+                "icoX": 17,
+                "prodCtx": {
+                  "name": "Umstieg"
+                }
+              },
+              {
+                "pid": "L::2::IC::B1146449194::IC_1146449194::*",
+                "name": "IC 848",
+                "nameS": "IC 848",
+                "number": "848",
+                "icoX": 18,
+                "cls": 4,
+                "oprX": 0,
+                "prodCtx": {
+                  "name": "IC 848  ",
+                  "num": "848",
+                  "matchId": "848",
+                  "catOut": "IC      ",
+                  "catOutS": "IC",
+                  "catOutL": "Intercity",
+                  "catIn": "IC",
+                  "catCode": "2",
+                  "admin": "81____"
+                },
+                "himIdL": [
+                  "HIM_FREETEXT_768111",
+                  "HIM_FREETEXT_836772",
+                  "HIM_FREETEXT_836779",
+                  "HIM_FREETEXT_836780",
+                  "HIM_FREETEXT_836782",
+                  "HIM_FREETEXT_836788",
+                  "HIM_FREETEXT_836789",
+                  "HIM_FREETEXT_836807",
+                  "HIM_FREETEXT_836815",
+                  "HIM_FREETEXT_836816",
+                  "HIM_FREETEXT_836817",
+                  "HIM_FREETEXT_836818",
+                  "HIM_FREETEXT_836820",
+                  "HIM_FREETEXT_859661",
+                  "HIM_FREETEXT_863868",
+                  "HIM_FREETEXT_871755",
+                  "HIM_FREETEXT_871771",
+                  "HIM_FREETEXT_873145",
+                  "HIM_FREETEXT_873306",
+                  "HIM_FREETEXT_873319",
+                  "HIM_FREETEXT_874897",
+                  "HIM_FREETEXT_874904",
+                  "HIM_FREETEXT_874905",
+                  "HIM_FREETEXT_875281",
+                  "HIM_FREETEXT_877677",
+                  "HIM_FREETEXT_877737",
+                  "HIM_FREETEXT_878225",
+                  "HIM_FREETEXT_878226",
+                  "HIM_FREETEXT_878227",
+                  "HIM_FREETEXT_878465",
+                  "HIM_FREETEXT_878466",
+                  "HIM_FREETEXT_878475",
+                  "HIM_FREETEXT_880061",
+                  "HIM_FREETEXT_880066",
+                  "HIM_FREETEXT_884274",
+                  "HIM_FREETEXT_889048",
+                  "HIM_FREETEXT_890640",
+                  "HIM_FREETEXT_890663",
+                  "HIM_FREETEXT_890781",
+                  "HIM_FREETEXT_892371",
+                  "HIM_FREETEXT_892373",
+                  "HIM_FREETEXT_894133",
+                  "HIM_FREETEXT_894137",
+                  "HIM_FREETEXT_894141",
+                  "HIM_FREETEXT_894157",
+                  "HIM_FREETEXT_894939",
+                  "HIM_FREETEXT_894963",
+                  "HIM_FREETEXT_895564",
+                  "HIM_FREETEXT_895566",
+                  "HIM_FREETEXT_895711",
+                  "HIM_FREETEXT_895715",
+                  "HIM_FREETEXT_895717",
+                  "HIM_FREETEXT_895728",
+                  "HIM_FREETEXT_895851",
+                  "HIM_FREETEXT_895857",
+                  "HIM_FREETEXT_895859",
+                  "HIM_FREETEXT_895862",
+                  "HIM_FREETEXT_895866",
+                  "HIM_FREETEXT_895869",
+                  "HIM_FREETEXT_895871",
+                  "HIM_FREETEXT_895874",
+                  "HIM_FREETEXT_896449",
+                  "HIM_FREETEXT_898163",
+                  "HIM_FREETEXT_898363",
+                  "HIM_FREETEXT_898959",
+                  "HIM_FREETEXT_898962",
+                  "HIM_FREETEXT_898963",
+                  "HIM_FREETEXT_899070",
+                  "HIM_FREETEXT_899064",
+                  "HIM_FREETEXT_899058",
+                  "HIM_FREETEXT_898583",
+                  "HIM_FREETEXT_897595",
+                  "HIM_FREETEXT_896210",
+                  "HIM_FREETEXT_899076",
+                  "HIM_FREETEXT_899081",
+                  "HIM_FREETEXT_899092",
+                  "HIM_FREETEXT_899094",
+                  "HIM_FREETEXT_899111",
+                  "HIM_FREETEXT_899233",
+                  "HIM_FREETEXT_899251",
+                  "HIM_FREETEXT_899261"
+                ]
+              },
+              {
+                "pid": "L::2::IC::B1146449194::IC_1146449194::*",
+                "name": "IC 407",
+                "nameS": "IC 407",
+                "number": "407",
+                "icoX": 18,
+                "cls": 4,
+                "oprX": 0,
+                "prodCtx": {
+                  "name": "IC 407  ",
+                  "num": "407",
+                  "matchId": "407",
+                  "catOut": "IC      ",
+                  "catOutS": "IC",
+                  "catOutL": "Intercity",
+                  "catIn": "IC",
+                  "catCode": "2",
+                  "admin": "81____"
+                },
+                "himIdL": [
+                  "HIM_FREETEXT_768111",
+                  "HIM_FREETEXT_836772",
+                  "HIM_FREETEXT_836779",
+                  "HIM_FREETEXT_836780",
+                  "HIM_FREETEXT_836782",
+                  "HIM_FREETEXT_836788",
+                  "HIM_FREETEXT_836789",
+                  "HIM_FREETEXT_836807",
+                  "HIM_FREETEXT_836815",
+                  "HIM_FREETEXT_836816",
+                  "HIM_FREETEXT_836817",
+                  "HIM_FREETEXT_836818",
+                  "HIM_FREETEXT_836820",
+                  "HIM_FREETEXT_859661",
+                  "HIM_FREETEXT_863868",
+                  "HIM_FREETEXT_871755",
+                  "HIM_FREETEXT_871771",
+                  "HIM_FREETEXT_873145",
+                  "HIM_FREETEXT_873306",
+                  "HIM_FREETEXT_873319",
+                  "HIM_FREETEXT_874897",
+                  "HIM_FREETEXT_874904",
+                  "HIM_FREETEXT_874905",
+                  "HIM_FREETEXT_875281",
+                  "HIM_FREETEXT_877677",
+                  "HIM_FREETEXT_877737",
+                  "HIM_FREETEXT_878225",
+                  "HIM_FREETEXT_878226",
+                  "HIM_FREETEXT_878227",
+                  "HIM_FREETEXT_878465",
+                  "HIM_FREETEXT_878466",
+                  "HIM_FREETEXT_878475",
+                  "HIM_FREETEXT_880061",
+                  "HIM_FREETEXT_880066",
+                  "HIM_FREETEXT_884274",
+                  "HIM_FREETEXT_889048",
+                  "HIM_FREETEXT_890640",
+                  "HIM_FREETEXT_890663",
+                  "HIM_FREETEXT_890781",
+                  "HIM_FREETEXT_892371",
+                  "HIM_FREETEXT_892373",
+                  "HIM_FREETEXT_894133",
+                  "HIM_FREETEXT_894137",
+                  "HIM_FREETEXT_894141",
+                  "HIM_FREETEXT_894157",
+                  "HIM_FREETEXT_894939",
+                  "HIM_FREETEXT_894963",
+                  "HIM_FREETEXT_895564",
+                  "HIM_FREETEXT_895566",
+                  "HIM_FREETEXT_895711",
+                  "HIM_FREETEXT_895715",
+                  "HIM_FREETEXT_895717",
+                  "HIM_FREETEXT_895728",
+                  "HIM_FREETEXT_895851",
+                  "HIM_FREETEXT_895857",
+                  "HIM_FREETEXT_895859",
+                  "HIM_FREETEXT_895862",
+                  "HIM_FREETEXT_895866",
+                  "HIM_FREETEXT_895869",
+                  "HIM_FREETEXT_895871",
+                  "HIM_FREETEXT_895874",
+                  "HIM_FREETEXT_896449",
+                  "HIM_FREETEXT_898163",
+                  "HIM_FREETEXT_898363",
+                  "HIM_FREETEXT_898959",
+                  "HIM_FREETEXT_898962",
+                  "HIM_FREETEXT_898963",
+                  "HIM_FREETEXT_899070",
+                  "HIM_FREETEXT_899064",
+                  "HIM_FREETEXT_899058",
+                  "HIM_FREETEXT_898583",
+                  "HIM_FREETEXT_897595",
+                  "HIM_FREETEXT_896210",
+                  "HIM_FREETEXT_899076",
+                  "HIM_FREETEXT_899081",
+                  "HIM_FREETEXT_899092",
+                  "HIM_FREETEXT_899094",
+                  "HIM_FREETEXT_899111",
+                  "HIM_FREETEXT_899233",
+                  "HIM_FREETEXT_899251",
+                  "HIM_FREETEXT_899261"
+                ]
+              },
+              {
+                "pid": "L::2::IC::B1146449194::IC_1146449194::*",
+                "name": "IC 540",
+                "nameS": "IC 540",
+                "number": "540",
+                "icoX": 18,
+                "cls": 4,
+                "oprX": 0,
+                "prodCtx": {
+                  "name": "IC 540  ",
+                  "num": "540",
+                  "matchId": "540",
+                  "catOut": "IC      ",
+                  "catOutS": "IC",
+                  "catOutL": "Intercity",
+                  "catIn": "IC",
+                  "catCode": "2",
+                  "admin": "81____"
+                },
+                "himIdL": [
+                  "HIM_FREETEXT_768111",
+                  "HIM_FREETEXT_836772",
+                  "HIM_FREETEXT_836779",
+                  "HIM_FREETEXT_836780",
+                  "HIM_FREETEXT_836782",
+                  "HIM_FREETEXT_836788",
+                  "HIM_FREETEXT_836789",
+                  "HIM_FREETEXT_836807",
+                  "HIM_FREETEXT_836815",
+                  "HIM_FREETEXT_836816",
+                  "HIM_FREETEXT_836817",
+                  "HIM_FREETEXT_836818",
+                  "HIM_FREETEXT_836820",
+                  "HIM_FREETEXT_859661",
+                  "HIM_FREETEXT_863868",
+                  "HIM_FREETEXT_871755",
+                  "HIM_FREETEXT_871771",
+                  "HIM_FREETEXT_873145",
+                  "HIM_FREETEXT_873306",
+                  "HIM_FREETEXT_873319",
+                  "HIM_FREETEXT_874897",
+                  "HIM_FREETEXT_874904",
+                  "HIM_FREETEXT_874905",
+                  "HIM_FREETEXT_875281",
+                  "HIM_FREETEXT_877677",
+                  "HIM_FREETEXT_877737",
+                  "HIM_FREETEXT_878225",
+                  "HIM_FREETEXT_878226",
+                  "HIM_FREETEXT_878227",
+                  "HIM_FREETEXT_878465",
+                  "HIM_FREETEXT_878466",
+                  "HIM_FREETEXT_878475",
+                  "HIM_FREETEXT_880061",
+                  "HIM_FREETEXT_880066",
+                  "HIM_FREETEXT_884274",
+                  "HIM_FREETEXT_889048",
+                  "HIM_FREETEXT_890640",
+                  "HIM_FREETEXT_890663",
+                  "HIM_FREETEXT_890781",
+                  "HIM_FREETEXT_892371",
+                  "HIM_FREETEXT_892373",
+                  "HIM_FREETEXT_894133",
+                  "HIM_FREETEXT_894137",
+                  "HIM_FREETEXT_894141",
+                  "HIM_FREETEXT_894157",
+                  "HIM_FREETEXT_894939",
+                  "HIM_FREETEXT_894963",
+                  "HIM_FREETEXT_895564",
+                  "HIM_FREETEXT_895566",
+                  "HIM_FREETEXT_895711",
+                  "HIM_FREETEXT_895715",
+                  "HIM_FREETEXT_895717",
+                  "HIM_FREETEXT_895728",
+                  "HIM_FREETEXT_895851",
+                  "HIM_FREETEXT_895857",
+                  "HIM_FREETEXT_895859",
+                  "HIM_FREETEXT_895862",
+                  "HIM_FREETEXT_895866",
+                  "HIM_FREETEXT_895869",
+                  "HIM_FREETEXT_895871",
+                  "HIM_FREETEXT_895874",
+                  "HIM_FREETEXT_896449",
+                  "HIM_FREETEXT_898163",
+                  "HIM_FREETEXT_898363",
+                  "HIM_FREETEXT_898959",
+                  "HIM_FREETEXT_898962",
+                  "HIM_FREETEXT_898963",
+                  "HIM_FREETEXT_899070",
+                  "HIM_FREETEXT_899064",
+                  "HIM_FREETEXT_899058",
+                  "HIM_FREETEXT_898583",
+                  "HIM_FREETEXT_897595",
+                  "HIM_FREETEXT_896210",
+                  "HIM_FREETEXT_899076",
+                  "HIM_FREETEXT_899081",
+                  "HIM_FREETEXT_899092",
+                  "HIM_FREETEXT_899094",
+                  "HIM_FREETEXT_899111",
+                  "HIM_FREETEXT_899233",
+                  "HIM_FREETEXT_899251",
+                  "HIM_FREETEXT_899261"
+                ]
+              },
+              {
+                "pid": "L::2::IC::B1146449194::IC_1146449194::*",
+                "name": "IC 544",
+                "nameS": "IC 544",
+                "number": "544",
+                "icoX": 18,
+                "cls": 4,
+                "oprX": 0,
+                "prodCtx": {
+                  "name": "IC 544  ",
+                  "num": "544",
+                  "matchId": "544",
+                  "catOut": "IC      ",
+                  "catOutS": "IC",
+                  "catOutL": "Intercity",
+                  "catIn": "IC",
+                  "catCode": "2",
+                  "admin": "81____"
+                },
+                "himIdL": [
+                  "HIM_FREETEXT_768111",
+                  "HIM_FREETEXT_836772",
+                  "HIM_FREETEXT_836779",
+                  "HIM_FREETEXT_836780",
+                  "HIM_FREETEXT_836782",
+                  "HIM_FREETEXT_836788",
+                  "HIM_FREETEXT_836789",
+                  "HIM_FREETEXT_836807",
+                  "HIM_FREETEXT_836815",
+                  "HIM_FREETEXT_836816",
+                  "HIM_FREETEXT_836817",
+                  "HIM_FREETEXT_836818",
+                  "HIM_FREETEXT_836820",
+                  "HIM_FREETEXT_859661",
+                  "HIM_FREETEXT_863868",
+                  "HIM_FREETEXT_871755",
+                  "HIM_FREETEXT_871771",
+                  "HIM_FREETEXT_873145",
+                  "HIM_FREETEXT_873306",
+                  "HIM_FREETEXT_873319",
+                  "HIM_FREETEXT_874897",
+                  "HIM_FREETEXT_874904",
+                  "HIM_FREETEXT_874905",
+                  "HIM_FREETEXT_875281",
+                  "HIM_FREETEXT_877677",
+                  "HIM_FREETEXT_877737",
+                  "HIM_FREETEXT_878225",
+                  "HIM_FREETEXT_878226",
+                  "HIM_FREETEXT_878227",
+                  "HIM_FREETEXT_878465",
+                  "HIM_FREETEXT_878466",
+                  "HIM_FREETEXT_878475",
+                  "HIM_FREETEXT_880061",
+                  "HIM_FREETEXT_880066",
+                  "HIM_FREETEXT_884274",
+                  "HIM_FREETEXT_889048",
+                  "HIM_FREETEXT_890640",
+                  "HIM_FREETEXT_890663",
+                  "HIM_FREETEXT_890781",
+                  "HIM_FREETEXT_892371",
+                  "HIM_FREETEXT_892373",
+                  "HIM_FREETEXT_894133",
+                  "HIM_FREETEXT_894137",
+                  "HIM_FREETEXT_894141",
+                  "HIM_FREETEXT_894157",
+                  "HIM_FREETEXT_894939",
+                  "HIM_FREETEXT_894963",
+                  "HIM_FREETEXT_895564",
+                  "HIM_FREETEXT_895566",
+                  "HIM_FREETEXT_895711",
+                  "HIM_FREETEXT_895715",
+                  "HIM_FREETEXT_895717",
+                  "HIM_FREETEXT_895728",
+                  "HIM_FREETEXT_895851",
+                  "HIM_FREETEXT_895857",
+                  "HIM_FREETEXT_895859",
+                  "HIM_FREETEXT_895862",
+                  "HIM_FREETEXT_895866",
+                  "HIM_FREETEXT_895869",
+                  "HIM_FREETEXT_895871",
+                  "HIM_FREETEXT_895874",
+                  "HIM_FREETEXT_896449",
+                  "HIM_FREETEXT_898163",
+                  "HIM_FREETEXT_898363",
+                  "HIM_FREETEXT_898959",
+                  "HIM_FREETEXT_898962",
+                  "HIM_FREETEXT_898963",
+                  "HIM_FREETEXT_899070",
+                  "HIM_FREETEXT_899064",
+                  "HIM_FREETEXT_899058",
+                  "HIM_FREETEXT_898583",
+                  "HIM_FREETEXT_897595",
+                  "HIM_FREETEXT_896210",
+                  "HIM_FREETEXT_899076",
+                  "HIM_FREETEXT_899081",
+                  "HIM_FREETEXT_899092",
+                  "HIM_FREETEXT_899094",
+                  "HIM_FREETEXT_899111",
+                  "HIM_FREETEXT_899233",
+                  "HIM_FREETEXT_899251",
+                  "HIM_FREETEXT_899261"
+                ]
+              },
+              {
+                "pid": "L::0::RJX::B1146449194::RJX_1146449194::*",
+                "name": "RJX19938",
+                "nameS": "RJX19938",
+                "number": "19938",
+                "icoX": 0,
+                "cls": 1,
+                "oprX": 0,
+                "prodCtx": {
+                  "name": "RJX19938",
+                  "num": "19938",
+                  "matchId": "19938",
+                  "catOut": "RJX     ",
+                  "catOutS": "RJX",
+                  "catOutL": "railjet xpress",
+                  "catIn": "RJX",
+                  "catCode": "0",
+                  "admin": "81____"
+                },
+                "himIdL": [
+                  "HIM_FREETEXT_768111",
+                  "HIM_FREETEXT_835835",
+                  "HIM_FREETEXT_836524",
+                  "HIM_FREETEXT_836529",
+                  "HIM_FREETEXT_836533",
+                  "HIM_FREETEXT_836543",
+                  "HIM_FREETEXT_836550",
+                  "HIM_FREETEXT_836568",
+                  "HIM_FREETEXT_836570",
+                  "HIM_FREETEXT_836571",
+                  "HIM_FREETEXT_836573",
+                  "HIM_FREETEXT_836580",
+                  "HIM_FREETEXT_836588",
+                  "HIM_FREETEXT_836618",
+                  "HIM_FREETEXT_836620",
+                  "HIM_FREETEXT_836621",
+                  "HIM_FREETEXT_836623",
+                  "HIM_FREETEXT_836629",
+                  "HIM_FREETEXT_836631",
+                  "HIM_FREETEXT_836636",
+                  "HIM_FREETEXT_836638",
+                  "HIM_FREETEXT_836641",
+                  "HIM_FREETEXT_836645",
+                  "HIM_FREETEXT_836649",
+                  "HIM_FREETEXT_836654",
+                  "HIM_FREETEXT_836656",
+                  "HIM_FREETEXT_836660",
+                  "HIM_FREETEXT_836743",
+                  "HIM_FREETEXT_836751",
+                  "HIM_FREETEXT_836755",
+                  "HIM_FREETEXT_836758",
+                  "HIM_FREETEXT_836768",
+                  "HIM_FREETEXT_836901",
+                  "HIM_FREETEXT_836908",
+                  "HIM_FREETEXT_868003",
+                  "HIM_FREETEXT_873687",
+                  "HIM_FREETEXT_874897",
+                  "HIM_FREETEXT_874904",
+                  "HIM_FREETEXT_874905",
+                  "HIM_FREETEXT_875281",
+                  "HIM_FREETEXT_878465",
+                  "HIM_FREETEXT_878466",
+                  "HIM_FREETEXT_879743",
+                  "HIM_FREETEXT_879745",
+                  "HIM_FREETEXT_884752",
+                  "HIM_FREETEXT_884754",
+                  "HIM_FREETEXT_886368",
+                  "HIM_FREETEXT_886370",
+                  "HIM_FREETEXT_886393",
+                  "HIM_FREETEXT_892158",
+                  "HIM_FREETEXT_894133",
+                  "HIM_FREETEXT_894137",
+                  "HIM_FREETEXT_894141",
+                  "HIM_FREETEXT_894157",
+                  "HIM_FREETEXT_895724",
+                  "HIM_FREETEXT_896449",
+                  "HIM_FREETEXT_898163",
+                  "HIM_FREETEXT_898363",
+                  "HIM_FREETEXT_898968",
+                  "HIM_FREETEXT_898969",
+                  "HIM_FREETEXT_898975",
+                  "HIM_FREETEXT_898976",
+                  "HIM_FREETEXT_898978",
+                  "HIM_FREETEXT_898987",
+                  "HIM_FREETEXT_898989",
+                  "HIM_FREETEXT_898991",
+                  "HIM_FREETEXT_898995",
+                  "HIM_FREETEXT_899060",
+                  "HIM_FREETEXT_899059",
+                  "HIM_FREETEXT_899067",
+                  "HIM_FREETEXT_899055",
+                  "HIM_FREETEXT_899057",
+                  "HIM_FREETEXT_898582",
+                  "HIM_FREETEXT_898583",
+                  "HIM_FREETEXT_896210",
+                  "HIM_FREETEXT_899094",
+                  "HIM_FREETEXT_899111",
+                  "HIM_FREETEXT_899229",
+                  "HIM_FREETEXT_899251",
+                  "HIM_FREETEXT_899261",
+                  "HIM_FREETEXT_899265"
+                ]
+              },
+              {
+                "pid": "L::3::EN::B1146449194::EN_1146449194::*",
+                "name": "EN 40407",
+                "nameS": "EN 40407",
+                "number": "40407",
+                "icoX": 20,
+                "cls": 8,
+                "oprX": 0,
+                "prodCtx": {
+                  "name": "EN 40407",
+                  "num": "40407",
+                  "matchId": "407",
+                  "catOut": "EN      ",
+                  "catOutS": "EN",
+                  "catOutL": "EuroNight",
+                  "catIn": "EN",
+                  "catCode": "3",
+                  "admin": "81____"
+                },
+                "himIdL": [
+                  "HIM_FREETEXT_768111",
+                  "HIM_FREETEXT_836775",
+                  "HIM_FREETEXT_843492",
+                  "HIM_FREETEXT_843493",
+                  "HIM_FREETEXT_878802",
+                  "HIM_FREETEXT_882828",
+                  "HIM_FREETEXT_882860",
+                  "HIM_FREETEXT_886393",
+                  "HIM_FREETEXT_887033",
+                  "HIM_FREETEXT_891029",
+                  "HIM_FREETEXT_891032",
+                  "HIM_FREETEXT_891408",
+                  "HIM_FREETEXT_891429",
+                  "HIM_FREETEXT_891494",
+                  "HIM_FREETEXT_892685",
+                  "HIM_FREETEXT_894923",
+                  "HIM_FREETEXT_898363",
+                  "HIM_FREETEXT_898583",
+                  "HIM_FREETEXT_896210",
+                  "HIM_FREETEXT_899081",
+                  "HIM_FREETEXT_899233"
+                ]
+              },
+              {
+                "pid": "L::2::IC::B1146449194::IC_1146449194::*",
+                "name": "IC 546",
+                "nameS": "IC 546",
+                "number": "546",
+                "icoX": 18,
+                "cls": 4,
+                "oprX": 0,
+                "prodCtx": {
+                  "name": "IC 546  ",
+                  "num": "546",
+                  "matchId": "546",
+                  "catOut": "IC      ",
+                  "catOutS": "IC",
+                  "catOutL": "Intercity",
+                  "catIn": "IC",
+                  "catCode": "2",
+                  "admin": "81____"
+                },
+                "himIdL": [
+                  "HIM_FREETEXT_768111",
+                  "HIM_FREETEXT_836772",
+                  "HIM_FREETEXT_836779",
+                  "HIM_FREETEXT_836780",
+                  "HIM_FREETEXT_836782",
+                  "HIM_FREETEXT_836788",
+                  "HIM_FREETEXT_836789",
+                  "HIM_FREETEXT_836807",
+                  "HIM_FREETEXT_836815",
+                  "HIM_FREETEXT_836816",
+                  "HIM_FREETEXT_836817",
+                  "HIM_FREETEXT_836818",
+                  "HIM_FREETEXT_836820",
+                  "HIM_FREETEXT_859661",
+                  "HIM_FREETEXT_863868",
+                  "HIM_FREETEXT_871755",
+                  "HIM_FREETEXT_871771",
+                  "HIM_FREETEXT_873145",
+                  "HIM_FREETEXT_873306",
+                  "HIM_FREETEXT_873319",
+                  "HIM_FREETEXT_874897",
+                  "HIM_FREETEXT_874904",
+                  "HIM_FREETEXT_874905",
+                  "HIM_FREETEXT_875281",
+                  "HIM_FREETEXT_877677",
+                  "HIM_FREETEXT_877737",
+                  "HIM_FREETEXT_878225",
+                  "HIM_FREETEXT_878226",
+                  "HIM_FREETEXT_878227",
+                  "HIM_FREETEXT_878465",
+                  "HIM_FREETEXT_878466",
+                  "HIM_FREETEXT_878475",
+                  "HIM_FREETEXT_880061",
+                  "HIM_FREETEXT_880066",
+                  "HIM_FREETEXT_884274",
+                  "HIM_FREETEXT_889048",
+                  "HIM_FREETEXT_890640",
+                  "HIM_FREETEXT_890663",
+                  "HIM_FREETEXT_890781",
+                  "HIM_FREETEXT_892371",
+                  "HIM_FREETEXT_892373",
+                  "HIM_FREETEXT_894133",
+                  "HIM_FREETEXT_894137",
+                  "HIM_FREETEXT_894141",
+                  "HIM_FREETEXT_894157",
+                  "HIM_FREETEXT_894939",
+                  "HIM_FREETEXT_894963",
+                  "HIM_FREETEXT_895564",
+                  "HIM_FREETEXT_895566",
+                  "HIM_FREETEXT_895711",
+                  "HIM_FREETEXT_895715",
+                  "HIM_FREETEXT_895717",
+                  "HIM_FREETEXT_895728",
+                  "HIM_FREETEXT_895851",
+                  "HIM_FREETEXT_895857",
+                  "HIM_FREETEXT_895859",
+                  "HIM_FREETEXT_895862",
+                  "HIM_FREETEXT_895866",
+                  "HIM_FREETEXT_895869",
+                  "HIM_FREETEXT_895871",
+                  "HIM_FREETEXT_895874",
+                  "HIM_FREETEXT_896449",
+                  "HIM_FREETEXT_898163",
+                  "HIM_FREETEXT_898363",
+                  "HIM_FREETEXT_898959",
+                  "HIM_FREETEXT_898962",
+                  "HIM_FREETEXT_898963",
+                  "HIM_FREETEXT_899070",
+                  "HIM_FREETEXT_899064",
+                  "HIM_FREETEXT_899058",
+                  "HIM_FREETEXT_898583",
+                  "HIM_FREETEXT_897595",
+                  "HIM_FREETEXT_896210",
+                  "HIM_FREETEXT_899076",
+                  "HIM_FREETEXT_899081",
+                  "HIM_FREETEXT_899092",
+                  "HIM_FREETEXT_899094",
+                  "HIM_FREETEXT_899111",
+                  "HIM_FREETEXT_899233",
+                  "HIM_FREETEXT_899251",
+                  "HIM_FREETEXT_899261"
+                ]
+              }
+            ],
+            "opL": [
+              {
+                "name": "Nahreisezug",
+                "icoX": 1
+              }
+            ],
+            "remL": [
+              {
+                "type": "A",
+                "code": "RO",
+                "prio": 150,
+                "icoX": 2,
+                "txtN": "Rollstuhlstellplatz"
+              },
+              {
+                "type": "A",
+                "code": "OA",
+                "prio": 150,
+                "icoX": 3,
+                "txtN": "Rollstuhlstellplatz - Voranmeldung unter +43 5 1717"
+              },
+              {
+                "type": "A",
+                "code": "EF",
+                "prio": 150,
+                "icoX": 4,
+                "txtN": "Fahrzeuggebundene Einstiegshilfe"
+              },
+              {
+                "type": "A",
+                "code": "OC",
+                "prio": 150,
+                "icoX": 5,
+                "txtN": "rollstuhltaugliches WC"
+              },
+              {
+                "type": "A",
+                "code": "FR",
+                "prio": 250,
+                "icoX": 6,
+                "txtN": "Fahrradmitnahme reservierungspflichtig"
+              },
+              {
+                "type": "A",
+                "code": "FK",
+                "prio": 250,
+                "icoX": 7,
+                "txtN": "Fahrradmitnahme begrenzt möglich"
+              },
+              {
+                "type": "A",
+                "code": "UA",
+                "prio": 400,
+                "icoX": 8,
+                "txtN": "Businessabteil"
+              },
+              {
+                "type": "A",
+                "code": "BR",
+                "prio": 450,
+                "icoX": 9,
+                "txtN": "Bordrestaurant"
+              },
+              {
+                "type": "A",
+                "code": "HD",
+                "prio": 605,
+                "icoX": 10,
+                "txtN": "Ruhezone"
+              },
+              {
+                "type": "A",
+                "code": "KN",
+                "prio": 610,
+                "icoX": 11,
+                "txtN": "Familienzone"
+              },
+              {
+                "type": "A",
+                "code": "WV",
+                "prio": 710,
+                "icoX": 12,
+                "txtN": "WLAN verfügbar"
+              },
+              {
+                "type": "I",
+                "code": "ZN",
+                "icoX": 8,
+                "txtN": "OS3535 VIE-LZS (Wien Hbf (Bahnsteige 3-12) - Linz/Donau Hbf)"
+              },
+              {
+                "type": "A",
+                "code": "OB",
+                "prio": 0,
+                "icoX": 14,
+                "txtN": "Niederflurfahrzeug"
+              },
+              {
+                "type": "A",
+                "code": "K2",
+                "prio": 300,
+                "icoX": 15,
+                "txtN": "nur 2. Klasse"
+              },
+              {
+                "type": "A",
+                "code": "SB",
+                "prio": 350,
+                "icoX": 16,
+                "txtN": "Zustieg im Nahverkehr (REX, R, CJX, S-Bahn) nur mit gültiger Fahrkarte"
+              },
+              {
+                "type": "H",
+                "code": "455",
+                "icoX": 8,
+                "txtN": "Längerer Aufenthalt an einem Bahnhof"
+              },
+              {
+                "type": "A",
+                "code": "KK",
+                "prio": 610,
+                "icoX": 19,
+                "txtN": "Kleinkindabteil"
+              },
+              {
+                "type": "I",
+                "code": "ZN",
+                "icoX": 8,
+                "txtN": "Chopin"
+              },
+              {
+                "type": "I",
+                "code": "VE",
+                "prio": 1,
+                "icoX": 8,
+                "txtN": "Vereinigung: IC 407   --> München Hbf"
+              },
+              {
+                "type": "A",
+                "code": "CT",
+                "prio": 320,
+                "icoX": 8,
+                "txtN": "IRT Integrated Reservation Ticket"
+              },
+              {
+                "type": "A",
+                "code": "GP",
+                "prio": 320,
+                "icoX": 8,
+                "txtN": "Globalpreis"
+              },
+              {
+                "type": "A",
+                "code": "SW",
+                "prio": 400,
+                "icoX": 21,
+                "txtN": "Schlafwagen"
+              },
+              {
+                "type": "A",
+                "code": "LW",
+                "prio": 400,
+                "icoX": 22,
+                "txtN": "Liegewagen"
+              },
+              {
+                "type": "A",
+                "code": "MN",
+                "prio": 450,
+                "icoX": 23,
+                "txtN": "Imbiss und Getränke beim Schlaf-/Liegewagenbetreuer erhältlich"
+              }
+            ],
+            "icoL": [
+              {
+                "res": "prod_ice",
+                "fg": {
+                  "r": 255,
+                  "g": 255,
+                  "b": 255
+                },
+                "bg": {
+                  "r": 171,
+                  "g": 0,
+                  "b": 32
+                }
+              },
+              {
+                "res": "DPN",
+                "txt": "Nahreisezug"
+              },
+              {
+                "res": "attr_wchair"
+              },
+              {
+                "res": "attr_wchair_aviso"
+              },
+              {
+                "res": "attr_wchair_ramp"
+              },
+              {
+                "res": "attr_wchair_wc"
+              },
+              {
+                "res": "attr_bike_r"
+              },
+              {
+                "res": "attr_bike"
+              },
+              {
+                "res": "attr_info"
+              },
+              {
+                "res": "attr_resto"
+              },
+              {
+                "res": "attr_quiet"
+              },
+              {
+                "res": "attr_family"
+              },
+              {
+                "res": "attr_wlan"
+              },
+              {
+                "res": "prod_reg",
+                "fg": {
+                  "r": 255,
+                  "g": 255,
+                  "b": 255
+                },
+                "bg": {
+                  "r": 0,
+                  "g": 96,
+                  "b": 240
+                }
+              },
+              {
+                "res": "attr_low_floor"
+              },
+              {
+                "res": "attr_2nd"
+              },
+              {
+                "res": "attr_selfservice"
+              },
+              {
+                "res": "prod_walk",
+                "fg": {
+                  "r": 255,
+                  "g": 255,
+                  "b": 255
+                },
+                "bg": {
+                  "r": 135,
+                  "g": 135,
+                  "b": 135
+                }
+              },
+              {
+                "res": "prod_ic",
+                "fg": {
+                  "r": 255,
+                  "g": 255,
+                  "b": 255
+                },
+                "bg": {
+                  "r": 171,
+                  "g": 0,
+                  "b": 32
+                }
+              },
+              {
+                "res": "attr_baby"
+              },
+              {
+                "res": "prod_nachtzug",
+                "fg": {
+                  "r": 255,
+                  "g": 255,
+                  "b": 255
+                },
+                "bg": {
+                  "r": 34,
+                  "g": 29,
+                  "b": 71
+                }
+              },
+              {
+                "res": "attr_sleeper"
+              },
+              {
+                "res": "attr_couchette"
+              },
+              {
+                "res": "attr_bordservice"
+              },
+              {
+                "res": "cl_all"
+              }
+            ],
+            "dirL": [
+              {
+                "txt": "München Hbf",
+                "flg": "x"
+              },
+              {
+                "txt": "Salzburg Hbf"
+              }
+            ],
+            "lDrawStyleL": [
+              {
+                "sIcoX": 0,
+                "type": "SOLID",
+                "bg": {
+                  "r": 171,
+                  "g": 0,
+                  "b": 32
+                }
+              },
+              {
+                "type": "SOLID",
+                "bg": {
+                  "r": 171,
+                  "g": 0,
+                  "b": 32
+                }
+              },
+              {
+                "sIcoX": 13,
+                "type": "SOLID",
+                "bg": {
+                  "r": 0,
+                  "g": 96,
+                  "b": 240
+                }
+              },
+              {
+                "type": "SOLID",
+                "bg": {
+                  "r": 0,
+                  "g": 96,
+                  "b": 240
+                }
+              },
+              {
+                "sIcoX": 17,
+                "type": "DOT",
+                "bg": {
+                  "r": 135,
+                  "g": 135,
+                  "b": 135
+                }
+              },
+              {
+                "type": "DOT",
+                "bg": {
+                  "r": 135,
+                  "g": 135,
+                  "b": 135
+                }
+              },
+              {
+                "sIcoX": 18,
+                "type": "SOLID",
+                "bg": {
+                  "r": 171,
+                  "g": 0,
+                  "b": 32
+                }
+              },
+              {
+                "sIcoX": 20,
+                "type": "SOLID",
+                "bg": {
+                  "r": 34,
+                  "g": 29,
+                  "b": 71
+                }
+              },
+              {
+                "type": "SOLID",
+                "bg": {
+                  "r": 34,
+                  "g": 29,
+                  "b": 71
+                }
+              }
+            ]
+          },
+          "outConL": [
+            {
+              "cid": "C-0",
+              "date": "20260820",
+              "dur": "061400",
+              "durS": "061400",
+              "chg": 1,
+              "sDays": {
+                "sDaysR": "Mo - Sa",
+                "sDaysI": "nicht 15. Aug, 26. Okt, 8. Dez",
+                "sDaysB": "000001F9F7EFDF3E7EFDF3F7EFDFBF7EFDFBF7E7DFBF7EFDFAF0"
+              },
+              "dep": {
+                "locX": 0,
+                "idx": 2,
+                "dProdX": 0,
+                "dPltfS": {
+                  "type": "PL",
+                  "txt": "8A-B"
+                },
+                "dTimeS": "002800",
+                "dProgType": "PROGNOSED",
+                "dTZOffset": 120,
+                "type": "N"
+              },
+              "arr": {
+                "locX": 3,
+                "idx": 13,
+                "aProdX": 1,
+                "aPltfS": {
+                  "type": "PL",
+                  "txt": "8D-E"
+                },
+                "aTimeS": "064200",
+                "aProgType": "PROGNOSED",
+                "aTZOffset": 120,
+                "type": "N"
+              },
+              "secL": [
+                {
+                  "type": "JNY",
+                  "dep": {
+                    "locX": 0,
+                    "idx": 2,
+                    "dProdX": 0,
+                    "dPltfS": {
+                      "type": "PL",
+                      "txt": "8A-B"
+                    },
+                    "dTimeS": "002800",
+                    "dProgType": "PROGNOSED",
+                    "dTZOffset": 120,
+                    "type": "N"
+                  },
+                  "arr": {
+                    "locX": 1,
+                    "idx": 9,
+                    "aProdX": 0,
+                    "aPltfS": {
+                      "type": "PL",
+                      "txt": "1"
+                    },
+                    "aTimeS": "021500",
+                    "aProgType": "PROGNOSED",
+                    "aTZOffset": 120,
+                    "type": "N"
+                  },
+                  "jny": {
+                    "jid": "2|#VN#1#ST#1784883105#PI#0#ZI#414951#TA#0#DA#200826#1S#8100353#1T#2#LS#8100014#LT#215#PU#81#RT#1#CA#RJ#ZE#820#ZB#RJ 820  #PC#0#FR#8100353#FT#2#TO#8100014#TT#215#",
+                    "date": "20260820",
+                    "prodX": 0,
+                    "dirTxt": "Wels Hbf",
+                    "status": "P",
+                    "isRchbl": true,
+                    "ctxRecon": "T$A=1@O=Wien Hbf (Bahnsteige 3-12)@L=8103000@a=128@$A=1@O=Wels Hbf@L=8100014@a=128@$202608200028$202608200215$RJ 820  $$1$$$$$$",
+                    "msgL": [
+                      {
+                        "type": "REM",
+                        "remX": 0,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 1,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 1,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 1,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 2,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 1,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 3,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 1,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 4,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 1,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 569638912
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 5,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 1,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 569638912
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 6,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 1,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 589299712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 7,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 1,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 595853312
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 8,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 1,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 616169472
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 9,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 1,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 616824832
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 10,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 1,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 629932032
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 11,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 2,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 549978112
+                      }
+                    ],
+                    "subscr": "F",
+                    "prodL": [
+                      {
+                        "prodX": 0,
+                        "fLocX": 0,
+                        "tLocX": 1,
+                        "fIdx": 2,
+                        "tIdx": 9
+                      }
+                    ],
+                    "sumLDrawStyleX": 0,
+                    "resLDrawStyleX": 1,
+                    "trainStartDate": "20260820",
+                    "durS": "014700"
+                  },
+                  "minChg": "000500"
+                },
+                {
+                  "type": "WALK",
+                  "dep": {
+                    "locX": 1,
+                    "dPltfS": {
+                      "type": "PL",
+                      "txt": "1"
+                    },
+                    "dTimeS": "021500",
+                    "dTZOffset": 120
+                  },
+                  "arr": {
+                    "locX": 1,
+                    "aPltfS": {
+                      "type": "PL",
+                      "txt": "2"
+                    },
+                    "aTimeS": "021500",
+                    "aTZOffset": 120
+                  },
+                  "gis": {
+                    "gisPrvr": "H",
+                    "sumLDrawStyleX": 4,
+                    "resLDrawStyleX": 5,
+                    "prodX": 2
+                  }
+                },
+                {
+                  "type": "JNY",
+                  "dep": {
+                    "locX": 1,
+                    "idx": 2,
+                    "dProdX": 1,
+                    "dPltfS": {
+                      "type": "PL",
+                      "txt": "2"
+                    },
+                    "dTimeS": "052000",
+                    "dProgType": "PROGNOSED",
+                    "dTZOffset": 120,
+                    "type": "N"
+                  },
+                  "arr": {
+                    "locX": 3,
+                    "idx": 13,
+                    "aProdX": 1,
+                    "aPltfS": {
+                      "type": "PL",
+                      "txt": "8D-E"
+                    },
+                    "aTimeS": "064200",
+                    "aProgType": "PROGNOSED",
+                    "aTZOffset": 120,
+                    "type": "N"
+                  },
+                  "jny": {
+                    "jid": "2|#VN#1#ST#1784883105#PI#0#ZI#412827#TA#0#DA#200826#1S#8100013#1T#503#LS#8102045#LT#650#PU#81#RT#1#CA#REX#ZE#2#ZB#REX 2   #PC#4#FR#8100013#FT#503#TO#8102045#TT#650#",
+                    "date": "20260820",
+                    "prodX": 1,
+                    "dirTxt": "Salzburg Taxham Europark",
+                    "status": "P",
+                    "isRchbl": true,
+                    "freq": {
+                      "minC": 53,
+                      "maxC": 53,
+                      "numC": 1
+                    },
+                    "ctxRecon": "T$A=1@O=Wels Hbf@L=8100014@a=128@$A=1@O=Salzburg Hbf@L=8100002@a=128@$202608200520$202608200642$REX 2   $$1$$$$$$",
+                    "msgL": [
+                      {
+                        "type": "REM",
+                        "remX": 12,
+                        "sty": "I",
+                        "fLocX": 1,
+                        "tLocX": 3,
+                        "tagL": [
+                          "SUM_CON_FTR_H3",
+                          "RES_JNY_DTL_H3"
+                        ],
+                        "sort": 268435456
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 0,
+                        "sty": "I",
+                        "fLocX": 1,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 1,
+                        "sty": "I",
+                        "fLocX": 1,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 2,
+                        "sty": "I",
+                        "fLocX": 1,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 3,
+                        "sty": "I",
+                        "fLocX": 1,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 5,
+                        "sty": "I",
+                        "fLocX": 1,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 569638912
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 13,
+                        "sty": "I",
+                        "fLocX": 1,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 576192512
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 14,
+                        "sty": "I",
+                        "fLocX": 1,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 582746112
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 10,
+                        "sty": "I",
+                        "fLocX": 1,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 629932032
+                      }
+                    ],
+                    "subscr": "F",
+                    "prodL": [
+                      {
+                        "prodX": 1,
+                        "fLocX": 1,
+                        "tLocX": 3,
+                        "fIdx": 2,
+                        "tIdx": 13
+                      }
+                    ],
+                    "sumLDrawStyleX": 2,
+                    "resLDrawStyleX": 3,
+                    "trainStartDate": "20260820",
+                    "durS": "012200"
+                  }
+                }
+              ],
+              "ctxRecon": "¶HKI¶T$A=1@O=Wien Hbf (Bahnsteige 3-12)@L=8103000@a=128@$A=1@O=Wels Hbf@L=8100014@a=128@$202608200028$202608200215$RJ 820  $$1$$$$$$§T$A=1@O=Wels Hbf@L=8100014@a=128@$A=1@O=Salzburg Hbf@L=8100002@a=128@$202608200520$202608200642$REX 2   $$1$$$$$$¶KRCC¶#VE#1#MRTF#",
+              "freq": {
+                "minC": 53
+              },
+              "trfRes": {
+                "statusCode": "OK",
+                "clickout": "https://shop.oebbtickets.at/de/ticket?cref=scottymobil&connectionDatetimeDeparture=2026-08-20T00:28&connectionDatetimeArrival=2026-08-20T06:42&connectionOrigEva=8103000&connectionDestEva=8100002&stationOrigName=Wien%20Hbf%20(Bahnsteige%203-12)&stationDestName=Salzburg%20Hbf",
+                "extContActionBar": {
+                  "text": "Tickets",
+                  "content": {
+                    "type": "URL_EXT",
+                    "content": "aHR0cHM6Ly9zaG9wLm9lYmJ0aWNrZXRzLmF0L2RlL3RpY2tldD9jcmVmPXNjb3R0eW1vYmlsJmNvbm5lY3Rpb25EYXRldGltZURlcGFydHVyZT0yMDI2LTA4LTIwVDAwOjI4JmNvbm5lY3Rpb25EYXRldGltZUFycml2YWw9MjAyNi0wOC0yMFQwNjo0MiZjb25uZWN0aW9uT3JpZ0V2YT04MTAzMDAwJmNvbm5lY3Rpb25EZXN0RXZhPTgxMDAwMDImc3RhdGlvbk9yaWdOYW1lPVdpZW4lMjBIYmYlMjAoQmFobnN0ZWlnZSUyMDMtMTIpJnN0YXRpb25EZXN0TmFtZT1TYWx6YnVyZyUyMEhiZg=="
+                  }
+                }
+              },
+              "msgL": [
+                {
+                  "type": "REM",
+                  "remX": 15,
+                  "sty": "I",
+                  "tagL": [
+                    "SUM_CON_HDR_H3",
+                    "RES_CON_FTR_H3"
+                  ],
+                  "sort": 147324928
+                }
+              ],
+              "conSubscr": "F",
+              "recState": "U",
+              "cksum": "ef863179_3",
+              "cksumDti": "cc1f7fbd_3",
+              "intvlSubscr": "F",
+              "originType": "INITIAL"
+            },
+            {
+              "cid": "C-1",
+              "date": "20260820",
+              "dur": "025200",
+              "durS": "025200",
+              "chg": 0,
+              "sDays": {
+                "sDaysR": "nicht täglich",
+                "sDaysI": "27. Jul bis 31. Okt 2026",
+                "sDaysB": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC00000000000"
+              },
+              "dep": {
+                "locX": 0,
+                "idx": 0,
+                "dProdX": 3,
+                "dPltfS": {
+                  "type": "PL",
+                  "txt": "8A-B"
+                },
+                "dTimeS": "045700",
+                "dProgType": "PROGNOSED",
+                "dTZOffset": 120,
+                "type": "N"
+              },
+              "arr": {
+                "locX": 3,
+                "idx": 11,
+                "aProdX": 3,
+                "aPltfS": {
+                  "type": "PL",
+                  "txt": "6"
+                },
+                "aTimeS": "074900",
+                "aProgType": "PROGNOSED",
+                "aTZOffset": 120,
+                "type": "N"
+              },
+              "secL": [
+                {
+                  "type": "JNY",
+                  "dep": {
+                    "locX": 0,
+                    "idx": 0,
+                    "dProdX": 3,
+                    "dPltfS": {
+                      "type": "PL",
+                      "txt": "8A-B"
+                    },
+                    "dTimeS": "045700",
+                    "dProgType": "PROGNOSED",
+                    "dTZOffset": 120,
+                    "type": "N"
+                  },
+                  "arr": {
+                    "locX": 3,
+                    "idx": 11,
+                    "aProdX": 3,
+                    "aPltfS": {
+                      "type": "PL",
+                      "txt": "6"
+                    },
+                    "aTimeS": "074900",
+                    "aProgType": "PROGNOSED",
+                    "aTZOffset": 120,
+                    "type": "N"
+                  },
+                  "jny": {
+                    "jid": "2|#VN#1#ST#1784883105#PI#0#ZI#415074#TA#0#DA#200826#1S#8103000#1T#457#LS#8100002#LT#749#PU#81#RT#1#CA#IC#ZE#848#ZB#IC 848  #PC#2#FR#8103000#FT#457#TO#8100002#TT#749#",
+                    "date": "20260820",
+                    "prodX": 3,
+                    "dirTxt": "Salzburg Hbf",
+                    "status": "P",
+                    "isRchbl": true,
+                    "freq": {
+                      "minC": 18,
+                      "maxC": 120,
+                      "numC": 3,
+                      "jnyL": [
+                        {
+                          "jid": "2|#VN#1#ST#1784883105#PI#0#ZI#505599#TA#0#DA#190826#1S#5100066#1T#1941#LS#8000261#LT#11039#PU#81#RT#1#CA#IC#ZE#407#ZB#IC 407  #PC#2#FR#5100066#FT#1941#TO#8000261#TT#11039#",
+                          "date": "20260820",
+                          "prodX": 4,
+                          "dirTxt": "München Hbf",
+                          "dirFlg": "x",
+                          "status": "P",
+                          "isRchbl": true,
+                          "stopL": [
+                            {
+                              "locX": 0,
+                              "idx": 17,
+                              "dProdX": 4,
+                              "dPltfS": {
+                                "type": "PL",
+                                "txt": "5"
+                              },
+                              "dTimeS": "053900",
+                              "dDirTxt": "München Hbf",
+                              "dDirFlg": "x",
+                              "dTZOffset": 120,
+                              "type": "N"
+                            },
+                            {
+                              "locX": 3,
+                              "idx": 22,
+                              "aProdX": 4,
+                              "aPltfS": {
+                                "type": "PL",
+                                "txt": "3"
+                              },
+                              "aTimeS": "083000",
+                              "aTZOffset": 120,
+                              "type": "N",
+                              "border": true
+                            }
+                          ],
+                          "ctxRecon": "T$A=1@O=Wien Hbf (Bahnsteige 3-12)@L=8103000@a=128@$A=1@O=Salzburg Hbf@L=8100002@a=128@$202608200539$202608200830$IC 407  $$1$$$$$$",
+                          "subscr": "F",
+                          "prodL": [
+                            {
+                              "prodX": 4,
+                              "fLocX": 0,
+                              "tLocX": 3,
+                              "fIdx": 17,
+                              "tIdx": 22
+                            }
+                          ],
+                          "dirL": [
+                            {
+                              "dirX": 0,
+                              "fLocX": 0,
+                              "tLocX": 3,
+                              "fIdx": 17,
+                              "tIdx": 22
+                            }
+                          ],
+                          "sumLDrawStyleX": 6,
+                          "resLDrawStyleX": 1,
+                          "trainStartDate": "20260819",
+                          "durS": "025100"
+                        },
+                        {
+                          "jid": "2|#VN#1#ST#1784883105#PI#0#ZI#413117#TA#0#DA#200826#1S#8103000#1T#557#LS#8100002#LT#849#PU#81#RT#1#CA#IC#ZE#540#ZB#IC 540  #PC#2#FR#8103000#FT#557#TO#8100002#TT#849#",
+                          "date": "20260820",
+                          "prodX": 5,
+                          "dirTxt": "Salzburg Hbf",
+                          "status": "P",
+                          "isRchbl": true,
+                          "stopL": [
+                            {
+                              "locX": 0,
+                              "idx": 0,
+                              "dProdX": 5,
+                              "dPltfS": {
+                                "type": "PL",
+                                "txt": "8A-B"
+                              },
+                              "dTimeS": "055700",
+                              "dProgType": "PROGNOSED",
+                              "dDirTxt": "Salzburg Hbf",
+                              "dTZOffset": 120,
+                              "type": "N"
+                            },
+                            {
+                              "locX": 3,
+                              "idx": 11,
+                              "aProdX": 5,
+                              "aPltfS": {
+                                "type": "PL",
+                                "txt": "6A-C"
+                              },
+                              "aTimeS": "084900",
+                              "aProgType": "PROGNOSED",
+                              "aTZOffset": 120,
+                              "type": "N"
+                            }
+                          ],
+                          "ctxRecon": "T$A=1@O=Wien Hbf (Bahnsteige 3-12)@L=8103000@a=128@$A=1@O=Salzburg Hbf@L=8100002@a=128@$202608200557$202608200849$IC 540  $$1$$$$$$",
+                          "subscr": "F",
+                          "prodL": [
+                            {
+                              "prodX": 5,
+                              "fLocX": 0,
+                              "tLocX": 3,
+                              "fIdx": 0,
+                              "tIdx": 11
+                            }
+                          ],
+                          "dirL": [
+                            {
+                              "dirX": 1,
+                              "fLocX": 0,
+                              "tLocX": 3,
+                              "fIdx": 0,
+                              "tIdx": 11
+                            }
+                          ],
+                          "sumLDrawStyleX": 6,
+                          "resLDrawStyleX": 1,
+                          "trainStartDate": "20260820",
+                          "durS": "025200"
+                        },
+                        {
+                          "jid": "2|#VN#1#ST#1784883105#PI#0#ZI#413132#TA#0#DA#200826#1S#8100353#1T#734#LS#8100002#LT#1049#PU#81#RT#1#CA#IC#ZE#544#ZB#IC 544  #PC#2#FR#8100353#FT#734#TO#8100002#TT#1049#",
+                          "date": "20260820",
+                          "prodX": 6,
+                          "dirTxt": "Salzburg Hbf",
+                          "status": "P",
+                          "isRchbl": true,
+                          "stopL": [
+                            {
+                              "locX": 0,
+                              "idx": 2,
+                              "dProdX": 6,
+                              "dPltfS": {
+                                "type": "PL",
+                                "txt": "8A-B"
+                              },
+                              "dTimeS": "075700",
+                              "dDirTxt": "Salzburg Hbf",
+                              "dTZOffset": 120,
+                              "type": "N"
+                            },
+                            {
+                              "locX": 3,
+                              "idx": 13,
+                              "aProdX": 6,
+                              "aPltfS": {
+                                "type": "PL",
+                                "txt": "5A-B"
+                              },
+                              "aTimeS": "104900",
+                              "aProgType": "PROGNOSED",
+                              "aTZOffset": 120,
+                              "type": "N"
+                            }
+                          ],
+                          "ctxRecon": "T$A=1@O=Wien Hbf (Bahnsteige 3-12)@L=8103000@a=128@$A=1@O=Salzburg Hbf@L=8100002@a=128@$202608200757$202608201049$IC 544  $$1$$$$$$",
+                          "subscr": "F",
+                          "prodL": [
+                            {
+                              "prodX": 6,
+                              "fLocX": 0,
+                              "tLocX": 3,
+                              "fIdx": 2,
+                              "tIdx": 13
+                            }
+                          ],
+                          "dirL": [
+                            {
+                              "dirX": 1,
+                              "fLocX": 0,
+                              "tLocX": 3,
+                              "fIdx": 2,
+                              "tIdx": 13
+                            }
+                          ],
+                          "sumLDrawStyleX": 6,
+                          "resLDrawStyleX": 1,
+                          "trainStartDate": "20260820",
+                          "durS": "025200"
+                        }
+                      ]
+                    },
+                    "ctxRecon": "T$A=1@O=Wien Hbf (Bahnsteige 3-12)@L=8103000@a=128@$A=1@O=Salzburg Hbf@L=8100002@a=128@$202608200457$202608200749$IC 848  $$1$$$$$$",
+                    "msgL": [
+                      {
+                        "type": "REM",
+                        "remX": 12,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "SUM_CON_FTR_H3",
+                          "RES_JNY_DTL_H3"
+                        ],
+                        "sort": 268435456
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 0,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 1,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 2,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 3,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 4,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 569638912
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 5,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 569638912
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 9,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 616824832
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 16,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 616824832
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 10,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 629932032
+                      }
+                    ],
+                    "subscr": "F",
+                    "prodL": [
+                      {
+                        "prodX": 3,
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "fIdx": 0,
+                        "tIdx": 11
+                      }
+                    ],
+                    "sumLDrawStyleX": 6,
+                    "resLDrawStyleX": 1,
+                    "trainStartDate": "20260820",
+                    "durS": "025200"
+                  }
+                }
+              ],
+              "ctxRecon": "¶HKI¶T$A=1@O=Wien Hbf (Bahnsteige 3-12)@L=8103000@a=128@$A=1@O=Salzburg Hbf@L=8100002@a=128@$202608200457$202608200749$IC 848  $$1$$$$$$¶KRCC¶#VE#1#MRTF#",
+              "freq": {
+                "minC": 18
+              },
+              "trfRes": {
+                "statusCode": "OK",
+                "clickout": "https://shop.oebbtickets.at/de/ticket?cref=scottymobil&connectionDatetimeDeparture=2026-08-20T04:57&connectionDatetimeArrival=2026-08-20T07:49&connectionOrigEva=8103000&connectionDestEva=8100002&stationOrigName=Wien%20Hbf%20(Bahnsteige%203-12)&stationDestName=Salzburg%20Hbf",
+                "extContActionBar": {
+                  "text": "Tickets",
+                  "content": {
+                    "type": "URL_EXT",
+                    "content": "aHR0cHM6Ly9zaG9wLm9lYmJ0aWNrZXRzLmF0L2RlL3RpY2tldD9jcmVmPXNjb3R0eW1vYmlsJmNvbm5lY3Rpb25EYXRldGltZURlcGFydHVyZT0yMDI2LTA4LTIwVDA0OjU3JmNvbm5lY3Rpb25EYXRldGltZUFycml2YWw9MjAyNi0wOC0yMFQwNzo0OSZjb25uZWN0aW9uT3JpZ0V2YT04MTAzMDAwJmNvbm5lY3Rpb25EZXN0RXZhPTgxMDAwMDImc3RhdGlvbk9yaWdOYW1lPVdpZW4lMjBIYmYlMjAoQmFobnN0ZWlnZSUyMDMtMTIpJnN0YXRpb25EZXN0TmFtZT1TYWx6YnVyZyUyMEhiZg=="
+                  }
+                }
+              },
+              "conSubscr": "F",
+              "recState": "U",
+              "cksum": "bef03b71_3",
+              "cksumDti": "c8db17d0_3",
+              "intvlSubscr": "F",
+              "originType": "INITIAL"
+            },
+            {
+              "cid": "C-2",
+              "date": "20260820",
+              "dur": "022500",
+              "durS": "022500",
+              "chg": 0,
+              "sDays": {
+                "sDaysR": "nicht täglich",
+                "sDaysI": "27. Jul bis 21. Aug 2026",
+                "sDaysB": "0000000000007FFFFFFFFFE00000000000000000000000000000"
+              },
+              "dep": {
+                "locX": 0,
+                "idx": 0,
+                "dProdX": 7,
+                "dPltfS": {
+                  "type": "PL",
+                  "txt": "8A-B"
+                },
+                "dTimeS": "052800",
+                "dProgType": "PROGNOSED",
+                "dTZOffset": 120,
+                "type": "N"
+              },
+              "arr": {
+                "locX": 3,
+                "idx": 4,
+                "aProdX": 7,
+                "aPltfS": {
+                  "type": "PL",
+                  "txt": "3"
+                },
+                "aTimeS": "075300",
+                "aProgType": "PROGNOSED",
+                "aTZOffset": 120,
+                "type": "N"
+              },
+              "secL": [
+                {
+                  "type": "JNY",
+                  "dep": {
+                    "locX": 0,
+                    "idx": 0,
+                    "dProdX": 7,
+                    "dPltfS": {
+                      "type": "PL",
+                      "txt": "8A-B"
+                    },
+                    "dTimeS": "052800",
+                    "dProgType": "PROGNOSED",
+                    "dTZOffset": 120,
+                    "type": "N"
+                  },
+                  "arr": {
+                    "locX": 3,
+                    "idx": 4,
+                    "aProdX": 7,
+                    "aPltfS": {
+                      "type": "PL",
+                      "txt": "3"
+                    },
+                    "aTimeS": "075300",
+                    "aProgType": "PROGNOSED",
+                    "aTZOffset": 120,
+                    "type": "N"
+                  },
+                  "jny": {
+                    "jid": "2|#VN#1#ST#1784883105#PI#0#ZI#407049#TA#0#DA#200826#1S#8103000#1T#528#LS#8100197#LT#1212#PU#81#RT#1#CA#RJX#ZE#19938#ZB#RJX19938#PC#0#FR#8103000#FT#528#TO#8100197#TT#1212#",
+                    "date": "20260820",
+                    "prodX": 7,
+                    "dirTxt": "Feldkirch",
+                    "status": "P",
+                    "isRchbl": true,
+                    "freq": {
+                      "minC": 60,
+                      "maxC": 60,
+                      "numC": 3
+                    },
+                    "ctxRecon": "T$A=1@O=Wien Hbf (Bahnsteige 3-12)@L=8103000@a=128@$A=1@O=Salzburg Hbf@L=8100002@a=128@$202608200528$202608200753$RJX19938$$1$$$$$$",
+                    "msgL": [
+                      {
+                        "type": "REM",
+                        "remX": 0,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 1,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 2,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 3,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 4,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 569638912
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 5,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 569638912
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 6,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 589299712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 7,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 595853312
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 8,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 616169472
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 9,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 616824832
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 10,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 629932032
+                      }
+                    ],
+                    "subscr": "F",
+                    "prodL": [
+                      {
+                        "prodX": 7,
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "fIdx": 0,
+                        "tIdx": 4
+                      }
+                    ],
+                    "sumLDrawStyleX": 0,
+                    "resLDrawStyleX": 1,
+                    "trainStartDate": "20260820",
+                    "durS": "022500"
+                  }
+                }
+              ],
+              "ctxRecon": "¶HKI¶T$A=1@O=Wien Hbf (Bahnsteige 3-12)@L=8103000@a=128@$A=1@O=Salzburg Hbf@L=8100002@a=128@$202608200528$202608200753$RJX19938$$1$$$$$$¶KRCC¶#VE#1#MRTF#",
+              "freq": {
+                "minC": 60
+              },
+              "trfRes": {
+                "statusCode": "OK",
+                "clickout": "https://shop.oebbtickets.at/de/ticket?cref=scottymobil&connectionDatetimeDeparture=2026-08-20T05:28&connectionDatetimeArrival=2026-08-20T07:53&connectionOrigEva=8103000&connectionDestEva=8100002&stationOrigName=Wien%20Hbf%20(Bahnsteige%203-12)&stationDestName=Salzburg%20Hbf",
+                "extContActionBar": {
+                  "text": "Tickets",
+                  "content": {
+                    "type": "URL_EXT",
+                    "content": "aHR0cHM6Ly9zaG9wLm9lYmJ0aWNrZXRzLmF0L2RlL3RpY2tldD9jcmVmPXNjb3R0eW1vYmlsJmNvbm5lY3Rpb25EYXRldGltZURlcGFydHVyZT0yMDI2LTA4LTIwVDA1OjI4JmNvbm5lY3Rpb25EYXRldGltZUFycml2YWw9MjAyNi0wOC0yMFQwNzo1MyZjb25uZWN0aW9uT3JpZ0V2YT04MTAzMDAwJmNvbm5lY3Rpb25EZXN0RXZhPTgxMDAwMDImc3RhdGlvbk9yaWdOYW1lPVdpZW4lMjBIYmYlMjAoQmFobnN0ZWlnZSUyMDMtMTIpJnN0YXRpb25EZXN0TmFtZT1TYWx6YnVyZyUyMEhiZg=="
+                  }
+                }
+              },
+              "conSubscr": "F",
+              "recState": "U",
+              "cksum": "79e00e8c_3",
+              "cksumDti": "64817180_3",
+              "intvlSubscr": "F",
+              "originType": "INITIAL"
+            },
+            {
+              "cid": "C-3",
+              "date": "20260820",
+              "dur": "025100",
+              "durS": "025100",
+              "chg": 0,
+              "sDays": {
+                "sDaysR": "täglich",
+                "sDaysB": "FFFFFFFFFFEFFF3E7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0"
+              },
+              "dep": {
+                "locX": 0,
+                "idx": 17,
+                "dProdX": 4,
+                "dPltfS": {
+                  "type": "PL",
+                  "txt": "5"
+                },
+                "dTimeS": "053900",
+                "dProgType": "PROGNOSED",
+                "dTZOffset": 120,
+                "type": "N"
+              },
+              "arr": {
+                "locX": 3,
+                "idx": 22,
+                "aProdX": 4,
+                "aPltfS": {
+                  "type": "PL",
+                  "txt": "3"
+                },
+                "aTimeS": "083000",
+                "aProgType": "PROGNOSED",
+                "aTZOffset": 120,
+                "type": "N"
+              },
+              "secL": [
+                {
+                  "type": "JNY",
+                  "dep": {
+                    "locX": 0,
+                    "idx": 17,
+                    "dProdX": 4,
+                    "dPltfS": {
+                      "type": "PL",
+                      "txt": "5"
+                    },
+                    "dTimeS": "053900",
+                    "dProgType": "PROGNOSED",
+                    "dTZOffset": 120,
+                    "type": "N"
+                  },
+                  "arr": {
+                    "locX": 3,
+                    "idx": 22,
+                    "aProdX": 4,
+                    "aPltfS": {
+                      "type": "PL",
+                      "txt": "3"
+                    },
+                    "aTimeS": "083000",
+                    "aProgType": "PROGNOSED",
+                    "aTZOffset": 120,
+                    "type": "N"
+                  },
+                  "jny": {
+                    "jid": "2|#VN#1#ST#1784883105#PI#0#ZI#505599#TA#0#DA#190826#1S#5100066#1T#1941#LS#8000261#LT#11039#PU#81#RT#1#CA#IC#ZE#407#ZB#IC 407  #PC#2#FR#5100066#FT#1941#TO#8000261#TT#11039#",
+                    "date": "20260820",
+                    "prodX": 4,
+                    "dirTxt": "München Hbf",
+                    "dirFlg": "x",
+                    "status": "P",
+                    "isRchbl": true,
+                    "freq": {
+                      "minC": 18,
+                      "maxC": 120,
+                      "numC": 2,
+                      "jnyL": [
+                        {
+                          "jid": "2|#VN#1#ST#1784883105#PI#0#ZI#413117#TA#0#DA#200826#1S#8103000#1T#557#LS#8100002#LT#849#PU#81#RT#1#CA#IC#ZE#540#ZB#IC 540  #PC#2#FR#8103000#FT#557#TO#8100002#TT#849#",
+                          "date": "20260820",
+                          "prodX": 5,
+                          "dirTxt": "Salzburg Hbf",
+                          "status": "P",
+                          "isRchbl": true,
+                          "stopL": [
+                            {
+                              "locX": 0,
+                              "idx": 0,
+                              "dProdX": 5,
+                              "dPltfS": {
+                                "type": "PL",
+                                "txt": "8A-B"
+                              },
+                              "dTimeS": "055700",
+                              "dProgType": "PROGNOSED",
+                              "dDirTxt": "Salzburg Hbf",
+                              "dTZOffset": 120,
+                              "type": "N"
+                            },
+                            {
+                              "locX": 3,
+                              "idx": 11,
+                              "aProdX": 5,
+                              "aPltfS": {
+                                "type": "PL",
+                                "txt": "6A-C"
+                              },
+                              "aTimeS": "084900",
+                              "aProgType": "PROGNOSED",
+                              "aTZOffset": 120,
+                              "type": "N"
+                            }
+                          ],
+                          "ctxRecon": "T$A=1@O=Wien Hbf (Bahnsteige 3-12)@L=8103000@a=128@$A=1@O=Salzburg Hbf@L=8100002@a=128@$202608200557$202608200849$IC 540  $$1$$$$$$",
+                          "subscr": "F",
+                          "prodL": [
+                            {
+                              "prodX": 5,
+                              "fLocX": 0,
+                              "tLocX": 3,
+                              "fIdx": 0,
+                              "tIdx": 11
+                            }
+                          ],
+                          "dirL": [
+                            {
+                              "dirX": 1,
+                              "fLocX": 0,
+                              "tLocX": 3,
+                              "fIdx": 0,
+                              "tIdx": 11
+                            }
+                          ],
+                          "sumLDrawStyleX": 6,
+                          "resLDrawStyleX": 1,
+                          "trainStartDate": "20260820",
+                          "durS": "025200"
+                        },
+                        {
+                          "jid": "2|#VN#1#ST#1784883105#PI#0#ZI#413132#TA#0#DA#200826#1S#8100353#1T#734#LS#8100002#LT#1049#PU#81#RT#1#CA#IC#ZE#544#ZB#IC 544  #PC#2#FR#8100353#FT#734#TO#8100002#TT#1049#",
+                          "date": "20260820",
+                          "prodX": 6,
+                          "dirTxt": "Salzburg Hbf",
+                          "status": "P",
+                          "isRchbl": true,
+                          "stopL": [
+                            {
+                              "locX": 0,
+                              "idx": 2,
+                              "dProdX": 6,
+                              "dPltfS": {
+                                "type": "PL",
+                                "txt": "8A-B"
+                              },
+                              "dTimeS": "075700",
+                              "dDirTxt": "Salzburg Hbf",
+                              "dTZOffset": 120,
+                              "type": "N"
+                            },
+                            {
+                              "locX": 3,
+                              "idx": 13,
+                              "aProdX": 6,
+                              "aPltfS": {
+                                "type": "PL",
+                                "txt": "5A-B"
+                              },
+                              "aTimeS": "104900",
+                              "aProgType": "PROGNOSED",
+                              "aTZOffset": 120,
+                              "type": "N"
+                            }
+                          ],
+                          "ctxRecon": "T$A=1@O=Wien Hbf (Bahnsteige 3-12)@L=8103000@a=128@$A=1@O=Salzburg Hbf@L=8100002@a=128@$202608200757$202608201049$IC 544  $$1$$$$$$",
+                          "subscr": "F",
+                          "prodL": [
+                            {
+                              "prodX": 6,
+                              "fLocX": 0,
+                              "tLocX": 3,
+                              "fIdx": 2,
+                              "tIdx": 13
+                            }
+                          ],
+                          "dirL": [
+                            {
+                              "dirX": 1,
+                              "fLocX": 0,
+                              "tLocX": 3,
+                              "fIdx": 2,
+                              "tIdx": 13
+                            }
+                          ],
+                          "sumLDrawStyleX": 6,
+                          "resLDrawStyleX": 1,
+                          "trainStartDate": "20260820",
+                          "durS": "025200"
+                        }
+                      ]
+                    },
+                    "ctxRecon": "T$A=1@O=Wien Hbf (Bahnsteige 3-12)@L=8103000@a=128@$A=1@O=Salzburg Hbf@L=8100002@a=128@$202608200539$202608200830$IC 407  $$1$$$$$$",
+                    "msgL": [
+                      {
+                        "type": "REM",
+                        "remX": 13,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 576192512
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 16,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 616824832
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 17,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 549978112
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 18,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "SUM_CON_FTR_H3",
+                          "RES_JNY_DTL_H3"
+                        ],
+                        "sort": 268566528
+                      }
+                    ],
+                    "subscr": "F",
+                    "prodL": [
+                      {
+                        "prodX": 4,
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "fIdx": 17,
+                        "tIdx": 22
+                      }
+                    ],
+                    "sumLDrawStyleX": 6,
+                    "resLDrawStyleX": 1,
+                    "trainStartDate": "20260819",
+                    "durS": "025100"
+                  }
+                }
+              ],
+              "ctxRecon": "¶HKI¶T$A=1@O=Wien Hbf (Bahnsteige 3-12)@L=8103000@a=128@$A=1@O=Salzburg Hbf@L=8100002@a=128@$202608200539$202608200830$IC 407  $$1$$$$$$¶KRCC¶#VE#1#MRTF#",
+              "freq": {
+                "minC": 18
+              },
+              "trfRes": {
+                "statusCode": "OK",
+                "clickout": "https://shop.oebbtickets.at/de/ticket?cref=scottymobil&connectionDatetimeDeparture=2026-08-20T05:39&connectionDatetimeArrival=2026-08-20T08:30&connectionOrigEva=8103000&connectionDestEva=8100002&stationOrigName=Wien%20Hbf%20(Bahnsteige%203-12)&stationDestName=Salzburg%20Hbf",
+                "extContActionBar": {
+                  "text": "Tickets",
+                  "content": {
+                    "type": "URL_EXT",
+                    "content": "aHR0cHM6Ly9zaG9wLm9lYmJ0aWNrZXRzLmF0L2RlL3RpY2tldD9jcmVmPXNjb3R0eW1vYmlsJmNvbm5lY3Rpb25EYXRldGltZURlcGFydHVyZT0yMDI2LTA4LTIwVDA1OjM5JmNvbm5lY3Rpb25EYXRldGltZUFycml2YWw9MjAyNi0wOC0yMFQwODozMCZjb25uZWN0aW9uT3JpZ0V2YT04MTAzMDAwJmNvbm5lY3Rpb25EZXN0RXZhPTgxMDAwMDImc3RhdGlvbk9yaWdOYW1lPVdpZW4lMjBIYmYlMjAoQmFobnN0ZWlnZSUyMDMtMTIpJnN0YXRpb25EZXN0TmFtZT1TYWx6YnVyZyUyMEhiZg=="
+                  }
+                }
+              },
+              "conSubscr": "F",
+              "recState": "U",
+              "cksum": "f86fd84d_3",
+              "cksumDti": "7c5224b8_3",
+              "intvlSubscr": "F",
+              "originType": "INITIAL"
+            },
+            {
+              "cid": "C-4",
+              "date": "20260820",
+              "dur": "025100",
+              "durS": "025100",
+              "chg": 0,
+              "sDays": {
+                "sDaysR": "täglich",
+                "sDaysB": "FFFFFFFFFFEFFF3E7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0"
+              },
+              "dep": {
+                "locX": 0,
+                "idx": 17,
+                "dProdX": 8,
+                "dTimeS": "053900",
+                "dProgType": "PROGNOSED",
+                "dTZOffset": 120,
+                "type": "N"
+              },
+              "arr": {
+                "locX": 3,
+                "idx": 22,
+                "aProdX": 8,
+                "aTimeS": "083000",
+                "aProgType": "PROGNOSED",
+                "aTZOffset": 120,
+                "type": "N"
+              },
+              "secL": [
+                {
+                  "type": "JNY",
+                  "dep": {
+                    "locX": 0,
+                    "idx": 17,
+                    "dProdX": 8,
+                    "dTimeS": "053900",
+                    "dProgType": "PROGNOSED",
+                    "dTZOffset": 120,
+                    "type": "N"
+                  },
+                  "arr": {
+                    "locX": 3,
+                    "idx": 22,
+                    "aProdX": 8,
+                    "aTimeS": "083000",
+                    "aProgType": "PROGNOSED",
+                    "aTZOffset": 120,
+                    "type": "N"
+                  },
+                  "jny": {
+                    "jid": "2|#VN#1#ST#1784883105#PI#0#ZI#505196#TA#0#DA#190826#1S#5100066#1T#1941#LS#8000261#LT#11039#PU#81#RT#1#CA#EN#ZE#40407#ZB#EN 40407#PC#3#FR#5100066#FT#1941#TO#8000261#TT#11039#",
+                    "date": "20260820",
+                    "prodX": 8,
+                    "dirTxt": "München Hbf",
+                    "dirFlg": "x",
+                    "status": "P",
+                    "isRchbl": true,
+                    "ctxRecon": "T$A=1@O=Wien Hbf (Bahnsteige 3-12)@L=8103000@a=128@$A=1@O=Salzburg Hbf@L=8100002@a=128@$202608200539$202608200830$EN 40407$$1$$$$$$",
+                    "msgL": [
+                      {
+                        "type": "REM",
+                        "remX": 19,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 578813952
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 20,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 578813952
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 21,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 589299712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 22,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 589299712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 23,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 595853312
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 16,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 616824832
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 17,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 549978112
+                      }
+                    ],
+                    "subscr": "F",
+                    "prodL": [
+                      {
+                        "prodX": 8,
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "fIdx": 17,
+                        "tIdx": 22
+                      }
+                    ],
+                    "sumLDrawStyleX": 7,
+                    "resLDrawStyleX": 8,
+                    "trainStartDate": "20260819",
+                    "durS": "025100"
+                  }
+                }
+              ],
+              "ctxRecon": "¶HKI¶T$A=1@O=Wien Hbf (Bahnsteige 3-12)@L=8103000@a=128@$A=1@O=Salzburg Hbf@L=8100002@a=128@$202608200539$202608200830$EN 40407$$1$$$$$$¶KRCC¶#VE#1#MRTF#",
+              "trfRes": {
+                "statusCode": "OK",
+                "clickout": "https://shop.oebbtickets.at/de/ticket?cref=scottymobil&connectionDatetimeDeparture=2026-08-20T05:39&connectionDatetimeArrival=2026-08-20T08:30&connectionOrigEva=8103000&connectionDestEva=8100002&stationOrigName=Wien%20Hbf%20(Bahnsteige%203-12)&stationDestName=Salzburg%20Hbf",
+                "extContActionBar": {
+                  "text": "Tickets",
+                  "content": {
+                    "type": "URL_EXT",
+                    "content": "aHR0cHM6Ly9zaG9wLm9lYmJ0aWNrZXRzLmF0L2RlL3RpY2tldD9jcmVmPXNjb3R0eW1vYmlsJmNvbm5lY3Rpb25EYXRldGltZURlcGFydHVyZT0yMDI2LTA4LTIwVDA1OjM5JmNvbm5lY3Rpb25EYXRldGltZUFycml2YWw9MjAyNi0wOC0yMFQwODozMCZjb25uZWN0aW9uT3JpZ0V2YT04MTAzMDAwJmNvbm5lY3Rpb25EZXN0RXZhPTgxMDAwMDImc3RhdGlvbk9yaWdOYW1lPVdpZW4lMjBIYmYlMjAoQmFobnN0ZWlnZSUyMDMtMTIpJnN0YXRpb25EZXN0TmFtZT1TYWx6YnVyZyUyMEhiZg=="
+                  }
+                }
+              },
+              "conSubscr": "F",
+              "recState": "U",
+              "cksum": "4a63fec9_3",
+              "cksumDti": "ef396bec_3",
+              "intvlSubscr": "F",
+              "originType": "INITIAL"
+            },
+            {
+              "cid": "C-5",
+              "date": "20260820",
+              "dur": "025200",
+              "durS": "025200",
+              "chg": 0,
+              "sDays": {
+                "sDaysR": "täglich",
+                "sDaysB": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0"
+              },
+              "dep": {
+                "locX": 0,
+                "idx": 0,
+                "dProdX": 5,
+                "dPltfS": {
+                  "type": "PL",
+                  "txt": "8A-B"
+                },
+                "dTimeS": "055700",
+                "dProgType": "PROGNOSED",
+                "dTZOffset": 120,
+                "type": "N"
+              },
+              "arr": {
+                "locX": 3,
+                "idx": 11,
+                "aProdX": 5,
+                "aPltfS": {
+                  "type": "PL",
+                  "txt": "6A-C"
+                },
+                "aTimeS": "084900",
+                "aProgType": "PROGNOSED",
+                "aTZOffset": 120,
+                "type": "N"
+              },
+              "secL": [
+                {
+                  "type": "JNY",
+                  "dep": {
+                    "locX": 0,
+                    "idx": 0,
+                    "dProdX": 5,
+                    "dPltfS": {
+                      "type": "PL",
+                      "txt": "8A-B"
+                    },
+                    "dTimeS": "055700",
+                    "dProgType": "PROGNOSED",
+                    "dTZOffset": 120,
+                    "type": "N"
+                  },
+                  "arr": {
+                    "locX": 3,
+                    "idx": 11,
+                    "aProdX": 5,
+                    "aPltfS": {
+                      "type": "PL",
+                      "txt": "6A-C"
+                    },
+                    "aTimeS": "084900",
+                    "aProgType": "PROGNOSED",
+                    "aTZOffset": 120,
+                    "type": "N"
+                  },
+                  "jny": {
+                    "jid": "2|#VN#1#ST#1784883105#PI#0#ZI#413117#TA#0#DA#200826#1S#8103000#1T#557#LS#8100002#LT#849#PU#81#RT#1#CA#IC#ZE#540#ZB#IC 540  #PC#2#FR#8103000#FT#557#TO#8100002#TT#849#",
+                    "date": "20260820",
+                    "prodX": 5,
+                    "dirTxt": "Salzburg Hbf",
+                    "status": "P",
+                    "isRchbl": true,
+                    "freq": {
+                      "minC": 60,
+                      "maxC": 120,
+                      "numC": 2,
+                      "jnyL": [
+                        {
+                          "jid": "2|#VN#1#ST#1784883105#PI#0#ZI#413132#TA#0#DA#200826#1S#8100353#1T#734#LS#8100002#LT#1049#PU#81#RT#1#CA#IC#ZE#544#ZB#IC 544  #PC#2#FR#8100353#FT#734#TO#8100002#TT#1049#",
+                          "date": "20260820",
+                          "prodX": 6,
+                          "dirTxt": "Salzburg Hbf",
+                          "status": "P",
+                          "isRchbl": true,
+                          "stopL": [
+                            {
+                              "locX": 0,
+                              "idx": 2,
+                              "dProdX": 6,
+                              "dPltfS": {
+                                "type": "PL",
+                                "txt": "8A-B"
+                              },
+                              "dTimeS": "075700",
+                              "dDirTxt": "Salzburg Hbf",
+                              "dTZOffset": 120,
+                              "type": "N"
+                            },
+                            {
+                              "locX": 3,
+                              "idx": 13,
+                              "aProdX": 6,
+                              "aPltfS": {
+                                "type": "PL",
+                                "txt": "5A-B"
+                              },
+                              "aTimeS": "104900",
+                              "aProgType": "PROGNOSED",
+                              "aTZOffset": 120,
+                              "type": "N"
+                            }
+                          ],
+                          "ctxRecon": "T$A=1@O=Wien Hbf (Bahnsteige 3-12)@L=8103000@a=128@$A=1@O=Salzburg Hbf@L=8100002@a=128@$202608200757$202608201049$IC 544  $$1$$$$$$",
+                          "subscr": "F",
+                          "prodL": [
+                            {
+                              "prodX": 6,
+                              "fLocX": 0,
+                              "tLocX": 3,
+                              "fIdx": 2,
+                              "tIdx": 13
+                            }
+                          ],
+                          "dirL": [
+                            {
+                              "dirX": 1,
+                              "fLocX": 0,
+                              "tLocX": 3,
+                              "fIdx": 2,
+                              "tIdx": 13
+                            }
+                          ],
+                          "sumLDrawStyleX": 6,
+                          "resLDrawStyleX": 1,
+                          "trainStartDate": "20260820",
+                          "durS": "025200"
+                        },
+                        {
+                          "jid": "2|#VN#1#ST#1784883105#PI#0#ZI#413158#TA#0#DA#200826#1S#8100353#1T#834#LS#8100002#LT#1149#PU#81#RT#1#CA#IC#ZE#546#ZB#IC 546  #PC#2#FR#8100353#FT#834#TO#8100002#TT#1149#",
+                          "date": "20260820",
+                          "prodX": 9,
+                          "dirTxt": "Salzburg Hbf",
+                          "status": "P",
+                          "isRchbl": true,
+                          "stopL": [
+                            {
+                              "locX": 0,
+                              "idx": 2,
+                              "dProdX": 9,
+                              "dPltfS": {
+                                "type": "PL",
+                                "txt": "8A-B"
+                              },
+                              "dTimeS": "085700",
+                              "dDirTxt": "Salzburg Hbf",
+                              "dTZOffset": 120,
+                              "type": "N"
+                            },
+                            {
+                              "locX": 3,
+                              "idx": 13,
+                              "aProdX": 9,
+                              "aPltfS": {
+                                "type": "PL",
+                                "txt": "7"
+                              },
+                              "aTimeS": "114900",
+                              "aProgType": "PROGNOSED",
+                              "aTZOffset": 120,
+                              "type": "N"
+                            }
+                          ],
+                          "ctxRecon": "T$A=1@O=Wien Hbf (Bahnsteige 3-12)@L=8103000@a=128@$A=1@O=Salzburg Hbf@L=8100002@a=128@$202608200857$202608201149$IC 546  $$1$$$$$$",
+                          "subscr": "F",
+                          "prodL": [
+                            {
+                              "prodX": 9,
+                              "fLocX": 0,
+                              "tLocX": 3,
+                              "fIdx": 2,
+                              "tIdx": 13
+                            }
+                          ],
+                          "dirL": [
+                            {
+                              "dirX": 1,
+                              "fLocX": 0,
+                              "tLocX": 3,
+                              "fIdx": 2,
+                              "tIdx": 13
+                            }
+                          ],
+                          "sumLDrawStyleX": 6,
+                          "resLDrawStyleX": 1,
+                          "trainStartDate": "20260820",
+                          "durS": "025200"
+                        }
+                      ]
+                    },
+                    "ctxRecon": "T$A=1@O=Wien Hbf (Bahnsteige 3-12)@L=8103000@a=128@$A=1@O=Salzburg Hbf@L=8100002@a=128@$202608200557$202608200849$IC 540  $$1$$$$$$",
+                    "msgL": [
+                      {
+                        "type": "REM",
+                        "remX": 12,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "SUM_CON_FTR_H3",
+                          "RES_JNY_DTL_H3"
+                        ],
+                        "sort": 268435456
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 0,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 1,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 2,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 3,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 556531712
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 4,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 569638912
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 5,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 569638912
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 9,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 616824832
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 16,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 616824832
+                      },
+                      {
+                        "type": "REM",
+                        "remX": 10,
+                        "sty": "I",
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "tagL": [
+                          "RES_JNY_DTL"
+                        ],
+                        "sort": 629932032
+                      }
+                    ],
+                    "subscr": "F",
+                    "prodL": [
+                      {
+                        "prodX": 5,
+                        "fLocX": 0,
+                        "tLocX": 3,
+                        "fIdx": 0,
+                        "tIdx": 11
+                      }
+                    ],
+                    "sumLDrawStyleX": 6,
+                    "resLDrawStyleX": 1,
+                    "trainStartDate": "20260820",
+                    "durS": "025200"
+                  }
+                }
+              ],
+              "ctxRecon": "¶HKI¶T$A=1@O=Wien Hbf (Bahnsteige 3-12)@L=8103000@a=128@$A=1@O=Salzburg Hbf@L=8100002@a=128@$202608200557$202608200849$IC 540  $$1$$$$$$¶KRCC¶#VE#1#MRTF#",
+              "freq": {
+                "minC": 60
+              },
+              "trfRes": {
+                "statusCode": "OK",
+                "clickout": "https://shop.oebbtickets.at/de/ticket?cref=scottymobil&connectionDatetimeDeparture=2026-08-20T05:57&connectionDatetimeArrival=2026-08-20T08:49&connectionOrigEva=8103000&connectionDestEva=8100002&stationOrigName=Wien%20Hbf%20(Bahnsteige%203-12)&stationDestName=Salzburg%20Hbf",
+                "extContActionBar": {
+                  "text": "Tickets",
+                  "content": {
+                    "type": "URL_EXT",
+                    "content": "aHR0cHM6Ly9zaG9wLm9lYmJ0aWNrZXRzLmF0L2RlL3RpY2tldD9jcmVmPXNjb3R0eW1vYmlsJmNvbm5lY3Rpb25EYXRldGltZURlcGFydHVyZT0yMDI2LTA4LTIwVDA1OjU3JmNvbm5lY3Rpb25EYXRldGltZUFycml2YWw9MjAyNi0wOC0yMFQwODo0OSZjb25uZWN0aW9uT3JpZ0V2YT04MTAzMDAwJmNvbm5lY3Rpb25EZXN0RXZhPTgxMDAwMDImc3RhdGlvbk9yaWdOYW1lPVdpZW4lMjBIYmYlMjAoQmFobnN0ZWlnZSUyMDMtMTIpJnN0YXRpb25EZXN0TmFtZT1TYWx6YnVyZyUyMEhiZg=="
+                  }
+                }
+              },
+              "conSubscr": "F",
+              "recState": "U",
+              "cksum": "f97ffafd_3",
+              "cksumDti": "4553203c_3",
+              "intvlSubscr": "F",
+              "originType": "INITIAL"
+            }
+          ],
+          "outCtxScrB": "3|OB|MT#14#131068#131068#131442#131442#0#0#965#131040#1#0#922#0#0#-2147483648#1#2|PDH#0ef052c9fd891302f4e328cda3be5477|RD#20082026|RT#0|US#1|RS#INIT",
+          "outCtxScrF": "3|OF|MT#14#131397#131397#131569#131569#0#0#485#131380#8#0#5018#0#0#-2147483648#1#2|PDH#0ef052c9fd891302f4e328cda3be5477|RD#20082026|RT#0|US#1|RS#INIT",
+          "fpB": "20260523",
+          "fpE": "20261212",
+          "planrtTS": "1785172800",
+          "outConGrpSettings": {
+            "conGrpL": [
+              {
+                "name": "Alle Verbindungen",
+                "icoX": 24,
+                "grpid": "cl_all",
+                "conScoringL": [
+                  {
+                    "type": "DT",
+                    "conScoreL": [
+                      {
+                        "score": 8659591951958409214,
+                        "scoreS": "08659591951958409214",
+                        "conRefL": [
+                          0
+                        ]
+                      },
+                      {
+                        "score": 8658408877552828415,
+                        "scoreS": "08658408877552828415",
+                        "conRefL": [
+                          1
+                        ]
+                      },
+                      {
+                        "score": 8658272538125139967,
+                        "scoreS": "08658272538125139967",
+                        "conRefL": [
+                          2
+                        ]
+                      },
+                      {
+                        "score": 8658224159599886335,
+                        "scoreS": "08658224159599886335",
+                        "conRefL": [
+                          3
+                        ]
+                      },
+                      {
+                        "score": 8658224159599886335,
+                        "scoreS": "08658224159599886335",
+                        "conRefL": [
+                          4
+                        ]
+                      },
+                      {
+                        "score": 8658144994762162175,
+                        "scoreS": "08658144994762162175",
+                        "conRefL": [
+                          5
+                        ]
+                      }
+                    ],
+                    "name": "Abfahrt"
+                  },
+                  {
+                    "type": "AT",
+                    "conScoreL": [
+                      {
+                        "score": 8657947082563256318,
+                        "scoreS": "08657947082563256318",
+                        "conRefL": [
+                          0
+                        ]
+                      },
+                      {
+                        "score": 8657652413552918527,
+                        "scoreS": "08657652413552918527",
+                        "conRefL": [
+                          1
+                        ]
+                      },
+                      {
+                        "score": 8657634821381029887,
+                        "scoreS": "08657634821381029887",
+                        "conRefL": [
+                          2
+                        ]
+                      },
+                      {
+                        "score": 8657472093646487551,
+                        "scoreS": "08657472093646487551",
+                        "conRefL": [
+                          3
+                        ]
+                      },
+                      {
+                        "score": 8657472093646487551,
+                        "scoreS": "08657472093646487551",
+                        "conRefL": [
+                          4
+                        ]
+                      },
+                      {
+                        "score": 8657388530762252287,
+                        "scoreS": "08657388530762252287",
+                        "conRefL": [
+                          5
+                        ]
+                      }
+                    ],
+                    "name": "Ankunft"
+                  },
+                  {
+                    "type": "TI",
+                    "conScoreL": [
+                      {
+                        "score": 9221723801717309438,
+                        "scoreS": "09221723801717309438",
+                        "conRefL": [
+                          0
+                        ]
+                      },
+                      {
+                        "score": 9222612206971518975,
+                        "scoreS": "09222612206971518975",
+                        "conRefL": [
+                          1
+                        ]
+                      },
+                      {
+                        "score": 9222730954211065855,
+                        "scoreS": "09222730954211065855",
+                        "conRefL": [
+                          2
+                        ]
+                      },
+                      {
+                        "score": 9222616604996009983,
+                        "scoreS": "09222616604996009983",
+                        "conRefL": [
+                          3
+                        ]
+                      },
+                      {
+                        "score": 9222616604996009983,
+                        "scoreS": "09222616604996009983",
+                        "conRefL": [
+                          4
+                        ]
+                      },
+                      {
+                        "score": 9222612206940061695,
+                        "scoreS": "09222612206940061695",
+                        "conRefL": [
+                          5
+                        ]
+                      }
+                    ],
+                    "name": "Dauer"
+                  }
+                ],
+                "initScoringType": "DT",
+                "requests": [
+                  {
+                    "id": "RQ_CLIENT",
+                    "autosend": true
+                  }
+                ],
+                "scrollable": true,
+                "bitmask": 1
+              }
+            ],
+            "selectL": [
+              {
+                "icoX": 24,
+                "name": "Alle Verbindungen",
+                "bitIdx": 0
+              }
+            ],
+            "variant": "RADIO"
+          }
+        }
+      }
+    ]
+  }
+}

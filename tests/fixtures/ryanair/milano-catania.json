@@ -1,0 +1,98 @@
+{
+  "captured_for": {
+    "origin_query": "Milano",
+    "destination_query": "Catania",
+    "date": "2026-08-14",
+    "pax": 1
+  },
+  "origin_node": {
+    "id": "air:MXP",
+    "name": "Milan Malpensa International Airport",
+    "kind": "airport",
+    "lat": 45.6306,
+    "lon": 8.72811,
+    "country": "IT",
+    "city": "Ferno (VA)",
+    "timezone": "Europe/Rome",
+    "iata": "MXP",
+    "provider_ids": {
+      "trenitalia": "8313834",
+      "flixbus": "10778",
+      "distribusion": "ITMILMA"
+    },
+    "is_main": true
+  },
+  "destination_node": {
+    "id": "air:CTA",
+    "name": "Catania-Fontanarossa Airport",
+    "kind": "airport",
+    "lat": 37.466801,
+    "lon": 15.0664,
+    "country": "IT",
+    "city": "Catania",
+    "timezone": "Europe/Rome",
+    "iata": "CTA",
+    "provider_ids": {
+      "trenitalia": "8312336"
+    },
+    "is_main": true
+  },
+  "raw": {
+    "arrivalAirportCategories": null,
+    "fares": [
+      {
+        "outbound": {
+          "departureAirport": {
+            "countryName": "Italy",
+            "iataCode": "MXP",
+            "name": "Milan Malpensa",
+            "seoName": "milan-malpensa",
+            "city": {
+              "code": "MILAN",
+              "countryCode": "it",
+              "macCode": "MIL",
+              "name": "Milan"
+            }
+          },
+          "arrivalAirport": {
+            "countryName": "Italy",
+            "iataCode": "CTA",
+            "name": "Catania",
+            "seoName": "catania",
+            "city": {
+              "code": "CATANIA",
+              "countryCode": "it",
+              "name": "Catania"
+            }
+          },
+          "departureDate": "2026-08-14T12:15:00",
+          "arrivalDate": "2026-08-14T14:15:00",
+          "price": {
+            "value": 61.99,
+            "valueMainUnit": "61",
+            "valueFractionalUnit": "99",
+            "currencyCode": "EUR",
+            "currencySymbol": "€"
+          },
+          "flightKey": "FR~ 529~ ~~MXP~08/14/2026 12:15~CTA~08/14/2026 14:15~~",
+          "flightNumber": "FR529",
+          "previousPrice": null,
+          "priceUpdated": 1785150557000
+        },
+        "summary": {
+          "price": {
+            "value": 61.99,
+            "valueMainUnit": "61",
+            "valueFractionalUnit": "99",
+            "currencyCode": "EUR",
+            "currencySymbol": "€"
+          },
+          "previousPrice": null,
+          "newRoute": false
+        }
+      }
+    ],
+    "nextPage": null,
+    "size": 1
+  }
+}

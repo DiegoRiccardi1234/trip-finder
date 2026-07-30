@@ -1,0 +1,84 @@
+{
+  "captured_for": {
+    "origin_query": "Roma",
+    "destination_query": "Cosenza",
+    "date": "2026-08-14",
+    "pax": 1
+  },
+  "origin_node": {
+    "id": "tl:8544",
+    "name": "Roma Termini",
+    "kind": "station",
+    "lat": 41.900833,
+    "lon": 12.501944,
+    "country": "IT",
+    "city": "Roma",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {
+      "trenitalia": "8308409",
+      "italo": "RMT",
+      "oebb": "8300263"
+    },
+    "is_main": true
+  },
+  "destination_node": {
+    "id": "tl:20065",
+    "name": "Paola",
+    "kind": "station",
+    "lat": 39.358999,
+    "lon": 16.033852,
+    "country": "IT",
+    "city": "Cosenza",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {
+      "trenitalia": "8311739",
+      "italo": "PAR",
+      "flixbus": "26781",
+      "distribusion": "ITPLA"
+    },
+    "is_main": false
+  },
+  "raw": [
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T08:40:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "0dcf4ff0-c537-4e92-b0f2-100400c0bde5",
+            "lineId": "ee398031-0413-4079-b898-0965010de920",
+            "routeId": "bd29ce9f-64a2-463e-8b5c-0d800096461d",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 20.0
+              }
+            ],
+            "carrierId": "interbus",
+            "canSelectSeat": true,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "4b95f618-d3a5-4b4d-97f9-069e52b85eeb",
+          "departureDateTime": "2026-08-14T12:40:00+00:00",
+          "arrivalStopId": "5ec07380-96b3-47ad-9554-100200a9ef51",
+          "arrivalDateTime": "2026-08-14T18:40:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "b7191119-93fd-4e96-803e-20856a20a3f4"
+        }
+      ],
+      "calculatedPrice": 24.0,
+      "returnPrice": 23.0,
+      "fullPrice": 33.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    }
+  ]
+}

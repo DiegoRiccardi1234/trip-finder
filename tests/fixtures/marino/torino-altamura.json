@@ -1,0 +1,261 @@
+{
+  "captured_for": {
+    "origin_query": "Torino",
+    "destination_query": "Altamura",
+    "date": "2026-08-14",
+    "pax": 1
+  },
+  "origin_node": {
+    "id": "tl:8567",
+    "name": "Torino Porta Nuova",
+    "kind": "station",
+    "lat": 45.061,
+    "lon": 7.677713,
+    "country": "IT",
+    "city": "Torino",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {
+      "trenitalia": "8300219",
+      "italo": "TOP",
+      "distribusion": "@ITTRNTOP"
+    },
+    "is_main": true
+  },
+  "destination_node": {
+    "id": "ov:bus-matera-sturzo",
+    "name": "Matera, Via Don Luigi Sturzo (autostazione)",
+    "kind": "bus_stop",
+    "lat": 40.6709,
+    "lon": 16.5886,
+    "country": "IT",
+    "city": "Matera",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {
+      "marino": "MATERA",
+      "marozzi": "MATERA"
+    },
+    "is_main": true
+  },
+  "raw": [
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T16:30:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "a0bf0b9f-2374-4b31-9be8-1011011f6b51",
+            "lineId": "d16484e5-72b7-44bd-9084-0d240112ae8b",
+            "routeId": "5619f36d-6247-40c4-bf83-0d5f009d4128",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 20.0
+              }
+            ],
+            "carrierId": "marinosoc",
+            "canSelectSeat": true,
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "6d09f964-93f9-47a6-ac98-a53e009f988a",
+          "departureDateTime": "2026-08-14T16:30:00+00:00",
+          "arrivalStopId": "7744bd2f-2688-44c8-8975-a53d010d5c6e",
+          "arrivalDateTime": "2026-08-15T06:45:00+00:00",
+          "departureLocality": "5b477c87-10bc-410d-a1f6-fd37bc121588",
+          "arrivalLocality": "f2020bf7-86fc-4fca-9581-0bec4437c240"
+        }
+      ],
+      "calculatedPrice": 83.0,
+      "returnPrice": 75.0,
+      "fullPrice": 83.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [
+        "85e6ebbf-0991-490e-a2c7-0bb400a8ab61"
+      ],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T04:30:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "952ed107-5c57-48fa-a366-100400bdb34a",
+            "lineId": "af787937-5501-410b-81f7-0d2e00b8e24e",
+            "routeId": "c210a91f-479d-4af3-95f8-0fc5010e99b1",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 25.0
+              }
+            ],
+            "carrierId": "marinosoc",
+            "canSelectSeat": true,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "6d09f964-93f9-47a6-ac98-a53e009f988a",
+          "departureDateTime": "2026-08-14T04:30:00+00:00",
+          "arrivalStopId": "1835b294-8b50-4deb-a78a-9711788b4c34",
+          "arrivalDateTime": "2026-08-14T17:05:00+00:00",
+          "departureLocality": "5b477c87-10bc-410d-a1f6-fd37bc121588",
+          "arrivalLocality": "d61229fc-362d-40df-9e46-94f5b9ab9b1d"
+        },
+        {
+          "tripDepartureDateTime": "2026-08-14T04:55:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "82378599-035b-4a62-95a9-100400bdb34b",
+            "lineId": "af787937-5501-410b-81f7-0d2e00b8e24e",
+            "routeId": "8986dac0-1ce1-4772-b22e-0fc500c1d7f4",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 20.0
+              }
+            ],
+            "carrierId": "marinosoc",
+            "canSelectSeat": true,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "1835b294-8b50-4deb-a78a-9711788b4c34",
+          "departureDateTime": "2026-08-14T17:20:00+00:00",
+          "arrivalStopId": "7744bd2f-2688-44c8-8975-a53d010d5c6e",
+          "arrivalDateTime": "2026-08-14T19:35:00+00:00",
+          "departureLocality": "d61229fc-362d-40df-9e46-94f5b9ab9b1d",
+          "arrivalLocality": "f2020bf7-86fc-4fca-9581-0bec4437c240"
+        }
+      ],
+      "calculatedPrice": 75.0,
+      "returnPrice": 67.0,
+      "fullPrice": 88.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [
+        "85e6ebbf-0991-490e-a2c7-0bb400a8ab61"
+      ],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T16:30:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "a0bf0b9f-2374-4b31-9be8-1011011f6b51",
+            "lineId": "d16484e5-72b7-44bd-9084-0d240112ae8b",
+            "routeId": "5619f36d-6247-40c4-bf83-0d5f009d4128",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 20.0
+              }
+            ],
+            "carrierId": "marinosoc",
+            "canSelectSeat": true,
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "ebb3f35a-7f11-42f7-8e01-a53e009f3438",
+          "departureDateTime": "2026-08-14T16:55:00+00:00",
+          "arrivalStopId": "7744bd2f-2688-44c8-8975-a53d010d5c6e",
+          "arrivalDateTime": "2026-08-15T06:45:00+00:00",
+          "departureLocality": "5b477c87-10bc-410d-a1f6-fd37bc121588",
+          "arrivalLocality": "f2020bf7-86fc-4fca-9581-0bec4437c240"
+        }
+      ],
+      "calculatedPrice": 83.0,
+      "returnPrice": 75.0,
+      "fullPrice": 83.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [
+        "85e6ebbf-0991-490e-a2c7-0bb400a8ab61"
+      ],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "tripDepartureDateTime": "2026-08-14T04:30:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "952ed107-5c57-48fa-a366-100400bdb34a",
+            "lineId": "af787937-5501-410b-81f7-0d2e00b8e24e",
+            "routeId": "c210a91f-479d-4af3-95f8-0fc5010e99b1",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 25.0
+              }
+            ],
+            "carrierId": "marinosoc",
+            "canSelectSeat": true,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "ebb3f35a-7f11-42f7-8e01-a53e009f3438",
+          "departureDateTime": "2026-08-14T04:55:00+00:00",
+          "arrivalStopId": "1835b294-8b50-4deb-a78a-9711788b4c34",
+          "arrivalDateTime": "2026-08-14T17:05:00+00:00",
+          "departureLocality": "5b477c87-10bc-410d-a1f6-fd37bc121588",
+          "arrivalLocality": "d61229fc-362d-40df-9e46-94f5b9ab9b1d"
+        },
+        {
+          "tripDepartureDateTime": "2026-08-14T04:55:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "82378599-035b-4a62-95a9-100400bdb34b",
+            "lineId": "af787937-5501-410b-81f7-0d2e00b8e24e",
+            "routeId": "8986dac0-1ce1-4772-b22e-0fc500c1d7f4",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 20.0
+              }
+            ],
+            "carrierId": "marinosoc",
+            "canSelectSeat": true,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "1835b294-8b50-4deb-a78a-9711788b4c34",
+          "departureDateTime": "2026-08-14T17:20:00+00:00",
+          "arrivalStopId": "7744bd2f-2688-44c8-8975-a53d010d5c6e",
+          "arrivalDateTime": "2026-08-14T19:35:00+00:00",
+          "departureLocality": "d61229fc-362d-40df-9e46-94f5b9ab9b1d",
+          "arrivalLocality": "f2020bf7-86fc-4fca-9581-0bec4437c240"
+        }
+      ],
+      "calculatedPrice": 75.0,
+      "returnPrice": 67.0,
+      "fullPrice": 88.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [
+        "85e6ebbf-0991-490e-a2c7-0bb400a8ab61"
+      ],
+      "timezone": "Europe/Rome"
+    }
+  ]
+}

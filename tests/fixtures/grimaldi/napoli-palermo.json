@@ -1,0 +1,35 @@
+{
+  "captured_for": {
+    "origin_query": "Napoli",
+    "destination_query": "Palermo",
+    "date": "2026-08-20",
+    "pax": 1
+  },
+  "origin_node": {
+    "id": "ov:port-napoli",
+    "name": "Napoli Porto",
+    "kind": "port",
+    "lat": 40.84,
+    "lon": 14.26,
+    "country": "IT",
+    "city": "Napoli",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {},
+    "is_main": true
+  },
+  "destination_node": {
+    "id": "ov:port-palermo",
+    "name": "Palermo Porto",
+    "kind": "port",
+    "lat": 38.13,
+    "lon": 13.37,
+    "country": "IT",
+    "city": "Palermo",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {},
+    "is_main": true
+  },
+  "raw": "\n        \n        \n\n\n\r\n\t\t\t\t<div id=\"calendar_wrap\">\r\n\t\t\t\t\t<div class=\"title_bar\">\r\n\t\t\t\t\t\t<!-- <a href=\"#\"><div class=\"previous\"></div></a> -->\r\n\t\t\t\t\t\t<!-- <a href=\"#\"><div class=\"next\"></div></a> -->\r\n\t\t\t\t\t\t<h2 class=\"month\">ITNAP - ITPMO</h2>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"cal_day \" id=\"leg1-NAPPMO202608192359\">\r\n\t\t\t\t\t\t\t\t\t\t<a style=\"text-decoration:none\" href=\"#\" title=\"More Info\" rel=\"day_view\" class=\"cboxElement\" onclick=\"selDay('NAPPMO202608192359','1','ITNAP|ITPMO|20260819|23:59')\">\r\n                                        <div class=\"day_heading\">19 AUG</div>\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"day_count\"><span class=\"event\"><img src=\"css/img/clock.png\"> 23:59</span></div>\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"day_number\">29,80 &euro;</div>\r\n                                        </a>\r\n                                        <div class=\"day_info\" onClick=\"moreInfo('Vessel: MV_CRUISE_AUSONIA<br>Dep.: 19 AUG 23:59<br>Arr.: 20 AUG 08:30');\">More Info</div>\r\n                                    </div>\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<div class=\"cal_day \" id=\"leg1-NAPPMO202608202359\">\r\n\t\t\t\t\t\t\t\t\t\t<a style=\"text-decoration:none\" href=\"#\" title=\"More Info\" rel=\"day_view\" class=\"cboxElement\" onclick=\"selDay('NAPPMO202608202359','1','ITNAP|ITPMO|20260820|23:59')\">\r\n                                        <div class=\"day_heading\">20 AUG</div>\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"day_count\"><span class=\"event\"><img src=\"css/img/clock.png\"> 23:59</span></div>\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"day_number\">29,80 &euro;</div>\r\n                                        </a>\r\n                                        <div class=\"day_info\" onClick=\"moreInfo('Vessel: MV_CRUISE_AUSONIA<br>Dep.: 20 AUG 23:59<br>Arr.: 21 AUG 08:30');\">More Info</div>\r\n                                    </div>\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<div class=\"cal_day \" id=\"leg1-NAPPMO202608212359\">\r\n\t\t\t\t\t\t\t\t\t\t<a style=\"text-decoration:none\" href=\"#\" title=\"More Info\" rel=\"day_view\" class=\"cboxElement\" onclick=\"selDay('NAPPMO202608212359','1','ITNAP|ITPMO|20260821|23:59')\">\r\n                                        <div class=\"day_heading\">21 AUG</div>\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"day_count\"><span class=\"event\"><img src=\"css/img/clock.png\"> 23:59</span></div>\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"day_number\">29,80 &euro;</div>\r\n                                        </a>\r\n                                        <div class=\"day_info\" onClick=\"moreInfo('Vessel: MV_CRUISE_AUSONIA<br>Dep.: 21 AUG 23:59<br>Arr.: 22 AUG 08:30');\">More Info</div>\r\n                                    </div>\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<div class=\"cal_day \" id=\"leg1-NAPPMO202608222359\">\r\n\t\t\t\t\t\t\t\t\t\t<a style=\"text-decoration:none\" href=\"#\" title=\"More Info\" rel=\"day_view\" class=\"cboxElement\" onclick=\"selDay('NAPPMO202608222359','1','ITNAP|ITPMO|20260822|23:59')\">\r\n                                        <div class=\"day_heading\">22 AUG</div>\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"day_count\"><span class=\"event\"><img src=\"css/img/clock.png\"> 23:59</span></div>\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"day_number\">33,80 &euro;</div>\r\n                                        </a>\r\n                                        <div class=\"day_info\" onClick=\"moreInfo('Vessel: MV_CRUISE_AUSONIA<br>Dep.: 22 AUG 23:59<br>Arr.: 23 AUG 08:30');\">More Info</div>\r\n                                    </div>\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<div class=\"cal_day \" id=\"leg1-NAPPMO202608242359\">\r\n\t\t\t\t\t\t\t\t\t\t<a style=\"text-decoration:none\" href=\"#\" title=\"More Info\" rel=\"day_view\" class=\"cboxElement\" onclick=\"selDay('NAPPMO202608242359','1','ITNAP|ITPMO|20260824|23:59')\">\r\n                                        <div class=\"day_heading\">24 AUG</div>\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"day_count\"><span class=\"event\"><img src=\"css/img/clock.png\"> 23:59</span></div>\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"day_number\">29,80 &euro;</div>\r\n                                        </a>\r\n                                        <div class=\"day_info\" onClick=\"moreInfo('Vessel: MV_CRUISE_AUSONIA<br>Dep.: 24 AUG 23:59<br>Arr.: 25 AUG 08:30');\">More Info</div>\r\n                                    </div>\r\n\t\t\t\t\t\t\t\t</div><input type=\"hidden\" value=\"1\" id=\"totLeg\" id=\"totLeg\"><div class=\"help\"><div center=\"\\\">\r\n<div left=\"\\\">\r\n<div center=\"\\\">\r\n<div justify=\"\\\">\r\n<p class=\"\\\"><span start=\"\\\">Welcome to Grimaldi Lines online booking. To book your trip select the destination and the dates of departure in the search box on your left. Add your vehicles and click on &quot;Search&quot; button.</span></p>\r\n</div>\r\n</div>\r\n</div>\r\n\r\n<div arial=\"\\\">\r\n<p class=\"\\\"><span 10pt=\"\\\">&nbsp;</span></p>\r\n</div>\r\n</div>\r\n</div><script>\r\n                    $(\"#nextStep\").hide();\r\n                    $(\"#retry\").click(function(){\r\n                \t\t$(\"#searchnow\").click();\r\n                \t});\r\n                </script>"
+}

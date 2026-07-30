@@ -1,0 +1,123 @@
+{
+  "captured_for": {
+    "origin_query": "Roma",
+    "destination_query": "Matera",
+    "date": "2026-08-14",
+    "pax": 1
+  },
+  "origin_node": {
+    "id": "tl:8544",
+    "name": "Roma Termini",
+    "kind": "station",
+    "lat": 41.900833,
+    "lon": 12.501944,
+    "country": "IT",
+    "city": "Roma",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {
+      "trenitalia": "8308409",
+      "italo": "RMT",
+      "oebb": "8300263"
+    },
+    "is_main": true
+  },
+  "destination_node": {
+    "id": "ov:bus-matera-sturzo",
+    "name": "Matera, Via Don Luigi Sturzo (autostazione)",
+    "kind": "bus_stop",
+    "lat": 40.6709,
+    "lon": 16.5886,
+    "country": "IT",
+    "city": "Matera",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {
+      "marino": "MATERA",
+      "marozzi": "MATERA"
+    },
+    "is_main": true
+  },
+  "raw": [
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "Rm-Pz-Mt",
+          "tripDepartureDateTime": "2026-08-14T06:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "7d6e5b86-8fc4-4315-aa70-105e00adc598",
+            "lineId": "eec95125-61df-458f-a347-7b5b6d2a7bf2",
+            "routeId": "e48de192-02f9-4607-a8ee-f8850c9e703f",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 0.0
+              }
+            ],
+            "carrierId": "liscio",
+            "canSelectSeat": true,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "ae32f872-9929-4243-9c1f-3ab624cca20f",
+          "departureDateTime": "2026-08-14T06:00:00+00:00",
+          "arrivalStopId": "0cced85a-5d31-47be-88a9-b1682a89d3cf",
+          "arrivalDateTime": "2026-08-14T11:45:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "f2020bf7-86fc-4fca-9581-0bec4437c240"
+        }
+      ],
+      "calculatedPrice": 36.0,
+      "returnPrice": 31.0,
+      "fullPrice": 36.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "Roma-Potenza-Matera 15:00",
+          "tripDepartureDateTime": "2026-08-14T13:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "b8d0ced2-6b2f-4b82-813c-105e00adc593",
+            "lineId": "eec95125-61df-458f-a347-7b5b6d2a7bf2",
+            "routeId": "3eeefa9a-d157-41aa-8a4b-575736207ef6",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 0.0
+              }
+            ],
+            "carrierId": "liscio",
+            "canSelectSeat": true,
+            "vehicleDescription": "SETRA S 517 HDH",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "ae32f872-9929-4243-9c1f-3ab624cca20f",
+          "departureDateTime": "2026-08-14T13:00:00+00:00",
+          "arrivalStopId": "0cced85a-5d31-47be-88a9-b1682a89d3cf",
+          "arrivalDateTime": "2026-08-14T18:35:00+00:00",
+          "departureLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f",
+          "arrivalLocality": "f2020bf7-86fc-4fca-9581-0bec4437c240"
+        }
+      ],
+      "calculatedPrice": 36.0,
+      "returnPrice": 31.0,
+      "fullPrice": 36.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    }
+  ]
+}
