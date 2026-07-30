@@ -1,0 +1,45 @@
+{
+  "_comment": [
+    "Operatori che coprono davvero una tratta ma che non sappiamo interrogare.",
+    "Tacere di loro farebbe credere che quel collegamento non esista; inventarne",
+    "gli orari sarebbe peggio. Qui c'e' solo cio' che e' stato verificato, e la",
+    "UI li mostra a parte, con il link al loro sito.",
+    "Due modi per dichiarare la copertura, mai a occhio:",
+    "  - 'dataset_key': l'operatore e' nei dataset con i propri identificatori, e",
+    "    la tratta e' coperta se entrambi i capi ce l'hanno (caso di Italo);",
+    "  - 'routes': coppie di localita' lette dai suoi documenti pubblici.",
+    "Lo stato di ciascuno, con l'evidenza, sta in docs/operatori.md."
+  ],
+
+  "operators": [
+    {
+      "id": "italo",
+      "name": "Italo",
+      "mode": "rail",
+      "url": "https://biglietti.italotreno.com/",
+      "dataset_key": "italo",
+      "note": "I suoi orari non sono interrogabili: l'accesso richiede un token che nasce nella pagina."
+    },
+    {
+      "id": "tirrenia",
+      "name": "Tirrenia (CIN)",
+      "mode": "ferry",
+      "url": "https://www.tirrenia.it/",
+      "note": "Pubblica solo l'ora di partenza: niente orario di arrivo né prezzo.",
+      "routes": [
+        ["genova", "olbia"],
+        ["genova", "porto torres"],
+        ["genova", "arbatax"],
+        ["civitavecchia", "olbia"],
+        ["civitavecchia", "arbatax"],
+        ["civitavecchia", "cagliari"],
+        ["napoli", "cagliari"],
+        ["napoli", "palermo"],
+        ["cagliari", "arbatax"],
+        ["olbia", "arbatax"],
+        ["palermo", "cagliari"],
+        ["termoli", "tremiti"]
+      ]
+    }
+  ]
+}
