@@ -206,6 +206,21 @@ def diversify(itineraries: list[Itinerary]) -> list[Itinerary]:
     return head + [item for item in itineraries if id(item) not in chosen]
 
 
+def _arrives_too_late(itinerary: Itinerary, query: SearchQuery) -> bool:
+    """Vero se l'arrivo sfora l'ora chiesta.
+
+    Un arrivo del giorno dopo sfora sempre: chi scrive "entro le 23:59" non
+    intende la notte seguente. Sta in una funzione sola perche' la usano sia il
+    filtro sia il rendiconto dei vincoli non rispettati, e se divergessero
+    l'utente si sentirebbe dire che un vincolo e' stato messo da parte mentre
+    invece era attivo, o il contrario."""
+    if not query.arrive_by:
+        return False
+    if itinerary.arrive.date() > query.date:
+        return True
+    return itinerary.arrive.date() == query.date and itinerary.arrive.time() > query.arrive_by
+
+
 def filter_by_query(itineraries: list[Itinerary], query: SearchQuery) -> list[Itinerary]:
     """Applica i vincoli espliciti dell'utente. Restano fuori solo le violazioni."""
     kept: list[Itinerary] = []
@@ -218,10 +233,46 @@ def filter_by_query(itineraries: list[Itinerary], query: SearchQuery) -> list[It
             continue
         if query.depart_after and itinerary.depart.time() < query.depart_after:
             continue
-        if query.arrive_by and itinerary.arrive.date() == query.date:
-            if itinerary.arrive.time() > query.arrive_by:
-                continue
-        elif query.arrive_by and itinerary.arrive.date() > query.date:
+        if _arrives_too_late(itinerary, query):
             continue
         kept.append(itinerary)
     return kept
+
+
+def unmet_constraints(
+    itineraries: list[Itinerary], query: SearchQuery
+) -> list[dict[str, object]]:
+    """I vincoli dell'utente che qualche itinerario di questa lista viola.
+
+    Serve a chi, non avendo trovato niente dentro i vincoli, decide di mostrare
+    le soluzioni fuori vincolo invece di una pagina vuota: dire **quali** vincoli
+    sta mettendo da parte e' la differenza fra una scelta offerta all'utente e un
+    risultato che lo inganna, perche' altrimenti legge orari che aveva chiesto di
+    non vedere senza un modo di accorgersene.
+
+    Si nominano solo i vincoli che escludono davvero qualcosa: un tetto di tre
+    cambi che nessuno supera non c'entra niente col perche' la lista era vuota, e
+    citarlo sposterebbe l'attenzione dal vincolo che invece morde.
+
+    La frase per l'utente la scrive l'interfaccia: qui si dice quale vincolo e
+    con che valore."""
+    unmet: list[dict[str, object]] = []
+    if query.max_budget is not None and any(
+        item.cost.total > query.max_budget for item in itineraries
+    ):
+        unmet.append({"kind": "max_budget", "value": round(query.max_budget, 2)})
+    if query.max_changes is not None and any(
+        item.n_changes > query.max_changes for item in itineraries
+    ):
+        unmet.append({"kind": "max_changes", "value": query.max_changes})
+    if not query.allow_night and any(item.overnight for item in itineraries):
+        unmet.append({"kind": "allow_night", "value": False})
+    if query.depart_after and any(
+        item.depart.time() < query.depart_after for item in itineraries
+    ):
+        unmet.append(
+            {"kind": "depart_after", "value": query.depart_after.strftime("%H:%M")}
+        )
+    if query.arrive_by and any(_arrives_too_late(item, query) for item in itineraries):
+        unmet.append({"kind": "arrive_by", "value": query.arrive_by.strftime("%H:%M")})
+    return unmet

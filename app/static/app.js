@@ -1035,8 +1035,9 @@ function buildTrips(outbound, inbound) {
 
 /* --------------------------------------------------------- un pannello --- */
 
-/** Quante righe della griglia occupa un pannello: serve ad allineare le colonne. */
-const PANEL_ROWS = 8;
+/** Quante righe della griglia occupa un pannello: serve ad allineare le colonne.
+ * Va tenuto uguale al numero di righe dichiarate in `main.multi .panel > *`. */
+const PANEL_ROWS = 9;
 
 class SearchPanel {
   constructor(combo, options) {
@@ -1071,6 +1072,7 @@ class SearchPanel {
     this.filterEl = node.querySelector('.filter-line');
     this.knownEl = node.querySelector('.known-routes');
     this.adviceEl = node.querySelector('.advice');
+    this.relaxedEl = node.querySelector('.relaxed');
     this.cardsEl = node.querySelector('.cards');
 
     this.routeEl.textContent = this.title;
@@ -1301,9 +1303,37 @@ class SearchPanel {
       ? buildTrips(this.outbound, this.inbound)
       : this.outbound.map(oneWayTrip);
 
+    if (which === 'out') this.showRelaxed(data.relaxed);
     this.syncMeta();
     this.render();
     refreshSummary();
+  }
+
+  /** I vincoli che il motore ha messo da parte perche' nessuna soluzione li
+   * rispettava (vedi `_build` in `search_service.py`: preferisce dei risultati
+   * fuori vincolo a una pagina vuota). Dirlo non e' una gentilezza: senza questa
+   * riga si leggono orari che si era chiesto di escludere, e l'unico indizio
+   * resta il consiglio dell'IA, che e' opzionale e non sempre lo nota. */
+  showRelaxed(relaxed) {
+    if (!relaxed || !relaxed.length) { this.relaxedEl.hidden = true; return; }
+    const detto = {
+      depart_after: (v) => `partenza dopo le ${v}`,
+      arrive_by: (v) => `arrivo entro le ${v}`,
+      max_budget: (v) => `budget massimo ${String(v).replace('.', ',')} €`,
+      max_changes: (v) => `non più di ${v} ${Number(v) === 1 ? 'cambio' : 'cambi'}`,
+      allow_night: () => 'niente viaggi notturni',
+    };
+    const voci = relaxed
+      .filter((r) => detto[r.kind])
+      .map((r) => `«${detto[r.kind](r.value)}»`);
+    if (!voci.length) { this.relaxedEl.hidden = true; return; }
+    const elenco = voci.length > 1
+      ? `${voci.slice(0, -1).join(', ')} e ${voci[voci.length - 1]}`
+      : voci[0];
+    const quel = voci.length > 1 ? 'quei vincoli' : 'quel vincolo';
+    this.relaxedEl.hidden = false;
+    this.relaxedEl.textContent = `Nessuna soluzione rispetta ${elenco}: `
+      + `qui sotto ci sono le migliori senza ${quel}.`;
   }
 
   onAdvice(data, which) {

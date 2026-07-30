@@ -294,7 +294,8 @@ main.multi .panel > .providers { grid-row: calc(var(--rowbase) + 4); }
 main.multi .panel > .filter-line { grid-row: calc(var(--rowbase) + 5); }
 main.multi .panel > .known-routes { grid-row: calc(var(--rowbase) + 6); }
 main.multi .panel > .advice { grid-row: calc(var(--rowbase) + 7); }
-main.multi .panel > .cards { grid-row: calc(var(--rowbase) + 8); margin-bottom: 18px; }
+main.multi .panel > .relaxed { grid-row: calc(var(--rowbase) + 8); }
+main.multi .panel > .cards { grid-row: calc(var(--rowbase) + 9); margin-bottom: 18px; }
 
 /* Sotto i 900px due colonne diventano illeggibili: si torna in fila indiana e
    i pannelli ridiventano scatole normali. */
@@ -481,6 +482,22 @@ button.chip:hover:not(.mute) { filter: none; border-color: var(--accent); }
 
 .filter-line { margin: 0; font-size: 13px; color: var(--muted); }
 .filter-line[hidden] { display: none; }
+
+/* Un vincolo messo da parte non si cerca, si vede: sta attaccato sopra le
+   schede, col colore degli avvisi, perche' riguarda proprio quello che si sta
+   leggendo. La riga per [hidden] serve come per `.deep`: il `padding` di questa
+   regola batterebbe la regola del browser e la scatola resterebbe li', vuota. */
+.relaxed[hidden] { display: none; }
+
+.relaxed {
+  margin: 10px 0 0;
+  padding: 8px 12px;
+  background: var(--warn-soft);
+  border-left: 3px solid var(--warn);
+  border-radius: 7px;
+  color: var(--warn);
+  font-size: 13.5px;
+}
 
 /* ---------------------------------------------------- profilo e avvisi --- */
 

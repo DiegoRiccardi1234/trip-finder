@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from datetime import time
+
 from app.models import Itinerary, Mode, NodeKind, RiskFlag, SearchQuery
 from app.routing import composer, cost, feasibility, ranker, transfers
 from app.routing.hub_graph import candidate_hubs
@@ -275,6 +277,42 @@ def test_filtri_espliciti_rispettati(query: SearchQuery) -> None:
     )
     con_budget = query.model_copy(update={"max_budget": 100.0})
     assert ranker.filter_by_query([caro, economico], con_budget) == [economico]
+
+
+def test_arrivare_il_giorno_dopo_sfora_l_ora_di_arrivo(query: SearchQuery) -> None:
+    """"Entro le 23:59" non vuol dire la notte seguente. E' il caso che si
+    incontra su Torino-Matera: quasi tutto quello che parte nel pomeriggio
+    arriva il giorno dopo."""
+    domani = _itinerary(
+        [make_leg("a", Mode.BUS, TORINO_PN, MATERA_BUS, at(18, 30), at(8, 45, day_offset=1), 66.0)],
+        query,
+    )
+    oggi = _itinerary(
+        [make_leg("b", Mode.AIR, TORINO_AIR, BARI_AIR, at(5, 40), at(7, 20), 90.0)], query
+    )
+    entro_mezzanotte = query.model_copy(update={"arrive_by": time(23, 59)})
+
+    assert ranker.filter_by_query([domani, oggi], entro_mezzanotte) == [oggi]
+
+
+def test_i_vincoli_messi_da_parte_sono_solo_quelli_che_mordono(query: SearchQuery) -> None:
+    """Quando nessuna soluzione rispetta i vincoli la ricerca mostra quelle fuori
+    vincolo, e deve dire quali ha messo da parte. Nominare anche i vincoli che
+    non escludono niente sposterebbe l'attenzione da quello che morde davvero."""
+    notturno = _itinerary(
+        [make_leg("a", Mode.BUS, TORINO_PN, MATERA_BUS, at(6, 0), at(20, 0), 66.0)], query
+    )
+    vincoli = query.model_copy(
+        update={"depart_after": time(13, 30), "max_changes": 3, "max_budget": 500.0}
+    )
+
+    messi_da_parte = ranker.unmet_constraints([notturno], vincoli)
+
+    # Parte alle 6: viola l'orario. Un cambio non lo fa e costa 66 €, quindi il
+    # tetto dei cambi e quello del budget non c'entrano.
+    assert [voce["kind"] for voce in messi_da_parte] == ["depart_after"]
+    assert messi_da_parte[0]["value"] == "13:30"
+    assert ranker.unmet_constraints([notturno], query) == []
 
 
 # ------------------------------------------------------------- ricomposizione

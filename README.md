@@ -132,6 +132,13 @@ Il totale di ogni itinerario comprende:
 Ogni voce stimata è dichiarata. Una tratta di cui non conosciamo il prezzo non
 vale zero: verrebbe premiata proprio perché ne sappiamo meno.
 
+Lo stesso vale per i vincoli. Se nessuna soluzione rispetta quelli che hai messo
+— «parti dopo le 13:30» su una tratta dove tutto quel che parte nel pomeriggio
+arriva il giorno dopo — la ricerca mostra le migliori **fuori** vincolo invece di
+una pagina vuota, e lo scrive sopra la classifica, dicendo quali vincoli ha messo
+da parte. Solo quelli che le soluzioni a schermo violano davvero: avvisare di un
+vincolo che non si vede violato è un avviso che non si può verificare.
+
 ### Il rischio, che è un criterio come gli altri
 
 Torino → Bari con Trenitalia più Bari → Matera con FlixBus sono **due contratti**.

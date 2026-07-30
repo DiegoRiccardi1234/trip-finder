@@ -70,6 +70,10 @@ class _State:
     #: Itinerari gia' mostrati: serve a marcare come nuovi quelli che arrivano
     #: nell'ondata lenta, invece di rimescolare la lista senza dirlo.
     seen_itineraries: set[str] = field(default_factory=set)
+    #: Vero quando nessuna soluzione rispettava i vincoli e la classifica e'
+    #: stata riempita con quelle fuori vincolo. Falso quasi sempre. *Quali*
+    #: vincoli dire lo si decide sulle schede effettivamente spedite, non qui.
+    constraints_dropped: bool = False
 
 
 class SearchService:
@@ -250,6 +254,7 @@ class SearchService:
                                 "items": self._flag_new(itineraries[:TOP_N], state, fast_done),
                                 "partial": not finished,
                                 "phase": "approfondita" if fast_done else "veloce",
+                                "relaxed": self._relaxed(itineraries[:TOP_N], state, query),
                             },
                         )
         finally:
@@ -276,6 +281,7 @@ class SearchService:
                 "items": self._flag_new(itineraries[:TOP_N], state, fast_done),
                 "partial": False,
                 "phase": "completa",
+                "relaxed": self._relaxed(itineraries[:TOP_N], state, query),
             },
         )
 
@@ -407,11 +413,28 @@ class SearchService:
         kept = ranker.filter_by_query(unique, query)
         # Se i filtri hanno azzerato tutto e' meglio mostrare qualcosa fuori
         # vincolo che una pagina vuota: l'utente decide se gli va bene lo stesso.
+        # Ma "decide" presuppone che gli venga detto, ed e' quello che segna
+        # questo flag: senza, la pagina mostra orari che l'utente aveva escluso e
+        # nulla glielo segnala, la stessa colpa dell'adapter che restituisce zero
+        # gambe in silenzio.
+        state.constraints_dropped = bool(unique) and not kept
         ranked = ranker.rank(kept or unique, query)
         # Prima si tolgono i doppioni quasi identici, poi si porta in testa il
         # migliore di ogni famiglia: cosi' i primi risultati dicono quali
         # strade esistono, invece di sei varianti della stessa.
         return ranker.diversify(ranker.collapse_similar(ranked))
+
+    def _relaxed(
+        self, shown: list[Itinerary], state: _State, query: SearchQuery
+    ) -> list[dict[str, object]]:
+        """I vincoli da dichiarare, calcolati sulle schede che si stanno spedendo.
+
+        Non su tutto il materiale grezzo: la pagina mostra le prime `TOP_N`, e un
+        vincolo violato solo da soluzioni che restano fuori sarebbe un avviso che
+        l'utente non puo' verificare guardando lo schermo."""
+        if not state.constraints_dropped:
+            return []
+        return ranker.unmet_constraints(shown, query)
 
     async def _suggest_hubs(
         self, origin: Place, destination: Place, query: SearchQuery
