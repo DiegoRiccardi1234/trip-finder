@@ -27,7 +27,7 @@ import logging
 import re
 import time
 
-from app.ai import endpoint_health
+from app.ai import endpoint_health, providers
 from app.config import get_settings
 from app.orchestrator import cache
 from app.orchestrator.db import get_db
@@ -35,24 +35,13 @@ from app.providers.http_client import HttpError, get_http_client
 
 logger = logging.getLogger(__name__)
 
-#: Pool di partenza, verificati a luglio 2026. Il piano gratuito di OpenRouter
+#: Pool di partenza di OpenRouter, verificati a luglio 2026. Il piano gratuito
 #: ruota in fretta: modelli che c'erano due mesi fa rispondono `endpoints: []`.
 #: Per questo il pool e' solo un punto di partenza; se muore tutto si passa alla
 #: scoperta automatica piu' sotto, e .env permette comunque di imporne altri.
-DEFAULT_POOLS: dict[str, list[str]] = {
-    "json": [
-        "google/gemma-4-31b-it:free",
-        "google/gemma-4-26b-a4b-it:free",
-        "nvidia/nemotron-3-nano-30b-a3b:free",
-        "inclusionai/ling-3.0-flash:free",
-    ],
-    "advice": [
-        "nvidia/nemotron-3-super-120b-a12b:free",
-        "google/gemma-4-31b-it:free",
-        "inclusionai/ling-3.0-flash:free",
-        "google/gemma-4-26b-a4b-it:free",
-    ],
-}
+#: Vivono nel registro dei fornitori insieme a quelli degli altri sei: qui c'e'
+#: un alias, perche' due elenchi che dicono la stessa cosa divergono sempre.
+DEFAULT_POOLS: dict[str, list[str]] = dict(providers.BY_NAME["openrouter"].pools)
 
 MODELS_URL = "https://openrouter.ai/api/v1/models"
 
@@ -215,12 +204,12 @@ async def rank_models(task: str, candidates: list[str] | None = None) -> list[st
     return pool
 
 
-async def _rank_pool(pool: list[str], task: str) -> list[str]:
+async def _rank_pool(pool: list[str], task: str, provider: str = "openrouter") -> list[str]:
     if not pool:
         return []
 
     health = await endpoint_health.check_many(pool)
-    penalties = await current_penalties()
+    penalties = await current_penalties(provider)
 
     alive = [
         (slug, health.get(slug, endpoint_health.UNKNOWN))
@@ -244,3 +233,88 @@ async def _rank_pool(pool: list[str], task: str) -> list[str]:
     # due decimi di punto percentuale.
     ranked.sort(key=lambda item: (item[0], -item[1]))
     return [slug for _, _, slug in ranked]
+
+
+# ------------------------------------------------------------- multi-fornitore
+
+
+async def discover_catalog(provider: providers.Provider, limit: int = 12) -> list[str]:
+    """Il catalogo vivo di un fornitore compatibile OpenAI (`GET {base}/models`).
+
+    Serve dove il pool scritto nel codice non basta: i nomi dei modelli cambiano
+    e un elenco fissato invecchia. Se la chiamata non riesce non si blocca
+    niente, si torna vuoti e restano i pool di partenza."""
+    base = providers.base_url(provider)
+    if not provider.lists_models or not base:
+        return []
+
+    key = cache.make_key("catalog", provider.name)
+    cached = await cache.get(key)
+    if cached is not None:
+        return list(cached)[:limit]
+
+    headers = {"Accept": "application/json"}
+    token = providers.api_key(provider)
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+
+    try:
+        payload = await get_http_client().get_json(f"{base}/models", headers=headers, retries=1)
+    except HttpError as exc:
+        logger.debug("catalogo di %s non raggiungibile: %s", provider.name, exc)
+        return []
+
+    found = [
+        str(entry.get("id"))
+        for entry in (payload.get("data") if isinstance(payload, dict) else None) or []
+        if isinstance(entry, dict) and entry.get("id")
+    ]
+    usable = [slug for slug in found if not any(word in slug.lower() for word in DISCOVERY_BLOCKLIST)]
+    await cache.set(key, usable, kind="static", ttl=6 * 3600)
+    return usable[:limit]
+
+
+async def _models_for(provider: providers.Provider, task: str) -> list[str]:
+    """I modelli di un fornitore, i migliori per primi.
+
+    Solo OpenRouter ha un controllo di salute per modello (`/endpoints`, gratis
+    e senza autenticazione): la' si scarta chi e' morto prima di provarlo. Per
+    gli altri la salute non e' interrogabile, quindi contano la qualita' attesa
+    dal nome e le penalita' raccolte sul campo."""
+    if provider.name == "openrouter":
+        return await rank_models(task)
+
+    pool = providers.pool_for(provider, task)
+    if not pool:
+        pool = await discover_catalog(provider)
+    if not pool:
+        return []
+
+    penalties = await current_penalties(provider.name)
+    ranked = sorted(
+        pool,
+        key=lambda slug: -(score_model_name(slug, task) - penalties.get(slug, 0.0)),
+    )
+    return ranked
+
+
+async def rank_candidates(task: str) -> list[tuple[providers.Provider, str]]:
+    """Le coppie (fornitore, modello) da provare, in ordine.
+
+    L'ordine alterna i fornitori invece di esaurirne uno: prima la scelta
+    migliore di ciascuno, poi la seconda di ciascuno. E' il punto: quando un
+    fornitore gratuito e' sotto throttle lo sono di solito **tutti** i suoi
+    modelli, e provarne quattro di fila vuol dire quattro attese per niente
+    mentre accanto c'e' un altro host libero."""
+    columns: list[list[tuple[providers.Provider, str]]] = []
+    for provider in providers.configured():
+        models = await _models_for(provider, task)
+        if models:
+            columns.append([(provider, model) for model in models])
+
+    candidates: list[tuple[providers.Provider, str]] = []
+    for index in range(max((len(column) for column in columns), default=0)):
+        for column in columns:
+            if index < len(column):
+                candidates.append(column[index])
+    return candidates

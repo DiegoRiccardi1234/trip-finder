@@ -18,7 +18,19 @@ class Settings(BaseSettings):
     )
 
     # --- IA ---
+    # Una chiave qualsiasi basta: i fornitori configurati si provano in catena,
+    # gratuiti per primi (app/ai/providers.py). Senza nessuna chiave il sito
+    # funziona identico, solo senza consigli e senza linguaggio naturale.
     openrouter_api_key: str = ""
+    groq_api_key: str = ""
+    cerebras_api_key: str = ""
+    google_api_key: str = ""
+    openai_api_key: str = ""
+    anthropic_api_key: str = ""
+    #: Un server locale compatibile OpenAI (Ollama, LM Studio) o un gateway.
+    llm_base_url: str = ""
+    #: Forza un fornitore o un ordine ("groq" oppure "groq,openrouter").
+    llm_provider: str = ""
     openrouter_json_models: str = ""
     openrouter_advice_models: str = ""
 

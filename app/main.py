@@ -191,16 +191,35 @@ async def parse_natural_language(text: str = Query(min_length=4)) -> dict:
 
 @app.get("/api/ai/status")
 async def ai_status() -> dict:
-    """Diagnostica: quali modelli sono utilizzabili adesso e quali penalizzati."""
-    from app.ai import client, model_selector
+    """Diagnostica: quali fornitori e modelli sono utilizzabili adesso."""
+    from app.ai import client, model_selector, providers
 
+    usable = providers.configured()
     if not client.is_configured():
-        return {"configured": False, "detail": "OPENROUTER_API_KEY non impostata"}
+        return {
+            "configured": False,
+            "detail": "nessuna chiave impostata: vedi .env.example",
+            "known": [provider.name for provider in providers.PROVIDERS],
+        }
+
+    async def order(task: str) -> list[str]:
+        return [
+            f"{provider.name}/{model}"
+            for provider, model in await model_selector.rank_candidates(task)
+        ]
+
     return {
         "configured": True,
-        "json": await model_selector.rank_models("json"),
-        "advice": await model_selector.rank_models("advice"),
-        "penalties": await model_selector.current_penalties(),
+        "providers": [
+            {"name": provider.name, "free": provider.free, "note": provider.label}
+            for provider in usable
+        ],
+        "json": await order("json"),
+        "advice": await order("advice"),
+        "penalties": {
+            provider.name: await model_selector.current_penalties(provider.name)
+            for provider in usable
+        },
     }
 
 

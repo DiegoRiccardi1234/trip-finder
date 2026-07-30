@@ -9,10 +9,36 @@ danno errore, danno risultati sbagliati.
 from __future__ import annotations
 
 from datetime import date, time
+from types import SimpleNamespace
 
-from app.ai import endpoint_health, model_selector, nl_query
+import pytest
+
+from app.ai import anthropic_client, client, endpoint_health, model_selector, nl_query, providers
 from app.ai.client import _extract_json
+from app.config import get_settings
 from app.models import Mode
+
+
+@pytest.fixture
+def solo(monkeypatch):
+    """Configura solo i fornitori indicati, azzerando tutti gli altri.
+
+    `get_settings` e' in cache: senza svuotarla le variabili nuove non
+    arriverebbero mai, e il test passerebbe leggendo il `.env` di chi lo lancia."""
+
+    def apply(**env: str):
+        for provider in providers.PROVIDERS:
+            monkeypatch.delenv(provider.key_field.upper(), raising=False)
+            monkeypatch.setenv(provider.key_field.upper(), "")
+        monkeypatch.setenv("LLM_PROVIDER", "")
+        monkeypatch.setenv("LLM_BASE_URL", "")
+        for name, value in env.items():
+            monkeypatch.setenv(name, value)
+        get_settings.cache_clear()
+        return get_settings()
+
+    yield apply
+    get_settings.cache_clear()
 
 
 # ------------------------------------------------------------------- salute
@@ -142,3 +168,82 @@ def test_passeggeri_entro_limiti() -> None:
     assert nl_query._int(3, default=1, low=1, high=9) == 3
     assert nl_query._int(99, default=1, low=1, high=9) == 9
     assert nl_query._int("molti", default=1, low=1, high=9) == 1
+
+
+# --------------------------------------------------------- fornitori multipli
+
+
+def test_senza_chiavi_l_ia_e_spenta(solo) -> None:
+    """La regola che regge tutto il modulo: l'IA e' facoltativa. Senza chiavi
+    non deve sollevare niente, deve semplicemente non esserci."""
+    solo()
+    assert providers.configured() == []
+    assert client.is_configured() is False
+
+
+def test_si_configura_con_una_chiave_qualsiasi(solo) -> None:
+    solo(GROQ_API_KEY="k")
+    assert [p.name for p in providers.configured()] == ["groq"]
+    assert client.is_configured() is True
+
+
+def test_i_gratuiti_si_provano_per_primi(solo) -> None:
+    """Chi paga decide quando spendere: non lo si scopre dalla fattura."""
+    solo(OPENAI_API_KEY="k", GROQ_API_KEY="k", ANTHROPIC_API_KEY="k")
+    ordine = [p.name for p in providers.configured()]
+
+    assert ordine[0] == "groq"
+    assert set(ordine[1:]) == {"openai", "anthropic"}
+
+
+def test_llm_provider_forza_l_ordine_e_esclude(solo) -> None:
+    solo(OPENROUTER_API_KEY="k", GROQ_API_KEY="k", LLM_PROVIDER="groq")
+    assert [p.name for p in providers.configured()] == ["groq"]
+
+    solo(OPENROUTER_API_KEY="k", GROQ_API_KEY="k", LLM_PROVIDER="groq,openrouter")
+    assert [p.name for p in providers.configured()] == ["groq", "openrouter"]
+
+    # Un nome sconosciuto viene ignorato: per una funzione facoltativa, far
+    # cadere l'avvio per un refuso nel .env sarebbe una punizione sproporzionata.
+    solo(GROQ_API_KEY="k", LLM_PROVIDER="tipografia,groq")
+    assert [p.name for p in providers.configured()] == ["groq"]
+
+
+def test_il_server_locale_non_vuole_una_chiave(solo) -> None:
+    """L'unico fornitore che esiste per indirizzo e non per chiave: in locale
+    non c'e' nessuno da autenticare, e pretenderla lo renderebbe inusabile."""
+    solo(LLM_BASE_URL="http://localhost:11434/v1")
+    assert [p.name for p in providers.configured()] == ["local"]
+
+
+async def test_la_penalita_e_della_coppia_non_del_modello() -> None:
+    """Lo stesso slug puo' troncare su un host e funzionare su un altro.
+    Spegnerlo ovunque per colpa di uno solo sarebbe uno spreco."""
+    await model_selector.clear_penalties()
+    await model_selector.record_penalty("gpt-oss-120b", "truncated", provider="openrouter")
+
+    assert "gpt-oss-120b" in await model_selector.current_penalties("openrouter")
+    assert await model_selector.current_penalties("cerebras") == {}
+
+    await model_selector.clear_penalties()
+
+
+def test_il_troncamento_di_anthropic_si_chiama_altrimenti() -> None:
+    """`max_tokens` la' e' `length` qui. Senza la traduzione la penalita' piu'
+    importante del progetto non scatterebbe mai su quel fornitore."""
+    assert anthropic_client.finish_reason("max_tokens") == "length"
+    assert anthropic_client.finish_reason("end_turn") == "end_turn"
+
+
+def test_il_testo_di_anthropic_sta_nei_blocchi_di_tipo_testo() -> None:
+    """La risposta e' un elenco di blocchi: leggere il primo alla cieca funziona
+    finche' non arriva un blocco di pensiero davanti, e quel giorno la risposta
+    risulta vuota senza nessun errore."""
+    message = SimpleNamespace(
+        content=[
+            SimpleNamespace(type="thinking", thinking=""),
+            SimpleNamespace(type="text", text="  Prendi il pullman.  "),
+        ]
+    )
+    assert anthropic_client._text(message) == "Prendi il pullman."
+    assert anthropic_client._text(SimpleNamespace(content=[])) == ""

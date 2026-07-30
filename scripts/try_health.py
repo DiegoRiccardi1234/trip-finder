@@ -15,7 +15,7 @@ import asyncio
 
 import _bootstrap  # noqa: F401  (path e codifica dell'uscita)
 
-from app.ai import client, endpoint_health, model_selector  # noqa: E402
+from app.ai import client, endpoint_health, model_selector, providers  # noqa: E402
 from app.orchestrator.db import close_db  # noqa: E402
 from app.providers.http_client import close_http_client  # noqa: E402
 
@@ -31,31 +31,45 @@ async def main() -> int:
             await model_selector.clear_penalties()
             print("penalita' azzerate\n")
 
-        penalties = await model_selector.current_penalties()
-        if penalties:
-            print("penalita' attive:")
-            for model, value in sorted(penalties.items(), key=lambda p: -p[1]):
-                print(f"   {value:5.1f}  {model}")
-            print()
+        usable = providers.configured()
+        print("=== fornitori ===")
+        for provider in providers.PROVIDERS:
+            mark = "ok  " if provider in usable else "--  "
+            kind = "gratuito" if provider.free else "a pagamento"
+            note = provider.label or ("chiave assente" if provider not in usable else "")
+            print(f"   {mark} {provider.name:12} {kind:12} {note}")
+        print()
+
+        for provider in usable:
+            penalties = await model_selector.current_penalties(provider.name)
+            if penalties:
+                print(f"penalita' attive su {provider.name}:")
+                for model, value in sorted(penalties.items(), key=lambda p: -p[1]):
+                    print(f"   {value:5.1f}  {model}")
+                print()
 
         for task in ("json", "advice"):
-            pool = model_selector.DEFAULT_POOLS[task]
             print(f"=== compito: {task} ===")
+            pool = model_selector.DEFAULT_POOLS[task]
             health = await endpoint_health.check_many(pool)
             for slug in pool:
                 status = health.get(slug, endpoint_health.UNKNOWN)
                 mark = "ok  " if status.alive else "MORTO"
                 quality = model_selector.score_model_name(slug, task)
-                providers = ", ".join(status.providers[:2]) or "-"
+                hosts = ", ".join(status.providers[:2]) or "-"
                 print(
-                    f"   {mark} {slug:52} up5m {status.uptime_5m:5.1f}%  "
-                    f"qualita' {quality:+.1f}  {providers}  {status.detail}"
+                    f"   {mark} openrouter/{slug:44} up5m {status.uptime_5m:5.1f}%  "
+                    f"qualita' {quality:+.1f}  {hosts}  {status.detail}"
                 )
-            order = await model_selector.rank_models(task)
-            print(f"   ordine di prova: {' > '.join(order[:4])}\n")
+            order = [
+                f"{provider.name}/{model}"
+                for provider, model in await model_selector.rank_candidates(task)
+            ]
+            print(f"   ordine di prova: {' > '.join(order[:4]) or '(nessuno)'}\n")
 
         if not client.is_configured():
-            print("OPENROUTER_API_KEY non impostata: l'IA resta disattivata.")
+            print("Nessuna chiave impostata: l'IA resta disattivata.")
+            print("Ne basta una qualsiasi fra quelle di .env.example.")
             print("Il sito funziona lo stesso, senza consigli e senza ricerca in")
             print("linguaggio naturale.")
             return 0
@@ -71,7 +85,7 @@ async def main() -> int:
             if completion is None:
                 print("   nessun modello ha risposto")
                 return 1
-            print(f"   {completion.model}: {completion.text[:120]}")
+            print(f"   {completion.provider}/{completion.model}: {completion.text[:120]}")
         return 0
     finally:
         await close_http_client()

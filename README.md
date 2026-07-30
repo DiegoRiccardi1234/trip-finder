@@ -20,9 +20,12 @@ late, so that risk is weighted in the ranking instead of hidden. This lets it
 compose journeys no single operator sells — the case that drove the project is
 Turin → Matera, a city with neither an airport nor a national-rail station.
 Stack: Python, FastAPI, SQLite, `curl_cffi` and Playwright for the harder
-operators, and an OpenRouter LLM for the comparative advice, picked at runtime
-by live endpoint health. The test suite runs offline on saved fixtures. Please
-read the legal note at the bottom before using it.
+operators, and an LLM for the comparative advice — seven providers (OpenRouter,
+Groq, Cerebras, Google, OpenAI, Anthropic, or a local server) tried in a chain,
+free tiers first, with per-(provider, model) penalties learned at runtime so a
+model that truncates JSON on one host is not written off on another. Any one API
+key is enough, and none at all is fine too. The test suite runs offline on saved
+fixtures. Please read the legal note at the bottom before using it.
 
 ---
 
@@ -81,9 +84,19 @@ il resto identico: stesse dipendenze, `uvicorn app.main:app --port 8010`.
 
 ### Facoltativo: l'intelligenza artificiale
 
-Copia `.env.example` in `.env` e metti una chiave OpenRouter in
-`OPENROUTER_API_KEY`. Senza chiave il sito funziona identico, solo senza il
-consiglio finale e senza la ricerca in linguaggio naturale.
+Copia `.env.example` in `.env` e metti **una** chiave qualsiasi fra quelle
+elencate: OpenRouter, Groq, Cerebras, Google, OpenAI, Anthropic, o l'indirizzo di
+un server locale (Ollama, LM Studio). Senza nessuna chiave il sito funziona
+identico, solo senza il consiglio finale e senza la ricerca in linguaggio
+naturale.
+
+I fornitori configurati si provano **in catena, i gratuiti per primi**, e
+l'ordine alterna un fornitore e l'altro invece di esaurirne uno. Non è un
+vezzo: sui piani gratuiti un `429` non è la tua quota, è il throttle dell'host,
+condiviso con tutti quelli che lo stanno usando in quel momento — e quando
+arriva riguarda di solito *tutti* i modelli di quel fornitore. Con una chiave
+sola il consiglio semplicemente non arriva; con due, la richiesta prosegue
+sull'altro host.
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\try_health.py        # quali modelli sono vivi
@@ -100,7 +113,7 @@ app/
   providers/    un file per operatore, isolati fra loro
   routing/      percorsi candidati, coincidenze, costo, classifica
   orchestrator/ esecuzione in parallelo, budget di tempo, cache, circuit breaker
-  ai/           OpenRouter con selezione modelli consapevole della salute
+  ai/           sette fornitori LLM in catena, con selezione modelli
   static/       una pagina, niente build
 ```
 

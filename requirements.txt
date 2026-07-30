@@ -25,6 +25,13 @@ rapidfuzz>=3.10           # matching fuzzy dei nomi di localita
 pystray>=0.19.5           # icona nell'area di notifica: il server vive senza finestra
 pillow>=10.0              # disegna l'icona a runtime, cosi' non c'e' un .ico da versionare
 
+# --- IA ---
+# Sei fornitori su sette parlano il formato OpenAI e passano dal client HTTP che
+# c'e' gia'. Anthropic no: ha un formato suo, e per quello si usa l'SDK ufficiale
+# invece di ricostruire il protocollo a mano. Senza questo pacchetto gli altri
+# sei funzionano lo stesso.
+anthropic>=0.40
+
 # --- test ---
 pytest>=8.3
 pytest-asyncio>=0.24
