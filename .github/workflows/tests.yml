@@ -1,7 +1,11 @@
 # La suite non tocca la rete: i parser girano sulle fixture salvate in
-# `tests/fixtures/` e il motore su dati sintetici. I due dataset geografici da
-# 29 MB non stanno nel repository, quindi i test che li richiedono si saltano da
-# soli (`tests/test_geo.py`) invece di fallire.
+# `tests/fixtures/` e il motore su dati sintetici.
+#
+# I due dataset geografici (29 MB) non stanno nel repository e qui non vengono
+# scaricati: scaricarli a ogni giro renderebbe l'esito di questa verifica
+# dipendente da due siti di terzi. Gli otto test che ne hanno bisogno si saltano
+# dichiarandolo (vedi `tests/_datasets.py`), e ne restano 86 che girano davvero.
+# Misurato su un clone senza `data/`: 86 passed, 8 skipped.
 name: tests
 
 on:
