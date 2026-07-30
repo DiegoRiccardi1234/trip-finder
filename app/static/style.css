@@ -1,0 +1,535 @@
+:root {
+  --bg: #f7f7f5;
+  --panel: #ffffff;
+  --ink: #1b1d1e;
+  --muted: #6b7076;
+  --line: #dcdedf;
+  --accent: #12604d;
+  --accent-soft: #e4f0ec;
+  --on-accent: #ffffff;   /* testo sopra --accent: cambia col tema, non e' sempre bianco */
+  --warn: #8a5300;
+  --warn-soft: #fdf0dc;
+  --bad: #96261f;
+  --bad-soft: #fbe6e4;
+  --ok: #1d6b3f;
+  --radius: 10px;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, monospace;
+  color-scheme: light;
+}
+
+/* La palette scura vale in due casi diversi, e i valori sono ripetuti apposta:
+   il progetto non ha un preprocessore e le proprieta' custom non si possono
+   riusare fra selettori senza duplicarle.
+   1) il sistema chiede scuro E l'utente non ha scelto chiaro a mano;
+   2) l'utente ha scelto scuro a mano, qualunque cosa dica il sistema.
+   Chi tocca una riga qui deve toccarla in entrambi i blocchi. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14171a;
+    --panel: #1c2024;
+    --ink: #e8eaec;
+    --muted: #9aa2a9;
+    --line: #2e343a;
+    --accent: #5fc9a6;
+    --accent-soft: #17322a;
+    --on-accent: #0d1512;
+    --warn: #e0a95a;
+    --warn-soft: #33280f;
+    --bad: #e88b83;
+    --bad-soft: #3a1d1a;
+    --ok: #6fd08c;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #14171a;
+  --panel: #1c2024;
+  --ink: #e8eaec;
+  --muted: #9aa2a9;
+  --line: #2e343a;
+  --accent: #5fc9a6;
+  --accent-soft: #17322a;
+  --on-accent: #0d1512;
+  --warn: #e0a95a;
+  --warn-soft: #33280f;
+  --bad: #e88b83;
+  --bad-soft: #3a1d1a;
+  --ok: #6fd08c;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0 clamp(12px, 4vw, 40px) 60px;
+  background: var(--bg);
+  color: var(--ink);
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+header {
+  padding: 28px 0 14px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+h1 { margin: 0; font-size: 26px; letter-spacing: -0.02em; }
+.tagline { margin: 4px 0 0; color: var(--muted); }
+
+#theme {
+  flex: 0 0 auto;
+  background: transparent;
+  color: var(--muted);
+  border-color: var(--line);
+  padding: 6px 12px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------- form ---- */
+
+form {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.row { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+.row.options { align-items: center; gap: 14px; }
+
+label { display: flex; flex-direction: column; gap: 3px; font-size: 13px; }
+/* Vale per ogni campo che si nasconde: `display: flex` qui sopra batterebbe
+   la regola del browser per [hidden]. */
+label[hidden] { display: none; }
+label > span { color: var(--muted); }
+label.grow { flex: 1 1 200px; }
+label.narrow { width: 118px; }
+label.inline { flex-direction: row; align-items: center; gap: 6px; font-size: 14px; }
+
+input[type="text"], input:not([type]), input[type="date"], input[type="time"], input[type="number"] {
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--bg);
+  color: var(--ink);
+  width: 100%;
+}
+input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+button {
+  font: inherit;
+  padding: 9px 16px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: var(--accent);
+  color: var(--on-accent);
+  cursor: pointer;
+}
+button:hover { filter: brightness(1.08); }
+button[disabled] { opacity: .55; cursor: progress; }
+
+#swap {
+  background: transparent;
+  color: var(--muted);
+  border-color: var(--line);
+  padding: 9px 11px;
+  align-self: flex-end;
+}
+
+button.link {
+  background: none;
+  color: var(--accent);
+  border: none;
+  padding: 4px 0;
+  text-decoration: underline;
+}
+
+fieldset.modes {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 4px 10px 8px;
+  display: flex;
+  gap: 12px;
+  margin: 0;
+}
+fieldset.modes legend { color: var(--muted); font-size: 12px; padding: 0 4px; }
+fieldset.modes label { flex-direction: row; align-items: center; gap: 5px; font-size: 14px; }
+
+.row.natural { padding-bottom: 2px; border-bottom: 1px dashed var(--line); }
+.row.natural input { font-size: 14px; }
+#interpret { background: transparent; color: var(--accent); border-color: var(--accent); }
+
+.nl-feedback { margin: -4px 0 0; font-size: 13px; color: var(--muted); }
+.nl-feedback.ok { color: var(--ok); }
+.nl-feedback.bad { color: var(--bad); }
+
+/* Stessa trappola di `.deep` qui sotto: senza questa riga il pannello dei pesi
+   resta aperto per sempre e il bottone "Priorita'..." sembra non funzionare. */
+.weights[hidden] { display: none; }
+
+.weights { flex-direction: column; align-items: stretch; gap: 6px; }
+.weights .hint { margin: 0 0 4px; color: var(--muted); font-size: 13px; }
+.presets { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.presets > span { color: var(--muted); font-size: 13px; }
+.presets button {
+  padding: 4px 10px;
+  font-size: 13px;
+  background: transparent;
+  color: var(--accent);
+  border-color: var(--line);
+  text-decoration: none;
+}
+.presets button[aria-pressed="true"] {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+.weights label { flex-direction: row; align-items: center; gap: 10px; }
+.weights label > span { flex: 0 0 190px; }
+.weights input[type="range"] { flex: 1; max-width: 320px; }
+.weights output { font-family: var(--mono); width: 34px; color: var(--muted); }
+
+/* -------------------------------------------------------------- stato ---- */
+
+#status {
+  margin-top: 16px;
+  padding: 12px 14px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.statusline { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+#counts { color: var(--muted); font-size: 14px; }
+.plan { margin-top: 8px; color: var(--muted); font-size: 13px; }
+.plan code { font-family: var(--mono); font-size: 12px; }
+
+/* `display: flex` batte la regola del browser per [hidden]: senza questa riga
+   la barra resta visibile, vuota, anche quando non c'e' nulla da aspettare. */
+.deep[hidden] { display: none; }
+
+.deep {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: var(--accent-soft);
+  border-radius: 7px;
+  color: var(--accent);
+  font-size: 13.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.spinner {
+  width: 12px; height: 12px; flex: 0 0 12px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation: none; opacity: .6; } }
+
+.providers { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.chip {
+  font-size: 12px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-family: var(--mono);
+}
+.chip.ok { border-color: var(--ok); color: var(--ok); }
+.chip.empty { opacity: .7; }
+.chip.timeout, .chip.circuit_open { border-color: var(--warn); color: var(--warn); }
+.chip.blocked, .chip.error { border-color: var(--bad); color: var(--bad); }
+.chip.skipped { display: none; }
+
+/* ------------------------------------------------------------ risultati --- */
+
+.advice {
+  padding: 14px 16px;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+}
+.advice[hidden] { display: none; }
+.advice h2 { margin: 0 0 6px; font-size: 15px; }
+.advice p { margin: 0 0 8px; }
+.advice p:last-child { margin-bottom: 0; }
+
+/* Una colonna per combinazione.
+   Con piu' colonne i pannelli non possono restare scatole indipendenti: una ha
+   una riga di chip in piu' dell'altra e le schede partirebbero a quote diverse.
+   Con `display: contents` il pannello sparisce come scatola e i suoi pezzi
+   diventano celle della stessa griglia: ognuno dichiara la propria riga
+   (`--rowbase` + posizione) e la propria colonna (`--col`), e righe omologhe si
+   allineano da sole qualunque sia il loro contenuto. */
+main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  margin-top: 16px;
+  align-items: start;
+}
+main.multi {
+  grid-template-columns: repeat(var(--panels, 2), minmax(0, 1fr));
+  column-gap: 18px;
+  row-gap: 8px;
+}
+main.multi .panel { display: contents; }
+/* Stessa trappola di sempre: `display: contents` batte la regola del browser
+   per [hidden], e la colonna chiusa resterebbe li'. */
+main.multi .panel[hidden], .panel[hidden] { display: none; }
+main.multi .panel > * { grid-column: var(--col); min-width: 0; }
+main.multi .panel > .panel-head { grid-row: calc(var(--rowbase) + 1); }
+main.multi .panel > .plan { grid-row: calc(var(--rowbase) + 2); }
+main.multi .panel > .deep { grid-row: calc(var(--rowbase) + 3); }
+main.multi .panel > .providers { grid-row: calc(var(--rowbase) + 4); }
+main.multi .panel > .filter-line { grid-row: calc(var(--rowbase) + 5); }
+main.multi .panel > .known-routes { grid-row: calc(var(--rowbase) + 6); }
+main.multi .panel > .advice { grid-row: calc(var(--rowbase) + 7); }
+main.multi .panel > .cards { grid-row: calc(var(--rowbase) + 8); margin-bottom: 18px; }
+
+/* Sotto i 900px due colonne diventano illeggibili: si torna in fila indiana e
+   i pannelli ridiventano scatole normali. */
+@media (max-width: 900px) {
+  main.multi { grid-template-columns: 1fr; }
+  main.multi .panel { display: flex; }
+  main.multi .panel > * { grid-column: auto; grid-row: auto; }
+}
+
+.panel { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.panel-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+}
+.panel-head h2 { margin: 0; font-size: 17px; }
+.panel-head .panel-counts { color: var(--muted); font-size: 13px; }
+.panel .cards { display: flex; flex-direction: column; gap: 10px; }
+/* Dentro il pannello la spaziatura la da' il `gap`: i margini che questi
+   blocchi si portano da fuori si sommerebbero. */
+.panel .plan, .panel .providers, .panel .deep { margin-top: 0; }
+.panel .known-routes { margin-bottom: 0; }
+.panel .empty-state { padding: 12px 0; }
+
+/* Stesso gesto e stessa posizione del triangolino di "Profilo e ricerche
+   salvate": davanti al titolo, chiude e riapre, non butta via. */
+.panel-title { display: flex; align-items: baseline; gap: 4px; min-width: 0; }
+.toggle-panel {
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  padding: 0 2px;
+  font-size: 13px;
+  line-height: 1;
+}
+.toggle-panel:hover { color: var(--accent); filter: none; }
+
+/* Quarta volta che questa trappola morde, e stavolta in silenzio: una regola
+   d'autore con `display` batte sempre `[hidden]` del browser, quindi chiudendo
+   una colonna sparivano solo i blocchi che un `display` non ce l'hanno (il
+   piano) e restavano gli altri (`.cards`, `.providers`). Invece di rincorrerli
+   uno a uno, qui vale per tutti i figli del pannello. */
+.panel > [hidden] { display: none !important; }
+
+.sort { flex-direction: row; align-items: center; gap: 6px; font-size: 13px; }
+.sort select {
+  font: inherit;
+  font-size: 13px;
+  padding: 5px 8px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.itinerary {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.itinerary.best { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+
+/* Una riga per tratta: una sola per la sola andata, due per l'andata e
+   ritorno, che e' una scheda unica perche' unico e' il prezzo che conta. */
+.tratta {
+  display: grid;
+  grid-template-columns: auto 170px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 14px;
+}
+.tratta + .tratta { border-top: 1px dashed var(--line); }
+.dir { font-size: 15px; color: var(--accent); width: 14px; }
+.dir:empty { display: none; }
+.tratta-total { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+
+.trip-foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  padding: 0 14px 12px;
+}
+
+@media (max-width: 760px) {
+  .tratta { grid-template-columns: auto 1fr; }
+  .tratta .path { grid-column: 1 / -1; }
+  .tratta .tratta-total { grid-column: 1 / -1; }
+}
+main.multi .tratta { grid-template-columns: auto 1fr; }
+main.multi .tratta .path { grid-column: 1 / -1; }
+main.multi .tratta .tratta-total { grid-column: 1 / -1; }
+
+.times { display: flex; flex-direction: column; }
+.clock { font-size: 19px; font-variant-numeric: tabular-nums; }
+.duration { color: var(--muted); font-size: 13px; }
+.path { color: var(--muted); font-size: 13px; }
+.path .mode { color: var(--ink); }
+.price { text-align: right; }
+.price .total { font-size: 19px; font-variant-numeric: tabular-nums; }
+.price .perhead { display: block; color: var(--muted); font-size: 12px; }
+.expand { background: transparent; color: var(--accent); border: 1px solid var(--line); }
+
+.flags { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 14px 12px; }
+.flags:empty { display: none; }
+.flag {
+  font-size: 12px;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+.flag.danger { background: var(--bad-soft); color: var(--bad); }
+.flag.info { background: var(--accent-soft); color: var(--accent); }
+.flag.fresh { background: var(--accent); color: var(--on-accent); font-weight: 600; }
+
+/* Arrivato dopo la prima ondata: si fa notare senza urlare. */
+.itinerary.fresh { border-color: var(--accent); }
+
+.detail { border-top: 1px solid var(--line); padding: 12px 14px; }
+.legs { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.legs li { display: grid; grid-template-columns: 108px 1fr; gap: 10px; font-size: 14px; }
+.legs .when { font-family: var(--mono); color: var(--muted); font-size: 13px; }
+.legs .what strong { font-weight: 600; }
+.legs .what small { display: block; color: var(--muted); }
+.legs li.transfer .what { color: var(--muted); font-style: italic; }
+.legs .wait { color: var(--warn); }
+
+.breakdown table { border-collapse: collapse; width: 100%; max-width: 520px; font-size: 13px; }
+.breakdown td { padding: 3px 0; border-bottom: 1px dotted var(--line); }
+.breakdown td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+.breakdown tr.sum td { font-weight: 600; border-bottom: none; padding-top: 6px; }
+.breakdown .est { color: var(--muted); font-size: 11px; }
+
+.scoring { margin-top: 10px; color: var(--muted); font-size: 12px; font-family: var(--mono); }
+
+.empty-state { color: var(--muted); padding: 24px 0; }
+
+/* Operatori che coprono la tratta ma non sono interrogabili: stanno fuori
+   dalla classifica, e si vede che sono un'altra cosa. */
+.known-routes {
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  color: var(--muted);
+  font-size: 13.5px;
+}
+.known-routes[hidden] { display: none; }
+.known-routes h2 { margin: 0 0 4px; font-size: 14px; }
+.known-routes p { margin: 0 0 8px; }
+.known-routes ul { margin: 0; padding-left: 18px; }
+.known-routes li { margin-bottom: 4px; }
+
+/* ------------------------------------------------- campi e loro fermate --- */
+
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field.grow { flex: 1 1 220px; min-width: 0; }
+.field > .link { align-self: flex-start; font-size: 12.5px; }
+
+/* Le fermate in cui una localita' si traduce. Cliccarne una restringe la
+   ricerca; nessuna selezionata significa "tutte", che e' il default. */
+.stops { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+.stops:empty { display: none; }
+.stops .hint { font-size: 12px; }
+.chip.stop { font-family: inherit; font-size: 12px; }
+
+/* I chip degli operatori sono bottoni: cliccandoli si filtra la classifica. */
+button.chip {
+  font-family: var(--mono);
+  background: transparent;
+  cursor: pointer;
+  padding: 3px 9px;
+}
+button.chip.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+button.chip.off { opacity: .4; }
+button.chip.mute { cursor: default; }
+button.chip:hover:not(.mute) { filter: none; border-color: var(--accent); }
+
+.filter-line { margin: 0; font-size: 13px; color: var(--muted); }
+.filter-line[hidden] { display: none; }
+
+/* ---------------------------------------------------- profilo e avvisi --- */
+
+#profile {
+  margin-top: 14px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 8px 14px;
+  color: var(--muted);
+  font-size: 13.5px;
+}
+#profile summary { cursor: pointer; }
+#profile[open] summary { margin-bottom: 10px; }
+.profile-body { display: flex; flex-direction: column; gap: 10px; }
+.prefs { align-items: flex-end; }
+.prefs select {
+  font: inherit; font-size: 13px; padding: 8px 10px;
+  border: 1px solid var(--line); border-radius: 7px;
+  background: var(--bg); color: var(--ink);
+}
+#profile h3 { margin: 12px 0 2px; font-size: 14px; color: var(--ink); }
+.discount-form { align-items: flex-end; }
+.discount-form select {
+  font: inherit; font-size: 13px; padding: 8px 10px;
+  border: 1px solid var(--line); border-radius: 7px;
+  background: var(--bg); color: var(--ink);
+}
+.saved li.spenta { opacity: .5; }
+.breakdown tr.sconto td { color: var(--ok); }
+
+.saved { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.saved li { display: flex; align-items: baseline; gap: 8px; }
+.saved a { color: var(--accent); }
+
+.confirm {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--warn);
+  background: var(--warn-soft);
+  color: var(--warn);
+  border-radius: var(--radius);
+}
+.confirm[hidden] { display: none; }
+.confirm p { margin: 0 0 10px; }
+.confirm-actions { display: flex; gap: 12px; align-items: center; }
+
+.segments { color: var(--muted); }
+.pair-total { margin: 10px 0 0; font-size: 14px; }
+.detail h3 { margin: 12px 0 6px; font-size: 14px; }
+.detail h3:first-child { margin-top: 0; }
+
+footer { margin-top: 34px; color: var(--muted); font-size: 12.5px; max-width: 70ch; }

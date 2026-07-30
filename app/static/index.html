@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trip Finder</title>
+  <script>
+    // Prima del CSS, di proposito: se il tema scelto si applicasse dopo, al
+    // caricamento si vedrebbe un lampo di quello sbagliato.
+    try {
+      const saved = localStorage.getItem('tf-theme');
+      if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
+    } catch { /* localStorage negato (navigazione privata): resta il tema di sistema */ }
+  </script>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+</head>
+<body>
+<header>
+  <div>
+    <h1>Trip Finder</h1>
+    <p class="tagline">Treni, pullman, aerei e traghetti confrontati sul costo reale porta&#8209;a&#8209;porta.</p>
+  </div>
+  <button type="button" id="theme" aria-live="polite">🌗 Tema: auto</button>
+</header>
+
+<details id="profile">
+  <summary>Profilo e ricerche salvate</summary>
+  <div class="profile-body">
+    <div class="row prefs">
+      <label class="grow"><span>Partenza abituale</span>
+        <input id="pref-home" placeholder="Torino" autocomplete="off">
+      </label>
+      <label><span>Priorità preferita</span>
+        <select id="pref-preset">
+          <option value="">— nessuna —</option>
+          <option value="balanced">Equilibrata</option>
+          <option value="cheap">Più economico</option>
+          <option value="fast">Più veloce</option>
+          <option value="calm">Meno stress</option>
+        </select>
+      </label>
+      <button type="button" id="prefs-save">Salva preferenze</button>
+      <span class="hint" id="prefs-state" aria-live="polite"></span>
+    </div>
+    <p class="hint">Le ricerche salvate stanno sul server, non nel browser: restano anche se pulisci i dati di navigazione.</p>
+    <ul id="saved-list" class="saved"></ul>
+
+    <h3>Tessere e abbonamenti</h3>
+    <p class="hint">
+      Vengono tolte dal totale porta&#8209;a&#8209;porta, quindi cambiano anche la classifica.
+      Quasi nessun operatore pubblica le tariffe ridotte nella ricerca: finché il prezzo
+      scontato non arriva da lui, la voce resta segnata come «dichiarato da te» e va
+      riverificata al momento dell'acquisto.
+    </p>
+    <ul id="discount-list" class="saved"></ul>
+    <div class="row discount-form">
+      <label class="grow"><span>Nome</span>
+        <input id="d-name" placeholder="Tessera universitaria" autocomplete="off">
+      </label>
+      <label><span>Vale su</span>
+        <select id="d-scope"></select>
+      </label>
+      <label><span>Tipo</span>
+        <select id="d-kind">
+          <option value="percent">Percentuale</option>
+          <option value="amount">Importo fisso a corsa</option>
+          <option value="free">Gratis (abbonamento)</option>
+        </select>
+      </label>
+      <label class="narrow"><span>Valore</span>
+        <input id="d-value" type="number" min="0" step="0.5" value="20">
+      </label>
+      <label class="narrow"><span>Solo sulla tratta</span>
+        <input id="d-routes" placeholder="Torino-Matera" autocomplete="off">
+      </label>
+      <label class="narrow"><span>Scade il</span>
+        <input id="d-valid-to" type="date">
+      </label>
+      <button type="button" id="d-add">Aggiungi</button>
+    </div>
+  </div>
+</details>
+
+<form id="search-form" autocomplete="off">
+  <div class="row natural">
+    <label class="grow">
+      <span>Scrivilo come lo diresti a voce</span>
+      <input name="nl" placeholder="devo essere a Matera venerdì sera, parto da Torino, massimo 120 € e niente notturni">
+    </label>
+    <button type="button" id="interpret">Interpreta</button>
+  </div>
+  <p class="nl-feedback" id="nl-feedback" hidden></p>
+
+  <div class="row primary">
+    <div class="field grow">
+      <label>
+        <span>Da</span>
+        <input name="origin" list="places-origin" placeholder="Torino" required minlength="2">
+      </label>
+      <datalist id="places-origin"></datalist>
+      <div class="stops" data-field="origin"></div>
+      <label hidden id="origin2-field">
+        <span>E anche da</span>
+        <input name="origin2" list="places-origin2" placeholder="Milano" minlength="2">
+      </label>
+      <datalist id="places-origin2"></datalist>
+      <div class="stops" data-field="origin2"></div>
+      <button type="button" class="link" data-toggle="origin2">+ seconda partenza</button>
+    </div>
+
+    <button type="button" id="swap" title="Inverti">⇄</button>
+
+    <div class="field grow">
+      <label>
+        <span>A</span>
+        <input name="destination" list="places-destination" placeholder="Matera" required minlength="2">
+      </label>
+      <datalist id="places-destination"></datalist>
+      <div class="stops" data-field="destination"></div>
+      <label hidden id="destination2-field">
+        <span>E anche a</span>
+        <input name="destination2" list="places-destination2" placeholder="Palermo" minlength="2">
+      </label>
+      <datalist id="places-destination2"></datalist>
+      <div class="stops" data-field="destination2"></div>
+      <button type="button" class="link" data-toggle="destination2">+ seconda meta</button>
+    </div>
+
+    <div class="field dates">
+      <label>
+        <span>Quando</span>
+        <input name="date" type="date" required>
+      </label>
+      <label hidden id="date2-field">
+        <span>Oppure il</span>
+        <input name="date2" type="date">
+      </label>
+      <button type="button" class="link" data-toggle="date2">+ seconda data</button>
+      <label class="inline"><input type="checkbox" name="roundtrip"> Andata e ritorno</label>
+      <label hidden id="return-field">
+        <span>Ritorno il</span>
+        <input name="return_date" type="date">
+      </label>
+    </div>
+
+    <label class="narrow">
+      <span>Persone</span>
+      <input name="pax" type="number" min="1" max="9" value="1">
+    </label>
+    <button type="submit" id="go">Cerca</button>
+  </div>
+
+  <p class="nl-feedback" id="form-feedback" hidden></p>
+
+  <div class="row options">
+    <fieldset class="modes">
+      <legend>Mezzi</legend>
+      <label><input type="checkbox" name="mode" value="rail" checked> Treno</label>
+      <label><input type="checkbox" name="mode" value="bus" checked> Pullman</label>
+      <label><input type="checkbox" name="mode" value="air" checked> Aereo</label>
+      <label><input type="checkbox" name="mode" value="ferry" checked> Nave</label>
+    </fieldset>
+
+    <label class="inline"><input type="checkbox" name="bag"> Ho una valigia da stiva</label>
+    <label class="inline"><input type="checkbox" name="allow_night" checked> Accetto notturni</label>
+    <label class="narrow"><span>Max cambi</span>
+      <input name="max_changes" type="number" min="0" max="3" value="3">
+    </label>
+    <label class="narrow"><span>Budget max €</span>
+      <input name="budget" type="number" min="0" step="5" placeholder="—">
+    </label>
+    <label class="narrow"><span>Parti dopo</span>
+      <input name="depart_after" type="time">
+    </label>
+    <label class="narrow"><span>Arrivo entro</span>
+      <input name="arrive_by" type="time">
+    </label>
+    <button type="button" class="link" id="toggle-weights" aria-expanded="false" aria-controls="weights">Priorità…</button>
+    <!-- L'id non puo' essere "reset": un elemento con quel nome dentro il form
+         oscura `form.reset()`, che diventa il bottone stesso. -->
+    <button type="button" class="link" id="reset-search">Azzera la ricerca</button>
+  </div>
+
+  <div class="row weights" id="weights" hidden>
+    <p class="hint">Quanto conta ciascun criterio nella classifica. Zero significa «ignoralo».
+      La classifica mostra comunque sempre anche l'opzione più economica e la più rapida, qualunque peso tu metta.</p>
+    <div class="presets">
+      <span>Partenze rapide:</span>
+      <button type="button" data-preset="balanced" aria-pressed="true">Equilibrata</button>
+      <button type="button" data-preset="cheap" aria-pressed="false">Più economico</button>
+      <button type="button" data-preset="fast" aria-pressed="false">Più veloce</button>
+      <button type="button" data-preset="calm" aria-pressed="false">Meno stress</button>
+    </div>
+    <label><span>Prezzo totale</span><input type="range" name="w_price" min="0" max="2" step="0.1" value="1"><output>1.0</output></label>
+    <label><span>Durata porta a porta</span><input type="range" name="w_duration" min="0" max="2" step="0.1" value="1"><output>1.0</output></label>
+    <label><span>Affidabilità coincidenze</span><input type="range" name="w_risk" min="0" max="2" step="0.1" value="0.8"><output>0.8</output></label>
+    <label><span>Bonus viaggio notturno</span><input type="range" name="w_night" min="0" max="2" step="0.1" value="0.5"><output>0.5</output></label>
+    <label><span>Ora di arrivo comoda</span><input type="range" name="w_arrival" min="0" max="2" step="0.1" value="0.6"><output>0.6</output></label>
+    <label><span>Emissioni CO₂</span><input type="range" name="w_co2" min="0" max="2" step="0.1" value="0"><output>0.0</output></label>
+  </div>
+</form>
+
+<section id="confirm-many" class="confirm" hidden>
+  <p id="confirm-text"></p>
+  <div class="confirm-actions">
+    <button type="button" id="confirm-go">Continua</button>
+    <button type="button" class="link" id="confirm-cancel">Annulla</button>
+  </div>
+</section>
+
+<section id="status" hidden>
+  <div class="statusline">
+    <strong id="phase">In attesa</strong>
+    <span id="counts"></span>
+    <button type="button" class="link" id="stop" hidden>Interrompi</button>
+    <button type="button" class="link" id="save-search">Salva questa ricerca</button>
+  </div>
+</section>
+
+<section id="compare-advice" class="advice" hidden></section>
+
+<main id="results"></main>
+
+<template id="panel-template">
+  <section class="panel">
+    <div class="panel-head">
+      <div class="panel-title">
+        <button type="button" class="toggle-panel" aria-expanded="true"
+                title="Chiudi o riapri questa colonna" aria-label="Chiudi o riapri questa colonna">▾</button>
+        <h2 class="route"></h2>
+      </div>
+      <span class="panel-counts"></span>
+      <label class="sort">
+        <span>Ordina per</span>
+        <select class="sort-by">
+          <option value="score">Punteggio</option>
+          <option value="price">Prezzo crescente</option>
+          <option value="duration">Durata</option>
+          <option value="depart">Partenza</option>
+          <option value="arrive">Arrivo</option>
+          <option value="changes">Meno cambi</option>
+        </select>
+      </label>
+      <label class="sort">
+        <span>Mezzo</span>
+        <select class="mode-filter">
+          <option value="">Tutti</option>
+          <option value="rail">Solo treno</option>
+          <option value="bus">Solo pullman</option>
+          <option value="air">Solo aereo</option>
+          <option value="ferry">Solo nave</option>
+        </select>
+      </label>
+    </div>
+    <div class="plan"></div>
+    <div class="deep" hidden></div>
+    <div class="providers"></div>
+    <p class="filter-line" hidden></p>
+    <div class="known-routes" hidden></div>
+    <div class="advice" hidden></div>
+    <div class="cards"></div>
+  </section>
+</template>
+
+<template id="trip-template">
+  <article class="itinerary">
+    <div class="tratte"></div>
+    <div class="trip-foot">
+      <div class="price">
+        <strong class="total"></strong>
+        <span class="perhead"></span>
+      </div>
+      <button type="button" class="expand" aria-expanded="false">Dettagli</button>
+    </div>
+    <div class="flags"></div>
+    <div class="detail" hidden></div>
+  </article>
+</template>
+
+<template id="tratta-template">
+  <div class="tratta">
+    <span class="dir"></span>
+    <div class="times">
+      <span class="clock"></span>
+      <span class="duration"></span>
+    </div>
+    <div class="path"></div>
+    <span class="tratta-total"></span>
+  </div>
+</template>
+
+<footer>
+  <p>
+    I dati vengono letti dai siti degli operatori al momento della ricerca. I prezzi
+    vanno sempre riverificati sul sito prima di comprare: possono cambiare fra la
+    ricerca e l'acquisto, e le tariffe più basse hanno spesso condizioni restrittive.
+  </p>
+</footer>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
