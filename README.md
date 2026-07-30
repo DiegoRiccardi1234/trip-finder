@@ -205,7 +205,9 @@ ricavate dalle **linee reali** invece di tentare a caso.
 ### Quelli che non ci sono, e perché
 
 **Parte degli operatori europei è murato.** Verificato sondando gli endpoint
-reali, con l'evidenza in [`docs/operatori.md`](docs/operatori.md):
+reali, con l'evidenza in [`docs/operatori.md`](docs/operatori.md); il metodo con
+cui si aprono, e le trappole che sono costate di più, stanno in
+[`docs/note-tecniche.md`](docs/note-tecniche.md):
 
 | Operatore | Cosa risponde |
 |---|---|
