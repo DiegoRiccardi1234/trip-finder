@@ -20,6 +20,13 @@ from app.config import FIXTURES_DIR
 from app.models import Leg, Node
 from app.providers import registry
 from app.providers.base import SearchContext
+from tests._datasets import needs_datasets
+
+#: FlixBus non pubblica le coordinate delle sue fermate: il parser le recupera
+#: dal dataset Trainline incrociando il `legacy_id`, quindi e' l'unico che senza
+#: i dataset geografici non puo' girare. Tutti gli altri lavorano solo sulla
+#: risposta salvata, che e' il motivo per cui esistono queste fixture.
+PROVIDER_CON_DATASET = {"flixbus"}
 
 
 def _fixtures() -> list[tuple[str, object]]:
@@ -32,12 +39,19 @@ def _fixtures() -> list[tuple[str, object]]:
 
 
 FIXTURES = _fixtures()
+CASI = [
+    pytest.param(
+        provider_id,
+        path,
+        marks=[needs_datasets] if provider_id in PROVIDER_CON_DATASET else [],
+        id=f"{provider_id}/{path.stem}",
+    )
+    for provider_id, path in FIXTURES
+]
 
 
 @pytest.mark.skipif(not FIXTURES, reason="nessuna fixture salvata")
-@pytest.mark.parametrize(
-    "provider_id,path", FIXTURES, ids=[f"{p}/{f.stem}" for p, f in FIXTURES]
-)
+@pytest.mark.parametrize("provider_id,path", CASI)
 def test_parser_su_fixture(provider_id: str, path) -> None:
     payload = orjson.loads(path.read_bytes())
     provider = registry.get(provider_id)

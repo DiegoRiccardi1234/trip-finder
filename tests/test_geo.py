@@ -10,15 +10,10 @@ from __future__ import annotations
 
 import pytest
 
-from app.config import DATA_DIR
 from app.models import Mode
+from tests._datasets import needs_datasets
 
-DATASETS = (DATA_DIR / "stations.csv", DATA_DIR / "airports.csv")
-
-pytestmark = pytest.mark.skipif(
-    not all(path.exists() for path in DATASETS),
-    reason="dataset geografici non scaricati (scripts/fetch_datasets.py)",
-)
+pytestmark = needs_datasets
 
 
 @pytest.fixture(scope="module")

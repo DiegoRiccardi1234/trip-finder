@@ -15,6 +15,7 @@ import pytest
 
 from app.providers import registry
 from app.providers.rail import fal
+from tests._datasets import needs_datasets
 
 
 def test_niente_servizio_la_domenica() -> None:
@@ -52,6 +53,7 @@ def test_treni_estivi_soppressi_spariscono() -> None:
 
 
 @pytest.mark.skipif(not fal.load_schedule().get("runs"), reason="orario FAL non generato")
+@needs_datasets
 def test_bari_matera_come_sul_manifesto() -> None:
     """Confronto diretto con il PDF: il bus 101 parte da Bari alle 4.14, arriva
     ad Altamura alle 5.36; il treno 1 riparte alle 5.37 e arriva a Matera
