@@ -1,0 +1,488 @@
+"""Modelli di dominio condivisi da provider, motore di composizione e API.
+
+Tutti i `datetime` che rappresentano orari di viaggio sono timezone-aware.
+Un orario naive che arriva da un adapter e' un bug dell'adapter, non un caso
+da gestire a valle: due gambe in fusi diversi non sono confrontabili senza tz.
+"""
+
+from __future__ import annotations
+
+import math
+from datetime import date, datetime, time, timedelta
+from enum import Enum
+from typing import Any
+
+from pydantic import BaseModel, ConfigDict, Field, computed_field
+
+
+class Mode(str, Enum):
+    RAIL = "rail"
+    BUS = "bus"
+    AIR = "air"
+    FERRY = "ferry"
+    TRANSFER = "transfer"  # navetta, metro, taxi: collegamento fra due gambe
+    WALK = "walk"
+
+
+#: Modi che un utente puo' chiedere esplicitamente. TRANSFER e WALK sono
+#: generati dal motore, non richiesti.
+BOOKABLE_MODES = frozenset({Mode.RAIL, Mode.BUS, Mode.AIR, Mode.FERRY})
+
+
+class NodeKind(str, Enum):
+    STATION = "station"
+    AIRPORT = "airport"
+    BUS_STOP = "bus_stop"
+    PORT = "port"
+    CITY = "city"
+
+
+#: Che tipo di nodo puo' servire ciascun modo.
+MODE_NODE_KINDS: dict[Mode, frozenset[NodeKind]] = {
+    Mode.RAIL: frozenset({NodeKind.STATION}),
+    Mode.BUS: frozenset({NodeKind.BUS_STOP, NodeKind.STATION}),
+    Mode.AIR: frozenset({NodeKind.AIRPORT}),
+    Mode.FERRY: frozenset({NodeKind.PORT}),
+}
+
+
+class Node(BaseModel):
+    """Un punto di partenza/arrivo concreto: stazione, aeroporto, fermata, porto."""
+
+    model_config = ConfigDict(frozen=False)
+
+    id: str  # identificatore interno stabile, es. "tl:8768"
+    name: str
+    kind: NodeKind
+    lat: float
+    lon: float
+    country: str | None = None
+    city: str | None = None
+    timezone: str | None = None
+    iata: str | None = None
+    #: Mappa provider -> identificatore nativo, es. {"trenitalia": "830008409"}.
+    provider_ids: dict[str, str] = Field(default_factory=dict)
+    #: Stazione/aeroporto principale della citta': preferito come hub.
+    is_main: bool = False
+
+    def supports(self, provider_id: str) -> bool:
+        return provider_id in self.provider_ids
+
+    def __hash__(self) -> int:  # usato per deduplicare le gambe da interrogare
+        return hash(self.id)
+
+
+class Place(BaseModel):
+    """Esito della risoluzione di un testo libero ("Torino", "Matera")."""
+
+    query: str
+    label: str
+    lat: float
+    lon: float
+    country: str | None = None
+    nodes: list[Node] = Field(default_factory=list)
+
+    def nodes_for(self, mode: Mode) -> list[Node]:
+        kinds = MODE_NODE_KINDS.get(mode, frozenset())
+        return [n for n in self.nodes if n.kind in kinds]
+
+
+class Fare(BaseModel):
+    """Tariffa di una singola gamba, cosi' come pubblicata dall'operatore."""
+
+    amount: float
+    currency: str = "EUR"
+    fare_class: str | None = None  # "Economy", "Base", "Super Economy", "Value"
+    refundable: bool | None = None
+    changeable: bool | None = None
+    #: Bagagli gia' inclusi nella tariffa (piccolo/cabina/stiva).
+    included_cabin_bags: int = 0
+    included_checked_bags: int = 0
+    #: Costo per aggiungere un bagaglio da stiva, se noto.
+    checked_bag_price: float | None = None
+    seats_left: int | None = None
+
+
+class Leg(BaseModel):
+    """Una tratta servita da un singolo operatore, oppure un trasferimento."""
+
+    provider: str  # id dell'adapter che l'ha prodotta, es. "trenitalia"
+    mode: Mode
+    origin: Node
+    destination: Node
+    depart: datetime
+    arrive: datetime
+    operator: str | None = None  # nome commerciale, es. "Trenitalia", "Ryanair"
+    vehicle: str | None = None  # "FR 9512", "FR1234", "IC 728"
+    fare: Fare | None = None
+    booking_url: str | None = None
+    co2_kg: float | None = None
+    #: Cambi interni alla gamba. Un Torino-Bari con cambio a Bologna venduto da
+    #: Trenitalia come biglietto unico e' una gamba sola (nessun rischio di
+    #: coincidenza persa) ma con un cambio: le due cose vanno tenute distinte.
+    internal_changes: int = 0
+    #: Fermate intermedie descritte dall'operatore, per il dettaglio in UI.
+    segments: list[str] = Field(default_factory=list)
+    #: Note che l'adapter vuole far arrivare all'utente ("solo con Carta Verde").
+    notes: list[str] = Field(default_factory=list)
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def duration_min(self) -> int:
+        return max(0, int((self.arrive - self.depart).total_seconds() // 60))
+
+    @property
+    def price(self) -> float:
+        return self.fare.amount if self.fare else 0.0
+
+    @property
+    def is_transfer(self) -> bool:
+        return self.mode in (Mode.TRANSFER, Mode.WALK)
+
+
+class CostLine(BaseModel):
+    """Una voce del costo totale, cosi' l'utente vede da dove esce il numero."""
+
+    label: str
+    amount: float
+    kind: str  # "fare" | "bag" | "transfer" | "estimate"
+    estimated: bool = False
+
+
+class CostBreakdown(BaseModel):
+    currency: str = "EUR"
+    lines: list[CostLine] = Field(default_factory=list)
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def total(self) -> float:
+        return round(sum(line.amount for line in self.lines), 2)
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def has_estimates(self) -> bool:
+        return any(line.estimated for line in self.lines)
+
+    def subtotal(self, kind: str) -> float:
+        return round(sum(line.amount for line in self.lines if line.kind == kind), 2)
+
+
+class RiskFlag(str, Enum):
+    SEPARATE_TICKETS = "separate_tickets"  # gambe non protette fra loro
+    TIGHT_CONNECTION = "tight_connection"  # margine sotto il minimo consigliato
+    STATION_CHANGE = "station_change"  # cambio stazione/aeroporto nella stessa citta'
+    NIGHT_ARRIVAL = "night_arrival"  # arrivo fra 00:00 e 06:00
+    LAST_LEG_UNVERIFIED = "last_leg_unverified"  # orario da fonte statica, non live
+    ESTIMATED_COST = "estimated_cost"  # una voce di costo e' una stima
+
+
+class Itinerary(BaseModel):
+    id: str
+    legs: list[Leg]
+    cost: CostBreakdown = Field(default_factory=CostBreakdown)
+    flags: list[RiskFlag] = Field(default_factory=list)
+    #: Punteggio finale del ranker (piu' alto = meglio). Assegnato a valle.
+    score: float = 0.0
+    #: Componenti del punteggio, per spiegare la classifica nella UI.
+    score_parts: dict[str, float] = Field(default_factory=dict)
+    #: Comparso dopo che la prima ondata di risultati era gia' sullo schermo.
+    #: Senza questo segnale la classifica si rimescolerebbe sotto gli occhi di
+    #: chi legge senza spiegare perche'.
+    is_new: bool = False
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def depart(self) -> datetime:
+        return self.legs[0].depart
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def arrive(self) -> datetime:
+        return self.legs[-1].arrive
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def duration_min(self) -> int:
+        return max(0, int((self.arrive - self.depart).total_seconds() // 60))
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def n_changes(self) -> int:
+        """Cambi totali: fra gambe diverse piu' quelli interni a ciascuna gamba."""
+        bookable = [leg for leg in self.legs if not leg.is_transfer]
+        return max(0, len(bookable) - 1) + sum(leg.internal_changes for leg in bookable)
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def n_tickets(self) -> int:
+        """Biglietti distinti da comprare. E' questo che genera il rischio."""
+        return len([leg for leg in self.legs if not leg.is_transfer])
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def modes(self) -> list[Mode]:
+        seen: list[Mode] = []
+        for leg in self.legs:
+            if not leg.is_transfer and leg.mode not in seen:
+                seen.append(leg.mode)
+        return seen
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def operators(self) -> list[str]:
+        seen: list[str] = []
+        for leg in self.legs:
+            name = leg.operator or leg.provider
+            if not leg.is_transfer and name not in seen:
+                seen.append(name)
+        return seen
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def min_connection_min(self) -> int | None:
+        """Margine piu' stretto fra due gambe consecutive, trasferimenti esclusi."""
+        margins: list[int] = []
+        bookable = [leg for leg in self.legs if not leg.is_transfer]
+        for prev, nxt in zip(bookable, bookable[1:]):
+            transfer_min = sum(
+                leg.duration_min
+                for leg in self.legs
+                if leg.is_transfer and prev.arrive <= leg.depart < nxt.depart
+            )
+            gap = int((nxt.depart - prev.arrive).total_seconds() // 60)
+            margins.append(gap - transfer_min)
+        return min(margins) if margins else None
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def co2_kg(self) -> float | None:
+        values = [leg.co2_kg for leg in self.legs if leg.co2_kg is not None]
+        return round(sum(values), 1) if values else None
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def overnight(self) -> bool:
+        """Vero se il viaggio copre la fascia 01:00-05:00 in movimento."""
+        for leg in self.legs:
+            if leg.is_transfer or leg.duration_min < 240:
+                continue
+            cursor = leg.depart
+            while cursor < leg.arrive:
+                if 1 <= cursor.hour < 5:
+                    return True
+                cursor += timedelta(minutes=30)
+        return False
+
+    @property
+    def refundable(self) -> bool | None:
+        values = [
+            leg.fare.refundable
+            for leg in self.legs
+            if leg.fare and leg.fare.refundable is not None
+        ]
+        if not values:
+            return None
+        return all(values)
+
+
+class Weights(BaseModel):
+    """Pesi del ranker. Somma non vincolata: le componenti sono gia' normalizzate."""
+
+    price: float = 1.0
+    duration: float = 1.0
+    risk: float = 0.8
+    night_bonus: float = 0.5
+    arrival_penalty: float = 0.6
+    co2: float = 0.0
+
+
+class DiscountKind(str, Enum):
+    PERCENT = "percent"  # "-20% su Marino"
+    AMOUNT = "amount"  # "-5 euro a corsa"
+    FREE = "free"  # abbonamento: quella tratta e' gia' pagata
+
+
+class Discount(BaseModel):
+    """Una tessera, un abbonamento o una convenzione dichiarata dall'utente.
+
+    Quasi nessun operatore espone le tariffe ridotte nella ricerca: lo sconto
+    universitario di Marino, per dire, si sceglie piu' avanti nel flusso di
+    acquisto. Ma un totale porta-a-porta che ignora la tessera che uno ha in
+    tasca e' sbagliato quanto uno che ignora il bagaglio: cambia la classifica,
+    non solo la cifra finale.
+
+    Finche' `verified` e' falso il valore e' dichiarato dall'utente e non
+    verificato con l'operatore, e in interfaccia va detto.
+    """
+
+    id: int | None = None
+    name: str
+    #: A cosa si applica: `all`, `provider:marino`, `mode:rail`, `mode:transfer`.
+    scope: str = "all"
+    kind: DiscountKind = DiscountKind.PERCENT
+    #: Percentuale (20 = -20%) o importo in euro. Ignorato per `free`.
+    value: float = 0.0
+    #: Localita' fra cui vale, vuote = ovunque. Vale nei due versi.
+    routes: list[str] = Field(default_factory=list)
+    #: Giorni della settimana in cui vale (0 = lunedi), vuoti = tutti.
+    weekdays: list[int] = Field(default_factory=list)
+    valid_from: date | None = None
+    valid_to: date | None = None
+    active: bool = True
+    #: Vero solo quando il prezzo ridotto arriva dall'operatore, non da qui.
+    verified: bool = False
+
+    def saving(self, amount: float) -> float:
+        """Quanto toglie a una tariffa, senza mai portarla sotto zero."""
+        if amount <= 0:
+            return 0.0
+        if self.kind is DiscountKind.FREE:
+            return round(amount, 2)
+        if self.kind is DiscountKind.PERCENT:
+            return round(min(amount, amount * max(0.0, self.value) / 100.0), 2)
+        return round(min(amount, max(0.0, self.value)), 2)
+
+
+class SearchQuery(BaseModel):
+    origin: str
+    destination: str
+    date: date
+    pax: int = 1
+    modes: set[Mode] = Field(default_factory=lambda: set(BOOKABLE_MODES))
+    #: Se l'utente porta una valigia da stiva il confronto prezzi cambia del tutto.
+    with_checked_bag: bool = False
+    max_budget: float | None = None
+    #: Deve essere a destinazione entro questo orario (giorno di `date`).
+    arrive_by: time | None = None
+    depart_after: time | None = None
+    allow_night: bool = True
+    max_changes: int = 3
+    weights: Weights = Field(default_factory=Weights)
+    #: Fermate scelte a mano fra quelle in cui la localita' si risolve. Vuote =
+    #: tutte, che resta il comportamento normale: scrivere "Torino" continua a
+    #: cercare da Porta Nuova, Porta Susa, Stura e dall'aeroporto insieme.
+    origin_nodes: set[str] = Field(default_factory=set)
+    destination_nodes: set[str] = Field(default_factory=set)
+    #: Tessere e abbonamenti dell'utente, gia' filtrati per quelli attivi.
+    discounts: list[Discount] = Field(default_factory=list)
+    #: Testo libero originale, se la query viene dal parser in linguaggio naturale.
+    raw_text: str | None = None
+
+    def wants(self, mode: Mode) -> bool:
+        return mode in self.modes
+
+
+class ProviderStatus(str, Enum):
+    PENDING = "pending"
+    OK = "ok"
+    EMPTY = "empty"  # ha risposto ma senza soluzioni
+    TIMEOUT = "timeout"
+    BLOCKED = "blocked"  # anti-bot, 403/429 non superato
+    ERROR = "error"
+    CIRCUIT_OPEN = "circuit_open"
+    SKIPPED = "skipped"  # non copre questa rotta o questo modo
+
+
+class ProviderReport(BaseModel):
+    """Esito di un provider su una ricerca. Va mostrato in UI, mai nascosto."""
+
+    provider: str
+    status: ProviderStatus
+    legs_found: int = 0
+    elapsed_ms: int = 0
+    detail: str | None = None
+
+
+# --- Confronto fra piu' ricerche -------------------------------------------
+#
+# Quando si cercano due mete insieme, i due consigli separati non possono dire
+# quale conviene: ciascuno vede solo la propria colonna. Il confronto arriva
+# quindi da una chiamata a parte, con le soluzioni che il frontend ha gia'.
+#
+# Il corpo e' volutamente **compatto** e non un `Itinerary`: dieci campi
+# dell'itinerario (`depart`, `duration_min`, `n_changes`, `co2_kg`...) sono
+# `computed_field`, cioe' di sola uscita. Rimandandoli indietro Pydantic li
+# ignorerebbe in silenzio e li ricalcolerebbe dalle gambe, quindi o si spedisce
+# tutto l'albero delle gambe o si dice esplicitamente cosa serve. Meglio il
+# secondo: qui si vede a colpo d'occhio su cosa ragiona il modello.
+
+
+class AdviceOption(BaseModel):
+    """Una soluzione, ridotta a quello che serve per consigliare."""
+
+    depart: datetime
+    arrive: datetime
+    duration_min: int
+    total: float
+    modes: list[str] = Field(default_factory=list)
+    operators: list[str] = Field(default_factory=list)
+    n_changes: int = 0
+    n_tickets: int = 1
+    flags: list[str] = Field(default_factory=list)
+    #: Andata e ritorno: gli estremi della tratta di ritorno, se c'e'.
+    return_depart: datetime | None = None
+    return_arrive: datetime | None = None
+
+
+class AdviceCandidate(BaseModel):
+    """Una combinazione partenza-meta-data, con le sue prime opzioni."""
+
+    label: str
+    origin: str
+    destination: str
+    date: date
+    return_date: date | None = None
+    options: list[AdviceOption] = Field(default_factory=list, max_length=8)
+
+
+class CompareRequest(BaseModel):
+    """Le combinazioni da mettere a confronto."""
+
+    candidates: list[AdviceCandidate] = Field(min_length=2, max_length=12)
+    pax: int = 1
+    with_checked_bag: bool = False
+    max_budget: float | None = None
+    raw_text: str | None = None
+
+
+class SavedSearchIn(BaseModel):
+    """Una ricerca da mettere nel profilo.
+
+    `params` e' la query string della pagina: salvare e condividere sono lo
+    stesso gesto, e riaprire non richiede di ricostruire niente."""
+
+    name: str = Field(min_length=1, max_length=80)
+    params: str = Field(min_length=1, max_length=4000)
+    summary: str | None = Field(default=None, max_length=400)
+
+
+def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Distanza in linea d'aria in km."""
+    radius = 6371.0
+    p1, p2 = math.radians(lat1), math.radians(lat2)
+    dphi = math.radians(lat2 - lat1)
+    dlambda = math.radians(lon2 - lon1)
+    a = (
+        math.sin(dphi / 2) ** 2
+        + math.cos(p1) * math.cos(p2) * math.sin(dlambda / 2) ** 2
+    )
+    return 2 * radius * math.asin(math.sqrt(a))
+
+
+def node_distance_km(a: Node, b: Node) -> float:
+    return haversine_km(a.lat, a.lon, b.lat, b.lon)
+
+
+def jsonable(value: Any) -> Any:
+    """Serializzazione uniforme per gli eventi SSE."""
+    if isinstance(value, BaseModel):
+        return value.model_dump(mode="json")
+    if isinstance(value, list):
+        return [jsonable(v) for v in value]
+    if isinstance(value, dict):
+        return {k: jsonable(v) for k, v in value.items()}
+    if isinstance(value, (datetime, date, time)):
+        return value.isoformat()
+    if isinstance(value, Enum):
+        return value.value
+    return value

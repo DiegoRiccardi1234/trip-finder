@@ -1,0 +1,30 @@
+# --- web ---
+fastapi>=0.115
+uvicorn[standard]>=0.32
+sse-starlette>=2.1
+jinja2>=3.1
+
+# --- config / modelli ---
+pydantic>=2.9
+pydantic-settings>=2.6
+python-dotenv>=1.0
+
+# --- scraping ---
+curl_cffi>=0.7.4          # impersonazione TLS/JA3 di Chrome: passa dove requests prende 403
+patchright>=1.49          # fork anti-detection di Playwright (browser fallback)
+selectolax>=0.3.21        # parsing HTML veloce (lexbor)
+python-dateutil>=2.9
+tzdata>=2024.2            # Windows non ha un database dei fusi orari di sistema
+
+# --- dati ---
+aiosqlite>=0.20
+orjson>=3.10
+rapidfuzz>=3.10           # matching fuzzy dei nomi di localita
+
+# --- avvio su Windows ---
+pystray>=0.19.5           # icona nell'area di notifica: il server vive senza finestra
+pillow>=10.0              # disegna l'icona a runtime, cosi' non c'e' un .ico da versionare
+
+# --- test ---
+pytest>=8.3
+pytest-asyncio>=0.24
