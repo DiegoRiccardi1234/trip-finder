@@ -15,13 +15,14 @@ import logging
 from contextlib import asynccontextmanager
 from datetime import date, time as time_type
 from pathlib import Path
-from typing import AsyncIterator
+from typing import Any, AsyncIterator
 
 from fastapi import FastAPI, HTTPException, Query
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from sse_starlette.sse import EventSourceResponse
 
+from app import config
 from app.config import get_settings
 from app.geo.resolver import PlaceNotFound, get_resolver
 from app.models import (
@@ -31,6 +32,7 @@ from app.models import (
     Mode,
     SavedSearchIn,
     SearchQuery,
+    TripAdviceRequest,
     Weights,
 )
 from app.orchestrator import profile
@@ -40,6 +42,7 @@ from app.orchestrator.search_service import SearchService
 from app.providers import registry
 from app.providers.browser_pool import close_browser_pool
 from app.providers.http_client import close_http_client
+from app.version import VERSION
 
 STATIC_DIR = Path(__file__).parent / "static"
 
@@ -65,12 +68,38 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         await close_db()
 
 
-app = FastAPI(title="Trip Finder", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="Trip Finder", version=VERSION, lifespan=lifespan)
+
+
+def _asset_token() -> str:
+    """Un'impronta di CSS e JS, da appendere ai loro indirizzi.
+
+    Serve a rompere la cache del browser quando cambiano. Senza, il browser si
+    tiene il foglio di stile vecchio e non chiede nemmeno: le regole nuove non
+    arrivano mai, e il difetto che ne esce sembra un difetto del codice — una
+    pagina con tutte le sezioni impilate e le linguette che non rispondono.
+    Succede solo a chi la pagina l'aveva gia' aperta prima, cioe' mai a un
+    browser di prova appena avviato: e' un difetto che le prove automatiche non
+    possono vedere, e infatti non l'hanno visto."""
+    ultimo = 0
+    for nome in ("style.css", "app.js"):
+        try:
+            ultimo = max(ultimo, (STATIC_DIR / nome).stat().st_mtime_ns)
+        except OSError:
+            pass
+    return f"{VERSION}-{ultimo // 1_000_000 % 1_000_000_000}"
 
 
 @app.get("/")
-async def index() -> FileResponse:
-    return FileResponse(STATIC_DIR / "index.html")
+async def index() -> HTMLResponse:
+    """La pagina, con l'impronta di CSS e JS gia' scritta dentro."""
+    html = (STATIC_DIR / "index.html").read_text(encoding="utf-8")
+    return HTMLResponse(
+        html.replace("__ASSETS__", _asset_token()),
+        # La pagina e' minuscola e cambia a ogni rilascio: rileggerla ogni volta
+        # non costa niente e garantisce che l'impronta arrivi aggiornata.
+        headers={"Cache-Control": "no-store"},
+    )
 
 
 @app.get("/api/suggest")
@@ -133,6 +162,10 @@ async def search(
     origin_nodes: str | None = None,
     destination_nodes: str | None = None,
     use_discounts: bool = True,
+    #: La pagina lo spegne quando sta lanciando piu' combinazioni: quel
+    #: consiglio lo dara' il confronto, e una richiesta in meno per colonna e'
+    #: una in meno nello stesso secondo verso lo stesso fornitore.
+    advice: bool = True,
 ) -> EventSourceResponse:
     selected = {
         Mode(value.strip())
@@ -171,7 +204,7 @@ async def search(
     )
 
     async def stream() -> AsyncIterator[dict[str, str]]:
-        async for event in SearchService().run(query):
+        async for event in SearchService(with_advice=advice).run(query):
             yield event.as_sse()
 
     return EventSourceResponse(stream())
@@ -179,14 +212,130 @@ async def search(
 
 @app.post("/api/parse")
 async def parse_natural_language(text: str = Query(min_length=4)) -> dict:
-    """Da "devo essere a Matera venerdi' sera" ai parametri della ricerca."""
+    """Da "devo essere a Matera venerdi' sera" ai parametri della ricerca.
+
+    Risponde sempre con un viaggio, che di tappe puo' averne una o quattro:
+    "da Matera a Roma per tre giorni, poi a Torino" e' una frase sola."""
     from app.ai.nl_query import ParseFailed, parse
 
     try:
-        query = await parse(text)
+        plan = await parse(text)
     except ParseFailed as exc:
         raise HTTPException(422, str(exc)) from exc
-    return query.model_dump(mode="json")
+    return plan.model_dump(mode="json")
+
+
+@app.post("/api/advice/trip")
+async def advice_trip(request: TripAdviceRequest) -> dict:
+    """Un consiglio sul viaggio **intero**, non sulle sue tappe una per una.
+
+    Le tappe si consigliano da sole in fondo a ciascuna colonna. Quello che li'
+    non si puo' dire e' come stanno insieme: se conviene spostare la sosta, se
+    una tappa costa quanto tutte le altre, se un notturno in mezzo rovina il
+    giorno dopo."""
+    from app.ai import client
+    from app.ai.advisor import advise_trip
+
+    try:
+        answer = await advise_trip(request)
+    except Exception:  # noqa: BLE001 - un consiglio mancante non rompe la pagina
+        logger.debug("consiglio sul viaggio non disponibile", exc_info=True)
+        answer = client.Answer(reason=client.FAILED)
+    return {"text": answer.text or None, "reason": answer.reason}
+
+
+@app.get("/api/update/check")
+async def update_check() -> dict:
+    """Che versione c'e' installata e se ne e' uscita una piu' nuova."""
+    from app import update
+
+    return await update.check()
+
+
+@app.post("/api/update/install")
+async def update_install() -> dict:
+    """Scarica la versione nuova, passa la mano all'aggiornatore e si spegne."""
+    from app import update
+
+    return await update.install()
+
+
+@app.get("/api/ai/keys/status")
+async def ai_keys_status() -> dict:
+    """Quali fornitori hanno una chiave — **non** quali chiavi.
+
+    Ritorna booleani: una chiave che esce da qui una volta e' una chiave che
+    finisce in una schermata, in un log del browser o in uno screenshot."""
+    from app.ai import providers
+
+    settings = get_settings()
+    dal_file = set(config.read_local_secrets())
+    return {
+        "providers": [
+            {
+                "name": provider.name,
+                "free": provider.free,
+                "note": provider.label,
+                "needs_key": provider.needs_key,
+                "configured": providers.is_configured(provider),
+                # Chi ha messo la chiave nel `.env` non deve vedersela
+                # "cancellare" da un campo vuoto che non ha mai riempito.
+                "from_file": provider.key_field in dal_file,
+            }
+            for provider in providers.PROVIDERS
+        ],
+        "allow_paid": settings.allow_paid_providers,
+        "llm_provider": settings.llm_provider,
+    }
+
+
+@app.post("/api/ai/keys")
+async def ai_keys_save(values: dict[str, object]) -> dict:
+    """Salva le chiavi e le rende valide **subito**.
+
+    `get_settings` e' in cache per tutto il processo: senza svuotarla una chiave
+    appena inserita varrebbe solo dal riavvio successivo, e da fuori sembrerebbe
+    semplicemente non funzionare."""
+    config.save_local_secrets(values)
+    get_settings.cache_clear()
+    return await ai_keys_status()
+
+
+#: I due compiti, con il nome che ha senso per chi legge.
+COMPITI_IA = {
+    "json": "Interpretazione della frase",
+    "advice": "Consiglio",
+}
+
+
+@app.get("/api/ai/models")
+async def ai_models() -> dict:
+    """I modelli disponibili per ciascun compito, con salute e penalita'.
+
+    E' quello che serve per scegliere: quali ci sono, quali sono vivi adesso,
+    quali hanno appena sbagliato, e quale userebbe se non scegliessi tu."""
+    from app.ai import client, model_selector
+
+    if not client.is_configured():
+        return {"configured": False, "tasks": {}}
+
+    settings = get_settings()
+    tasks: dict[str, object] = {}
+    for compito, etichetta in COMPITI_IA.items():
+        ordine = [
+            f"{provider.name}/{model}"
+            for provider, model in await model_selector.rank_candidates(compito)
+        ]
+        tasks[compito] = {
+            "label": etichetta,
+            "pinned": str(getattr(settings, f"{compito}_model", "") or ""),
+            # Chi userebbe se non scegliessi: si dice sempre, anche quando una
+            # scelta c'e', perche' e' il modello su cui si ripiega.
+            "auto": ordine[0] if ordine else "",
+            "order": ordine,
+            "candidates": await model_selector.catalogo(compito),
+        }
+    return {"configured": True, "tasks": tasks}
 
 
 @app.get("/api/ai/status")
@@ -239,14 +388,17 @@ async def advice_compare(request: CompareRequest) -> dict:
 
     Con due mete i due consigli per colonna non possono confrontarsi: ciascuno
     vede solo la propria classifica. Qui arrivano insieme."""
+    from app.ai import client
     from app.ai.advisor import compare
 
     try:
-        text = await compare(request)
+        answer = await compare(request)
     except Exception:  # noqa: BLE001 - un consiglio mancante non rompe la pagina
         logger.debug("confronto non disponibile", exc_info=True)
-        text = None
-    return {"text": text}
+        answer = client.Answer(reason=client.FAILED)
+    # Il motivo viaggia accanto al testo: senza, la pagina riceveva `null` e non
+    # aveva modo di distinguere "IA spenta" da "IA rifiutata".
+    return {"text": answer.text or None, "reason": answer.reason}
 
 
 @app.get("/api/profile")
@@ -319,5 +471,20 @@ def _parse_time(value: str | None) -> time_type | None:
         return None
 
 
+class _StaticiRivalidati(StaticFiles):
+    """File statici che il browser deve **ricontrollare** ogni volta.
+
+    `StaticFiles` manda `ETag` e `Last-Modified` ma nessun `Cache-Control`, e
+    senza quello il browser applica una cache euristica: si tiene il file per un
+    pezzo senza chiedere se e' cambiato. In locale una richiesta di controllo
+    costa niente e finisce quasi sempre in un `304`, mentre un foglio di stile
+    vecchio costa una pagina rotta."""
+
+    def file_response(self, *args: Any, **kwargs: Any) -> Response:
+        risposta = super().file_response(*args, **kwargs)
+        risposta.headers["Cache-Control"] = "no-cache"
+        return risposta
+
+
 if STATIC_DIR.exists():
-    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+    app.mount("/static", _StaticiRivalidati(directory=STATIC_DIR), name="static")
