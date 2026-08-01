@@ -50,7 +50,9 @@ async def suggest_hubs(
         f"Quali citta' di scambio conviene provare? Al massimo {MAX_SUGGESTIONS}."
     )
 
-    parsed = await client.complete_json("json", SYSTEM, prompt, max_tokens=200)
+    # Qui il motivo non serve: gli scali sono additivi e la loro assenza non e'
+    # un fatto da riportare a schermo, a differenza del consiglio finale.
+    parsed = (await client.complete_json("json", SYSTEM, prompt, max_tokens=200)).data
     if not parsed:
         return []
 

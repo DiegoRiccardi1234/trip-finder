@@ -16,7 +16,14 @@ from __future__ import annotations
 import logging
 
 from app.ai import client
-from app.models import AdviceOption, CompareRequest, Itinerary, SearchQuery
+from app.models import (
+    AdviceOption,
+    CompareRequest,
+    Itinerary,
+    SearchQuery,
+    TripAdviceRequest,
+    TripLeg,
+)
 from app.orchestrator import cache
 
 logger = logging.getLogger(__name__)
@@ -61,9 +68,11 @@ def _describe(itinerary: Itinerary, index: int) -> str:
     return " | ".join(parts)
 
 
-async def advise(itineraries: list[Itinerary], query: SearchQuery) -> str | None:
-    if not client.is_configured() or not itineraries:
-        return None
+async def advise(itineraries: list[Itinerary], query: SearchQuery) -> client.Answer:
+    if not client.is_configured():
+        return client.Answer(reason=client.NOT_CONFIGURED)
+    if not itineraries:
+        return client.Answer(reason=client.NOTHING)
 
     candidates = itineraries[:MAX_CANDIDATES]
     context = [
@@ -86,13 +95,16 @@ async def advise(itineraries: list[Itinerary], query: SearchQuery) -> str | None
         _describe(itinerary, index) for index, itinerary in enumerate(candidates, start=1)
     )
 
-    completion = await client.complete(
-        "advice", SYSTEM, prompt, max_tokens=600, temperature=0.4
+    # Tre paragrafi brevi stanno in trecento token, ma i modelli con
+    # ragionamento nascosto ne bruciano il doppio prima di iniziare a scrivere e
+    # con seicento arrivavano tagliati. Sul piano gratuito il tetto non costa
+    # niente: alzarlo e' l'unico modo per non perdere un consiglio gia' pronto.
+    answer = await client.complete(
+        "advice", SYSTEM, prompt, max_tokens=1100, temperature=0.4
     )
-    if completion is None:
-        return None
-    logger.debug("consiglio prodotto da %s", completion.model)
-    return completion.text
+    if answer.completion is not None:
+        logger.debug("consiglio prodotto da %s", answer.completion.model)
+    return answer
 
 
 # --- Confronto fra piu' ricerche -------------------------------------------
@@ -136,7 +148,7 @@ def _describe_option(option: AdviceOption, index: int) -> str:
     return " | ".join(parts)
 
 
-async def compare(request: CompareRequest) -> str | None:
+async def compare(request: CompareRequest) -> client.Answer:
     """Un consiglio solo su piu' possibilita', per dire quale prendere.
 
     Non e' `advise` chiamata piu' volte: quella descrive le righe di **una**
@@ -145,10 +157,10 @@ async def compare(request: CompareRequest) -> str | None:
     Qui il confronto e' il compito, e ogni possibilita' arriva al modello con
     la sua etichetta."""
     if not client.is_configured():
-        return None
+        return client.Answer(reason=client.NOT_CONFIGURED)
     utili = [candidate for candidate in request.candidates if candidate.options]
     if len(utili) < 2:
-        return None
+        return client.Answer(reason=client.NOTHING)
 
     context = [f"Passeggeri: {request.pax}"]
     if request.with_checked_bag:
@@ -182,10 +194,93 @@ async def compare(request: CompareRequest) -> str | None:
             for c in utili
         ),
     )
-    completion = await client.complete(
-        "advice", COMPARE_SYSTEM, prompt, max_tokens=700, temperature=0.4, cache_key=key
+    answer = await client.complete(
+        "advice", COMPARE_SYSTEM, prompt, max_tokens=1100, temperature=0.4, cache_key=key
     )
-    if completion is None:
-        return None
-    logger.debug("confronto prodotto da %s", completion.model)
-    return completion.text
+    if answer.completion is not None:
+        logger.debug("confronto prodotto da %s", answer.completion.model)
+    return answer
+
+
+# --- Il viaggio intero -----------------------------------------------------
+
+TRIP_SYSTEM = """Sei un amico che si intende di viaggi. Chi ti scrive ha gia' un
+viaggio a tappe con le date decise e, per ogni tappa, la soluzione migliore
+trovata. Non deve scegliere fra alternative: deve capire se il viaggio, cosi'
+com'e', regge.
+
+Scrivi in italiano, al massimo tre paragrafi brevi:
+1. come sta insieme il viaggio: dove va il grosso della spesa e del tempo, se una
+   tappa pesa quanto tutte le altre;
+2. cosa cambieresti nell'incastro — spostare una sosta di un giorno, invertire
+   l'ordine, tenersi piu' margine — e quanto si guadagna a farlo;
+3. l'avvertenza pratica piu' importante, se ce n'e' una.
+
+Regole:
+- Ragiona sul viaggio nel suo insieme. Le singole classifiche le ha gia' sotto
+  gli occhi, tappa per tappa: qui serve quello che li' non si vede.
+- Non inventare orari, prezzi o collegamenti che non sono nell'elenco.
+- Un arrivo a notte fonda seguito da una ripartenza il mattino dopo va detto.
+- Se una tappa non ha trovato niente, dillo: il viaggio non si chiude.
+- Niente elenchi puntati, niente titoli, niente formule di cortesia."""
+
+
+def _describe_leg(leg: TripLeg, index: int) -> str:
+    if leg.chosen is None:
+        return f"Tappa {index}. {leg.origin} -> {leg.destination} il {leg.date:%d/%m}: nessuna soluzione trovata"
+    option = leg.chosen
+    parts = [
+        f"Tappa {index}. {leg.origin} -> {leg.destination} il {leg.date:%d/%m}",
+        f"{option.depart:%d/%m %H:%M} - {option.arrive:%d/%m %H:%M}"
+        f" ({option.duration_min // 60}h{option.duration_min % 60:02})",
+        f"{option.total:.2f} euro a persona",
+        f"mezzi {'+'.join(option.modes)} ({', '.join(option.operators)})",
+        f"{option.n_changes} cambi, {option.n_tickets} biglietti",
+        f"{leg.found} soluzioni trovate in tutto",
+    ]
+    if leg.stay_days:
+        parts.append(f"poi {leg.stay_days} giorni di sosta")
+    if option.flags:
+        parts.append("avvisi: " + ", ".join(option.flags))
+    return " | ".join(parts)
+
+
+async def advise_trip(request: TripAdviceRequest) -> client.Answer:
+    if not client.is_configured():
+        return client.Answer(reason=client.NOT_CONFIGURED)
+    # Con una tappa sola non c'e' nessun "insieme" da commentare: quello che si
+    # puo' dire lo dice gia' il consiglio in fondo alla sua classifica.
+    if len(request.legs) < 2:
+        return client.Answer(reason=client.NOTHING)
+
+    totale = sum(leg.chosen.total for leg in request.legs if leg.chosen)
+    context = [
+        f"Passeggeri: {request.pax}",
+        f"Totale del viaggio con le soluzioni migliori: {totale:.2f} euro a persona",
+    ]
+    if request.with_checked_bag:
+        context.append("Con valigia da stiva")
+    if request.max_budget:
+        context.append(f"Budget massimo: {request.max_budget:.0f} euro")
+    if request.raw_text:
+        context.append(f"Richiesta originale: {request.raw_text}")
+
+    prompt = "\n".join(context) + "\n\nTappe:\n" + "\n".join(
+        _describe_leg(leg, index) for index, leg in enumerate(request.legs, start=1)
+    )
+
+    key = cache.make_key(
+        "ai:trip",
+        request.pax,
+        [
+            f"{leg.origin}>{leg.destination}|{leg.date}|"
+            + (f"{leg.chosen.depart:%d%H%M}/{leg.chosen.total:.2f}" if leg.chosen else "vuota")
+            for leg in request.legs
+        ],
+    )
+    answer = await client.complete(
+        "advice", TRIP_SYSTEM, prompt, max_tokens=1100, temperature=0.4, cache_key=key
+    )
+    if answer.completion is not None:
+        logger.debug("consiglio sul viaggio prodotto da %s", answer.completion.model)
+    return answer

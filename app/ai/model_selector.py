@@ -27,6 +27,7 @@ import logging
 import re
 import time
 
+from app import config
 from app.ai import endpoint_health, providers
 from app.config import get_settings
 from app.orchestrator import cache
@@ -58,8 +59,18 @@ INSTRUCT_HINTS = ("instruct", "-it", "chat", "flash")
 
 #: Quanto dura una penalita' raccolta sul campo.
 PENALTY_TTL = 30 * 60
+
+#: Tranne il 429, che non e' un difetto del modello. E' il throttle dell'host,
+#: condiviso fra tutti quelli che lo usano in quel momento, e passa in secondi:
+#: tenerlo mezz'ora spegne un modello sano per il resto della sessione, ed e'
+#: quello che era successo — cinque modelli su cinque de-rankati da un burst.
+PENALTY_TTL_BY_REASON = {"rate_limited": 3 * 60}
+
 PENALTY_WEIGHT = {
     "truncated": 6.0,  # JSON tagliato: il difetto piu' grave per questi usi
+    # Il ragionamento al posto della risposta: grave quanto il troncamento,
+    # perche' passa ogni altro controllo e finisce a schermo come un parere.
+    "garbled": 6.0,
     "empty": 4.0,
     "rate_limited": 2.0,
     "error": 3.0,
@@ -109,15 +120,19 @@ async def record_penalty(model: str, reason: str, provider: str = "openrouter") 
     solo sarebbe uno spreco."""
     db = await get_db()
     weight = PENALTY_WEIGHT.get(reason, 2.0)
+    ttl = PENALTY_TTL_BY_REASON.get(reason, PENALTY_TTL)
     await db.execute(
         "INSERT INTO model_penalty(provider, model, reason, penalty, expires_at) "
         "VALUES (?, ?, ?, ?, ?) ON CONFLICT(provider, model) DO UPDATE SET "
         "reason = excluded.reason, penalty = model_penalty.penalty + excluded.penalty, "
-        "expires_at = excluded.expires_at",
-        (provider, model, reason, weight, time.time() + PENALTY_TTL),
+        # MAX e non l'ultimo valore: un 429 che arriva dopo un troncamento
+        # accorcerebbe la penalita' del troncamento, che invece e' un difetto
+        # vero del modello e deve durare la sua mezz'ora.
+        "expires_at = MAX(model_penalty.expires_at, excluded.expires_at)",
+        (provider, model, reason, weight, time.time() + ttl),
     )
     await db.commit()
-    logger.info("penalita' %s per %s (%s)", weight, model, reason)
+    logger.info("penalita' %s per %s (%s, %d min)", weight, model, reason, ttl // 60)
 
 
 async def current_penalties(provider: str = "openrouter") -> dict[str, float]:
@@ -136,17 +151,17 @@ async def clear_penalties() -> None:
     await db.commit()
 
 
-async def discover_free_models(limit: int = 8) -> list[str]:
-    """Modelli gratuiti realmente in catalogo adesso, i piu' adatti per primi.
+async def catalogo_openrouter() -> dict[str, list[str]]:
+    """Il catalogo vivo di OpenRouter, diviso fra gratuiti e a pagamento.
 
-    Serve quando il pool scritto nel codice e' invecchiato. E' successo gia' una
-    volta: cinque slug su cinque rispondevano `endpoints: []` perche' nel
-    frattempo erano stati ritirati. Senza questa rete di sicurezza l'IA sarebbe
-    semplicemente sparita, e in modo silenzioso."""
-    key = cache.make_key("openrouter:free_models")
+    Una chiamata sola per entrambi: sono la stessa risposta, e chiederla due
+    volte per filtrarla in due modi diversi sarebbe uno spreco. Al momento della
+    scrittura sono 17 gratuiti e 320 a pagamento, e i due numeri vanno trattati
+    in modo diverso — i primi si possono elencare tutti, i secondi no."""
+    key = cache.make_key("openrouter:catalog")
     cached = await cache.get(key)
     if cached is not None:
-        return list(cached)[:limit]
+        return {"free": list(cached.get("free", [])), "paid": list(cached.get("paid", []))}
 
     try:
         payload = await get_http_client().get_json(
@@ -154,25 +169,37 @@ async def discover_free_models(limit: int = 8) -> list[str]:
         )
     except HttpError as exc:
         logger.debug("catalogo modelli non raggiungibile: %s", exc)
-        return []
+        return {"free": [], "paid": []}
 
-    free: list[str] = []
+    diviso: dict[str, list[str]] = {"free": [], "paid": []}
     for model in (payload.get("data") if isinstance(payload, dict) else None) or []:
         slug = model.get("id") if isinstance(model, dict) else None
         pricing = model.get("pricing") if isinstance(model, dict) else None
         if not slug or not isinstance(pricing, dict):
             continue
-        try:
-            if float(pricing.get("prompt", 1)) or float(pricing.get("completion", 1)):
-                continue
-        except (TypeError, ValueError):
-            continue
         if any(word in slug.lower() for word in DISCOVERY_BLOCKLIST):
             continue
-        free.append(slug)
+        try:
+            gratuito = not (
+                float(pricing.get("prompt", 1)) or float(pricing.get("completion", 1))
+            )
+        except (TypeError, ValueError):
+            continue
+        diviso["free" if gratuito else "paid"].append(slug)
 
-    await cache.set(key, free, kind="static", ttl=6 * 3600)
-    return free[:limit]
+    diviso["paid"].sort()
+    await cache.set(key, diviso, kind="static", ttl=6 * 3600)
+    return diviso
+
+
+async def discover_free_models(limit: int = 8) -> list[str]:
+    """Modelli gratuiti realmente in catalogo adesso.
+
+    Serve quando il pool scritto nel codice e' invecchiato. E' successo gia' una
+    volta: cinque slug su cinque rispondevano `endpoints: []` perche' nel
+    frattempo erano stati ritirati. Senza questa rete di sicurezza l'IA sarebbe
+    semplicemente sparita, e in modo silenzioso."""
+    return (await catalogo_openrouter())["free"][:limit]
 
 
 async def rank_models(task: str, candidates: list[str] | None = None) -> list[str]:
@@ -238,7 +265,7 @@ async def _rank_pool(pool: list[str], task: str, provider: str = "openrouter") -
 # ------------------------------------------------------------- multi-fornitore
 
 
-async def discover_catalog(provider: providers.Provider, limit: int = 12) -> list[str]:
+async def discover_catalog(provider: providers.Provider, limit: int = 40) -> list[str]:
     """Il catalogo vivo di un fornitore compatibile OpenAI (`GET {base}/models`).
 
     Serve dove il pool scritto nel codice non basta: i nomi dei modelli cambiano
@@ -298,6 +325,70 @@ async def _models_for(provider: providers.Provider, task: str) -> list[str]:
     return ranked
 
 
+async def catalogo(task: str) -> list[dict[str, object]]:
+    """Ogni modello candidato per un compito, con quello che si sa di lui.
+
+    Serve alla scheda Impostazioni: senza, l'unica cosa visibile era l'ordine
+    di prova, che non dice **perche'** un modello e' in fondo — se e' morto, se
+    ha appena troncato una risposta, o se semplicemente e' meno adatto. Nessuna
+    di queste tre cose si risolve allo stesso modo."""
+    a_pagamento_ammessi = get_settings().allow_paid_providers
+    voci: list[dict[str, object]] = []
+
+    for provider in providers.configured():
+        consigliati = list(providers.pool_for(provider, task))
+        gratuiti: list[str] = []
+        pagamento: list[str] = []
+
+        if provider.name == "openrouter":
+            catalogo_vivo = await catalogo_openrouter()
+            gratuiti = catalogo_vivo["free"]
+            # I 320 a pagamento si mostrano solo a chi li ha accesi: elencarli
+            # comunque vorrebbe dire proporre una spesa a chi ha detto di no.
+            pagamento = catalogo_vivo["paid"] if a_pagamento_ammessi else []
+        elif not consigliati:
+            gratuiti = await discover_catalog(provider, limit=40)
+
+        # L'ordine conta: i consigliati per primi, e nessun doppione.
+        elenco: list[str] = []
+        for gruppo in (consigliati, gratuiti, pagamento):
+            for slug in gruppo:
+                if slug not in elenco:
+                    elenco.append(slug)
+
+        penalita = await current_penalties(provider.name)
+        # La salute per modello la pubblica solo OpenRouter, gratis e senza
+        # autenticazione. Per gli altri non esiste: dirlo e' meglio che
+        # inventare un pallino verde che non significa niente. E si verificano
+        # solo i gratuiti: sono una dozzina ed e' il pool che marcisce, mentre
+        # trecentoventi verifiche sarebbero quaranta secondi di attesa per una
+        # informazione che li' non serve.
+        da_verificare = (
+            [slug for slug in elenco if slug not in pagamento]
+            if provider.name == "openrouter" else []
+        )
+        salute = await endpoint_health.check_many(da_verificare) if da_verificare else {}
+
+        for slug in elenco:
+            stato = salute.get(slug)
+            voci.append({
+                "id": f"{provider.name}/{slug}",
+                "provider": provider.name,
+                "model": slug,
+                # Del **modello**, non del fornitore: su OpenRouter convivono.
+                "gratuito": provider.free and slug not in pagamento,
+                "consigliato": slug in consigliati,
+                "verificabile": slug in da_verificare,
+                "vivo": stato.alive if stato else None,
+                "uptime_5m": round(stato.uptime_5m, 1) if stato else None,
+                "hosts": list(stato.providers) if stato else [],
+                "detail": stato.detail if stato else "",
+                "penalita": round(penalita.get(slug, 0.0), 1),
+                "qualita": round(score_model_name(slug, task), 1),
+            })
+    return voci
+
+
 async def rank_candidates(task: str) -> list[tuple[providers.Provider, str]]:
     """Le coppie (fornitore, modello) da provare, in ordine.
 
@@ -317,4 +408,34 @@ async def rank_candidates(task: str) -> list[tuple[providers.Provider, str]]:
         for column in columns:
             if index < len(column):
                 candidates.append(column[index])
-    return candidates
+
+    return _pin_first(candidates, task)
+
+
+def _pin_first(
+    candidates: list[tuple[providers.Provider, str]], task: str
+) -> list[tuple[providers.Provider, str]]:
+    """Porta in testa il modello scelto a mano, lasciando gli altri dietro.
+
+    In testa e non da solo: se il modello scelto rifiuta la richiesta, restare
+    senza risposta per rispetto della scelta sarebbe un modo curioso di
+    rispettarla. La fila esiste per questo. Se il modello scelto non e' fra i
+    candidati — perche' il controllo di salute lo aveva scartato, o perche' non
+    e' nel pool — si aggiunge lo stesso: e' una scelta esplicita, e vale piu' di
+    un'euristica."""
+    scelto = config.pinned_model(task)
+    if not scelto:
+        return candidates
+    nome_fornitore, modello = scelto
+
+    provider = providers.BY_NAME.get(nome_fornitore)
+    if provider is None or not providers.is_configured(provider):
+        logger.info("modello scelto su %s ma il fornitore non e' configurato", nome_fornitore)
+        return candidates
+
+    resto = [
+        coppia
+        for coppia in candidates
+        if not (coppia[0].name == nome_fornitore and coppia[1] == modello)
+    ]
+    return [(provider, modello), *resto]

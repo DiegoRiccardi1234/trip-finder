@@ -76,16 +76,19 @@ async def main() -> int:
 
         if args.ask:
             print("=== chiamata di prova ===")
-            completion = await client.complete(
+            answer = await client.complete(
                 "json",
                 "Rispondi solo con JSON.",
                 'Restituisci {"ok": true} e nient\'altro.',
                 max_tokens=40,
             )
-            if completion is None:
-                print("   nessun modello ha risposto")
+            if answer.completion is None:
+                print(f"   niente: {client.why(answer.reason)}")
+                if answer.detail:
+                    print(f"   dettaglio: {answer.detail}")
                 return 1
-            print(f"   {completion.provider}/{completion.model}: {completion.text[:120]}")
+            done = answer.completion
+            print(f"   {done.provider}/{done.model}: {done.text[:120]}")
         return 0
     finally:
         await close_http_client()
