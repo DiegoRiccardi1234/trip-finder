@@ -14,6 +14,11 @@ on:
     paths:
       - "scripts/build_tessere.py"
       - "app/routing/data/tessere.json"
+      # Anche se stesso e le sue dipendenze: una modifica al controllo che il
+      # controllo non esegue mai e' una modifica che si scopre rotta la
+      # settimana dopo, per caso.
+      - ".github/workflows/tessere.yml"
+      - "requirements-dev.txt"
 
 permissions:
   contents: read
