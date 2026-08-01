@@ -31,9 +31,12 @@ jobs:
           cache: pip
 
       - name: Installa le dipendenze
+        # `requirements-dev.txt` porta pdfplumber, che legge le condizioni di
+        # trasporto: sta li' e non fra le dipendenze dell'applicazione perche'
+        # chi vuole solo cercare un treno non deve scaricarsi un lettore di PDF.
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r requirements.txt -r requirements-dev.txt
 
       - name: Confronta il catalogo con le fonti
         id: controllo

@@ -1,4 +1,11 @@
-# Serve solo a costruire il bundle Windows. La suite gira con il solo
-# requirements.txt, che porta gia' pytest.
+# Serve a costruire il bundle Windows e a rigenerare i dati estratti dai
+# documenti degli operatori. L'applicazione gira con il solo requirements.txt,
+# che porta gia' pytest.
 
 pyinstaller>=6.11
+
+# Legge le Condizioni Generali di Trasporto (catalogo delle tessere) e i
+# manifesti FAL (orario). Sono script che si lanciano a mano o in CI, mai
+# durante una ricerca: tenerla fuori dalle dipendenze dell'applicazione evita
+# di far scaricare un lettore di PDF a chi vuole solo cercare un treno.
+pdfplumber>=0.11
