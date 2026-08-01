@@ -116,3 +116,74 @@ def test_lo_sconto_non_porta_mai_un_prezzo_sotto_zero(tratta) -> None:
     esagerata = Discount(name="Buono", scope="all", kind=DiscountKind.AMOUNT, value=500)
     breakdown = cost.compute([tratta], _query(esagerata))
     assert breakdown.total == 0.0
+
+
+# --- la tariffa che manda l'operatore ---------------------------------------
+#
+# La percentuale scritta da qualche parte scade: la Carta Verde e' passata dal
+# 10% al non esistere piu' nel giro di una primavera. Il prezzo ridotto che
+# Trenitalia manda dentro la risposta di ricerca no, perche' vale per quella
+# corsa e per quel giorno. Quando c'e', vince.
+
+
+def _treno_con_tariffe_ridotte(**ridotte: float):
+    treno = make_leg("trenitalia", Mode.RAIL, TORINO_PN, BARI_C, at(9), at(18), 100.0)
+    treno.reduced_fares = dict(ridotte)
+    return treno
+
+
+def test_la_tariffa_dell_operatore_batte_la_percentuale_dichiarata() -> None:
+    treno = _treno_con_tariffe_ridotte(FrecciaYOUNG=61.0)
+    tessera = Discount(
+        name="Promo Young", scope="provider:trenitalia", value=20, offers=["FrecciaYOUNG"]
+    )
+    breakdown = cost.compute([treno], _query(tessera))
+
+    # 39 euro dall'operatore, non i 20 che darebbe la percentuale.
+    assert breakdown.total == 61.0
+    riga = next(line for line in breakdown.lines if line.kind == "discount")
+    assert riga.amount == -39.0
+    assert "tariffa dell'operatore" in riga.label
+    assert "dichiarato da te" not in riga.label
+
+
+def test_senza_la_tessera_giusta_la_tariffa_ridotta_non_si_applica() -> None:
+    """Il prezzo c'e' nella risposta, ma e' di chi ha diritto a quell'offerta.
+
+    Applicarlo a chiunque vorrebbe dire mostrare un prezzo che alla cassa non
+    esiste, che e' il difetto piu' caro di questo progetto."""
+    treno = _treno_con_tariffe_ridotte(FrecciaYOUNG=61.0)
+    senior = Discount(
+        name="Promo Senior", scope="provider:trenitalia", value=20, offers=["SENIOR"]
+    )
+    breakdown = cost.compute([treno], _query(senior))
+
+    # La sua percentuale vale lo stesso, ma dichiarata: sono due cose diverse.
+    riga = next(line for line in breakdown.lines if line.kind == "discount")
+    assert riga.amount == -20.0
+    assert "dichiarato da te" in riga.label
+
+
+def test_servono_tutte_le_offerte_che_compongono_il_totale() -> None:
+    """Il prezzo basso nasce da due tratte scontate in due modi: averne diritto
+    su una sola non lo ottiene."""
+    treno = _treno_con_tariffe_ridotte(FrecciaYOUNG=61.0, SENIOR=61.0)
+    solo_young = Discount(
+        name="Promo Young", scope="provider:trenitalia", value=5, offers=["FrecciaYOUNG"]
+    )
+    breakdown = cost.compute([treno], _query(solo_young))
+
+    riga = next(line for line in breakdown.lines if line.kind == "discount")
+    assert riga.amount == -5.0
+    assert "dichiarato da te" in riga.label
+
+
+def test_una_tariffa_ridotta_piu_cara_del_prezzo_esposto_viene_ignorata() -> None:
+    treno = _treno_con_tariffe_ridotte(FrecciaYOUNG=120.0)
+    tessera = Discount(
+        name="Promo Young", scope="provider:trenitalia", value=0, offers=["FrecciaYOUNG"]
+    )
+    breakdown = cost.compute([treno], _query(tessera))
+
+    assert breakdown.total == 100.0
+    assert not [line for line in breakdown.lines if line.kind == "discount"]
