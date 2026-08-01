@@ -23,17 +23,28 @@ import sys
 
 
 def _harden_stdio() -> None:
-    """Sostituisce con /dev/null i flussi che non esistono (caso `pythonw`)."""
+    """Sostituisce con /dev/null i flussi che non si possono usare.
+
+    Non basta che esistano. Un processo riavviato dall'aggiornatore puo'
+    ereditare un descrittore che **sembra** valido — `fileno()` risponde — ma il
+    cui handle non lo e' piu': la prima riga scritta lo fa morire prima ancora
+    che apra la porta, e da fuori sembra un aggiornamento che non finisce mai.
+    L'unico modo di saperlo e' chiedere al sistema con `fstat`."""
     for name in ("stdout", "stderr"):
         stream = getattr(sys, name, None)
         usable = stream is not None
         if usable:
             try:
-                stream.fileno()
+                descrittore = stream.fileno()
             except Exception:
                 # StringIO e simili non hanno un descrittore ma sanno scrivere:
                 # vanno lasciati stare (succede sotto pytest).
                 usable = hasattr(stream, "write")
+            else:
+                try:
+                    os.fstat(descrittore)
+                except OSError:
+                    usable = False
         if not usable:
             setattr(sys, name, open(os.devnull, "w", encoding="utf-8"))
 

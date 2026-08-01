@@ -14,8 +14,11 @@ from __future__ import annotations
 import asyncio
 import logging
 import os
+import shutil
 import subprocess
 import sys
+import tempfile
+import time
 from pathlib import Path
 from typing import Any, Callable
 
@@ -27,6 +30,11 @@ logger = logging.getLogger(__name__)
 
 RELEASES_URL = "https://api.github.com/repos/DiegoRiccardi1234/trip-finder/releases/latest"
 ASSET = "TripFinder-windows.zip"
+
+#: Quanto un lucchetto e' da prendere sul serio. Deve superare il caso peggiore
+#: dell'aggiornatore — attesa dell'uscita (60 s), respiro (3 s), copia con i
+#: suoi tentativi (~31 s) — altrimenti scade a meta' lavoro e ne parte un altro.
+DURATA_LUCCHETTO = 180.0
 
 #: Il lanciatore lo registra all'avvio. Serve per uscire in modo ordinato —
 #: chiudendo browser Patchright, client HTTP e SQLite — invece di morire e
@@ -125,20 +133,55 @@ async def install() -> dict[str, Any]:
     if not aggiornatore.exists():
         return {"started": False, "detail": "Aggiorna.exe non c'e': reinstalla il bundle"}
 
+    # Un aggiornamento gia' in corso non se ne fa partire un secondo: due
+    # aggiornatori che copiano sugli stessi file si bloccano a vicenda.
+    lucchetto = DATA_DIR / "aggiornamento.lock"
+    if lucchetto.exists():
+        try:
+            eta = time.time() - lucchetto.stat().st_mtime
+        except OSError:
+            eta = DURATA_LUCCHETTO + 1
+        if eta < DURATA_LUCCHETTO:
+            return {
+                "started": False,
+                "detail": f"un aggiornamento e' gia' in corso da {int(eta)} secondi",
+            }
+
+    # L'aggiornatore va lanciato da **una copia**, non da dove sta installato:
+    # fra i file da sostituire c'e' anche lui, e su Windows un eseguibile in
+    # esecuzione e' bloccato. La prima versione si riscriveva addosso e moriva
+    # con «Il file e' utilizzato da un altro processo».
+    try:
+        temporaneo = Path(tempfile.mkdtemp(prefix="tripfinder-agg-"))
+        copia = temporaneo / aggiornatore.name
+        shutil.copy2(aggiornatore, copia)
+        # E insieme a lui `_internal`. Il caricatore di PyInstaller cerca li'
+        # `python311.dll` **prima** che Python parta: copiando il solo
+        # eseguibile muore con «Failed to load Python DLL» e non arriva
+        # nemmeno alla prima riga di codice, quindi non lascia traccia
+        # nemmeno nel log. Sono un'ottantina di megabyte, e valgono i due
+        # secondi che costano.
+        interno = aggiornatore.parent / "_internal"
+        if interno.is_dir():
+            shutil.copytree(interno, temporaneo / "_internal")
+    except OSError as exc:
+        return {"started": False, "detail": f"non riesco a preparare l'aggiornatore: {exc}"}
+
     # Il lucchetto dice al programma «non partire, sto lavorando»: senza, un
     # doppio click durante l'aggiornamento riaprirebbe l'eseguibile vecchio e
     # ne bloccherebbe la sostituzione a meta'.
-    (DATA_DIR / "aggiornamento.lock").write_text(str(os.getpid()), encoding="utf-8")
+    lucchetto.write_text(str(os.getpid()), encoding="utf-8")
 
     subprocess.Popen(
         [
-            str(aggiornatore),
+            str(copia),
             "--zip", str(archivio),
             "--dest", str(dest),
             "--exe", str(Path(sys.executable).resolve()),
             "--pid", str(os.getpid()),
+            "--temporaneo", str(temporaneo),
         ],
-        cwd=str(dest),
+        cwd=str(temporaneo),
         close_fds=True,
         creationflags=getattr(subprocess, "DETACHED_PROCESS", 0),
     )
