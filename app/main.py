@@ -261,6 +261,17 @@ async def advice_trip(request: TripAdviceRequest) -> dict:
     return {"text": answer.text or None, "reason": answer.reason}
 
 
+@app.get("/api/health")
+async def health() -> dict:
+    """Risponde e basta, e dice quale versione sta rispondendo.
+
+    Serve alla pagina che aspetta il riavvio dopo un aggiornamento: deve poter
+    chiedere «ci sei?» molte volte senza far lavorare nessuno, e riconoscere che
+    a rispondere e' la versione nuova e non quella vecchia che non era ancora
+    morta."""
+    return {"ok": True, "version": VERSION}
+
+
 @app.get("/api/update/check")
 async def update_check() -> dict:
     """Che versione c'e' installata e se ne e' uscita una piu' nuova."""

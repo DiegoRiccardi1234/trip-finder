@@ -1057,11 +1057,14 @@ const versionEl = document.getElementById('version-installed');
 const updateCheckBtn = document.getElementById('update-check');
 const updateInstallBtn = document.getElementById('update-install');
 const updateState = document.getElementById('update-state');
+/** Serve a riconoscere che a rispondere è il programma nuovo, non il vecchio. */
+let versioneInstallata = '';
 
 async function controllaAggiornamenti(automatico = false) {
   if (!automatico) updateState.textContent = 'Controllo in corso…';
   try {
     const dati = await (await fetch('/api/update/check')).json();
+    versioneInstallata = dati.installed || '';
     versionEl.textContent = dati.installed || '—';
     updateInstallBtn.hidden = !dati.update_available;
     if (dati.update_available) {
@@ -1092,22 +1095,36 @@ updateInstallBtn.addEventListener('click', async () => {
     // Da qui il server si spegne di proposito: una connessione che cade è il
     // segno che sta andando bene, non che è rotto. Si aspetta che il nuovo
     // risponda e si ricarica la pagina dove si era.
-    updateState.textContent = 'Sostituzione in corso. La pagina si ricarica da sola.';
-    attendiRiavvio();
+    attendiRiavvio(versioneInstallata);
   } catch {
     updateState.textContent = 'Aggiornamento non avviato.';
     updateInstallBtn.disabled = false;
   }
 });
 
-function attendiRiavvio(scadenza = Date.now() + 300000) {
+/** Aspetta che risponda la versione NUOVA, non quella che sta morendo.
+ *
+ *  Il vecchio server resta in piedi per un attimo dopo la risposta, quindi una
+ *  domanda del tipo «ci sei?» riceve un sì da lui e la pagina si ricaricherebbe
+ *  su un programma che sta chiudendo. Si confronta la versione. */
+function attendiRiavvio(prima, scadenza = Date.now() + 300000) {
+  const restano = Math.max(0, Math.round((scadenza - Date.now()) / 1000));
+  updateState.textContent = 'Sostituzione in corso, il programma si riapre da solo. '
+    + `La pagina si ricarica quando è pronto (attendo ancora ${restano} s).`;
   setTimeout(async () => {
     try {
-      const risposta = await fetch('/api/update/check', { cache: 'no-store' });
-      if (risposta.ok) { location.reload(); return; }
-    } catch { /* ancora giù: è quello che ci si aspetta */ }
-    if (Date.now() < scadenza) attendiRiavvio(scadenza);
-    else updateState.textContent = 'Il programma non è tornato su: riaprilo a mano.';
+      const risposta = await fetch('/api/health', { cache: 'no-store' });
+      if (risposta.ok) {
+        const dati = await risposta.json();
+        if (dati.version && dati.version !== prima) { location.reload(); return; }
+      }
+    } catch { /* ancora giù: è quello che ci si aspetta a metà aggiornamento */ }
+    if (Date.now() < scadenza) attendiRiavvio(prima, scadenza);
+    else {
+      updateState.innerHTML = 'Il programma non è tornato su. Guarda '
+        + '<code>data/logs/aggiornamento.log</code>: è l’unico posto dove '
+        + 'l’aggiornamento lascia traccia.';
+    }
   }, 3000);
 }
 
