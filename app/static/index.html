@@ -12,7 +12,9 @@
       if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
     } catch { /* localStorage negato (navigazione privata): resta il tema di sistema */ }
   </script>
-  <link rel="stylesheet" href="/static/style.css">
+  <!-- `__ASSETS__` lo sostituisce il server con l'impronta di CSS e JS: e' quello
+       che impedisce al browser di servire il foglio di stile di ieri. -->
+  <link rel="stylesheet" href="/static/style.css?v=__ASSETS__">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
 </head>
 <body>
@@ -24,8 +26,16 @@
   <button type="button" id="theme" aria-live="polite">🌗 Tema: auto</button>
 </header>
 
-<details id="profile">
-  <summary>Profilo e ricerche salvate</summary>
+<nav class="tabs" aria-label="Sezioni">
+  <button type="button" class="tab is-active" data-view="ricerca">Ricerca</button>
+  <button type="button" class="tab" data-view="profilo">Profilo</button>
+  <button type="button" class="tab" data-view="impostazioni">Impostazioni</button>
+  <button type="button" class="tab" data-view="info">Info</button>
+</nav>
+
+<section id="view-profilo" class="view">
+  <h2>Preferenze</h2>
+  <p class="hint">Vengono applicate a ogni ricerca nuova, così non le riscrivi ogni volta.</p>
   <div class="profile-body">
     <div class="row prefs">
       <label class="grow"><span>Partenza abituale</span>
@@ -43,7 +53,8 @@
       <button type="button" id="prefs-save">Salva preferenze</button>
       <span class="hint" id="prefs-state" aria-live="polite"></span>
     </div>
-    <p class="hint">Le ricerche salvate stanno sul server, non nel browser: restano anche se pulisci i dati di navigazione.</p>
+    <h3>Ricerche salvate</h3>
+    <p class="hint">Stanno sul server, non nel browser: restano anche se pulisci i dati di navigazione.</p>
     <ul id="saved-list" class="saved"></ul>
 
     <h3>Tessere e abbonamenti</h3>
@@ -80,8 +91,90 @@
       <button type="button" id="d-add">Aggiungi</button>
     </div>
   </div>
-</details>
+</section>
 
+<section id="view-impostazioni" class="view">
+  <h2>Versione</h2>
+  <div class="version-row">
+    <span class="version-numero" id="version-installed">—</span>
+    <button type="button" class="link" id="update-check">Controlla aggiornamenti</button>
+    <button type="button" id="update-install" hidden>Aggiorna e riavvia</button>
+  </div>
+  <p class="hint" id="update-state"></p>
+
+  <h2>Intelligenza artificiale</h2>
+  <p class="hint">
+    Serve solo per scrivere la richiesta a voce e per il consiglio sotto la
+    classifica. Ne basta <strong>una</strong> chiave: i fornitori si provano in
+    catena, e quando uno rifiuta si passa al successivo.
+  </p>
+
+  <h3>Gratuiti · nessuna carta</h3>
+  <div id="providers-free" class="provider-grid"></div>
+
+  <h3>A pagamento</h3>
+  <label class="interruttore">
+    <input type="checkbox" id="allow-paid">
+    <span>
+      Usa anche i fornitori a pagamento
+      <small>Restano spenti anche con la chiave inserita: una giornata storta dei
+        gratuiti li farebbe scattare senza che tu lo abbia deciso.</small>
+    </span>
+  </label>
+  <div id="providers-paid" class="provider-grid"></div>
+
+  <h3>Modelli</h3>
+  <p class="hint">
+    Lasciali su «automatico» e li sceglie lui, sulla salute pubblicata e sui
+    difetti visti sul campo. Se ne scegli uno lo prova per primo, ma se rifiuta
+    la richiesta prosegue sugli altri: restare senza risposta per rispettare la
+    scelta sarebbe un modo curioso di rispettarla.
+  </p>
+  <div id="ai-models" class="ai-models"></div>
+  <button type="button" class="link" id="ai-refresh">Ricontrolla</button>
+
+  <p class="nota-chiavi">
+    Le chiavi restano su questo computer, in <code>data/local_secrets.json</code>,
+    accanto al database. Non escono da qui tranne che verso il fornitore che
+    scegli, e non compaiono mai nelle risposte del sito.
+  </p>
+</section>
+
+<section id="view-info" class="view">
+  <h2>Come funziona</h2>
+  <p>
+    Trip Finder cerca lo stesso viaggio su treni, pullman, aerei e traghetti insieme,
+    e li mette in classifica sul <strong>costo reale porta&#8209;a&#8209;porta</strong>:
+    non il prezzo del biglietto, ma quello che spendi davvero per arrivare da dove sei
+    a dove vuoi andare — bagaglio in stiva, trasferimento da e per l'aeroporto,
+    biglietti separati compresi.
+  </p>
+  <p>
+    Per questo un nome come «Matera» diventa un elenco di fermate reali: la stazione
+    delle FAL, l'autostazione, l'aeroporto di Bari, quello di Brindisi. Ognuna è una
+    partenza possibile, e il tempo e il costo per raggiungerla entrano nel totale.
+  </p>
+
+  <h3>Cosa non fa</h3>
+  <ul class="info-list">
+    <li>Non vende biglietti e non prenota niente: i prezzi vanno riverificati sul
+      sito dell'operatore prima di comprare.</li>
+    <li>Non conosce le tariffe scontate della tua tessera, tranne dove l'operatore
+      le pubblica: altrove la riduzione resta segnata come «dichiarato da te».</li>
+    <li>Non garantisce le coincidenze fra biglietti separati: se salti la seconda
+      corsa nessuno ti riprotegge, e la classifica te lo segnala.</li>
+  </ul>
+
+  <h3>Quando qualcosa manca</h3>
+  <p class="hint">
+    Sotto ogni ricerca c'è la riga degli operatori interrogati, con quanti risultati
+    ha dato ciascuno. Un operatore che non risponde viene dichiarato lì: se una
+    soluzione che ti aspettavi non c'è, quella riga dice se è perché non esiste o
+    perché quell'operatore non ha risposto in tempo.
+  </p>
+</section>
+
+<section id="view-ricerca" class="view is-active">
 <form id="search-form" autocomplete="off">
   <div class="row natural">
     <label class="grow">
@@ -153,6 +246,14 @@
 
   <p class="nl-feedback" id="form-feedback" hidden></p>
 
+  <!-- Le tappe non sono le combinazioni. «E anche a» cerca due mete
+       alternative, fra cui scegliere; qui le mete sono tutte, in fila, e la
+       data di una dipende da quando si arriva alla precedente. -->
+  <div class="row stages">
+    <div id="stages-list" class="stages-list"></div>
+    <button type="button" class="link" id="add-stage">+ prosegui per un'altra meta</button>
+  </div>
+
   <div class="row options">
     <fieldset class="modes">
       <legend>Mezzi</legend>
@@ -218,9 +319,22 @@
   </div>
 </section>
 
+<section id="trip-summary" class="trip-summary" hidden>
+  <h2>Il viaggio</h2>
+  <ol id="trip-legs" class="trip-legs"></ol>
+  <p class="trip-total">
+    <span class="etichetta">Totale del viaggio</span>
+    <strong id="trip-total">—</strong>
+    <span class="hint" id="trip-total-note"></span>
+  </p>
+</section>
+
+<section id="trip-advice" class="advice" hidden></section>
+
 <section id="compare-advice" class="advice" hidden></section>
 
 <main id="results"></main>
+</section>
 
 <template id="panel-template">
   <section class="panel">
@@ -299,6 +413,6 @@
   </p>
 </footer>
 
-<script src="/static/app.js"></script>
+<script src="/static/app.js?v=__ASSETS__"></script>
 </body>
 </html>

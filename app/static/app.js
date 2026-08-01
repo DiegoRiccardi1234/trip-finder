@@ -114,6 +114,44 @@ themeBtn.addEventListener('click', () => {
 });
 applyTheme(readTheme());
 
+/* -------------------------------------------------------------- tab --- */
+
+// La vista attiva sta nell'hash e non nella querystring, che qui è già occupata
+// dai parametri di ricerca: una ricerca salvata è un link `?origin=…`, e
+// aggiungerci uno stato di navigazione lo renderebbe ambiguo.
+const VISTE = ['ricerca', 'profilo', 'impostazioni', 'info'];
+
+function mostraVista(nome) {
+  const scelta = VISTE.includes(nome) ? nome : 'ricerca';
+  document.querySelectorAll('.view').forEach((sezione) => {
+    sezione.classList.toggle('is-active', sezione.id === `view-${scelta}`);
+  });
+  document.querySelectorAll('.tab').forEach((tab) => {
+    const attiva = tab.dataset.view === scelta;
+    tab.classList.toggle('is-active', attiva);
+    tab.setAttribute('aria-current', attiva ? 'page' : 'false');
+  });
+  // Le impostazioni si leggono dal server: caricarle all'avvio significherebbe
+  // interrogare i fornitori per una scheda che magari nessuno apre.
+  if (scelta === 'impostazioni') caricaImpostazioni();
+  return scelta;
+}
+
+function vaiA(nome) {
+  const scelta = mostraVista(nome);
+  if (location.hash.slice(1) !== scelta) {
+    history.replaceState(null, '', `${location.pathname}${location.search}#${scelta}`);
+  }
+}
+
+document.querySelectorAll('.tab').forEach((tab) => {
+  tab.addEventListener('click', () => vaiA(tab.dataset.view));
+});
+// Il link «Apri le impostazioni» dentro il blocco consiglio è un `#impostazioni`
+// normale: qui si traduce in cambio di vista invece che in un salto a un'ancora
+// che non esiste.
+window.addEventListener('hashchange', () => mostraVista(location.hash.slice(1)));
+
 /* ---------------------------------------------------- autocompletamento --- */
 
 const PLACE_FIELDS = ['origin', 'origin2', 'destination', 'destination2'];
@@ -293,32 +331,47 @@ async function interpret() {
   }
 }
 
-// La frase interpretata porta una combinazione sola: i campi in piu', se ci
-// sono, restano quelli scritti a mano.
+// La risposta è sempre un viaggio, anche a una tappa sola: la prima tappa
+// riempie i campi «Da», «A» e «Quando», le altre diventano righe di tappa.
 function applyParsed(q) {
-  form.elements.origin.value = q.origin || '';
-  form.elements.destination.value = q.destination || '';
-  form.elements.date.value = q.date || form.elements.date.value;
+  const prima = (q.stages || [])[0] || {};
+  form.elements.origin.value = prima.origin || '';
+  form.elements.destination.value = prima.destination || '';
+  form.elements.date.value = prima.date || form.elements.date.value;
   form.elements.pax.value = q.pax || 1;
   form.elements.bag.checked = Boolean(q.with_checked_bag);
   form.elements.allow_night.checked = q.allow_night !== false;
   form.elements.budget.value = q.max_budget ?? '';
-  form.elements.depart_after.value = q.depart_after ? String(q.depart_after).slice(0, 5) : '';
-  form.elements.arrive_by.value = q.arrive_by ? String(q.arrive_by).slice(0, 5) : '';
+  form.elements.depart_after.value = prima.depart_after ? String(prima.depart_after).slice(0, 5) : '';
+  form.elements.arrive_by.value = prima.arrive_by ? String(prima.arrive_by).slice(0, 5) : '';
   const wanted = new Set(q.modes || []);
   document.querySelectorAll('input[name="mode"]').forEach((box) => {
     box.checked = wanted.size ? wanted.has(box.value) : true;
   });
+  // La sosta di una tappa la si legge sulla tappa stessa; la riga che la mostra
+  // è quella della tappa dopo, perché è lì che serve saperlo per ripartire.
+  tappe.length = 0;
+  (q.stages || []).slice(1).forEach((stage, i) => {
+    tappe.push({ destination: stage.destination || '', stay: q.stages[i].stay_days || 0 });
+  });
+  renderStages();
   loadStops('origin');
   loadStops('destination');
 }
 
 function describeParsed(q) {
-  const bits = [`${q.origin} → ${q.destination}`, `il ${fmtDate(q.date)}`];
+  const stages = q.stages || [];
+  const prima = stages[0] || {};
+  const percorso = [prima.origin, ...stages.map((s) => s.destination)].filter(Boolean).join(' → ');
+  const bits = [percorso, `dal ${fmtDate(prima.date)}`];
+  const soste = stages.filter((s) => s.stay_days);
+  if (soste.length) {
+    bits.push(soste.map((s) => `${s.stay_days} giorn${s.stay_days === 1 ? 'o' : 'i'} a ${s.destination}`).join(', '));
+  }
   if (q.pax > 1) bits.push(`${q.pax} persone`);
   if (q.max_budget) bits.push(`max ${q.max_budget} €`);
-  if (q.depart_after) bits.push(`partenza dopo le ${String(q.depart_after).slice(0, 5)}`);
-  if (q.arrive_by) bits.push(`arrivo entro le ${String(q.arrive_by).slice(0, 5)}`);
+  if (prima.depart_after) bits.push(`partenza dopo le ${String(prima.depart_after).slice(0, 5)}`);
+  if (prima.arrive_by) bits.push(`arrivo entro le ${String(prima.arrive_by).slice(0, 5)}`);
   if (q.allow_night === false) bits.push('niente notturni');
   if (q.with_checked_bag) bits.push('con valigia');
   return bits.join(', ');
@@ -443,6 +496,12 @@ function currentParams() {
     if (!document.getElementById(`${name}-field`).hidden) params.set(`show_${name}`, '1');
   }
   if (lastSort !== 'score') params.set('sort', lastSort);
+  // Le tappe stanno nella querystring come le altre scelte: salvare una ricerca
+  // e condividerla restano lo stesso gesto, e un viaggio a tre tappe si riapre
+  // da un link come tutto il resto.
+  if (tappe.length) {
+    params.set('stages', tappe.map((t) => `${t.destination}:${t.stay}`).join('|'));
+  }
   return params;
 }
 
@@ -464,6 +523,17 @@ function applyParams(params) {
     if (button) button.textContent = TOGGLES[name][visible ? 1 : 0];
   }
   returnField.hidden = !form.elements.roundtrip.checked;
+  tappe.length = 0;
+  if (params.has('stages')) {
+    for (const pezzo of params.get('stages').split('|').filter(Boolean)) {
+      const taglio = pezzo.lastIndexOf(':');
+      tappe.push({
+        destination: taglio > 0 ? pezzo.slice(0, taglio) : pezzo,
+        stay: taglio > 0 ? Number(pezzo.slice(taglio + 1)) || 0 : 0,
+      });
+    }
+  }
+  renderStages();
   if (params.has('sort')) lastSort = params.get('sort');
   markActivePreset();
   syncReturnMin();
@@ -679,9 +749,554 @@ saveBtn.addEventListener('click', async () => {
       }),
     });
     loadProfile(false);
-    document.getElementById('profile').open = true;
+    // Il profilo non è più un accordion da aprire: è una vista, e mostrarla è
+    // il modo di far vedere che la ricerca è finita nell'elenco.
+    vaiA('profilo');
   } catch { /* niente da fare: il link nell'indirizzo resta comunque valido */ }
 });
+
+/* ------------------------------------------------------- impostazioni --- */
+
+// Etichette, dove si prende la chiave e cosa dà il piano gratuito. Il backend
+// sa i nomi dei fornitori ma non ha motivo di sapere dove ci si registra: qui
+// c'è la parte che serve a chi deve procurarsi una chiave, e basta.
+const CATALOGO_IA = {
+  openrouter: {
+    label: 'OpenRouter',
+    placeholder: 'sk-or-v1-…',
+    signup: 'https://openrouter.ai/keys',
+    nota: 'Molti modelli :free con una chiave sola. Nessuna carta.',
+  },
+  groq: {
+    label: 'Groq',
+    placeholder: 'gsk_…',
+    signup: 'https://console.groq.com/keys',
+    nota: '30 richieste al minuto, molto veloce. Nessuna carta.',
+  },
+  cerebras: {
+    label: 'Cerebras',
+    placeholder: 'csk-…',
+    signup: 'https://cloud.cerebras.ai',
+    nota: 'Un milione di token al giorno. Nessuna carta.',
+  },
+  google: {
+    label: 'Google AI Studio',
+    placeholder: 'AI…',
+    signup: 'https://aistudio.google.com/apikey',
+    nota: 'Quota gratuita generosa su Gemini Flash. Nessuna carta.',
+  },
+  mistral: {
+    label: 'Mistral',
+    placeholder: '…',
+    signup: 'https://console.mistral.ai/api-keys',
+    nota: 'Piano Experiment gratuito, con limiti di frequenza.',
+  },
+  local: {
+    label: 'Server locale',
+    placeholder: 'http://localhost:11434/v1',
+    nota: 'Ollama, LM Studio o qualunque endpoint compatibile OpenAI. '
+      + 'Qui va l’indirizzo, non una chiave: in locale non c’è nessuno da autenticare.',
+  },
+  openai: { label: 'OpenAI', placeholder: 'sk-…', signup: 'https://platform.openai.com/api-keys' },
+  anthropic: {
+    label: 'Anthropic', placeholder: 'sk-ant-…', signup: 'https://console.anthropic.com/settings/keys',
+  },
+  deepseek: { label: 'DeepSeek', placeholder: 'sk-…', signup: 'https://platform.deepseek.com/api_keys' },
+  xai: { label: 'xAI (Grok)', placeholder: 'xai-…', signup: 'https://console.x.ai' },
+  glm: { label: 'Zhipu GLM', placeholder: '…', signup: 'https://open.bigmodel.cn' },
+};
+
+const freeGrid = document.getElementById('providers-free');
+const paidGrid = document.getElementById('providers-paid');
+const allowPaid = document.getElementById('allow-paid');
+const aiModelsEl = document.getElementById('ai-models');
+let impostazioniCaricate = false;
+
+function schedaFornitore(p) {
+  const info = CATALOGO_IA[p.name] || { label: p.name, placeholder: '…' };
+  const stato = p.configured ? '✓ configurata' : 'nessuna chiave';
+  // Solo la nota del catalogo. Quella del backend è un'etichetta, non una nota:
+  // su xAI vale «Grok», e accanto al link diventava «Grok ottieni una chiave».
+  const note = info.nota || '';
+  const spenta = !p.free && !allowPaid.checked;
+  const registrati = info.signup
+    ? ` <a class="senza-a-capo" href="${info.signup}" target="_blank" rel="noopener">ottieni una chiave</a>`
+    : '';
+  return `<div class="provider-card ${p.configured ? 'configurata' : ''} ${spenta ? 'spenta' : ''}"
+               data-provider="${escapeHtml(p.name)}">
+      <div class="provider-head">
+        <strong>${escapeHtml(info.label)}</strong>
+        <span class="provider-stato">${stato}</span>
+      </div>
+      ${note || registrati ? `<p class="hint">${escapeHtml(note)}${registrati}</p>` : ''}
+      <div class="provider-riga">
+        <input type="password" autocomplete="off" spellcheck="false"
+               placeholder="${escapeHtml(info.placeholder)}"
+               aria-label="Chiave per ${escapeHtml(info.label)}">
+        <button type="button" class="salva-chiave">Salva</button>
+        ${p.configured ? '<button type="button" class="link togli-chiave">Rimuovi</button>' : ''}
+      </div>
+    </div>`;
+}
+
+function disegnaFornitori(dati) {
+  allowPaid.checked = Boolean(dati.allow_paid);
+  const perNome = (a, b) => Number(b.configured) - Number(a.configured);
+  freeGrid.innerHTML = dati.providers.filter((p) => p.free).sort(perNome).map(schedaFornitore).join('');
+  paidGrid.innerHTML = dati.providers.filter((p) => !p.free).sort(perNome).map(schedaFornitore).join('');
+}
+
+async function salvaChiavi(valori) {
+  const risposta = await fetch('/api/ai/keys', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(valori),
+  });
+  if (!risposta.ok) throw new Error('salvataggio non riuscito');
+  disegnaFornitori(await risposta.json());
+  // La chiave nuova cambia l'ordine di prova: mostrarlo subito è il modo di
+  // dire che ha davvero preso effetto, senza chiedere di fidarsi.
+  caricaModelli();
+}
+
+function campoChiave(bottone) {
+  const card = bottone.closest('.provider-card');
+  return { nome: card.dataset.provider, input: card.querySelector('input') };
+}
+
+for (const griglia of [freeGrid, paidGrid]) {
+  griglia.addEventListener('click', async (event) => {
+    const salva = event.target.closest('.salva-chiave');
+    const togli = event.target.closest('.togli-chiave');
+    if (!salva && !togli) return;
+    const { nome, input } = campoChiave(salva || togli);
+    // Il server locale si configura con l'indirizzo, non con una chiave.
+    const campo = nome === 'local' ? 'llm_base_url' : `${nome}_api_key`;
+    try {
+      await salvaChiavi({ [campo]: togli ? '' : input.value });
+    } catch {
+      input.value = '';
+      input.placeholder = 'non salvata, riprova';
+    }
+  });
+}
+
+allowPaid.addEventListener('change', () => {
+  salvaChiavi({ allow_paid_providers: allowPaid.checked }).catch(() => {
+    allowPaid.checked = !allowPaid.checked;
+  });
+});
+
+/** Lo stato di un modello in una parola, più il pallino che lo dice a colpo d'occhio. */
+function statoModello(m) {
+  if (m.penalita > 0) {
+    return { classe: 'penalizzato', testo: `penalizzato (−${m.penalita}), scade da sola` };
+  }
+  if (!m.verificabile) {
+    return { classe: 'ignoto', testo: m.gratuito ? 'salute non pubblicata' : 'a pagamento' };
+  }
+  if (m.vivo === false) return { classe: 'morto', testo: m.detail || 'nessun provider lo serve' };
+  const hosts = (m.hosts || []).join(', ');
+  return {
+    classe: 'vivo',
+    testo: [m.uptime_5m != null ? `${m.uptime_5m}% negli ultimi 5 minuti` : '', hosts]
+      .filter(Boolean).join(' · '),
+  };
+}
+
+function opzione(m, scelto) {
+  const morto = m.vivo === false ? ' (non disponibile)' : '';
+  return `<option value="${escapeHtml(m.id)}"${m.id === scelto ? ' selected' : ''}>`
+    + `${escapeHtml(m.id)}${morto}</option>`;
+}
+
+function gruppo(etichetta, elenco, scelto) {
+  if (!elenco.length) return '';
+  return `<optgroup label="${escapeHtml(etichetta)}">`
+    + elenco.map((m) => opzione(m, scelto)).join('') + '</optgroup>';
+}
+
+function bloccoCompito(chiave, t) {
+  const scelto = t.pinned || '';
+  const consigliati = t.candidates.filter((m) => m.consigliato);
+  const gratuiti = t.candidates.filter((m) => !m.consigliato && m.gratuito);
+  const pagamento = t.candidates.filter((m) => !m.gratuito);
+
+  const opzioni = `<option value=""${scelto ? '' : ' selected'}>Automatico`
+    + `${t.auto ? ` — adesso ${t.auto}` : ''}</option>`
+    + gruppo('Consigliati per questo compito', consigliati, scelto)
+    + gruppo('Altri gratuiti', gratuiti, scelto)
+    + gruppo(`A pagamento (${pagamento.length})`, pagamento, scelto);
+
+  const riga = (m) => {
+    const stato = statoModello(m);
+    const attivo = m.id === (scelto || t.auto);
+    return `<li class="modello ${stato.classe}${attivo ? ' in-uso' : ''}">`
+      + '<span class="pallino" aria-hidden="true"></span>'
+      + `<span class="modello-id">${escapeHtml(m.model)}</span>`
+      + `<span class="modello-stato">${escapeHtml(stato.testo)}</span>`
+      + `${attivo ? '<span class="modello-uso">in uso</span>' : ''}</li>`;
+  };
+
+  // In elenco i gratuiti, che sono una dozzina e si leggono. Quelli a pagamento
+  // sono centinaia: stanno nel menu, e qui si dice quanti sono invece di
+  // troncare in silenzio. Tranne quello scelto, che va visto.
+  const mostrati = t.candidates.filter((m) => m.gratuito || m.id === scelto);
+  const nascosti = t.candidates.length - mostrati.length;
+  const coda = nascosti
+    ? `<li class="modelli-coda">e altri ${nascosti} a pagamento, nel menu qui sopra`
+      + ' — la loro salute OpenRouter non la pubblica</li>'
+    : '';
+
+  return `<section class="compito">
+      <div class="compito-head">
+        <h4>${escapeHtml(t.label)}</h4>
+        <select class="scelta-modello" data-task="${escapeHtml(chiave)}"
+                aria-label="Modello per ${escapeHtml(t.label)}">${opzioni}</select>
+      </div>
+      <ul class="modelli">${mostrati.map(riga).join('') || '<li class="hint">Nessun modello disponibile.</li>'}${coda}</ul>
+    </section>`;
+}
+
+async function caricaModelli() {
+  aiModelsEl.innerHTML = '<p class="hint">Controllo la salute dei modelli…</p>';
+  try {
+    const dati = await (await fetch('/api/ai/models')).json();
+    if (!dati.configured) {
+      aiModelsEl.innerHTML = '<p class="hint">Nessuna chiave: l’IA è spenta e il resto del sito funziona identico.</p>';
+      return;
+    }
+    aiModelsEl.innerHTML = Object.entries(dati.tasks)
+      .map(([chiave, t]) => bloccoCompito(chiave, t)).join('');
+  } catch {
+    aiModelsEl.innerHTML = '<p class="hint">Elenco dei modelli non raggiungibile.</p>';
+  }
+}
+
+aiModelsEl.addEventListener('change', async (event) => {
+  const scelta = event.target.closest('.scelta-modello');
+  if (!scelta) return;
+  scelta.disabled = true;
+  try {
+    // Stringa vuota = torna in automatico: è la stessa convenzione con cui si
+    // toglie una chiave.
+    await fetch('/api/ai/keys', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ [`${scelta.dataset.task}_model`]: scelta.value }),
+    });
+    await caricaModelli();
+  } catch {
+    scelta.disabled = false;
+  }
+});
+
+document.getElementById('ai-refresh').addEventListener('click', caricaModelli);
+
+/* ------------------------------------------------------- aggiornamenti --- */
+
+const versionEl = document.getElementById('version-installed');
+const updateCheckBtn = document.getElementById('update-check');
+const updateInstallBtn = document.getElementById('update-install');
+const updateState = document.getElementById('update-state');
+
+async function controllaAggiornamenti(automatico = false) {
+  if (!automatico) updateState.textContent = 'Controllo in corso…';
+  try {
+    const dati = await (await fetch('/api/update/check')).json();
+    versionEl.textContent = dati.installed || '—';
+    updateInstallBtn.hidden = !dati.update_available;
+    if (dati.update_available) {
+      updateState.textContent = `C'è la ${dati.latest}. `
+        + 'Scarico, sostituisco e riapro: i tuoi dati non si toccano.';
+    } else if (automatico) {
+      updateState.textContent = '';
+    } else {
+      updateState.textContent = dati.detail || 'Sei già alla versione più recente.';
+    }
+  } catch {
+    if (!automatico) updateState.textContent = 'Non sono riuscito a chiedere a GitHub.';
+  }
+}
+
+updateCheckBtn.addEventListener('click', () => controllaAggiornamenti());
+
+updateInstallBtn.addEventListener('click', async () => {
+  updateInstallBtn.disabled = true;
+  updateState.textContent = 'Scarico la versione nuova…';
+  try {
+    const esito = await (await fetch('/api/update/install', { method: 'POST' })).json();
+    if (!esito.started) {
+      updateState.textContent = esito.detail || 'Aggiornamento non avviato.';
+      updateInstallBtn.disabled = false;
+      return;
+    }
+    // Da qui il server si spegne di proposito: una connessione che cade è il
+    // segno che sta andando bene, non che è rotto. Si aspetta che il nuovo
+    // risponda e si ricarica la pagina dove si era.
+    updateState.textContent = 'Sostituzione in corso. La pagina si ricarica da sola.';
+    attendiRiavvio();
+  } catch {
+    updateState.textContent = 'Aggiornamento non avviato.';
+    updateInstallBtn.disabled = false;
+  }
+});
+
+function attendiRiavvio(scadenza = Date.now() + 300000) {
+  setTimeout(async () => {
+    try {
+      const risposta = await fetch('/api/update/check', { cache: 'no-store' });
+      if (risposta.ok) { location.reload(); return; }
+    } catch { /* ancora giù: è quello che ci si aspetta */ }
+    if (Date.now() < scadenza) attendiRiavvio(scadenza);
+    else updateState.textContent = 'Il programma non è tornato su: riaprilo a mano.';
+  }, 3000);
+}
+
+async function caricaImpostazioni() {
+  if (impostazioniCaricate) return;
+  impostazioniCaricate = true;
+  try {
+    disegnaFornitori(await (await fetch('/api/ai/keys/status')).json());
+    caricaModelli();
+    controllaAggiornamenti(true);
+  } catch {
+    impostazioniCaricate = false;
+    freeGrid.innerHTML = '<p class="hint">Impostazioni non raggiungibili.</p>';
+  }
+}
+
+/* -------------------------------------------------------- viaggio a tappe --- */
+
+// Ogni voce è una meta in più dopo la prima: `stay` sono i giorni passati alla
+// meta PRECEDENTE prima di ripartire. La prima tappa è il modulo di ricerca
+// stesso — non serve una riga per dire quello che i campi «Da» e «A» già dicono.
+const tappe = [];
+const stagesList = document.getElementById('stages-list');
+const tripSummary = document.getElementById('trip-summary');
+const tripLegsEl = document.getElementById('trip-legs');
+const tripTotalEl = document.getElementById('trip-total');
+const tripTotalNote = document.getElementById('trip-total-note');
+const tripAdviceEl = document.getElementById('trip-advice');
+
+/** Il viaggio in corso: `null` quando si sta facendo una ricerca normale. */
+let viaggio = null;
+
+function nomeMeta(indice) {
+  // La meta di partenza della riga `indice` è la meta della riga precedente,
+  // e per la prima è il campo «A».
+  return (indice === 0 ? form.elements.destination.value : tappe[indice - 1].destination) || '…';
+}
+
+function renderStages() {
+  stagesList.innerHTML = tappe.map((tappa, i) => `
+    <div class="stage-row" data-index="${i}">
+      <span class="stage-arrow">⤷</span>
+      <label class="inline">mi fermo a <strong>${escapeHtml(nomeMeta(i))}</strong> per
+        <input type="number" class="stage-stay" min="0" max="60" value="${tappa.stay}"> giorni,
+      </label>
+      <label class="grow">poi vado a
+        <input class="stage-dest" list="places-destination" placeholder="Torino"
+               value="${escapeHtml(tappa.destination)}" minlength="2">
+      </label>
+      <button type="button" class="link stage-remove" title="Togli questa tappa">×</button>
+    </div>`).join('');
+}
+
+document.getElementById('add-stage').addEventListener('click', () => {
+  if (tappe.length >= 6) return;
+  tappe.push({ destination: '', stay: 1 });
+  renderStages();
+  stagesList.querySelector('.stage-row:last-child .stage-dest')?.focus();
+});
+
+stagesList.addEventListener('input', (event) => {
+  const row = event.target.closest('.stage-row');
+  if (!row) return;
+  const tappa = tappe[Number(row.dataset.index)];
+  if (event.target.classList.contains('stage-dest')) tappa.destination = event.target.value;
+  if (event.target.classList.contains('stage-stay')) tappa.stay = Number(event.target.value) || 0;
+});
+
+stagesList.addEventListener('click', (event) => {
+  if (!event.target.closest('.stage-remove')) return;
+  tappe.splice(Number(event.target.closest('.stage-row').dataset.index), 1);
+  renderStages();
+});
+
+// Cambiare la meta principale cambia il nome scritto nella prima riga: senza
+// questo resterebbe «mi fermo a Roma» dopo aver messo Napoli.
+form.elements.destination.addEventListener('input', () => { if (tappe.length) renderStages(); });
+
+function giornoDopo(iso, giorni) {
+  const quando = new Date(`${iso}T12:00:00`);
+  quando.setDate(quando.getDate() + giorni);
+  return quando.toISOString().slice(0, 10);
+}
+
+/** Le tappe del viaggio, con la prima presa dal modulo. */
+function costruisciTappe() {
+  const prima = {
+    origin: form.elements.origin.value.trim(),
+    destination: form.elements.destination.value.trim(),
+    date: form.elements.date.value,
+    stay: tappe.length ? tappe[0].stay : 0,
+  };
+  const elenco = [prima];
+  tappe.forEach((tappa, i) => {
+    elenco.push({
+      origin: elenco[i].destination,
+      destination: tappa.destination.trim(),
+      date: null,               // si scopre quando arriva la tappa prima
+      stay: tappe[i + 1] ? tappe[i + 1].stay : 0,
+    });
+  });
+  return elenco;
+}
+
+function startTrip() {
+  const elenco = costruisciTappe();
+  const vuota = elenco.find((tappa) => !tappa.origin || !tappa.destination);
+  if (vuota) { say('Manca una meta in una delle tappe.'); return; }
+  if (!elenco[0].date) { say('Manca la data di partenza.'); return; }
+
+  panels.forEach((panel) => panel.close());
+  panels.length = 0;
+  resultsEl.replaceChildren();
+  for (const el of [compareEl, tripAdviceEl]) { el.hidden = true; el.innerHTML = ''; }
+  tripSummary.hidden = true;
+
+  viaggio = { tappe: elenco, indice: 0 };
+  statusBox.hidden = false;
+  stopBtn.hidden = false;
+  goBtn.disabled = true;
+  countsEl.textContent = '';
+  history.replaceState(null, '', `?${currentParams()}`);
+  avviaTappa();
+}
+
+function avviaTappa() {
+  const tappa = viaggio.tappe[viaggio.indice];
+  phaseEl.textContent = `Tappa ${viaggio.indice + 1} di ${viaggio.tappe.length}: ${tappa.origin} → ${tappa.destination}`;
+  // Le fermate scelte a mano valgono solo per la prima tappa: sono i chip sotto
+  // «Da» e «A», e le tappe successive non hanno un campo a cui appartenere.
+  const prima = viaggio.indice === 0;
+  const panel = new SearchPanel(
+    { origin: { value: tappa.origin, field: prima ? 'origin' : null },
+      destination: { value: tappa.destination, field: prima ? 'destination' : null },
+      date: tappa.date },
+    { roundtrip: false, returnDate: null, showDate: true, stageIndex: viaggio.indice },
+  );
+  panels.push(panel);
+  // Un consiglio per tappa sì: è la classifica che l'utente ha davanti. Quello
+  // sul viaggio intero arriva dopo, quando le tappe sono tutte chiuse.
+  panel.start(buildUrl(panel.combo, { advice: true }));
+  relayout();
+}
+
+/** Avanza alla tappa successiva, o chiude il viaggio. Chiamata da refreshSummary. */
+function avanzaViaggio() {
+  const finita = panels[viaggio.indice];
+  if (!finita || finita.running) return;
+  if (finita.endLabel === 'Interrotta') { viaggio = null; return; }
+
+  const migliore = finita.trips[0];
+  const prossima = viaggio.tappe[viaggio.indice + 1];
+  if (prossima) {
+    // La data nasce dall'**arrivo**, non dalla partenza: un notturno arriva il
+    // giorno dopo, e ripartire dalla data di partenza farebbe cominciare la
+    // tappa successiva prima di essere arrivati.
+    const arrivo = migliore ? migliore.out.arrive.slice(0, 10) : viaggio.tappe[viaggio.indice].date;
+    prossima.date = giornoDopo(arrivo, viaggio.tappe[viaggio.indice].stay);
+    viaggio.indice += 1;
+    avviaTappa();
+    return;
+  }
+  chiudiViaggio();
+}
+
+function chiudiViaggio() {
+  const scelte = viaggio.tappe.map((tappa, i) => ({ tappa, panel: panels[i] }));
+  const trovate = scelte.filter(({ panel }) => panel && panel.trips.length);
+  const totale = trovate.reduce((somma, { panel }) => somma + panel.trips[0].total, 0);
+
+  tripSummary.hidden = false;
+  // Una tappa e la sua sosta sono due voci della stessa lista: il tratto
+  // tratteggiato della sosta continua la linea che lega le tappe, e la lista è
+  // il percorso.
+  tripLegsEl.innerHTML = scelte.map(({ tappa, panel }) => {
+    const migliore = panel && panel.trips[0];
+    const corpo = migliore
+      ? `<div class="trip-leg-when">${escapeHtml(fmtClock(migliore.depart))} → `
+        + `${escapeHtml(fmtClock(migliore.out.arrive))} · `
+        + `${escapeHtml((migliore.operators || []).join(', '))}</div>`
+      : '<div class="trip-leg-vuota">nessuna soluzione trovata</div>';
+    const riga = `<li class="trip-leg${migliore ? '' : ' senza-soluzione'}">`
+      + '<div class="trip-leg-head">'
+      + `<span class="trip-leg-route">${escapeHtml(tappa.origin)} → ${escapeHtml(tappa.destination)}</span>`
+      + `<span class="trip-leg-date">${escapeHtml(fmtDate(tappa.date))}</span>`
+      + `<span class="trip-leg-price">${migliore ? escapeHtml(fmtMoney(migliore.total)) : '—'}</span>`
+      + '</div>' + corpo + '</li>';
+    if (!tappa.stay) return riga;
+    return riga + `<li class="trip-stay">${tappa.stay} giorn${tappa.stay === 1 ? 'o' : 'i'} `
+      + `a ${escapeHtml(tappa.destination)}</li>`;
+  }).join('');
+  tripTotalEl.textContent = fmtMoney(totale);
+  tripTotalNote.textContent = trovate.length < scelte.length
+    ? `Manca una tappa su ${scelte.length}: il viaggio non si chiude.`
+    : 'A persona, sommando la soluzione migliore di ogni tappa.';
+
+  phaseEl.textContent = 'Viaggio completo';
+  chiediConsiglioViaggio(scelte);
+  viaggio = null;
+}
+
+async function chiediConsiglioViaggio(scelte) {
+  if (scelte.length < 2) return;
+  tripAdviceEl.hidden = false;
+  tripAdviceEl.classList.remove('advice--muto');
+  tripAdviceEl.innerHTML = '<h2>Consiglio sul viaggio</h2><p>Sto guardando come stanno insieme le tappe…</p>';
+  const body = {
+    pax: Number(form.elements.pax.value) || 1,
+    with_checked_bag: form.elements.bag.checked,
+    max_budget: Number(form.elements.budget.value) || null,
+    raw_text: form.elements.nl.value.trim() || null,
+    legs: scelte.map(({ tappa, panel }, i) => {
+      const migliore = panel && panel.trips[0];
+      return {
+        label: `Tappa ${i + 1}`,
+        origin: tappa.origin,
+        destination: tappa.destination,
+        date: tappa.date,
+        stay_days: tappa.stay,
+        found: panel ? panel.trips.length : 0,
+        chosen: migliore ? {
+          depart: migliore.depart,
+          arrive: migliore.out.arrive,
+          duration_min: migliore.duration_min,
+          total: Number(migliore.total.toFixed(2)),
+          modes: migliore.modes,
+          operators: migliore.operators,
+          n_changes: migliore.n_changes,
+          n_tickets: migliore.n_tickets,
+          flags: migliore.flags,
+        } : null,
+      };
+    }),
+  };
+  try {
+    const risposta = await fetch('/api/advice/trip', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const dati = risposta.ok ? await risposta.json() : { reason: 'failed' };
+    if (!dati.text && !motivoDaDire(dati.reason)) { tripAdviceEl.hidden = true; return; }
+    mostraConsiglio(tripAdviceEl, 'Consiglio sul viaggio', dati.text, dati.reason);
+  } catch {
+    mostraConsiglio(tripAdviceEl, 'Consiglio sul viaggio', null, 'failed');
+  }
+}
 
 /* ------------------------------------------------------------- ricerca --- */
 
@@ -737,10 +1352,14 @@ function buildCombos() {
 }
 
 function chosenNodes(field) {
+  // Le tappe dopo la prima non hanno campo nel modulo, quindi non hanno chip:
+  // applicargli le fermate scelte per «Da» o «A» filtrerebbe una città che non
+  // c'entra niente.
+  if (!field) return '';
   return [...stops.get(field).chosen].join(',');
 }
 
-function buildUrl(combo, { reverse = false } = {}) {
+function buildUrl(combo, { reverse = false, advice = true } = {}) {
   const data = new FormData(form);
   const modes = data.getAll('mode');
   const origin = reverse ? combo.destination : combo.origin;
@@ -764,6 +1383,11 @@ function buildUrl(combo, { reverse = false } = {}) {
   const to = chosenNodes(destination.field);
   if (from) params.set('origin_nodes', from);
   if (to) params.set('destination_nodes', to);
+  // Un consiglio che nessuno mostrera' e' comunque una richiesta al fornitore,
+  // e sono quelle che insieme facevano scattare il 429. Si chiede solo dove
+  // finisce davvero a schermo: mai sul ritorno (`onAdvice` lo scarta) e mai
+  // con piu' combinazioni, dove parla il confronto.
+  if (!advice) params.set('advice', '0');
   return `/api/search?${params}`;
 }
 
@@ -773,6 +1397,10 @@ function startSearch(confirmed = false) {
     say('Seleziona almeno un mezzo di trasporto.');
     return;
   }
+  // Un viaggio a tappe non è una ricerca ripetuta: le tappe vanno in sequenza
+  // perché la data di una dipende da quando si arriva alla precedente.
+  if (tappe.length) { startTrip(); return; }
+
   const combos = buildCombos();
   if (!combos) return;
 
@@ -803,8 +1431,8 @@ function startSearch(confirmed = false) {
   panels.forEach((panel) => panel.close());
   panels.length = 0;
   resultsEl.replaceChildren();
-  compareEl.hidden = true;
-  compareEl.innerHTML = '';
+  for (const el of [compareEl, tripAdviceEl]) { el.hidden = true; el.innerHTML = ''; }
+  tripSummary.hidden = true;
 
   statusBox.hidden = false;
   stopBtn.hidden = false;
@@ -820,7 +1448,10 @@ function startSearch(confirmed = false) {
       showDate: piuDate,
     });
     panels.push(panel);
-    panel.start(buildUrl(combo), roundtrip ? buildUrl(combo, { reverse: true }) : null);
+    panel.start(
+      buildUrl(combo, { advice: combos.length === 1 }),
+      roundtrip ? buildUrl(combo, { reverse: true, advice: false }) : null,
+    );
   });
   relayout();
 
@@ -852,8 +1483,11 @@ function resetSearch() {
   panels.length = 0;
   resultsEl.replaceChildren();
   resultsEl.classList.remove('multi');
-  compareEl.hidden = true;
-  compareEl.innerHTML = '';
+  for (const el of [compareEl, tripAdviceEl]) { el.hidden = true; el.innerHTML = ''; }
+  tripSummary.hidden = true;
+  viaggio = null;
+  tappe.length = 0;
+  renderStages();
   statusBox.hidden = true;
   confirmBox.hidden = true;
   say('');
@@ -891,18 +1525,67 @@ function refreshSummary() {
   const total = panels.reduce((sum, panel) => sum + panel.trips.length, 0);
   countsEl.textContent = total ? `${total} soluzioni in tutto` : '';
   if (running.length) {
-    phaseEl.textContent = panels.length > 1
-      ? `${running.length} di ${panels.length} ricerche in corso`
-      : 'Ricerca in corso';
+    if (!viaggio) {
+      phaseEl.textContent = panels.length > 1
+        ? `${running.length} di ${panels.length} ricerche in corso`
+        : 'Ricerca in corso';
+    }
     return;
   }
+  // Il viaggio prosegue: la tappa appena chiusa dice quando parte la prossima.
+  if (viaggio) { avanzaViaggio(); if (viaggio) return; }
   stopBtn.hidden = true;
   goBtn.disabled = false;
   const interrotte = panels.length && panels.every((panel) => panel.endLabel === 'Interrotta');
-  phaseEl.textContent = interrotte
-    ? 'Interrotta'
-    : (total ? (panels.length > 1 ? 'Ricerche completate' : 'Ricerca completata') : 'Nessuna soluzione trovata');
-  if (!interrotte) askCompare();
+  if (interrotte) { phaseEl.textContent = 'Interrotta'; return; }
+  // Con le tappe la riga di stato la scrive `chiudiViaggio`, e il confronto non
+  // ha senso: le tappe non sono alternative fra cui scegliere, sono tutte.
+  if (tripSummary.hidden) {
+    phaseEl.textContent = total
+      ? (panels.length > 1 ? 'Ricerche completate' : 'Ricerca completata')
+      : 'Nessuna soluzione trovata';
+    askCompare();
+  }
+}
+
+/* ------------------------------------ perché il consiglio a volte non c'è -- */
+
+// Gli stessi motivi che manda il backend (`app/ai/client.py`), detti a chi
+// legge. Prima erano tutti lo stesso silenzio, e «manca la chiave» e «il
+// fornitore ha rifiutato» si risolvono in due modi diversi.
+const PERCHE_NIENTE_IA = {
+  not_configured: 'Nessuna chiave IA configurata.',
+  no_models: 'Nessun modello disponibile in questo momento.',
+  rate_limited: 'Il fornitore ha rifiutato la richiesta (429): troppe in poco tempo.',
+  truncated: 'Il modello ha troncato la risposta.',
+  garbled: 'Il modello ha risposto col suo ragionamento invece che col consiglio.',
+  failed: 'Nessun modello ha risposto.',
+};
+
+/** Vero se il motivo va scritto a schermo. `nothing` no: significa che non
+ *  c'era niente da consigliare, e non è colpa dell'IA. */
+function motivoDaDire(motivo) {
+  return Boolean(motivo) && motivo !== 'nothing';
+}
+
+/** Riempie il blocco consiglio: il testo se c'è, altrimenti perché manca.
+ *  Il caso «manca» resta smorzato, perché una cornice accesa che dice «non
+ *  disponibile» griderebbe più forte del consiglio vero. */
+function mostraConsiglio(el, titolo, testo, motivo) {
+  el.hidden = false;
+  el.classList.toggle('advice--muto', !testo);
+  if (testo) {
+    el.innerHTML = `<h2>${escapeHtml(titolo)}</h2>`
+      + testo.split('\n').filter(Boolean).map((p) => `<p>${escapeHtml(p)}</p>`).join('');
+    return;
+  }
+  const perche = PERCHE_NIENTE_IA[motivo] || PERCHE_NIENTE_IA.failed;
+  const rimedio = motivo === 'rate_limited'
+    ? 'Riprova fra poco, oppure aggiungi la chiave di un secondo fornitore.'
+    : 'Le chiavi si mettono nelle impostazioni.';
+  el.innerHTML = `<h2>${escapeHtml(titolo)} non disponibile</h2>`
+    + `<p>${escapeHtml(perche)} ${escapeHtml(rimedio)} `
+    + '<a href="#impostazioni">Apri le impostazioni</a></p>';
 }
 
 /* ------------------------------------------- consiglio che mette a confronto */
@@ -914,7 +1597,8 @@ async function askCompare() {
   const utili = panels.filter((panel) => panel.trips.length);
   if (utili.length < 2) return;
   compareEl.hidden = false;
-  compareEl.innerHTML = '<h2>Consiglio</h2><p class="hint">Sto confrontando le possibilità…</p>';
+  compareEl.classList.remove('advice--muto');
+  compareEl.innerHTML = '<h2>Consiglio</h2><p>Sto confrontando le possibilità…</p>';
 
   const body = {
     pax: Number(form.elements.pax.value) || 1,
@@ -949,13 +1633,17 @@ async function askCompare() {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(body),
     });
-    const data = response.ok ? await response.json() : {};
-    if (!data.text) { compareEl.hidden = true; compareEl.innerHTML = ''; return; }
-    compareEl.innerHTML = '<h2>Consiglio</h2>'
-      + data.text.split('\n').filter(Boolean).map((p) => `<p>${escapeHtml(p)}</p>`).join('');
+    const data = response.ok ? await response.json() : { reason: 'failed' };
+    if (!data.text && !motivoDaDire(data.reason)) {
+      compareEl.hidden = true;
+      compareEl.innerHTML = '';
+      return;
+    }
+    mostraConsiglio(compareEl, 'Consiglio', data.text, data.reason);
   } catch {
-    compareEl.hidden = true;
-    compareEl.innerHTML = '';
+    // La rete è caduta a metà: anche questo si dice, invece di far sparire il
+    // blocco che un attimo prima diceva «sto confrontando».
+    mostraConsiglio(compareEl, 'Consiglio', null, 'failed');
   }
 }
 
@@ -1059,6 +1747,7 @@ class SearchPanel {
 
     this.title = `${combo.origin.value} → ${combo.destination.value}`;
     if (options.showDate) this.title += ` · ${fmtDate(combo.date)}`;
+    if (options.stageIndex !== undefined) this.title = `Tappa ${options.stageIndex + 1} · ${this.title}`;
 
     const node = panelTemplate.content.firstElementChild.cloneNode(true);
     this.root = node;
@@ -1339,10 +2028,14 @@ class SearchPanel {
   onAdvice(data, which) {
     // Con piu' combinazioni il consiglio e' uno solo, in cima, e confronta:
     // due consigli per colonna non potrebbero dirsi niente a vicenda.
-    if (which !== 'out' || panels.length > 1 || !data || !data.text) return;
-    this.adviceEl.hidden = false;
-    this.adviceEl.innerHTML = `<h2>Consiglio${this.options.roundtrip ? ' sull\'andata' : ''}</h2>`
-      + data.text.split('\n').filter(Boolean).map((p) => `<p>${escapeHtml(p)}</p>`).join('');
+    if (which !== 'out' || panels.length > 1 || !data) return;
+    if (!data.text && !motivoDaDire(data.reason)) return;
+    mostraConsiglio(
+      this.adviceEl,
+      `Consiglio${this.options.roundtrip ? ' sull\'andata' : ''}`,
+      data.text,
+      data.reason,
+    );
   }
 
   /* ----------------------------------------------------- resa risultati --- */
@@ -1539,6 +2232,9 @@ function renderScore(itinerary) {
 
 (async function boot() {
   fillScopes();
+  // Un link con `#impostazioni` deve aprire quella vista, non la ricerca: è il
+  // link che il blocco consiglio mostra quando l'IA non è configurata.
+  mostraVista(location.hash.slice(1));
   const params = new URLSearchParams(location.search);
   const daIndirizzo = params.has('origin') && params.has('destination');
   await loadProfile(!daIndirizzo);
