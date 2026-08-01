@@ -4,6 +4,35 @@ Le versioni seguono [semver](https://semver.org/lang/it/). Il testo di ogni
 sezione finisce nelle note della release: si scrive per chi usa il programma,
 non per chi lo scrive.
 
+## [0.3.0]
+
+**Le tessere, trattate come un dato che scade.** Perché lo sono: delle tredici
+voci raccolte ad agosto 2026 cinque portano una data dentro, e la Carta Verde e
+la Carta Argento hanno smesso di esistere il 4 aprile. Il catalogo quindi non è
+scritto a mano: lo estrae uno script dalle Condizioni Generali di Trasporto —
+i PDF pubblici che vincolano l'operatore — leggendone percentuale, limiti d'età
+e finestra di validità. Le pagine riassuntive dicevano che la Carta Verde è
+sparita il 1° aprile; il documento dice il 4.
+
+**E il prezzo lo dice l'operatore, non una nostra stima.** Trenitalia manda già
+le sue tariffe ridotte dentro la risposta di ricerca. Dichiarando la tessera, la
+classifica usa quella cifra per quella corsa e quel giorno, e la riga di costo
+lo scrive: su Torino → Roma il più economico passa da 60,90 € a 39,00 €. È
+l'unico strato che non invecchia. Dove l'operatore non espone niente resta la
+percentuale del catalogo, segnata «dichiarato da te»: due livelli di fiducia,
+due etichette diverse.
+
+**Si aggiorna da solo.** Il programma riscarica il catalogo una volta al giorno,
+così chi ha installato ad agosto vede le scadenze di dicembre senza aggiornare
+niente. Se non c'è rete resta quello che c'era, e un file scaricato male non
+sostituisce mai uno buono. In più, ogni lunedì un controllo rilegge le fonti e
+apre un issue quando qualcosa si è mosso — con una distinzione che è costata un
+falso allarme per impararla: una fonte che non risponde non è una fonte che è
+cambiata.
+
+Nel profilo le tessere si scelgono da un menu invece di ricordarsele, con
+accanto cosa serve per averle e il link al documento da cui vengono.
+
 ## [0.2.0]
 
 **Un'applicazione da scaricare.** Dalla release si prende `TripFinder-windows.zip`,
