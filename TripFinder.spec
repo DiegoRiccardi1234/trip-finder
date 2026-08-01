@@ -65,6 +65,10 @@ datas: list[tuple[str, str]] = [
     ("app/geo/overrides.json", "app/geo"),
     ("app/providers/known_routes.json", "app/providers"),
     ("app/providers/rail/data", "app/providers/rail/data"),
+    # Il catalogo delle tessere. Senza, `tessere.tutte()` torna vuoto e il menu
+    # nel profilo resta con la sola voce "la scrivo a mano": funziona, non dice
+    # niente, e nessuno capisce perche'.
+    ("app/routing/data", "app/routing/data"),
 ]
 # curl_cffi porta con se' i binari di libcurl: senza, ogni richiesta muore.
 for pacchetto in ("curl_cffi", "patchright"):
