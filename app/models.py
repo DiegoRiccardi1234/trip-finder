@@ -372,6 +372,65 @@ class SearchQuery(BaseModel):
         return mode in self.modes
 
 
+# --- Viaggio a tappe --------------------------------------------------------
+#
+# Le due partenze e le due mete della ricerca generano **combinazioni**: Matera
+# verso Roma *e* Matera verso Torino, due possibilita' alternative fra cui
+# scegliere. Un viaggio a tappe e' un'altra cosa: Matera, poi Roma, poi Torino,
+# tutte e tre, in fila. Quello che le distingue e' che qui la data di una tappa
+# **dipende** dalla precedente, e per questo non e' esprimibile ripetendo una
+# ricerca: si arriva a Roma il 24, ci si ferma tre giorni, si riparte il 27.
+
+
+class TripStage(BaseModel):
+    """Una tappa: da dove a dove, e quanto ci si ferma prima di ripartire."""
+
+    origin: str
+    destination: str
+    #: Data di partenza della tappa. Solo la prima ce l'ha per davvero; per le
+    #: altre e' una previsione, che diventa certa quando si sceglie l'itinerario
+    #: della tappa precedente e se ne conosce l'arrivo.
+    date: date
+    #: Giorni di sosta a destinazione prima della tappa successiva. Sull'ultima
+    #: non significa niente e vale zero.
+    stay_days: int = Field(default=0, ge=0, le=365)
+    #: I vincoli di orario sono della tappa, non del viaggio: «devo essere a
+    #: Roma entro le 21» non dice niente su quando arrivare a Torino tre giorni
+    #: dopo.
+    arrive_by: time | None = None
+    depart_after: time | None = None
+
+
+class TripPlan(BaseModel):
+    """Un viaggio intero, come lo si racconta a voce."""
+
+    stages: list[TripStage] = Field(min_length=1, max_length=8)
+    pax: int = Field(default=1, ge=1, le=9)
+    modes: set[Mode] = Field(default_factory=lambda: set(BOOKABLE_MODES))
+    with_checked_bag: bool = False
+    max_budget: float | None = None
+    allow_night: bool = True
+    raw_text: str | None = None
+
+
+def chain_dates(stages: list[TripStage], arrivals: list[date] | None = None) -> list[TripStage]:
+    """Rimette in fila le date: ogni tappa parte dopo l'arrivo della precedente.
+
+    `arrivals` sono le date di arrivo davvero osservate, una per tappa, quando
+    si conoscono: una corsa notturna arriva **il giorno dopo**, e ricalcolare
+    sulla data di partenza sposterebbe indietro tutta la coda del viaggio di un
+    giorno. Dove l'arrivo non si conosce si assume in giornata, che e' il caso
+    normale e resta corretto finche' la tappa non e' notturna."""
+    rimesse: list[TripStage] = []
+    corrente: date | None = None
+    for indice, stage in enumerate(stages):
+        partenza = stage.date if corrente is None else max(stage.date, corrente)
+        rimesse.append(stage.model_copy(update={"date": partenza}))
+        arrivo = (arrivals[indice] if arrivals and indice < len(arrivals) else None) or partenza
+        corrente = arrivo + timedelta(days=stage.stay_days)
+    return rimesse
+
+
 class ProviderStatus(str, Enum):
     PENDING = "pending"
     OK = "ok"
@@ -439,6 +498,30 @@ class CompareRequest(BaseModel):
     """Le combinazioni da mettere a confronto."""
 
     candidates: list[AdviceCandidate] = Field(min_length=2, max_length=12)
+    pax: int = 1
+    with_checked_bag: bool = False
+    max_budget: float | None = None
+    raw_text: str | None = None
+
+
+class TripLeg(BaseModel):
+    """Una tappa gia' risolta: quella che l'utente sta guardando in classifica."""
+
+    label: str
+    origin: str
+    destination: str
+    date: date
+    stay_days: int = 0
+    #: La soluzione in cima alla sua classifica, se ne ha trovata almeno una.
+    chosen: AdviceOption | None = None
+    #: Quante ne ha trovate in tutto, per dire "poche" quando sono poche.
+    found: int = 0
+
+
+class TripAdviceRequest(BaseModel):
+    """Il viaggio intero da commentare."""
+
+    legs: list[TripLeg] = Field(min_length=1, max_length=8)
     pax: int = 1
     with_checked_bag: bool = False
     max_budget: float | None = None
