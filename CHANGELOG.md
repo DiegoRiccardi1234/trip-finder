@@ -4,6 +4,32 @@ Le versioni seguono [semver](https://semver.org/lang/it/). Il testo di ogni
 sezione finisce nelle note della release: si scrive per chi usa il programma,
 non per chi lo scrive.
 
+## [0.3.1]
+
+**L'aggiornamento automatico ora arriva in fondo.** Diceva «sostituzione in
+corso» e non finiva mai. Quattro difetti, ciascuno sufficiente da solo a
+fermarlo, e tutti scritti nel log che nessuno aveva ancora letto.
+
+L'aggiornatore non aspettava davvero la chiusura del programma: su Windows
+`os.kill(pid, 0)` non è una domanda, e tornava subito. Poi copiava i file
+mentre Windows non aveva ancora rilasciato gli handle, e si prendeva un «file
+utilizzato da un altro processo». Stava anche riscrivendo sé stesso mentre
+girava — cosa che Windows non permette — e ora gira da una copia nel
+temporaneo, portandosi dietro le librerie che gli servono per partire. Infine
+riapriva il programma staccandolo del tutto, e quello moriva alla prima riga
+che scriveva, prima ancora di aprire la porta: da fuori sembrava un
+aggiornamento che non finisce.
+
+Adesso un file bloccato si riprova per una trentina di secondi prima di
+arrendersi (l'antivirus su un archivio appena scompattato se lo tiene anche
+venti), e se proprio non cede il log dice **quale** file era. La pagina intanto
+non dice più «riaprilo a mano»: aspetta che risponda la versione nuova, e se
+non arriva dice dove guardare.
+
+Chi ha installato la 0.2.0 o la 0.3.0 deve scaricare questa a mano una volta:
+l'aggiornamento lo fa il programma installato, e quelli hanno ancora la
+versione rotta. Dalla 0.3.1 in poi funziona dal bottone.
+
 ## [0.3.0]
 
 **Le tessere, trattate come un dato che scade.** Perché lo sono: delle tredici
