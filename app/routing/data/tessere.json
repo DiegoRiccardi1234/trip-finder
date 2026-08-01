@@ -1,0 +1,190 @@
+{
+  "generato_il": "2026-08-01",
+  "nota": "Generato da scripts/build_tessere.py. Le voci con estratto=true vengono dai documenti degli operatori, le altre sono curate a mano e portano la data in cui qualcuno le ha guardate.",
+  "tessere": [
+    {
+      "id": "trenitalia-carta-argento",
+      "nome": "Carta Argento (Trenitalia)",
+      "fonte": "https://www.trenitalia.com/content/dam/trenitalia/allegati/info/condizioni-generali-di-trasporto/parte-i-norme-comuni/Allegato_4-Carta_Argento.pdf",
+      "ambito": "provider:trenitalia",
+      "tipo": "percent",
+      "note": "Non piu' acquistabile. Le carte gia' emesse valgono fino alla loro scadenza.",
+      "ritirata_dal": "2026-04-04",
+      "acquistabile": false,
+      "valore": 15.0,
+      "estratto": true,
+      "verificato_il": "2026-08-01"
+    },
+    {
+      "id": "trenitalia-carta-verde",
+      "nome": "Carta Verde (Trenitalia)",
+      "fonte": "https://www.trenitalia.com/content/dam/trenitalia/allegati/info/condizioni-generali-di-trasporto/parte-i-norme-comuni/Allegato_5-Carta_Verde.pdf",
+      "ambito": "provider:trenitalia",
+      "tipo": "percent",
+      "note": "Non piu' acquistabile. Le carte gia' emesse valgono fino alla loro scadenza.",
+      "ritirata_dal": "2026-04-04",
+      "acquistabile": false,
+      "valore": 10.0,
+      "eta_min": 12,
+      "eta_max": 25,
+      "estratto": true,
+      "verificato_il": "2026-08-01"
+    },
+    {
+      "id": "trenitalia-promo-senior",
+      "nome": "Promo Senior (Trenitalia)",
+      "fonte": "https://www.trenitalia.com/content/dam/trenitalia/allegati/info/condizioni-generali-di-trasporto/parte-iii-trasporto-regionale/promo/Promo_SENIOR.pdf",
+      "ambito": "provider:trenitalia",
+      "tipo": "percent",
+      "richiede": "Carta X-GO (gratuita)",
+      "offerte": [
+        "SENIOR",
+        "FrecciaSENIOR"
+      ],
+      "note": "Come la Young, ma dai 60 anni in su.",
+      "valido_da": "2026-04-05",
+      "valido_a": "2026-11-30",
+      "valore": 20.0,
+      "eta_min": 60,
+      "estratto": true,
+      "verificato_il": "2026-08-01"
+    },
+    {
+      "id": "trenitalia-promo-young",
+      "nome": "Promo Young (Trenitalia)",
+      "fonte": "https://www.trenitalia.com/content/dam/trenitalia/allegati/info/condizioni-generali-di-trasporto/parte-iii-trasporto-regionale/promo/Promo_YOUNG.pdf",
+      "ambito": "provider:trenitalia",
+      "tipo": "percent",
+      "richiede": "Carta X-GO (gratuita)",
+      "offerte": [
+        "YOUNG",
+        "FrecciaYOUNG"
+      ],
+      "note": "Solo su alcuni regionali, regionali veloci e metropolitani, e solo su un numero limitato di treni.",
+      "valido_da": "2026-04-05",
+      "valido_a": "2026-11-30",
+      "valore": 20.0,
+      "eta_max": 29,
+      "estratto": true,
+      "verificato_il": "2026-08-01"
+    },
+    {
+      "id": "continuita-sardegna-aereo",
+      "nome": "Continuita' territoriale Sardegna (voli)",
+      "ambito": "mode:air",
+      "tipo": "percent",
+      "valore": 50.0,
+      "richiede": "residenza in Sardegna, oppure studente fino a 27 anni, under 21, over 70, lavoratore, disabile o accompagnatore",
+      "valido_da": "2026-03-29",
+      "rotte": [
+        "Cagliari-Roma",
+        "Cagliari-Milano",
+        "Olbia-Roma",
+        "Olbia-Milano",
+        "Alghero-Roma",
+        "Alghero-Milano"
+      ],
+      "fonte": "https://www.regione.sardegna.it/argomenti/argomenti-speciali/continuita-territoriale-2026/domande-e-risposte-continuita-territoriale",
+      "note": "Non e' una tessera ma una tariffa regolata dalla Regione: il prezzo e' imposto, non scontato, e cambia la classifica piu' di qualunque sconto. Operata da Aeroitalia e ITA Airways su Fiumicino e Linate.",
+      "verificato_il": "2026-08-01",
+      "estratto": false
+    },
+    {
+      "id": "esncard-flixbus",
+      "nome": "ESNcard su FlixBus",
+      "ambito": "provider:flixbus",
+      "tipo": "percent",
+      "valore": 10.0,
+      "richiede": "ESNcard (studenti Erasmus)",
+      "fonte": "https://www.esncard.org/flixbus",
+      "verificato_il": "2026-08-01",
+      "estratto": false
+    },
+    {
+      "id": "interrail-youth",
+      "nome": "Interrail Youth (under 28)",
+      "ambito": "mode:rail",
+      "tipo": "percent",
+      "valore": 25.0,
+      "eta_max": 27,
+      "fonte": "https://www.interrail.eu/en/interrail-passes/deals",
+      "note": "Sconto sul prezzo del pass, non sul singolo biglietto: vale se viaggi gia' con un Interrail, non si somma a una tariffa a corsa.",
+      "verificato_il": "2026-08-01",
+      "estratto": false
+    },
+    {
+      "id": "io-studio",
+      "nome": "Carta dello Studente «IoStudio»",
+      "ambito": "mode:rail",
+      "tipo": "percent",
+      "valore": 10.0,
+      "eta_min": 14,
+      "eta_max": 26,
+      "fonte": "https://www.trenitalia.com/it/informazioni/la-guida-del-viaggiatore/altre-riduzioni-e-carte-sconto-a-tua-disposizione.html",
+      "note": "Riduzioni sui regionali per studenti delle superiori. Le condizioni cambiano per regione.",
+      "verificato_il": "2026-08-01",
+      "estratto": false
+    },
+    {
+      "id": "isic-flixbus",
+      "nome": "ISIC su FlixBus",
+      "ambito": "provider:flixbus",
+      "tipo": "percent",
+      "valore": 10.0,
+      "richiede": "Carta ISIC",
+      "valido_a": "2026-12-15",
+      "fonte": "https://isic.de/en/benefits/flixbus/8154/",
+      "note": "Codice sconto legato alla carta studenti internazionale.",
+      "verificato_il": "2026-08-01",
+      "estratto": false
+    },
+    {
+      "id": "italo-senior",
+      "nome": "Italo Senior (over 60)",
+      "ambito": "provider:italo",
+      "tipo": "percent",
+      "valore": 40.0,
+      "eta_min": 60,
+      "fonte": "https://www.italotreno.com/it/offerte-treno/italo-senior",
+      "note": "Come la Young: tariffa contingentata, non tessera.",
+      "verificato_il": "2026-08-01",
+      "estratto": false
+    },
+    {
+      "id": "italo-young",
+      "nome": "Italo Young (14-29 anni)",
+      "ambito": "provider:italo",
+      "tipo": "percent",
+      "valore": 40.0,
+      "eta_min": 14,
+      "eta_max": 29,
+      "fonte": "https://www.italotreno.com/it/offerte-treno/italo-young",
+      "note": "Non e' una tessera ma una tariffa: si compra in anticipo e i posti sono contingentati, quindi la riduzione vera cambia da corsa a corsa. Qui si usa un valore prudente.",
+      "verificato_il": "2026-08-01",
+      "estratto": false
+    },
+    {
+      "id": "residenti-isole-traghetti",
+      "nome": "Tariffa residenti isole (traghetti)",
+      "ambito": "mode:ferry",
+      "tipo": "percent",
+      "valore": 30.0,
+      "richiede": "residenza o nascita in Sardegna o Sicilia",
+      "fonte": "https://www.traghetti.com/blog/tariffe-residenti-nativi-traghetti-sicilia-sardegna/",
+      "note": "Ogni compagnia la applica a modo suo: Grimaldi la estende a tutti i passeggeri della prenotazione, Tirrenia in Sicilia ai soli residenti e familiari al seguito. Il valore qui e' prudente.",
+      "verificato_il": "2026-08-01",
+      "estratto": false
+    },
+    {
+      "id": "trenitalia-x-go",
+      "nome": "X-GO (Trenitalia, gratuita)",
+      "ambito": "provider:trenitalia",
+      "tipo": "percent",
+      "valore": 0.0,
+      "fonte": "https://www.trenitalia.com/it/x-go/il-programma.html",
+      "note": "Non sconta il biglietto: accumula 2 punti per euro su Regionale e Intercity, e 150 punti valgono 3 euro sul viaggio dopo. Serve pero' per avere le promo Young e Senior, ed e' gratuita.",
+      "verificato_il": "2026-08-01",
+      "estratto": false
+    }
+  ]
+}

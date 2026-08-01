@@ -1,0 +1,81 @@
+name: tessere
+
+# Le tessere scadono. Delle voci raccolte ad agosto 2026 cinque portano una data
+# dentro, e un catalogo che invecchia in silenzio propone uno sconto che alla
+# cassa non esiste. Una volta a settimana si riguardano le fonti e, se qualcosa
+# e' cambiato o scaduto, si apre un issue: nessuno se ne accorgerebbe da solo.
+
+on:
+  schedule:
+    # Lunedi' mattina presto, cosi' l'issue e' li' a inizio settimana.
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+  push:
+    paths:
+      - "scripts/build_tessere.py"
+      - "app/routing/data/tessere.json"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  controlla:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Installa le dipendenze
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Confronta il catalogo con le fonti
+        id: controllo
+        continue-on-error: true
+        run: |
+          python scripts/build_tessere.py --check | tee esito.txt
+          echo "codice=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Apri un issue se qualcosa e' cambiato
+        if: steps.controllo.outputs.codice != '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const esito = fs.readFileSync('esito.txt', 'utf8');
+            const titolo = 'Il catalogo delle tessere non è più allineato alle fonti';
+            const aperti = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'open', labels: 'tessere',
+            });
+            const corpo = [
+              'Il controllo settimanale ha riletto i documenti degli operatori e ha',
+              'trovato una differenza rispetto a `app/routing/data/tessere.json`.',
+              '',
+              'Per rigenerarlo: `python scripts/build_tessere.py`, poi commit del file.',
+              '',
+              '```', esito.trim(), '```',
+            ].join('\n');
+            // Un issue solo: riaprirne uno a settimana per la stessa cosa non
+            // aggiunge informazione, aggiunge rumore.
+            if (aperti.data.length) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: aperti.data[0].number, body: corpo,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner, repo: context.repo.repo,
+                title: titolo, body: corpo, labels: ['tessere'],
+              });
+            }
+
+      - name: Fai fallire il passo se il catalogo e' vecchio
+        if: steps.controllo.outputs.codice != '0'
+        run: exit 1
