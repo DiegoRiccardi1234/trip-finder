@@ -294,10 +294,21 @@ def main() -> int:
 
         Un `os._exit` immediato lascerebbe processi Chromium orfani e il WAL di
         SQLite a meta', e sarebbero quelli a far fallire la sostituzione dei
-        file un attimo dopo."""
-        server.should_exit = True
-        thread.join(timeout=8.0)
-        os._exit(0)
+        file un attimo dopo.
+
+        Il lavoro va su un thread suo, e non e' un dettaglio: chi chiama questa
+        funzione e' il ciclo di eventi, che vive **dentro** `thread`. Aspettare
+        li' vuol dire aspettare sé stessi — `RuntimeError: cannot join current
+        thread` — e l'eccezione la ingoia asyncio, quindi `os._exit` non arriva
+        mai. Da fuori si vede un aggiornamento che non finisce, con il programma
+        vecchio ancora vivo che tiene bloccato il suo eseguibile."""
+
+        def _fuori() -> None:
+            server.should_exit = True
+            thread.join(timeout=8.0)
+            os._exit(0)
+
+        threading.Thread(target=_fuori, name="spegnimento", daemon=True).start()
 
     update.register_shutdown(spegni)
     log.info("Trip Finder su %s", url)
