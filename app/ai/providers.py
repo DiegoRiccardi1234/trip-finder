@@ -122,11 +122,46 @@ PROVIDERS: tuple[Provider, ...] = (
         label="quota gratuita",
     ),
     Provider(
+        name="mistral",
+        base_url="https://api.mistral.ai/v1",
+        key_field="mistral_api_key",
+        free=True,
+        # Pool vuoto di proposito, come per i tre qui sotto: gli slug dei
+        # fornitori cambiano piu' in fretta di quanto si aggiorni un file, e
+        # `discover_catalog` chiede a loro cosa hanno adesso. Un elenco scritto
+        # a mano qui invecchierebbe in silenzio, che e' il difetto peggiore.
+        pools={"json": [], "advice": []},
+        label="piano gratuito Experiment, senza carta",
+    ),
+    Provider(
         name="openai",
         base_url="https://api.openai.com/v1",
         key_field="openai_api_key",
         free=False,
         pools={"json": ["gpt-4.1-mini"], "advice": ["gpt-4.1"]},
+    ),
+    Provider(
+        name="deepseek",
+        base_url="https://api.deepseek.com/v1",
+        key_field="deepseek_api_key",
+        free=False,
+        pools={"json": [], "advice": []},
+    ),
+    Provider(
+        name="xai",
+        base_url="https://api.x.ai/v1",
+        key_field="xai_api_key",
+        free=False,
+        pools={"json": [], "advice": []},
+        label="Grok",
+    ),
+    Provider(
+        name="glm",
+        base_url="https://open.bigmodel.cn/api/paas/v4",
+        key_field="glm_api_key",
+        free=False,
+        pools={"json": [], "advice": []},
+        label="Zhipu GLM",
     ),
     Provider(
         # Un server locale (Ollama, LM Studio) o un gateway. La chiave e'
@@ -181,12 +216,25 @@ def configured() -> list[Provider]:
     Gratuiti prima, a pagamento dopo. `LLM_PROVIDER` scavalca tutto: accetta un
     nome o un elenco separato da virgole, e i fornitori non nominati restano
     fuori. Un nome sconosciuto viene ignorato invece di far fallire l'avvio, che
-    per una funzione facoltativa sarebbe una punizione sproporzionata."""
-    available = [provider for provider in PROVIDERS if is_configured(provider)]
+    per una funzione facoltativa sarebbe una punizione sproporzionata.
 
-    wanted = [name.strip() for name in str(get_settings().llm_provider or "").split(",")]
+    I fornitori a pagamento restano **fuori** finche' non li si accende con
+    `ALLOW_PAID_PROVIDERS`. Metterli in fondo alla fila non bastava: una
+    giornata storta dei gratuiti li faceva scattare lo stesso, e la spesa si
+    scopriva dopo."""
+    settings = get_settings()
+    available = [
+        provider
+        for provider in PROVIDERS
+        if is_configured(provider) and (provider.free or settings.allow_paid_providers)
+    ]
+
+    wanted = [name.strip() for name in str(settings.llm_provider or "").split(",")]
     wanted = [name for name in wanted if name]
     if wanted:
+        # Nominarlo e' gia' una scelta esplicita: se lo chiedi per nome lo hai,
+        # anche se si paga. L'interruttore difende dalla spesa non voluta, non
+        # da quella voluta.
         chosen = [BY_NAME[name] for name in wanted if name in BY_NAME]
         return [provider for provider in chosen if is_configured(provider)]
 

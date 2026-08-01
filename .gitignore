@@ -9,6 +9,8 @@ data/*.db
 data/*.db-journal
 data/*.db-wal
 data/*.db-shm
+# Le chiavi che l'utente salva dalle impostazioni. Sono sue, non del progetto.
+data/local_secrets.json
 data/cookies/
 # I manifesti FAL sono documenti di FAL: nel repo sta l'orario che ne ricaviamo
 # (`app/providers/rail/data/fal_schedule.json`), non i loro PDF.
@@ -16,7 +18,14 @@ data/*.pdf
 # I log del tray contengono le tratte cercate.
 data/logs/
 .browser-profiles/
+# Il bundle Windows si ricostruisce da sorgente e pesa 75 MB: nel repository
+# sta la ricetta (TripFinder.spec), il risultato sta nella release.
+build/
+dist/
 HANDOFF.md
+# Brief interno: giudizi sui concorrenti e istruzioni di lavoro. Il sistema
+# visivo invece sta in docs/DESIGN.md ed e' versionato, perche' e' documentazione.
+docs/PRODUCT.md
 .playwright-mcp/
 *.png
 # ...tranne le immagini del README, che servono a chi guarda il repo.
