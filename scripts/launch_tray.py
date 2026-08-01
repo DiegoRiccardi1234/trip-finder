@@ -40,7 +40,37 @@ def _harden_stdio() -> None:
 
 _harden_stdio()
 
-import _bootstrap  # noqa: E402, F401  (radice sul path e uscita in UTF-8)
+
+def _declare_workspace() -> str:
+    """Dichiara dove stanno `.env`, `data/` e il database, **prima** di importare l'app.
+
+    Da sorgente e' la radice del progetto. Dentro l'eseguibile PyInstaller no:
+    li' i moduli stanno in `_MEIPASS`, una cartella temporanea di sola lettura
+    che sparisce alla chiusura, e il database finirebbe dentro quella. Il
+    workspace vero e' la cartella accanto a `TripFinder.exe`, cosi' chi
+    scompatta lo zip trova i suoi dati dove si aspetta di trovarli.
+
+    Va fatto qui e non in `app.config`, che lo legge: quando `app.config` viene
+    importato la variabile deve esserci gia'."""
+    from pathlib import Path as _Path
+
+    if os.environ.get("TRIPFINDER_WORKSPACE"):
+        return os.environ["TRIPFINDER_WORKSPACE"]
+    if getattr(sys, "frozen", False):
+        workspace = _Path(sys.executable).resolve().parent
+    else:
+        workspace = _Path(__file__).resolve().parent.parent
+    os.environ["TRIPFINDER_WORKSPACE"] = str(workspace)
+    return str(workspace)
+
+
+_declare_workspace()
+
+if not getattr(sys, "frozen", False):
+    # Nel bundle il pacchetto `app` e' gia' importabile e la radice non esiste
+    # come cartella: `_bootstrap` servirebbe solo a cercare un percorso che li'
+    # non c'e'.
+    import _bootstrap  # noqa: E402, F401  (radice sul path e uscita in UTF-8)
 
 import argparse  # noqa: E402
 import logging  # noqa: E402
@@ -53,7 +83,7 @@ import urllib.request  # noqa: E402
 import webbrowser  # noqa: E402
 from pathlib import Path  # noqa: E402
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(os.environ["TRIPFINDER_WORKSPACE"])
 LOG_FILE = ROOT / "data" / "logs" / "trip-finder.log"
 
 #: Porta di partenza, la stessa di `start.ps1`.
@@ -208,6 +238,20 @@ def main() -> int:
     _setup_logging()
     log = logging.getLogger(__name__)
 
+    # Aggiornamento in corso: l'eseguibile vecchio non deve ripartire, o
+    # riblocca i file che l'aggiornatore sta sostituendo e la copia muore a
+    # meta'. Il lucchetto vecchio non conta: vorrebbe dire che l'aggiornatore
+    # e' morto, e restare chiusi per sempre sarebbe peggio.
+    lucchetto = ROOT / "data" / "aggiornamento.lock"
+    if not os.environ.get("TRIPFINDER_AGGIORNATO"):
+        try:
+            eta = time.time() - lucchetto.stat().st_mtime
+        except OSError:
+            eta = None
+        if eta is not None and eta < 900:
+            log.info("aggiornamento in corso da %.0fs: non parto", eta)
+            return 0
+
     # Se Trip Finder gira gia', non se ne avvia un secondo: si apre quello.
     # E' anche la guardia contro il doppio click ripetuto sull'icona di avvio.
     # Chi chiede una porta esplicita guarda solo quella.
@@ -225,6 +269,7 @@ def main() -> int:
     url = f"http://127.0.0.1:{port}/"
 
     import uvicorn
+    from app import update
     from app.main import app
 
     # `log_config=None`: la configurazione dei log l'abbiamo gia' fatta noi, e
@@ -232,6 +277,18 @@ def main() -> int:
     server = uvicorn.Server(uvicorn.Config(app, host="127.0.0.1", port=port, log_config=None))
     thread = threading.Thread(target=server.run, name="uvicorn", daemon=True)
     thread.start()
+
+    def spegni() -> None:
+        """Uscita ordinata, per lasciare il campo all'aggiornatore.
+
+        Un `os._exit` immediato lascerebbe processi Chromium orfani e il WAL di
+        SQLite a meta', e sarebbero quelli a far fallire la sostituzione dei
+        file un attimo dopo."""
+        server.should_exit = True
+        thread.join(timeout=8.0)
+        os._exit(0)
+
+    update.register_shutdown(spegni)
     log.info("Trip Finder su %s", url)
 
     if not args.no_browser:

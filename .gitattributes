@@ -3,8 +3,7 @@
 # Windows produce diff interi solo per i ritorni a capo.
 * text=auto
 
-# Questi due invece vogliono CRLF davvero: sono script che Windows esegue.
+# Questo invece vuole CRLF davvero: e' uno script che Windows esegue.
 *.ps1 text eol=crlf
-*.bat text eol=crlf
 
 *.png binary

@@ -1,0 +1,63 @@
+Trip Finder
+===========
+
+Treni, pullman, aerei e traghetti confrontati sul costo reale porta-a-porta.
+
+
+Come si avvia
+-------------
+
+Doppio click su TripFinder.exe.
+
+Si apre il browser da solo su http://127.0.0.1:8010/ e compare una bussola
+nell'area di notifica, accanto all'orologio. Da li' si riapre la pagina o si
+esce. Non c'e' nessuna finestra nera: e' voluto.
+
+Al primo avvio ci mettera' qualche secondo in piu' — costruisce l'indice
+geografico — e il browser si apre quando il sito e' davvero pronto.
+
+
+Cosa ti serve
+-------------
+
+Niente. Non serve installare Python, non serve una connessione per partire
+(i cataloghi delle stazioni e degli aeroporti sono gia' dentro), non serve
+registrarsi da nessuna parte.
+
+Serve la rete per cercare: i prezzi si leggono dai siti degli operatori nel
+momento in cui premi Cerca.
+
+
+L'intelligenza artificiale e' facoltativa
+-----------------------------------------
+
+Servono per due cose sole: scrivere la richiesta a voce ("da Matera a Roma per
+tre giorni, poi a Torino") e il consiglio sotto la classifica. Tutto il resto
+funziona identico senza.
+
+Se le vuoi: apri la scheda Impostazioni e incolla la chiave di uno dei
+fornitori gratuiti elencati li'. Ce n'e' abbastanza per non pagare niente e non
+lasciare una carta a nessuno. Le chiavi restano su questo computer, nel file
+data/local_secrets.json.
+
+
+Dove finiscono i tuoi dati
+--------------------------
+
+Tutto nella cartella data/, accanto a TripFinder.exe: il profilo, le ricerche
+salvate, le tessere, i log, le chiavi. Se sposti la cartella si sposta tutto;
+se la cancelli riparti da zero. Niente esce da qui tranne le richieste ai siti
+degli operatori e, se l'hai acceso, al fornitore di IA che hai scelto.
+
+
+Se qualcosa non parte
+---------------------
+
+Guarda data/logs/trip-finder.log: e' l'unico posto dove un errore d'avvio lascia
+traccia, perche' non c'e' una console dove stamparlo.
+
+
+Il progetto
+-----------
+
+https://github.com/DiegoRiccardi1234/trip-finder

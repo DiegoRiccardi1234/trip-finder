@@ -1,0 +1,4 @@
+# Serve solo a costruire il bundle Windows. La suite gira con il solo
+# requirements.txt, che porta gia' pytest.
+
+pyinstaller>=6.11
