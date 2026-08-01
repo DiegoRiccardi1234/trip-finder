@@ -4,6 +4,20 @@ Le versioni seguono [semver](https://semver.org/lang/it/). Il testo di ogni
 sezione finisce nelle note della release: si scrive per chi usa il programma,
 non per chi lo scrive.
 
+## [0.3.2]
+
+**L'aggiornamento arriva in fondo davvero.** La 0.3.1 aveva corretto quattro
+difetti su cinque. Il quinto si vedeva solo premendo il bottone per davvero: il
+programma non si spegneva, e teneva bloccato il proprio eseguibile finché
+l'aggiornatore non si arrendeva. Chiudeva chiedendo al proprio thread di
+aspettare sé stesso, cosa che sul momento non dà errore — l'eccezione la ingoia
+il ciclo di eventi — e da fuori sembrava soltanto un aggiornamento che non
+finisce.
+
+Misurato adesso, dal bottone: il programma vecchio si spegne in sei secondi,
+855 file vengono sostituiti senza toccare i dati, e quello nuovo risponde
+diciassette secondi dopo aver premuto.
+
 ## [0.3.1]
 
 **L'aggiornamento automatico ora arriva in fondo.** Diceva «sostituzione in
