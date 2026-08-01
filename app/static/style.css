@@ -615,6 +615,19 @@ button.chip:hover:not(.mute) { filter: none; border-color: var(--accent); }
 /* Lo stato vuoto e' gia' una riga della lista: senza questo si sommavano il
    margine della nota sopra e quello della voce, e restava un buco. */
 .saved li.hint { margin: 2px 0 0; }
+.catalogo-riga { flex-direction: column; align-items: stretch; gap: 6px; }
+/* `label.grow` vale `flex: 1 1 200px`, e in un contenitore in colonna quei 200px
+   sono **altezza**: l'etichetta si prendeva due dita di vuoto sopra al modulo. */
+.catalogo-riga .grow { flex: 0 0 auto; }
+.catalogo-riga .hint:empty { display: none; }
+.catalogo-riga select {
+  font: inherit; font-size: 13px; padding: 8px 10px;
+  border: 1px solid var(--line); border-radius: 7px;
+  background: var(--bg); color: var(--ink);
+  max-width: 460px;
+}
+.catalogo-riga .hint { margin: 0; max-width: 72ch; }
+
 .discount-form { align-items: flex-end; }
 .discount-form select {
   font: inherit; font-size: 13px; padding: 8px 10px;

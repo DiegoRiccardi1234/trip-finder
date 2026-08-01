@@ -401,6 +401,30 @@ async def advice_compare(request: CompareRequest) -> dict:
     return {"text": answer.text or None, "reason": answer.reason}
 
 
+@app.get("/api/tessere")
+async def tessere_catalogo() -> dict:
+    """Il catalogo delle tessere e delle riduzioni, con le loro scadenze.
+
+    Le scadute restano nell'elenco, marcate: la Carta Verde non si compra piu'
+    dal 4 aprile 2026, ma chi ce l'ha la usa fino alla scadenza sua, e toglierla
+    vorrebbe dire non fargliela dichiarare."""
+    from app.routing import tessere
+
+    oggi = date.today()
+    return {
+        "generato_il": tessere.aggiornato_il(),
+        "tessere": [
+            {
+                **voce.as_dict(),
+                "scaduta": voce.scaduta(oggi),
+                "non_ancora_valida": voce.non_ancora_valida(oggi),
+                "stantia": voce.stantia(oggi),
+            }
+            for voce in tessere.tutte()
+        ],
+    }
+
+
 @app.get("/api/profile")
 async def profile_read() -> dict:
     """Preferenze, ricerche salvate e tessere, in una chiamata sola all'apertura."""

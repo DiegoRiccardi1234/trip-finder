@@ -639,10 +639,62 @@ discountList.addEventListener('change', async (event) => {
   loadProfile(false);
 });
 
+/* ------------------------------------------------- catalogo delle tessere --- */
+
+// Il catalogo lo genera uno script dai documenti degli operatori, quindi le
+// percentuali e le scadenze non sono digitate da nessuno. Qui serve solo a non
+// far ricordare a memoria che la Promo Young è il 20% e scade il 30 novembre.
+const catalogoSelect = document.getElementById('d-catalogo');
+const catalogoNota = document.getElementById('d-catalogo-nota');
+let catalogoCache = [];
+
+function etichettaTessera(t) {
+  if (t.scaduta) return `${t.nome} — scaduta`;
+  if (t.non_ancora_valida) return `${t.nome} — non ancora valida`;
+  if (t.acquistabile === false) return `${t.nome} — non più acquistabile`;
+  return t.nome;
+}
+
+async function caricaCatalogo() {
+  try {
+    const dati = await (await fetch('/api/tessere')).json();
+    catalogoCache = dati.tessere || [];
+  } catch { return; }
+  // Le utilizzabili prima, le altre dopo: restano in elenco perché chi ha una
+  // Carta Verde emessa prima di aprile la sta ancora usando.
+  const ordinate = [...catalogoCache].sort(
+    (a, b) => Number(a.scaduta || a.acquistabile === false) - Number(b.scaduta || b.acquistabile === false),
+  );
+  catalogoSelect.innerHTML = '<option value="">— la scrivo a mano —</option>'
+    + ordinate.map((t) => `<option value="${escapeHtml(t.id)}">${escapeHtml(etichettaTessera(t))}</option>`).join('');
+}
+
+catalogoSelect.addEventListener('change', () => {
+  const scelta = catalogoCache.find((t) => t.id === catalogoSelect.value);
+  if (!scelta) { catalogoNota.textContent = ''; return; }
+  document.getElementById('d-name').value = scelta.nome;
+  document.getElementById('d-scope').value = scelta.ambito || 'all';
+  document.getElementById('d-kind').value = scelta.tipo || 'percent';
+  document.getElementById('d-value').value = scelta.valore ?? 0;
+  document.getElementById('d-routes').value = (scelta.rotte || []).join(', ');
+  document.getElementById('d-valid-to').value = scelta.valido_a || '';
+
+  const pezzi = [];
+  if (scelta.richiede) pezzi.push(`Serve: ${scelta.richiede}.`);
+  if (scelta.valido_a) pezzi.push(`Vale fino al ${fmtDate(scelta.valido_a)}.`);
+  if (scelta.acquistabile === false) pezzi.push('Non si compra più, ma chi ce l’ha la usa fino alla scadenza.');
+  if (scelta.note) pezzi.push(scelta.note);
+  if (scelta.estratto) pezzi.push('Letta dalle condizioni di trasporto dell’operatore.');
+  else if (scelta.stantia) pezzi.push('Da riverificare: nessuno la guarda da un pezzo.');
+  catalogoNota.innerHTML = escapeHtml(pezzi.join(' '))
+    + (scelta.fonte ? ` <a href="${scelta.fonte}" target="_blank" rel="noopener">fonte</a>` : '');
+});
+
 document.getElementById('d-add').addEventListener('click', async () => {
   const nome = document.getElementById('d-name').value.trim();
   if (!nome) { document.getElementById('d-name').focus(); return; }
   const tratte = document.getElementById('d-routes').value.trim();
+  const dalCatalogo = catalogoCache.find((t) => t.id === catalogoSelect.value);
   const body = {
     name: nome,
     scope: document.getElementById('d-scope').value,
@@ -651,6 +703,10 @@ document.getElementById('d-add').addEventListener('click', async () => {
     routes: tratte ? tratte.split(',').map((t) => t.trim()).filter(Boolean) : [],
     valid_to: document.getElementById('d-valid-to').value || null,
     active: true,
+    // I nomi delle offerte servono al calcolo: quando l'operatore manda il
+    // prezzo ridotto nella risposta, si usa il suo invece di questa percentuale.
+    offers: dalCatalogo ? (dalCatalogo.offerte || []) : [],
+    catalog_id: dalCatalogo ? dalCatalogo.id : null,
   };
   await fetch('/api/profile/discounts', {
     method: 'POST',
@@ -660,6 +716,8 @@ document.getElementById('d-add').addEventListener('click', async () => {
   document.getElementById('d-name').value = '';
   document.getElementById('d-routes').value = '';
   document.getElementById('d-valid-to').value = '';
+  catalogoSelect.value = '';
+  catalogoNota.textContent = '';
   loadProfile(false);
 });
 
@@ -2232,6 +2290,7 @@ function renderScore(itinerary) {
 
 (async function boot() {
   fillScopes();
+  caricaCatalogo();
   // Un link con `#impostazioni` deve aprire quella vista, non la ricerca: è il
   // link che il blocco consiglio mostra quando l'IA non è configurata.
   mostraVista(location.hash.slice(1));
