@@ -84,8 +84,16 @@ def _discount_line(leg: Leg, query: SearchQuery, amount: float) -> CostLine | No
     scelto = discounts.best_for(leg, query.discounts, amount)
     if scelto is None:
         return None
-    tessera, risparmio = scelto
-    etichetta = tessera.name if tessera.verified else f"{tessera.name} (dichiarato da te)"
+    tessera, risparmio, dall_operatore = scelto
+    if dall_operatore:
+        # Non e' piu' una stima: e' il prezzo che manda l'operatore per questa
+        # corsa e questo giorno. Va detto, perche' cambia quanto ci si puo'
+        # contare.
+        etichetta = f"{tessera.name} (tariffa dell'operatore)"
+    elif tessera.verified:
+        etichetta = tessera.name
+    else:
+        etichetta = f"{tessera.name} (dichiarato da te)"
     return CostLine(label=etichetta, amount=-risparmio, kind="discount")
 
 

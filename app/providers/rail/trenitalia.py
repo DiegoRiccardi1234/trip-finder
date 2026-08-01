@@ -181,6 +181,7 @@ class Trenitalia(Provider):
         else:
             notes.append("prezzo non esposto dal motore di ricerca")
 
+        reduced: dict[str, float] = {}
         if fare is not None and item is not None:
             ridotta = _conditional_total(item, float(amount))
             if ridotta is not None:
@@ -189,6 +190,11 @@ class Trenitalia(Provider):
                     f"con {' e '.join(sorted(condizioni))}: {totale:.2f} EUR invece di "
                     f"{amount:.2f} — prezzo dell'operatore, se ne hai diritto"
                 )
+                # La nota la legge chi guarda; questo lo legge il calcolo del
+                # costo. Chi ha dichiarato la tessera giusta paga questa cifra
+                # in classifica invece di una percentuale stimata, e il totale
+                # smette di invecchiare insieme al listino.
+                reduced = {nome: totale for nome in condizioni}
 
         segments = [
             f"{node.get('origin')} {_hhmm(node.get('departureTime'))}"
@@ -213,6 +219,7 @@ class Trenitalia(Provider):
             internal_changes=max(0, len(named or trains) - 1),
             segments=segments,
             notes=notes,
+            reduced_fares=reduced,
         )
 
 

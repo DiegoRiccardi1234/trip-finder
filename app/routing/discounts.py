@@ -93,20 +93,56 @@ def applies(discount: Discount, leg: Leg) -> bool:
     )
 
 
-def best_for(leg: Leg, discounts: list[Discount], amount: float) -> tuple[Discount, float] | None:
+def operator_saving(discount: Discount, leg: Leg, amount: float) -> float | None:
+    """Il risparmio che dichiara **l'operatore**, se questa tessera lo sblocca.
+
+    E' l'unico numero che non invecchia: la percentuale scritta da qualche parte
+    scade — la Carta Verde e' passata dal 10% al non esistere piu' nel giro di
+    una primavera — mentre il prezzo ridotto arriva dentro la risposta di
+    ricerca, per quella tratta e per quel giorno.
+
+    Si applica solo se la tessera copre **tutte** le offerte che concorrono al
+    totale: se il prezzo basso nasce da due tratte, una scontata con FrecciaYOUNG
+    e una con SENIOR, avere solo la prima non lo ottiene. Nel dubbio si applica
+    meno, che e' la regola di questo modulo."""
+    if not leg.reduced_fares or not discount.offers:
+        return None
+    ammesse = {_normalize(o) for o in discount.offers}
+    richieste = {_normalize(nome) for nome in leg.reduced_fares}
+    if not richieste or not richieste <= ammesse:
+        return None
+    risparmio = round(amount - min(leg.reduced_fares.values()), 2)
+    return risparmio if risparmio > 0 else None
+
+
+def best_for(
+    leg: Leg, discounts: list[Discount], amount: float
+) -> tuple[Discount, float, bool] | None:
     """La tessera che conviene di piu' su questa tratta, se ce n'e' una.
 
-    Una sola, non tutte: sommare due tessere sullo stesso biglietto e' quasi
-    sempre falso, e nessun operatore lo permette. Se un giorno servira'
-    davvero, sara' una decisione esplicita e non un effetto collaterale."""
+    Il terzo valore dice se il risparmio viene dall'operatore o e' dichiarato
+    dall'utente: sono due cose molto diverse davanti alla cassa, e l'interfaccia
+    le scrive in modo diverso.
+
+    Una sola tessera, non tutte: sommarne due sullo stesso biglietto e' quasi
+    sempre falso, e nessun operatore lo permette. Se un giorno servira' davvero,
+    sara' una decisione esplicita e non un effetto collaterale."""
     if amount <= 0 or not discounts:
         return None
-    migliori = [
-        (discount, discount.saving(amount))
-        for discount in discounts
-        if applies(discount, leg)
-    ]
-    migliori = [(d, s) for d, s in migliori if s > 0]
+
+    migliori: list[tuple[Discount, float, bool]] = []
+    for discount in discounts:
+        if not applies(discount, leg):
+            continue
+        dall_operatore = operator_saving(discount, leg, amount)
+        if dall_operatore is not None:
+            migliori.append((discount, dall_operatore, True))
+        else:
+            migliori.append((discount, discount.saving(amount), False))
+
+    migliori = [voce for voce in migliori if voce[1] > 0]
     if not migliori:
         return None
-    return max(migliori, key=lambda pair: pair[1])
+    # A parita' di risparmio vince quello che viene dall'operatore: e' lo stesso
+    # numero, ma uno dei due si puo' difendere.
+    return max(migliori, key=lambda voce: (voce[1], voce[2]))

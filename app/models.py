@@ -125,6 +125,13 @@ class Leg(BaseModel):
     segments: list[str] = Field(default_factory=list)
     #: Note che l'adapter vuole far arrivare all'utente ("solo con Carta Verde").
     notes: list[str] = Field(default_factory=list)
+    #: Tariffe ridotte **dichiarate dall'operatore**: nome dell'offerta ->
+    #: totale che si pagherebbe avendone diritto. Trenitalia le manda gia' nella
+    #: risposta di ricerca; il prezzo esposto le esclude perche' il motore non sa
+    #: se chi cerca ha la tessera. Il totale vale solo avendo diritto a **tutte**
+    #: le offerte elencate, e vale piu' di qualunque percentuale stimata: viene
+    #: da loro, e non invecchia.
+    reduced_fares: dict[str, float] = Field(default_factory=dict)
 
     @computed_field  # type: ignore[prop-decorator]
     @property
@@ -331,6 +338,13 @@ class Discount(BaseModel):
     active: bool = True
     #: Vero solo quando il prezzo ridotto arriva dall'operatore, non da qui.
     verified: bool = False
+    #: Nomi delle offerte dell'operatore a cui questa tessera da' diritto
+    #: ("FrecciaYOUNG", "SENIOR"). Quando l'operatore manda il prezzo ridotto
+    #: nella risposta, si usa il suo invece di stimare: la stima invecchia con la
+    #: percentuale, il suo prezzo no.
+    offers: list[str] = Field(default_factory=list)
+    #: Da quale voce del catalogo viene, se non e' stata scritta a mano.
+    catalog_id: str | None = None
 
     def saving(self, amount: float) -> float:
         """Quanto toglie a una tariffa, senza mai portarla sotto zero."""
