@@ -76,3 +76,116 @@ def test_utilizzabili_scarta_le_scadute_e_le_non_ancora_partite() -> None:
     for voce in tessere.tutte():
         if voce.id in usabili:
             assert not voce.scaduta(oggi)
+
+
+# --- lo scaricamento, che tiene fresco chi non aggiorna il programma ---------
+
+
+def _scrivi(percorso, voci, generato="2026-12-01"):
+    import json
+
+    percorso.parent.mkdir(parents=True, exist_ok=True)
+    percorso.write_text(
+        json.dumps({"generato_il": generato, "tessere": voci}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+
+
+def _voci(quante=6):
+    return [
+        {"id": f"t{i}", "nome": f"Tessera {i}", "fonte": "https://esempio", "valore": 10}
+        for i in range(quante)
+    ]
+
+
+def test_lo_scaricato_vince_su_quello_del_programma(tmp_path, monkeypatch) -> None:
+    """Uno zip di agosto porterebbe il catalogo di agosto per sempre, e il 30
+    novembre scadono due promo."""
+    dentro, fuori = tmp_path / "dentro.json", tmp_path / "fuori.json"
+    _scrivi(dentro, _voci(), generato="2026-08-01")
+    _scrivi(fuori, _voci(7), generato="2026-12-01")
+    monkeypatch.setattr(tessere, "CATALOGO", dentro)
+    monkeypatch.setattr(tessere, "SCARICATO", fuori)
+    tessere.tutte.cache_clear()
+
+    assert len(tessere.tutte()) == 7
+    assert tessere.aggiornato_il() == "2026-12-01"
+    tessere.tutte.cache_clear()
+
+
+def test_uno_scaricato_rotto_non_manda_giu_il_catalogo(tmp_path, monkeypatch) -> None:
+    dentro, fuori = tmp_path / "dentro.json", tmp_path / "fuori.json"
+    _scrivi(dentro, _voci())
+    fuori.write_text("{non json", encoding="utf-8")
+    monkeypatch.setattr(tessere, "CATALOGO", dentro)
+    monkeypatch.setattr(tessere, "SCARICATO", fuori)
+    tessere.tutte.cache_clear()
+
+    assert len(tessere.tutte()) == 6  # torna quello che viaggia col programma
+    tessere.tutte.cache_clear()
+
+
+def test_si_controlla_prima_di_sostituire() -> None:
+    """Un catalogo mezzo scaricato che prende il posto di uno buono e' peggio di
+    uno vecchio, perche' quello vecchio almeno lo sai."""
+    assert tessere._valido({"tessere": _voci()})
+    assert not tessere._valido({"tessere": _voci(2)})            # troppo poche
+    assert not tessere._valido({"tessere": [{"id": "x"}] * 6})   # senza nome ne' fonte
+    assert not tessere._valido({"tessere": "non una lista"})
+    assert not tessere._valido("nemmeno un oggetto")
+
+
+async def test_una_fonte_muta_lascia_tutto_com_era(tmp_path, monkeypatch) -> None:
+    from app.providers import http_client
+
+    dentro, fuori = tmp_path / "dentro.json", tmp_path / "fuori.json"
+    _scrivi(dentro, _voci(), generato="2026-08-01")
+    monkeypatch.setattr(tessere, "CATALOGO", dentro)
+    monkeypatch.setattr(tessere, "SCARICATO", fuori)
+    tessere.tutte.cache_clear()
+
+    async def morta(*args, **kwargs):
+        raise http_client.HttpError("niente rete")
+
+    monkeypatch.setattr(
+        http_client, "get_http_client", lambda: type("F", (), {"get_json": morta})()
+    )
+
+    assert await tessere.aggiorna() is False
+    assert not fuori.exists()
+    assert len(tessere.tutte()) == 6
+    tessere.tutte.cache_clear()
+
+
+async def test_una_risposta_incompleta_non_sostituisce_niente(tmp_path, monkeypatch) -> None:
+    from app.providers import http_client
+
+    dentro, fuori = tmp_path / "dentro.json", tmp_path / "fuori.json"
+    _scrivi(dentro, _voci(), generato="2026-08-01")
+    monkeypatch.setattr(tessere, "CATALOGO", dentro)
+    monkeypatch.setattr(tessere, "SCARICATO", fuori)
+    tessere.tutte.cache_clear()
+
+    async def monca(*args, **kwargs):
+        return {"tessere": [{"id": "solo-uno"}]}
+
+    monkeypatch.setattr(
+        http_client, "get_http_client", lambda: type("F", (), {"get_json": monca})()
+    )
+
+    assert await tessere.aggiorna() is False
+    assert not fuori.exists()
+    tessere.tutte.cache_clear()
+
+
+def test_non_si_riscarica_a_ogni_avvio(tmp_path, monkeypatch) -> None:
+    """Le condizioni di trasporto cambiano qualche volta l'anno: una richiesta
+    al giorno e' gia' molto piu' spesso del necessario."""
+    fuori = tmp_path / "fuori.json"
+    _scrivi(fuori, _voci())
+    monkeypatch.setattr(tessere, "SCARICATO", fuori)
+
+    import time as _time
+
+    assert not tessere.da_riscaricare(_time.time())
+    assert tessere.da_riscaricare(_time.time() + tessere.OGNI + 60)

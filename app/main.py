@@ -11,6 +11,7 @@ finche' l'ultimo provider non ha finito.
 
 from __future__ import annotations
 
+import asyncio
 import logging
 from contextlib import asynccontextmanager
 from datetime import date, time as time_type
@@ -60,9 +61,25 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     # alla prima ricerca, cosi' il primo utente non paga il ritardo.
     get_resolver()
     logger.info("provider disponibili: %d", len(registry.all_providers()))
+
+    # Il catalogo delle tessere si riscarica in sottofondo, una volta al giorno.
+    # Non blocca l'avvio: e' un dato di comodo, e far aspettare la pagina per
+    # una percentuale sarebbe sproporzionato. Uno zip di agosto porterebbe
+    # altrimenti il catalogo di agosto per sempre, mentre il 30 novembre
+    # scadono due promo.
+    async def _tessere() -> None:
+        from app.routing import tessere
+
+        try:
+            await tessere.aggiorna()
+        except Exception:  # noqa: BLE001 - mai far cadere l'avvio per questo
+            logger.debug("aggiornamento del catalogo tessere non riuscito", exc_info=True)
+
+    compito = asyncio.create_task(_tessere())
     try:
         yield
     finally:
+        compito.cancel()
         await close_http_client()
         await close_browser_pool()
         await close_db()

@@ -22,14 +22,35 @@ from __future__ import annotations
 
 import json
 import logging
+import time
 from datetime import date
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
+from app.config import DATA_DIR
+
 logger = logging.getLogger(__name__)
 
+#: Quello che viaggia dentro il programma. Nel bundle e' la copia congelata al
+#: momento della build, e senza di essa non ci sarebbe niente al primo avvio.
 CATALOGO = Path(__file__).with_name("data") / "tessere.json"
+
+#: Quello scaricato, che vince quando c'e'. Sta accanto al database perche' e'
+#: un dato che cambia, non un pezzo del programma.
+SCARICATO = DATA_DIR / "tessere.json"
+
+#: Il file nel repository. Uno zip di agosto porterebbe per sempre il catalogo
+#: di agosto, e il 30 novembre scadono due promo: senza questo, chi non
+#: aggiorna il programma vedrebbe una scadenza passata come se fosse futura.
+SORGENTE = (
+    "https://raw.githubusercontent.com/DiegoRiccardi1234/trip-finder"
+    "/main/app/routing/data/tessere.json"
+)
+
+#: Ogni quanto riprovare. Le condizioni di trasporto cambiano qualche volta
+#: l'anno: una volta al giorno e' gia' molto piu' spesso del necessario.
+OGNI = 24 * 3600
 
 #: Oltre questo, una voce curata a mano va riguardata: non e' scaduta, e'
 #: semplicemente vecchia, e la differenza va detta con parole diverse.
@@ -83,32 +104,106 @@ def _data(valore: Any) -> date | None:
     return None
 
 
+def _leggi(percorso: Path) -> dict[str, Any] | None:
+    if not percorso.exists():
+        return None
+    try:
+        contenuto = json.loads(percorso.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        logger.warning("catalogo tessere illeggibile in %s (%s)", percorso.name, exc)
+        return None
+    return contenuto if isinstance(contenuto, dict) else None
+
+
+def _valido(contenuto: object) -> bool:
+    """Abbastanza sano da sostituire quello che gia' abbiamo.
+
+    Si controlla prima di scrivere, non dopo: un catalogo mezzo scaricato che
+    prende il posto di uno buono e' peggio di uno vecchio, perche' quello
+    vecchio almeno lo sai."""
+    if not isinstance(contenuto, dict):
+        return False
+    voci = contenuto.get("tessere")
+    if not isinstance(voci, list) or len(voci) < 5:
+        return False
+    return all(
+        isinstance(v, dict) and v.get("id") and v.get("nome") and v.get("fonte")
+        for v in voci
+    )
+
+
+def _sorgente() -> Path:
+    """Quale dei due file vale adesso: lo scaricato se c'e', altrimenti il nostro."""
+    return SCARICATO if SCARICATO.exists() else CATALOGO
+
+
 @lru_cache
 def tutte() -> tuple[Tessera, ...]:
     """Il catalogo, letto una volta sola.
 
     Un catalogo illeggibile non deve impedire l'avvio: le tessere restano una
     comodita', e chi le scrive a mano nel profilo puo' farlo comunque."""
-    if not CATALOGO.exists():
-        logger.warning("catalogo tessere assente: %s", CATALOGO)
+    contenuto = _leggi(_sorgente())
+    if contenuto is None and _sorgente() is SCARICATO:
+        contenuto = _leggi(CATALOGO)  # lo scaricato e' rotto: torna il nostro
+    if contenuto is None:
+        logger.warning("nessun catalogo tessere leggibile")
         return ()
-    try:
-        contenuto = json.loads(CATALOGO.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        logger.warning("catalogo tessere illeggibile (%s)", exc)
-        return ()
-    voci = contenuto.get("tessere") if isinstance(contenuto, dict) else None
+    voci = contenuto.get("tessere")
     return tuple(Tessera(v) for v in voci or [] if isinstance(v, dict))
 
 
 def aggiornato_il() -> str:
-    if not CATALOGO.exists():
-        return ""
+    contenuto = _leggi(_sorgente()) or {}
+    return str(contenuto.get("generato_il", ""))
+
+
+def da_riscaricare(adesso: float | None = None) -> bool:
     try:
-        contenuto = json.loads(CATALOGO.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return ""
-    return str(contenuto.get("generato_il", "")) if isinstance(contenuto, dict) else ""
+        eta = (adesso or time.time()) - SCARICATO.stat().st_mtime
+    except OSError:
+        return True
+    return eta > OGNI
+
+
+async def aggiorna() -> bool:
+    """Riscarica il catalogo dal repository. Vero se ne e' arrivato uno nuovo.
+
+    Silenzioso quando non riesce: senza rete, dietro un proxy o con GitHub giu'
+    resta quello di prima, che e' esattamente il comportamento giusto per un
+    dato di comodo. Non e' silenzioso nel log, pero'."""
+    if not da_riscaricare():
+        return False
+
+    from app.providers.http_client import HttpError, get_http_client
+
+    try:
+        contenuto = await get_http_client().get_json(
+            SORGENTE, headers={"Accept": "application/json"}, retries=1
+        )
+    except HttpError as exc:
+        logger.info("catalogo tessere non scaricato (%s): tengo quello che ho", exc)
+        return False
+
+    if not _valido(contenuto):
+        logger.warning("catalogo tessere scaricato ma non utilizzabile: tengo quello che ho")
+        return False
+
+    vecchio = aggiornato_il()
+    try:
+        SCARICATO.parent.mkdir(parents=True, exist_ok=True)
+        SCARICATO.write_text(
+            json.dumps(contenuto, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+    except OSError as exc:
+        logger.warning("catalogo tessere non scrivibile (%s)", exc)
+        return False
+
+    tutte.cache_clear()
+    nuovo = aggiornato_il()
+    if nuovo != vecchio:
+        logger.info("catalogo tessere aggiornato: %s -> %s", vecchio or "?", nuovo)
+    return nuovo != vecchio
 
 
 def utilizzabili(oggi: date | None = None) -> list[Tessera]:

@@ -11,6 +11,10 @@ data/*.db-wal
 data/*.db-shm
 # Le chiavi che l'utente salva dalle impostazioni. Sono sue, non del progetto.
 data/local_secrets.json
+# La copia scaricata del catalogo tessere. Quella buona sta in
+# app/routing/data/ ed e' versionata; questa e' solo la piu' fresca che il
+# programma ha trovato, e versionarla farebbe sporcare il diff a ogni avvio.
+data/tessere.json
 data/cookies/
 # I manifesti FAL sono documenti di FAL: nel repo sta l'orario che ne ricaviamo
 # (`app/providers/rail/data/fal_schedule.json`), non i loro PDF.
