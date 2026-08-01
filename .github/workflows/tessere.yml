@@ -37,13 +37,23 @@ jobs:
 
       - name: Confronta il catalogo con le fonti
         id: controllo
-        continue-on-error: true
         run: |
+          # `set +e` esplicito: la shell delle azioni gira con -e e pipefail, e
+          # senza questo il passo moriva sull'uscita non-zero prima di leggerne
+          # il codice — che e' proprio l'informazione che serve.
+          set +e
           python scripts/build_tessere.py --check | tee esito.txt
-          echo "codice=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+          codice=${PIPESTATUS[0]}
+          set -e
+          echo "codice=$codice" >> "$GITHUB_OUTPUT"
+          echo "il controllo ha risposto $codice"
 
+      # Codice 1 = qualcosa e' davvero cambiato o scaduto. Codice 2 = una fonte
+      # non ha risposto, e non e' la stessa cosa: aprire un issue perche' il CDN
+      # di Trenitalia risponde 403 ai runner insegna a ignorare gli issue, e la
+      # volta che cambia sul serio non li guarda piu' nessuno.
       - name: Apri un issue se qualcosa e' cambiato
-        if: steps.controllo.outputs.codice != '0'
+        if: steps.controllo.outputs.codice == '1'
         uses: actions/github-script@v7
         with:
           script: |
@@ -76,6 +86,11 @@ jobs:
               });
             }
 
+      - name: Dillo e basta se non si e' potuto verificare
+        if: steps.controllo.outputs.codice == '2'
+        run: |
+          echo "::notice::Alcune fonti non hanno risposto: il catalogo non è stato verificato, ma non risulta cambiato."
+
       - name: Fai fallire il passo se il catalogo e' vecchio
-        if: steps.controllo.outputs.codice != '0'
+        if: steps.controllo.outputs.codice == '1'
         run: exit 1

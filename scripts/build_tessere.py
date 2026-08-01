@@ -218,10 +218,43 @@ CURATE: list[dict[str, Any]] = [
 # ── Lettura dei PDF ──────────────────────────────────────────────────────────
 
 
+class FonteIrraggiungibile(RuntimeError):
+    """Non siamo riusciti a leggere il documento.
+
+    Non e' la stessa cosa di «il documento e' cambiato», ed e' importante che
+    restino due cose distinte: un allarme che scatta perche' la rete non andava
+    insegna a ignorare l'allarme, e allora la volta che cambia davvero non lo
+    guarda piu' nessuno."""
+
+
 def scarica(url: str) -> bytes:
-    richiesta = urllib.request.Request(url, headers={"User-Agent": "TripFinder/0.2 (+github)"})
-    with urllib.request.urlopen(richiesta, timeout=90) as risposta:
-        return risposta.read()
+    """Il documento, chiesto come lo chiederebbe un browser.
+
+    `urllib` prende 403 dai runner di GitHub: il CDN di Trenitalia filtra le
+    richieste che non somigliano a un browser, e dai datacenter e' piu' severo.
+    `curl_cffi` e' gia' una dipendenza del progetto e serve esattamente a questo
+    per gli adapter degli operatori."""
+    try:
+        from curl_cffi import requests as curl
+
+        risposta = curl.get(url, impersonate="chrome", timeout=90)
+        if risposta.status_code == 200:
+            return risposta.content
+        ultimo: Exception = RuntimeError(f"HTTP {risposta.status_code}")
+    except ImportError:
+        ultimo = RuntimeError("curl_cffi non disponibile")
+    except Exception as exc:  # noqa: BLE001 - la rete e' fuori dal nostro controllo
+        ultimo = exc
+
+    # Ripiego: qualche ambiente non ha curl_cffi funzionante.
+    try:
+        richiesta = urllib.request.Request(
+            url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+        )
+        with urllib.request.urlopen(richiesta, timeout=90) as risposta:
+            return risposta.read()
+    except Exception as exc:  # noqa: BLE001
+        raise FonteIrraggiungibile(f"{ultimo}; e poi {exc}") from exc
 
 
 def testo_del_pdf(grezzo: bytes) -> str:
@@ -310,16 +343,41 @@ def controlla(voce: dict[str, Any]) -> list[str]:
     return problemi
 
 
-def costruisci() -> dict[str, Any]:
+def precedente() -> dict[str, dict[str, Any]]:
+    """Il catalogo gia' scritto, per id. Serve quando una fonte non risponde."""
+    if not USCITA.exists():
+        return {}
+    try:
+        vecchio = json.loads(USCITA.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    return {v["id"]: v for v in vecchio.get("tessere", []) if isinstance(v, dict)}
+
+
+def costruisci() -> tuple[dict[str, Any], list[str]]:
+    """Il catalogo, piu' l'elenco delle fonti che non si sono lasciate leggere."""
     voci: list[dict[str, Any]] = []
     problemi: list[str] = []
+    irraggiungibili: list[str] = []
+    gia_scritte = precedente()
 
     for base in ESTRATTE:
         print(f"leggo {base['id']}...")
         try:
             testo = testo_del_pdf(scarica(base["fonte"]))
-        except Exception as exc:  # noqa: BLE001 - la fonte e' fuori dal nostro controllo
-            problemi.append(f"{base['id']}: fonte non leggibile ({exc})")
+        except FonteIrraggiungibile as exc:
+            # Non sappiamo se e' cambiato, sappiamo che non l'abbiamo letto. Si
+            # tiene quello che c'era: cancellare una voce perche' la rete non
+            # andava sarebbe la peggiore delle due opzioni.
+            irraggiungibili.append(f"{base['id']} ({exc})")
+            if base["id"] in gia_scritte:
+                voci.append(gia_scritte[base["id"]])
+                print("    non raggiungibile: tengo quella gia' scritta")
+            else:
+                print("    non raggiungibile e mai letta prima")
+            continue
+        except Exception as exc:  # noqa: BLE001 - PDF illeggibile, non irraggiungibile
+            problemi.append(f"{base['id']}: documento non interpretabile ({exc})")
             continue
         voce = leggi(testo, base)
         problemi += controlla(voce)
@@ -342,13 +400,14 @@ def costruisci() -> dict[str, Any]:
         raise SystemExit("catalogo non scritto:\n  " + "\n  ".join(problemi))
 
     voci.sort(key=lambda v: (not v.get("estratto"), v["id"]))
-    return {
+    catalogo = {
         "generato_il": date.today().isoformat(),
         "nota": "Generato da scripts/build_tessere.py. Le voci con estratto=true "
                 "vengono dai documenti degli operatori, le altre sono curate a mano "
                 "e portano la data in cui qualcuno le ha guardate.",
         "tessere": voci,
     }
+    return catalogo, irraggiungibili
 
 
 def main() -> int:
@@ -359,7 +418,9 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    nuovo = costruisci()
+    nuovo, irraggiungibili = costruisci()
+    if irraggiungibili:
+        print("\nfonti non raggiungibili: " + ", ".join(irraggiungibili))
 
     if not args.check:
         USCITA.parent.mkdir(parents=True, exist_ok=True)
@@ -402,6 +463,15 @@ def main() -> int:
     if cambiate or nuove or sparite or scadute:
         print("\nil catalogo va rigenerato: python scripts/build_tessere.py")
         return 1
+
+    if irraggiungibili:
+        # Codice a parte, e non un fallimento: non abbiamo trovato differenze
+        # perche' non abbiamo potuto guardare. Dirlo come se il catalogo fosse
+        # cambiato vorrebbe dire far scattare l'allarme quando non serve, e chi
+        # riceve allarmi inutili smette di leggerli.
+        print(f"\n{len(irraggiungibili)} fonti non verificate: il resto e' allineato")
+        return 2
+
     print(f"catalogo allineato alle fonti ({len(dopo)} voci)")
     return 0
 
