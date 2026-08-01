@@ -63,6 +63,23 @@ un volo.
 
 ## Avvio
 
+### Se vuoi solo usarlo (Windows)
+
+Scarica `TripFinder-windows.zip` dall'[ultima release][release], scompattalo dove
+preferisci, doppio click su `TripFinder.exe`. Non serve Python, non serve un
+terminale, non serve la rete al primo avvio: i cataloghi delle fermate sono già
+dentro l'archivio.
+
+Il browser si apre da solo e compare una bussola nell'area di notifica. Tutto
+quello che il programma scrive — profilo, ricerche salvate, chiavi, log — sta
+nella cartella `data/` accanto all'eseguibile: si sposta con lui e si cancella
+con lui. Dalle impostazioni si controlla se è uscita una versione nuova, e
+l'aggiornamento sostituisce il programma senza toccare `data/`.
+
+[release]: https://github.com/DiegoRiccardi1234/trip-finder/releases/latest
+
+### Se vuoi lavorarci
+
 Serve Python 3.11 o superiore.
 
 ```powershell
@@ -82,13 +99,30 @@ I comandi sono in PowerShell perché l'avvio senza console, con l'icona nell'are
 di notifica, è pensato per Windows (`pystray`). Su Linux e macOS funziona tutto
 il resto identico: stesse dipendenze, `uvicorn app.main:app --port 8010`.
 
+Per rifare il bundle: `pip install -r requirements-dev.txt` e poi
+`python scripts\build_exe.py`. In CI lo fa `.github/workflows/release.yml` a ogni
+tag `v*`, e allega lo zip alla release.
+
 ### Facoltativo: l'intelligenza artificiale
 
-Copia `.env.example` in `.env` e metti **una** chiave qualsiasi fra quelle
-elencate: OpenRouter, Groq, Cerebras, Google, OpenAI, Anthropic, o l'indirizzo di
-un server locale (Ollama, LM Studio). Senza nessuna chiave il sito funziona
-identico, solo senza il consiglio finale e senza la ricerca in linguaggio
-naturale.
+Il posto normale è la scheda **Impostazioni** del sito: una scheda per
+fornitore, il link dove procurarsi la chiave e cosa dà il piano gratuito. Ne
+basta **una**. Le chiavi restano su questo computer, in
+`data/local_secrets.json`, e valgono subito — niente riavvio.
+
+Chi lavora al codice può usare `.env` (copia `.env.example`): fra i due vince
+quello salvato dal sito, perché chi ha appena premuto Salva si aspetta che valga
+adesso.
+
+Senza nessuna chiave il sito funziona identico, solo senza il consiglio finale e
+senza la ricerca in linguaggio naturale. **Quando l'IA non risponde la pagina lo
+dice**, con il motivo: nessuna chiave, fornitore che ha rifiutato, risposta
+troncata. Prima il blocco spariva e basta, e l'IA rotta era indistinguibile
+dall'IA assente.
+
+I fornitori a pagamento restano spenti anche con la chiave inserita, finché non
+si accende l'interruttore nelle impostazioni: metterli in fondo alla fila non
+bastava, perché una giornata storta dei gratuiti li faceva scattare lo stesso.
 
 I fornitori configurati si provano **in catena, i gratuiti per primi**, e
 l'ordine alterna un fornitore e l'altro invece di esaurirne uno. Non è un
