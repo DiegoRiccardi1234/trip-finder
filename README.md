@@ -1,10 +1,15 @@
 # Trip Finder
 
 [![tests](https://github.com/DiegoRiccardi1234/trip-finder/actions/workflows/tests.yml/badge.svg)](https://github.com/DiegoRiccardi1234/trip-finder/actions/workflows/tests.yml)
+[![tessere](https://github.com/DiegoRiccardi1234/trip-finder/actions/workflows/tessere.yml/badge.svg)](https://github.com/DiegoRiccardi1234/trip-finder/actions/workflows/tessere.yml)
+[![release](https://img.shields.io/github/v/release/DiegoRiccardi1234/trip-finder)](https://github.com/DiegoRiccardi1234/trip-finder/releases/latest)
 
 Motore di ricerca viaggi multimodale, da usare in locale. Confronta treni,
 pullman, aerei e traghetti sul **costo reale porta a porta**, non sulla sola
 tariffa, e compone itinerari che nessun singolo operatore ti mostra.
+
+Si scarica e si fa doppio click: niente Python, niente terminale.
+[**Scarica l'ultima versione per Windows**](https://github.com/DiegoRiccardi1234/trip-finder/releases/latest)
 
 ![Torino → Matera, 25 soluzioni confrontate sul costo porta a porta](docs/img/comparison.png)
 
@@ -18,14 +23,28 @@ with every estimated item labelled as such. It also separates *changes* from
 *tickets*: two separate tickets mean nobody rebooks you if the first leg is
 late, so that risk is weighted in the ranking instead of hidden. This lets it
 compose journeys no single operator sells — the case that drove the project is
-Turin → Matera, a city with neither an airport nor a national-rail station.
+Turin → Matera, a city with neither an airport nor a national-rail station. It
+also plans journeys in stages, where each date follows the previous **arrival**:
+a night coach lands the next day, and counting from the departure would restart
+the trip before it got there.
+
+Discount cards are treated as data that expires, because they are: of the
+entries collected in August 2026, five carry a date, and two Trenitalia cards
+stopped being sold that spring. So the catalogue is not typed, it is extracted
+from the operators' own terms of carriage — public PDFs that carry the
+percentage, the age limits and the validity window — and a weekly job re-reads
+them and opens an issue when they drift. Better still, where an operator returns
+its reduced fares inside the search response, the ranking uses **their** number
+instead of estimating a percentage, and says so.
+
 Stack: Python, FastAPI, SQLite, `curl_cffi` and Playwright for the harder
-operators, and an LLM for the comparative advice — seven providers (OpenRouter,
-Groq, Cerebras, Google, OpenAI, Anthropic, or a local server) tried in a chain,
-free tiers first, with per-(provider, model) penalties learned at runtime so a
-model that truncates JSON on one host is not written off on another. Any one API
-key is enough, and none at all is fine too. The test suite runs offline on saved
-fixtures. Please read the legal note at the bottom before using it.
+operators, and an LLM for the comparative advice — eleven providers tried in a
+chain, free tiers first, queued per host, with per-(provider, model) penalties
+learned at runtime so a model that truncates JSON on one host is not written off
+on another. Any one API key is enough, entered from the settings tab, and none
+at all is fine too: when the advice cannot be produced the page says why instead
+of going quiet. The test suite runs offline on saved fixtures. Please read the
+legal note at the bottom before using it.
 
 ---
 
@@ -145,10 +164,10 @@ sull'altro host.
 app/
   geo/          da "Torino" alle fermate reali, con gli ID di ogni operatore
   providers/    un file per operatore, isolati fra loro
-  routing/      percorsi candidati, coincidenze, costo, classifica
+  routing/      percorsi candidati, coincidenze, costo, classifica, tessere
   orchestrator/ esecuzione in parallelo, budget di tempo, cache, circuit breaker
-  ai/           sette fornitori LLM in catena, con selezione modelli
-  static/       una pagina, niente build
+  ai/           undici fornitori LLM in catena, con selezione modelli
+  static/       una pagina, quattro schede, niente build
 ```
 
 ### Il pezzo che conta: la composizione
@@ -174,7 +193,9 @@ Il totale di ogni itinerario comprende:
   collegamenti principali sono curati a mano in `routing/transfers.py`
   (Pugliairbus da Bari a Matera: 75 minuti, 6 €), gli altri sono stimati per
   distanza e marcati come tali;
-- i **trasferimenti** fra una tratta e l'altra quando cambia la stazione.
+- i **trasferimenti** fra una tratta e l'altra quando cambia la stazione;
+- le **tessere** che hai dichiarato, che tolgono dal totale e quindi cambiano la
+  classifica, non solo la cifra finale.
 
 Ogni voce stimata è dichiarata. Una tratta di cui non conosciamo il prezzo non
 vale zero: verrebbe premiata proprio perché ne sappiamo meno.
@@ -199,6 +220,64 @@ si confondono di continuo:
 
 I margini minimi di coincidenza sono per modo: dieci minuti fra due treni, ma
 110 minuti per prendere un aereo, perché il vincolo è il check-in.
+
+### Le tessere, che sono un dato che scade
+
+Una tessera non è un fatto stabile. Delle voci raccolte ad agosto 2026 cinque
+portano una data dentro: le promo Young e Senior di Trenitalia valgono fino al
+30 novembre, lo sconto ISIC su FlixBus fino al 15 dicembre, e la Carta Verde e
+la Carta Argento **non si comprano più dal 4 aprile 2026**. Un elenco scritto a
+mano oggi sbaglia in primavera, e sbaglia in silenzio: uno sconto mancato si
+scopre con piacere alla cassa, uno inventato fa perdere il viaggio.
+
+Quindi il catalogo non si digita. Si costruisce a tre strati, in ordine di
+quanto ci si può contare.
+
+**Il prezzo dell'operatore.** Trenitalia manda le sue tariffe ridotte dentro la
+risposta di ricerca, col nome dell'offerta (`FrecciaYOUNG`, `SENIOR`): non
+compaiono nel prezzo esposto perché il motore non sa se chi cerca ha la tessera.
+Se l'hai dichiarata, la classifica usa **quella cifra**, per quella corsa e per
+quel giorno, e la riga di costo dice «tariffa dell'operatore». Non invecchia,
+perché non è una nostra stima. Su Torino → Roma questo porta il più economico
+da 60,90 € a 39,00 €.
+
+**Il catalogo estratto.** Per il resto servono le condizioni di trasporto degli
+operatori: PDF pubblici, strutturati in paragrafi, che portano la percentuale,
+i limiti di età e la finestra di validità — e che sono il documento che li
+vincola. Vale più di qualunque pagina riassuntiva: quelle dicevano che la Carta
+Verde è sparita il 1° aprile, il PDF dice il 4. `scripts/build_tessere.py` li
+legge e scrive `app/routing/data/tessere.json`, versionato apposta perché una
+modifica si veda nel diff. Come per gli orari FAL, valida prima di scrivere e
+**fallisce senza scrivere**: un catalogo mezzo estratto è peggio di uno vecchio,
+perché quello vecchio almeno lo sai.
+
+**Il controllo settimanale.** Il lunedì mattina un workflow rilegge le fonti e
+confronta con il file versionato. Se una percentuale cambia, se una tessera
+sparisce o se una scade, apre un issue. È l'unico modo perché qualcuno se ne
+accorga: nessuno va a rileggersi le condizioni di trasporto di sua iniziativa.
+
+Quello che nessun operatore pubblica in forma leggibile resta scritto a mano,
+ma con la fonte e la data in cui è stato guardato, e dopo sei mesi l'interfaccia
+lo marca «da riverificare». Una voce scaduta non sparisce dall'elenco: chi ha
+una Carta Verde emessa a marzo la sta ancora usando.
+
+Nel profilo le tessere si scelgono da un menu invece di ricordarsele: scegliendo
+la Promo Young il modulo si riempie da solo con il 20% e con il 30 novembre, e
+accanto compare cosa serve per averla (la Carta X-GO, gratuita) e il link al
+documento da cui viene.
+
+### Viaggi a tappe
+
+«Da Matera a Roma per tre giorni, poi a Torino» è una frase sola, e non è
+esprimibile ripetendo una ricerca: la data di una tappa **dipende** dalla
+precedente. Le tappe si cercano in fila, e la partenza di ognuna nasce
+dall'**arrivo** di quella prima più i giorni di sosta.
+
+L'arrivo, non la partenza: un pullman notturno che parte il 24 alle 23:35 arriva
+alle 07:37 del **25**, e contando dalla partenza il viaggio ripartirebbe il 27,
+cioè prima di essere arrivato. In fondo c'è il totale del viaggio e un consiglio
+su come stanno insieme le tappe, che è la cosa che le classifiche singole non
+possono dire.
 
 ---
 
@@ -337,6 +416,13 @@ prezzi, ci pensa `routing/cost.py` in modo uniforme; una lista vuota significa
 # una ricerca completa senza avviare il server
 .\.venv\Scripts\python.exe scripts\try_search.py Torino Matera 2026-08-14 --bag
 
+# quali fornitori LLM sono vivi e in che ordine; --ask chiama davvero
+.\.venv\Scripts\python.exe scripts\try_health.py --ask
+
+# rilegge le condizioni di trasporto e rigenera il catalogo delle tessere
+.\.venv\Scripts\python.exe scripts\build_tessere.py
+.\.venv\Scripts\python.exe scripts\build_tessere.py --check   # solo confronto
+
 # i test: parser su fixture, motore su dati sintetici, nessuna rete
 .\.venv\Scripts\python.exe -m pytest tests -q
 ```
@@ -346,8 +432,9 @@ prezzi, ci pensa `routing/cost.py` in modo uniforme; una lista vuota significa
 gira su quella: quando un operatore cambia formato, il test dice esattamente
 cosa è cambiato.
 
-Dalla API: `/api/providers` mostra lo stato dei circuiti, `/api/ai/status` i
-modelli utilizzabili, `/api/resolve?q=Matera` la risoluzione di una località.
+Dalla API: `/api/providers` mostra lo stato dei circuiti, `/api/ai/models` i
+modelli con la loro salute pubblicata, `/api/tessere` il catalogo con le
+scadenze, `/api/resolve?q=Matera` la risoluzione di una località.
 
 Se un adapter si rompe, il suo circuito si apre per qualche minuto e viene
 segnalato nella UI. Per riaprirlo dopo averlo sistemato:
