@@ -3,8 +3,8 @@
 Verifiche fatte sugli endpoint reali. Serve a non rifare le stesse ricerche fra
 sei mesi, e a sapere dove riprendere.
 
-Ultimo aggiornamento: **27 luglio 2026** (sera: aggiunti Grimaldi, OBB, SBB, le
-tariffe FAL e un operatore Albatross).
+Ultimo aggiornamento: **2 agosto 2026**: Deutsche Bahn dal browser, Volotea
+ripreso, i voli mondiali sondati e gli operatori del mondo dichiarati.
 
 ---
 
@@ -129,7 +129,7 @@ l'evidenza e il punto da cui ripartire.
 | Operatore | Cosa risponde | Dove riprendere |
 |---|---|---|
 | **Italo** | `POST api-biglietti.italotreno.com/api/v1/booking` -> `401 Invalid token x`. Il browser automatizzato non riesce nemmeno a caricare il sito: `ERR_HTTP2_PROTOCOL_ERROR` su `biglietti.italotreno.com`, mentre curl_cffi passa | I bundle mostrano il flusso: `Authorization: Basic` verso `{base}api/v1/users/authorization` per ottenere un token, poi `Authorization: Bearer`. Il percorso `users/authorization` risponde 404 dall'esterno: probabilmente il WAF lo espone solo con l'origine giusta. **`/api/v1/stations` e' invece aperto**: 2537 stazioni con codici identici a Trainline piu' i flag `isPort`, `isItabusStation`, `isTrenitalia` |
-| **Deutsche Bahn** | `403 OPS_BLOCKED` sia da HTTP diretto sia **da dentro una pagina del sito** | Resta solo compilare davvero il modulo su `bahn.de` con `BrowserFormProvider` e leggere il DOM. `int.bahn.de/web/api/reiseloesung/orte` per le stazioni e' aperto |
+| **Deutsche Bahn** | `403 OPS_BLOCKED` da HTTP diretto e da dentro una pagina del sito. **Ma la pagina di ricerca aperta con un browser vero funziona**: vedi la sezione dedicata | Compilare il modulo su `bahn.de` con `BrowserFormProvider`. `int.bahn.de/web/api/reiseloesung/orte` per le stazioni e' aperto |
 | **Trainline** | captcha DataDome su `/api/journey-search/` | Coprirebbe SNCF, DB, Renfe e OBB in un colpo solo, ma un captcha e' un no detto in modo esplicito: chiuso qui, non si tenta |
 | **easyJet** | `429` con sfida (`cpr_chlge`) su `routepricing/v3/searchfares`; `www.easyjet.com/it` risponde `403` anche con impersonazione TLS | |
 | **Wizz Air** | `wizzair.com/static/metadata.json` non e' piu' JSON. Nei bundle compare solo un host di staging (`wizz09-api.staging7.mito.hu`) | Trovare la base vera osservando le richieste della pagina durante una ricerca |
@@ -149,13 +149,60 @@ l'evidenza e il punto da cui ripartire.
 
 | Operatore | Stato |
 |---|---|
-| **Volotea** | Manca solo lo stato di sessione, vedi la riga nella tabella dei bloccati: e' il candidato piu' vicino a diventare un adapter |
+| **Volotea** | Ripreso il 2 agosto: token confermato, ricerca ancora chiusa, ma le sue 155 rotte italiane sono ora dichiarate in `known_routes.json`. Vedi la sezione dedicata |
 | **Trenitalia, tariffe ridotte** | ~~Da sondare~~ **fatto**: erano gia' nella risposta, vedi in fondo. Resta da collegarle al profilo |
 | **Aeroitalia** | Non affrontato: stessa forma di Volotea (SPA con storage statico) |
 | **GNV, SNAV** | API mappate, entrambe a `401`: serve capire come nasce la sessione |
-| **DB** | Resta solo `BrowserFormProvider` su `bahn.de`, mai tentato |
+| **DB** | Tentato il 2 agosto: **dal browser la pagina di ricerca non blocca**. Manca il deep link con la data, o la compilazione del modulo. Vedi la sezione dedicata |
 | **SNCF, Renfe** | Non sondati. Trainline li coprirebbe tutti in un colpo, ma ha il captcha DataDome |
 | **Trenord** | Da verificare se serve: Trenitalia restituisce gia' molte corse regionali lombarde |
+
+---
+
+## Deutsche Bahn: dal browser la pagina **non** blocca
+
+Sondato il 2 agosto 2026, primo tentativo con un browser vero (finora c'era
+solo l'evidenza delle chiamate HTTP).
+
+| Cosa | Esito |
+|---|---|
+| `GET int.bahn.de/web/api/reiseloesung/orte?suchbegriff=Berlin` | **200**, con `extId`, `id` completo (`A=1@O=Berlin Hbf@X=…@L=8011160@`), coordinate e prodotti serviti |
+| `POST int.bahn.de/web/api/angebote/fahrplan` da `curl_cffi` | **403 `OPS_BLOCKED`**, come gia' documentato |
+| `https://www.bahn.de/buchung/fahrplan/suche#…` **aperta con Chromium** | **200 e la pagina esegue la ricerca**: nessun blocco, nessun captcha, le sue API interne rispondono 200 |
+
+Il fatto nuovo e' l'ultima riga: la via `BrowserFormProvider` **e' percorribile**,
+mentre `BrowserJsonProvider` resta esclusa (l'API rifiuta anche da dentro la
+pagina). Cosa manca: il deep link non porta la data — la ricerca e' partita sul
+giorno corrente e ha risposto «Keine Verbindungen gefunden», che e' una risposta
+vera a una domanda sbagliata. Serve capire la forma del frammento `#` che porta
+data e ora, oppure compilare i due campi (`quickFinderBasic-von` e
+`quickFinderBasic-nach`, con l'autocompletamento da confermare) e premere Cerca.
+
+E' il lavoro di un giro dedicato, non di una coda: da qui in poi e' scrivere
+l'adapter e il parser del DOM, con tutte le fragilita' che quello comporta.
+
+---
+
+## Volotea: il grafo delle rotte si', la ricerca ancora no
+
+Ripreso il 2 agosto 2026 dal punto in cui era rimasto.
+
+- **Il token anonimo si ottiene**, confermato: `POST api.volotea.com/api/voe/v1/account/login`
+  con `x-api-key: 170ace97d61844ac98018a1125-umbr2` (estratta dal bundle della
+  loro SPA) e `x-client-type: spa`, corpo vuoto, risponde `200` con un JWT.
+- **La ricerca resta chiusa.** `POST /flights/search` col token da sempre
+  `500 Value cannot be null. (Parameter 'source')`, accompagnato da
+  `core:Validation:MalformedRequest`. Provato ad aggiungere `source` nel corpo
+  in sei forme (`spa`, `web`, `WEB`, `B2C`, `Web`, `voe`): identico. Quel
+  `source` non e' un campo del corpo, e' qualcosa che il loro server si aspetta
+  di trovare in una sessione che la SPA apre prima.
+- **Quello che si puo' usare subito**, ed e' stato usato:
+  `GET json.volotea.com/dist/stations/stations.json` (aperto, 900 KB) porta 275
+  scali con, per ognuno, i `Markets` — cioe' **le rotte davvero servite**, con
+  prezzo minimo, tipo di volo e finestra operativa. Da li' sono uscite le 155
+  rotte dirette da e per l'Italia che ora stanno in `known_routes.json`: non
+  sappiamo dire a che ora parte, ma sappiamo dire che Volotea quella tratta la
+  fa, e con che link comprarla.
 
 ---
 

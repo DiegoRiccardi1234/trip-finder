@@ -4,13 +4,14 @@
     "Tacere di loro farebbe credere che quel collegamento non esista; inventarne",
     "gli orari sarebbe peggio. Qui c'e' solo cio' che e' stato verificato, e la",
     "UI li mostra a parte, con il link al loro sito.",
-    "Due modi per dichiarare la copertura, mai a occhio:",
+    "Tre modi per dichiarare la copertura, mai a occhio:",
     "  - 'dataset_key': l'operatore e' nei dataset con i propri identificatori, e",
     "    la tratta e' coperta se entrambi i capi ce l'hanno (caso di Italo);",
-    "  - 'routes': coppie di localita' lette dai suoi documenti pubblici.",
+    "  - 'routes': coppie di localita' lette dai suoi documenti pubblici;",
+    "  - 'iata_routes': coppie di scali, per chi pubblica il proprio grafo di",
+    "    rotte ma non la ricerca (caso di Volotea).",
     "Lo stato di ciascuno, con l'evidenza, sta in docs/operatori.md."
   ],
-
   "operators": [
     {
       "id": "italo",
@@ -41,7 +42,6 @@
         ["termoli", "tremiti"]
       ]
     },
-
     {
       "id": "jr-central",
       "name": "Shinkansen (JR Central)",
@@ -76,7 +76,10 @@
       "mode": "rail",
       "url": "https://www.korail.com/",
       "note": "Seul-Busan in poco piu' di due ore.",
-      "routes": [["seoul", "busan"], ["seul", "busan"]]
+      "routes": [
+        ["seoul", "busan"],
+        ["seul", "busan"]
+      ]
     },
     {
       "id": "china-railway",
@@ -168,6 +171,14 @@
         ["koln", "muenchen"],
         ["frankfurt am main", "hamburg"]
       ]
+    },
+    {
+      "id": "volotea",
+      "name": "Volotea",
+      "mode": "air",
+      "url": "https://www.volotea.com/",
+      "note": "Pubblica il grafo delle rotte, non la ricerca: il suo motore risponde 500 a chi non arriva dalla sua pagina.",
+      "iata_routes": ["AAL-NAP", "AAL-VRN", "AGP-VRN", "AHO-BOD", "AHO-FLR", "AHO-LYS", "AHO-ORY", "AHO-TRN", "AHO-VRN", "AOI-BCN", "AOI-CTA", "AOI-MAD", "AOI-OLB", "AOI-ORY", "AOI-PMO", "AOK-NAP", "AOK-VCE", "AOK-VRN", "ATH-BLQ", "ATH-BRI", "ATH-CTA", "ATH-FLR", "ATH-MXP", "ATH-NAP", "ATH-OLB", "ATH-PMO", "ATH-PSA", "ATH-VCE", "ATH-VRN", "BCN-OLB", "BCN-VRN", "BER-FLR", "BES-FCO", "BES-OLB", "BGY-LMP", "BGY-NTE", "BGY-OLB", "BGY-OVD", "BGY-PNL", "BIO-BRI", "BIO-FCO", "BIO-OLB", "BIO-VRN", "BLQ-LMP", "BLQ-OLB", "BLQ-PNL", "BOD-BRI", "BOD-FCO", "BOD-OLB", "BRI-CFU", "BRI-EFL", "BRI-HER", "BRI-JMK", "BRI-JTR", "BRI-LIL", "BRI-LYS", "BRI-OLB", "BRI-PVK", "BRI-SPU", "BRI-ZTH", "CAG-FLR", "CAG-MRS", "CAG-VCE", "CAG-VRN", "CFU-VCE", "CIY-LIL", "CIY-VRN", "CTA-FLR", "CTA-OLB", "CTA-VCE", "CTA-VRN", "DOL-OLB", "DOL-PMO", "EAS-FLR", "EFL-NAP", "FCO-LDE", "FCO-LIG", "FCO-NTE", "FCO-SKG", "FCO-SXB", "FLR-HAM", "FLR-LYS", "FLR-OLB", "FLR-PMO", "FLR-PRG", "FLR-SVQ", "FLR-TLS", "FLR-VLC", "GOA-MAD", "GOA-NAP", "GOA-OLB", "GOA-ORY", "HER-NAP", "HER-PMO", "HER-VRN", "JMK-NAP", "JMK-VCE", "JSI-NAP", "JSI-VCE", "JTR-NAP", "JTR-PMO", "JTR-VCE", "LIL-OLB", "LIL-PMO", "LIN-LMP", "LMP-NAP", "LMP-VCE", "LMP-VRN", "LYS-OLB", "LYS-PMO", "LYS-QSR", "LYS-VCE", "MAD-OLB", "MAD-VRN", "MAH-VRN", "MRS-OLB", "MRS-VCE", "MXP-SKG", "NAP-OLB", "NAP-PMO", "NAP-PVK", "NAP-SPU", "NAP-TRN", "NAP-VCE", "NAP-ZTH", "NCE-VCE", "NTE-OLB", "NTE-PSA", "NTE-QSR", "OLB-ORY", "OLB-PMO", "OLB-PSA", "OLB-SVQ", "OLB-SXB", "OLB-TLS", "OLB-TRN", "OLB-VCE", "OLB-VRN", "ORY-PMO", "ORY-TRN", "ORY-VRN", "PMO-TLS", "PMO-VCE", "PMO-VRN", "PMO-ZTH", "PNL-VCE", "PNL-VRN", "PRG-VRN", "PSA-TLS", "RHO-VCE", "RMU-VCE", "SVQ-VRN", "TLS-VCE", "VCE-ZTH", "VRN-ZTH"]
     }
   ]
 }

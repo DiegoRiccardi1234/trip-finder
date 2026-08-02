@@ -69,6 +69,26 @@ def _covers_by_dataset(entry: dict, origin: Place, destination: Place) -> bool:
     )
 
 
+def _covers_by_iata(entry: dict, origin: Place, destination: Place) -> bool:
+    """Rotte dichiarate per codice di scalo invece che per nome di citta'.
+
+    Serve a chi pubblica il proprio grafo di rotte ma non la ricerca: Volotea
+    espone quali scali collega e a che prezzo minimo, e nient'altro. Le citta'
+    non basterebbero — un volo parte da un aeroporto, e «Milano» ne ha tre."""
+    rotte = entry.get("iata_routes")
+    if not rotte:
+        return False
+    partenze = {node.iata for node in origin.nodes if node.iata}
+    arrivi = {node.iata for node in destination.nodes if node.iata}
+    for rotta in rotte:
+        primo, _, secondo = rotta.partition("-")
+        if (primo in partenze and secondo in arrivi) or (
+            secondo in partenze and primo in arrivi
+        ):
+            return True
+    return False
+
+
 def _covers_by_routes(entry: dict, origin_names: set[str], dest_names: set[str]) -> bool:
     for route in entry.get("routes") or []:
         if len(route) != 2:
@@ -95,8 +115,10 @@ def suggestions(
         mode = entry.get("mode")
         if modes is not None and mode and Mode(mode) not in modes:
             continue
-        if _covers_by_dataset(entry, origin, destination) or _covers_by_routes(
-            entry, origin_names, dest_names
+        if (
+            _covers_by_dataset(entry, origin, destination)
+            or _covers_by_iata(entry, origin, destination)
+            or _covers_by_routes(entry, origin_names, dest_names)
         ):
             found.append(
                 {
