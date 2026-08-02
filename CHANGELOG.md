@@ -4,6 +4,53 @@ Le versioni seguono [semver](https://semver.org/lang/it/). Il testo di ogni
 sezione finisce nelle note della release: si scrive per chi usa il programma,
 non per chi lo scrive.
 
+## [0.5.0]
+
+**Il mondo si trova.** Prima, fuori Europa, la ricerca non falliva: rispondeva
+un'altra cosa. «Tokyo» e «New York» non esistevano affatto, e «Londra» — che nel
+dataset europeo non c'è — finiva per somiglianza su **Ondara**, in Spagna, con
+otto fermate vere di una città che nessuno aveva chiesto. Adesso ci sono
+trentaquattromila città di tutto il pianeta, con i loro nomi in italiano:
+Parigi, Londra, Il Cairo, Monaco di Baviera, Lisbona.
+
+**E si trova all'ora giusta.** Gli aeroporti fuori dai paesi europei non avevano
+fuso orario e ripiegavano su quello di Roma: un volo giapponese sarebbe
+comparso con sette ore di scarto, senza che niente lo segnalasse. Ora il fuso
+arriva dal gazetteer, e sono giusti Tokyo, New York, San Paolo, Sydney, Dubai.
+
+**I prezzi non si sommano più fra valute diverse.** Il totale metteva insieme
+gli importi senza mai guardare la valuta: novantacinque sterline diventavano
+novantacinque euro, stampate col simbolo dell'euro, sbagliate del venti per
+cento — e siccome la classifica ordina sul prezzo, cambiava anche *quale*
+viaggio veniva consigliato. Adesso si convertono al cambio del giorno della
+Banca centrale europea, e quello che non si sa convertire si dichiara incerto
+invece di passare per una cifra certa.
+
+**Gli scali esistono anche fuori Europa.** Erano ottantotto città scritte a
+mano, tutte europee: su una tratta asiatica non ne restava nessuno e c'erano
+solo i voli diretti, che fra Tokyo e Lima non esistono.
+
+**E dove non arriviamo, lo diciamo.** Tokyo → Osaka trovava la città, non
+trovava nessun operatore e mostrava una pagina vuota. Ora spiega che la ricerca
+copre l'Europa, e soprattutto **nomina chi quella tratta la fa davvero**: lo
+Shinkansen, Amtrak, Renfe, Eurostar, il KTX coreano, con il link per comprare.
+È la stessa cosa che il programma faceva già per Italo e Tirrenia, estesa al
+mondo. Di Volotea, che pubblica le sue rotte ma non la ricerca, sono dichiarate
+tutte e centocinquantacinque le tratte da e per l'Italia.
+
+**Le fermate delle tappe.** In un viaggio a tappe, «poi vado a Torino» non
+lasciava scegliere fra Porta Nuova, Porta Susa e Caselle come fanno i campi
+«Da» e «A». Adesso sì, e la scelta vale anche per la ripartenza: chi dice «a
+Torino solo Porta Susa» da lì riparte.
+
+**Il consiglio conta anche i cambi.** Prezzo e durata gli arrivavano già
+calcolati; da adesso anche i cambi e i biglietti in più.
+
+Sotto il cofano, due cose che si vedono solo se mancano: la pagina ha i suoi
+primi test — un browser vero che verifica numeri, riferimenti e ordinamenti —
+e le trentacinque autolinee italiane hanno smesso di dichiararsi disponibili su
+Parigi → Berlino, dove si prendevano una richiesta a testa per scoprire di no.
+
 ## [0.4.0]
 
 **Il consiglio dice di quale soluzione parla.** Prima diceva «l'opzione con
