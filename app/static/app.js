@@ -201,15 +201,32 @@ document.getElementById('swap').addEventListener('click', () => {
 // Stura, il terminal bus e Caselle. Il motore ne sceglie fino a due per
 // operatore, e chi vuole restringere lo fa da qui. Nessuna scelta = tutte, che
 // resta il comportamento normale.
+// Le tappe di un viaggio hanno le loro (`stage:<id>`), e nascono quando si
+// aggiunge la riga: la mappa cresce invece di avere quattro caselle fisse.
 const stops = new Map(PLACE_FIELDS.map((field) => [field, { query: '', nodes: [], chosen: new Set() }]));
 
+function statoFermate(field) {
+  let state = stops.get(field);
+  if (!state) { state = { query: '', nodes: [], chosen: new Set() }; stops.set(field, state); }
+  return state;
+}
+
+/** Il testo scritto in quel campo, che stia nel modulo o in una riga tappa. */
+function valoreCampo(field) {
+  if (field.startsWith('stage:')) {
+    const tappa = tappe.find((t) => `stage:${t.id}` === field);
+    return tappa ? tappa.destination : '';
+  }
+  return form.elements[field] ? form.elements[field].value : '';
+}
+
 function stopsBox(field) {
-  return document.querySelector(`.stops[data-field="${field}"]`);
+  return document.querySelector(`.stops[data-field="${CSS.escape(field)}"]`);
 }
 
 async function loadStops(field) {
-  const state = stops.get(field);
-  const query = form.elements[field].value.trim();
+  const state = statoFermate(field);
+  const query = valoreCampo(field).trim();
   if (query === state.query) return;
   state.query = query;
   state.nodes = [];
@@ -219,7 +236,7 @@ async function loadStops(field) {
     const response = await fetch(`/api/resolve?q=${encodeURIComponent(query)}`);
     if (!response.ok) { renderStops(field); return; }
     const place = await response.json();
-    if (form.elements[field].value.trim() !== query) return;  // l'utente ha gia' riscritto
+    if (valoreCampo(field).trim() !== query) return;  // l'utente ha gia' riscritto
     state.nodes = place.nodes || [];
   } catch { /* senza rete si resta senza chip: la ricerca funziona lo stesso */ }
   renderStops(field);
@@ -227,7 +244,7 @@ async function loadStops(field) {
 
 function renderStops(field) {
   const box = stopsBox(field);
-  const state = stops.get(field);
+  const state = statoFermate(field);
   if (!box) return;
   if (state.nodes.length < 2) { box.replaceChildren(); return; }
   const chips = state.nodes.map((node) => {
@@ -246,7 +263,7 @@ document.addEventListener('click', (event) => {
   const chip = event.target.closest('.stops .chip.stop');
   if (chip) {
     const field = chip.closest('.stops').dataset.field;
-    const state = stops.get(field);
+    const state = statoFermate(field);
     const id = chip.dataset.node;
     if (state.chosen.has(id)) state.chosen.delete(id); else state.chosen.add(id);
     renderStops(field);
@@ -256,7 +273,7 @@ document.addEventListener('click', (event) => {
   if (clear) {
     event.preventDefault();
     const field = clear.closest('.stops').dataset.field;
-    stops.get(field).chosen.clear();
+    statoFermate(field).chosen.clear();
     renderStops(field);
   }
 });
@@ -554,7 +571,7 @@ function applyParams(params) {
     const raw = params.get(`stops_${field}`);
     if (!raw) return;
     const wanted = new Set(raw.split(','));
-    const state = stops.get(field);
+    const state = statoFermate(field);
     state.chosen = new Set(state.nodes.filter((n) => wanted.has(n.id)).map((n) => n.id));
     renderStops(field);
   }));
@@ -1172,6 +1189,15 @@ function nomeMeta(indice) {
   return (indice === 0 ? form.elements.destination.value : tappe[indice - 1].destination) || '…';
 }
 
+/** Il campo fermate di una tappa. Sull'`id` e non sulla posizione: togliendo
+ *  una riga di mezzo gli indici scalano, e le fermate scelte per Torino
+ *  finirebbero addosso alla tappa successiva. */
+function campoTappa(tappa) {
+  return `stage:${tappa.id}`;
+}
+
+let prossimoIdTappa = 0;
+
 function renderStages() {
   stagesList.innerHTML = tappe.map((tappa, i) => `
     <div class="stage-row" data-index="${i}">
@@ -1184,12 +1210,16 @@ function renderStages() {
                value="${escapeHtml(tappa.destination)}" minlength="2">
       </label>
       <button type="button" class="link stage-remove" title="Togli questa tappa">×</button>
+      <div class="stops" data-field="${escapeHtml(campoTappa(tappa))}"></div>
     </div>`).join('');
+  // I chip vivono in `stops` e non nell'HTML: ridisegnarli dopo ogni render
+  // e' quello che li fa sopravvivere all'aggiunta di una riga.
+  for (const tappa of tappe) renderStops(campoTappa(tappa));
 }
 
 document.getElementById('add-stage').addEventListener('click', () => {
   if (tappe.length >= 6) return;
-  tappe.push({ destination: '', stay: 1 });
+  tappe.push({ id: prossimoIdTappa++, destination: '', stay: 1 });
   renderStages();
   stagesList.querySelector('.stage-row:last-child .stage-dest')?.focus();
 });
@@ -1202,9 +1232,21 @@ stagesList.addEventListener('input', (event) => {
   if (event.target.classList.contains('stage-stay')) tappa.stay = Number(event.target.value) || 0;
 });
 
+// Le fermate si chiedono quando il nome e' finito di scrivere, come per «Da» e
+// «A»: a ogni tasto sarebbe una richiesta per lettera.
+for (const evento of ['change', 'blur']) {
+  stagesList.addEventListener(evento, (event) => {
+    if (!event.target.classList.contains('stage-dest')) return;
+    const row = event.target.closest('.stage-row');
+    const tappa = tappe[Number(row.dataset.index)];
+    if (tappa) loadStops(campoTappa(tappa));
+  }, true);  // `blur` non risale: si ascolta in discesa
+}
+
 stagesList.addEventListener('click', (event) => {
   if (!event.target.closest('.stage-remove')) return;
-  tappe.splice(Number(event.target.closest('.stage-row').dataset.index), 1);
+  const [tolta] = tappe.splice(Number(event.target.closest('.stage-row').dataset.index), 1);
+  if (tolta) stops.delete(campoTappa(tolta));
   renderStages();
 });
 
@@ -1218,11 +1260,18 @@ function giornoDopo(iso, giorni) {
   return quando.toISOString().slice(0, 10);
 }
 
-/** Le tappe del viaggio, con la prima presa dal modulo. */
+/** Le tappe del viaggio, con la prima presa dal modulo.
+ *
+ *  Ogni tappa porta anche **da dove** prendere le fermate scelte: la meta di
+ *  una tappa e la partenza della successiva sono la stessa citta', e quindi lo
+ *  stesso insieme di fermate — chi ha detto «a Torino solo Porta Susa» da li'
+ *  riparte. */
 function costruisciTappe() {
   const prima = {
     origin: form.elements.origin.value.trim(),
+    originField: 'origin',
     destination: form.elements.destination.value.trim(),
+    destinationField: 'destination',
     date: form.elements.date.value,
     stay: tappe.length ? tappe[0].stay : 0,
   };
@@ -1230,7 +1279,9 @@ function costruisciTappe() {
   tappe.forEach((tappa, i) => {
     elenco.push({
       origin: elenco[i].destination,
+      originField: elenco[i].destinationField,
       destination: tappa.destination.trim(),
+      destinationField: campoTappa(tappa),
       date: null,               // si scopre quando arriva la tappa prima
       stay: tappe[i + 1] ? tappe[i + 1].stay : 0,
     });
@@ -1263,12 +1314,11 @@ function startTrip() {
 function avviaTappa() {
   const tappa = viaggio.tappe[viaggio.indice];
   phaseEl.textContent = `Tappa ${viaggio.indice + 1} di ${viaggio.tappe.length}: ${tappa.origin} → ${tappa.destination}`;
-  // Le fermate scelte a mano valgono solo per la prima tappa: sono i chip sotto
-  // «Da» e «A», e le tappe successive non hanno un campo a cui appartenere.
-  const prima = viaggio.indice === 0;
+  // Ogni tappa porta le sue fermate: quelle scelte sotto il suo campo, e in
+  // partenza quelle della tappa precedente, che e' la stessa citta'.
   const panel = new SearchPanel(
-    { origin: { value: tappa.origin, field: prima ? 'origin' : null },
-      destination: { value: tappa.destination, field: prima ? 'destination' : null },
+    { origin: { value: tappa.origin, field: tappa.originField },
+      destination: { value: tappa.destination, field: tappa.destinationField },
       date: tappa.date },
     { roundtrip: false, returnDate: null, showDate: true, stageIndex: viaggio.indice },
   );
@@ -1416,11 +1466,8 @@ function buildCombos() {
 }
 
 function chosenNodes(field) {
-  // Le tappe dopo la prima non hanno campo nel modulo, quindi non hanno chip:
-  // applicargli le fermate scelte per «Da» o «A» filtrerebbe una città che non
-  // c'entra niente.
   if (!field) return '';
-  return [...stops.get(field).chosen].join(',');
+  return [...statoFermate(field).chosen].join(',');
 }
 
 function buildUrl(combo, { reverse = false } = {}) {
@@ -1571,11 +1618,15 @@ function resetSearch() {
     slider.dispatchEvent(new Event('input', { bubbles: true }));
   });
   for (const field of PLACE_FIELDS) {
-    const state = stops.get(field);
+    const state = statoFermate(field);
     state.query = '';
     state.nodes = [];
     state.chosen.clear();
     renderStops(field);
+  }
+  // Le fermate delle tappe se ne vanno con le tappe, che qui sono già sparite.
+  for (const field of [...stops.keys()]) {
+    if (field.startsWith('stage:')) stops.delete(field);
   }
   lastSort = 'score';
   goBtn.disabled = false;

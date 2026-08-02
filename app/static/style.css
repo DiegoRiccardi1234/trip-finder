@@ -730,6 +730,13 @@ button.chip:hover:not(.mute) { filter: none; border-color: var(--accent); }
 }
 .stage-row .grow { flex: 1 1 260px; min-width: 220px; max-width: 460px; }
 .stage-row .grow input { flex: 1; min-width: 0; }
+/* Le fermate della tappa vanno a capo sotto la riga, allineate al campo e non
+   alla freccia: sono la risposta a «poi vado a…», e stare in mezzo alla frase
+   la spezzerebbe. */
+.stage-row .stops {
+  flex-basis: 100%;
+  margin: 2px 0 4px 26px;
+}
 
 /* Un viaggio a tappe si legge come un percorso, non come una tabella: la linea
    verticale lega le tappe fra loro e la sosta e' un'interruzione sulla linea,
