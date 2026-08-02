@@ -4,6 +4,47 @@ Le versioni seguono [semver](https://semver.org/lang/it/). Il testo di ogni
 sezione finisce nelle note della release: si scrive per chi usa il programma,
 non per chi lo scrive.
 
+## [0.4.0]
+
+**Il consiglio dice di quale soluzione parla.** Prima diceva «l'opzione con
+Ryanair» — e di voli Ryanair ce n'erano due — oppure citava «la Torino → Matera
+4» mentre a schermo nessun 4 esisteva da nessuna parte: la numerazione viveva
+solo dentro la domanda fatta al modello. Adesso ogni scheda porta il suo numero,
+in alto a sinistra, e nel testo del consiglio quel numero è un bottone: si
+clicca e si finisce sulla scheda giusta, evidenziata per un attimo. Il numero
+resta attaccato alla soluzione anche riordinando per prezzo o filtrando il
+mezzo, quindi un consiglio già scritto continua a puntare dove deve.
+
+**E dice il vero.** Su andata e ritorno commentava i prezzi della sola andata,
+sotto schede che mostravano il totale di entrambe; non sapeva che le soluzioni
+erano venticinque e non sei, e poteva scrivere «è l'unica sotto i 50 euro»
+essendo falso; non sapeva che la lista era **fuori** dai vincoli quando nessuna
+soluzione li rispettava, e poteva consigliare un viaggio oltre il budget senza
+avvisare. Ora il consiglio nasce dalla pagina e non dal motore, quindi il
+modello vede esattamente quello che vedi tu.
+
+**I conti non li fa più lui.** «Ti fa risparmiare quasi due ore» fra 12h35 e
+12h30: i dati erano giusti, la sottrazione no, dentro una frase che si legge
+benissimo. Le differenze di prezzo e di durata ora arrivano già calcolate, e al
+modello resta il giudizio.
+
+**Quando non arriva, si riprova.** Il messaggio diceva «le chiavi si mettono
+nelle impostazioni» anche quando le chiavi c'erano e a sbagliare era stato il
+modello. Adesso ogni motivo porta il suo rimedio, un secondo tentativo parte da
+solo — il server ha appena penalizzato il modello che ha fallito, e ne tocca un
+altro — e poi resta il bottone «Riprova». Un consiglio che cita soluzioni
+inesistenti, o che non ne cita nessuna, viene scartato prima di arrivare a
+schermo.
+
+**Il prezzo «a partire da» adesso si chiama stima.** Trenitalia manda certe
+tariffe come minimo del giorno, non come prezzo di quella corsa: l'avvertenza
+c'era, ma solo dentro «Dettagli», e il totale in grande sembrava una cifra
+certa. Ora la scheda lo dichiara come tutte le altre voci stimate. La classifica
+non cambia: quel segnale non ha mai pesato sul punteggio.
+
+La ricerca si chiude anche un po' prima, perché non aspetta più l'IA: il
+consiglio se lo prende la pagina quando i risultati sono già lì.
+
 ## [0.3.2]
 
 **L'aggiornamento arriva in fondo davvero.** La 0.3.1 aveva corretto quattro
