@@ -77,14 +77,16 @@ class _State:
 
 
 class SearchService:
-    def __init__(self, *, with_advice: bool = True) -> None:
+    """Cerca e basta: il consiglio non nasce piu' qui.
+
+    Lo chiede la pagina a ricerca finita (`POST /api/advice`), con le soluzioni
+    come le sta mostrando. Da qui dentro il consiglio vedeva le classifiche del
+    motore — due separate su un'andata e ritorno, dove a schermo la scheda e'
+    una sola con il prezzo sommato — e numerava soluzioni che a schermo non
+    avevano numero."""
+
+    def __init__(self) -> None:
         self._settings = get_settings()
-        #: Spento quando la pagina sta lanciando piu' combinazioni insieme: li'
-        #: il consiglio utile e' quello che le **confronta** (`/api/advice/compare`),
-        #: e un consiglio per colonna in piu' e' solo un'altra richiesta nello
-        #: stesso secondo verso lo stesso host — cioe' il burst che si prendeva
-        #: i 429.
-        self._with_advice = with_advice
 
     async def run(self, query: SearchQuery) -> AsyncIterator[SearchEvent]:
         search_id = uuid.uuid4().hex[:12]
@@ -291,12 +293,6 @@ class SearchService:
             },
         )
 
-        # L'evento parte anche quando il consiglio non c'e': prima restava
-        # muto, e l'IA rotta era indistinguibile dall'IA assente.
-        advice = await self._advise(itineraries, query)
-        if advice is not None:
-            yield SearchEvent("advice", advice)
-
         yield SearchEvent(
             "done",
             {
@@ -455,30 +451,6 @@ class SearchService:
         except Exception:  # noqa: BLE001 - un consiglio mancato non ferma la ricerca
             logger.debug("suggerimento hub non disponibile", exc_info=True)
             return []
-
-    async def _advise(
-        self, itineraries: list[Itinerary], query: SearchQuery
-    ) -> dict[str, str] | None:
-        """Consiglio finale, o il motivo per cui manca.
-
-        `None` solo quando non c'e' niente da dire (nessun itinerario): in tutti
-        gli altri casi la pagina riceve un motivo e lo scrive. La ricerca resta
-        valida comunque — un consiglio mancato non e' un errore di ricerca."""
-        if not self._with_advice:
-            return None
-
-        from app.ai import client
-        from app.ai.advisor import advise
-
-        try:
-            answer = await advise(itineraries, query)
-        except Exception:  # noqa: BLE001
-            logger.debug("consiglio non disponibile", exc_info=True)
-            answer = client.Answer(reason=client.FAILED)
-
-        if answer.ok or client.worth_saying(answer.reason):
-            return {"text": answer.text, "reason": answer.reason}
-        return None
 
 
 _STATUS_RANK = {

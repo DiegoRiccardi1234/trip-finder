@@ -74,7 +74,19 @@ ballano fra una riga e l'altra e la colonna non si legge più.
 - **Consiglio** (`.advice`): riquadro `--accent-soft` con bordo accento quando
   c'è; `.advice--muto` — trasparente, bordo `--line`, testo `--muted` — quando
   invece si sta dicendo **perché non c'è**. Un'assenza non deve gridare più
-  forte del contenuto.
+  forte del contenuto. Quando manca porta anche un «Riprova» (`.link`): il
+  colore più smorto è un segnale, non un'informazione, e da solo non dice cosa
+  fare.
+- **Numero della scheda** (`.ref`): un quadratino in monospazio nell'angolo alto
+  a sinistra della scheda, in grigio, accento quando la scheda è la migliore.
+  Non è decorazione: è il nome con cui il consiglio la chiama. Lo spazio se lo
+  prende davvero (`.itinerary[data-ref] .tratta { padding-left }`) invece di
+  stare sopra gli orari. Compare a ricerca finita — durante, la classifica si
+  rimescola e un numero ballerino non è un riferimento.
+- **Riferimento nel testo** (`.ref-chip`): lo stesso segno, dentro il consiglio,
+  con il bordo accento perché si può premere. Porta alla scheda e la fa notare
+  per due secondi (`.itinerary.puntata`). È un `<button>` e non un link: non
+  porta altrove, porta più in basso.
 - **Elenco modelli**: una riga per modello, con un pallino colorato come unico
   segnale di stato (verde vivo, rosso morto, arancio penalizzato) e il resto in
   grigio. Il colore qui è informazione: tre righe colorate accanto non si

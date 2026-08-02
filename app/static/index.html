@@ -339,9 +339,13 @@
   </p>
 </section>
 
-<section id="trip-advice" class="advice" hidden></section>
+<!-- `aria-live`: il blocco passa da «sto pensando» al consiglio, o al motivo per
+     cui non c'e', senza che nulla cambi altrove nella pagina. Senza, la
+     transizione e' muta per chi non guarda lo schermo, e nel caso d'errore
+     l'unico segnale visivo e' il colore piu' smorto. -->
+<section id="trip-advice" class="advice" aria-live="polite" hidden></section>
 
-<section id="compare-advice" class="advice" hidden></section>
+<section id="compare-advice" class="advice" aria-live="polite" hidden></section>
 
 <main id="results"></main>
 </section>
@@ -382,7 +386,7 @@
     <div class="providers"></div>
     <p class="filter-line" hidden></p>
     <div class="known-routes" hidden></div>
-    <div class="advice" hidden></div>
+    <div class="advice" aria-live="polite" hidden></div>
     <p class="relaxed" hidden></p>
     <div class="cards"></div>
   </section>
@@ -390,6 +394,7 @@
 
 <template id="trip-template">
   <article class="itinerary">
+    <span class="ref"></span>
     <div class="tratte"></div>
     <div class="trip-foot">
       <div class="price">

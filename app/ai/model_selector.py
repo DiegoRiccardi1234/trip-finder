@@ -71,6 +71,12 @@ PENALTY_WEIGHT = {
     # Il ragionamento al posto della risposta: grave quanto il troncamento,
     # perche' passa ogni altro controllo e finisce a schermo come un parere.
     "garbled": 6.0,
+    # Soluzioni citate che non esistono. Stessa gravita': e' un consiglio che
+    # sembra perfetto e manda a cercare a schermo una scheda che non c'e'.
+    "invented": 6.0,
+    # Un consiglio che non dice di quale soluzione parla: si legge bene e non
+    # si puo' seguire. Meno grave, ma sempre da non mostrare.
+    "unanchored": 4.0,
     "empty": 4.0,
     "rate_limited": 2.0,
     "error": 3.0,

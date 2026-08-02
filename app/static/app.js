@@ -17,6 +17,15 @@ const trattaTemplate = document.getElementById('tratta-template');
 /** Un pannello per combinazione partenza × meta × data. */
 const panels = [];
 
+/**
+ * Cresce a ogni ricerca nuova. Le richieste di consiglio partono a ricerca
+ * conclusa e tornano quando vogliono: senza un numero di generazione da
+ * confrontare al ritorno, quella della ricerca precedente si scriveva sopra i
+ * risultati nuovi. La finestra non è stretta — «Cerca» torna cliccabile prima
+ * che la richiesta parta.
+ */
+let generazione = 0;
+
 /** Quante colonne al massimo: oltre due le schede diventano illeggibili. */
 const MAX_COLUMNS = 2;
 
@@ -1235,6 +1244,7 @@ function startTrip() {
   if (vuota) { say('Manca una meta in una delle tappe.'); return; }
   if (!elenco[0].date) { say('Manca la data di partenza.'); return; }
 
+  generazione += 1;
   panels.forEach((panel) => panel.close());
   panels.length = 0;
   resultsEl.replaceChildren();
@@ -1265,7 +1275,8 @@ function avviaTappa() {
   panels.push(panel);
   // Un consiglio per tappa sì: è la classifica che l'utente ha davanti. Quello
   // sul viaggio intero arriva dopo, quando le tappe sono tutte chiuse.
-  panel.start(buildUrl(panel.combo, { advice: true }));
+  panel.refLetter = String.fromCharCode(65 + viaggio.indice);
+  panel.start(buildUrl(panel.combo));
   relayout();
 }
 
@@ -1273,7 +1284,7 @@ function avviaTappa() {
 function avanzaViaggio() {
   const finita = panels[viaggio.indice];
   if (!finita || finita.running) return;
-  if (finita.endLabel === 'Interrotta') { viaggio = null; return; }
+  if (finita.endLabel === 'Interrotta') { viaggio.interrotto = true; viaggio = null; return; }
 
   const migliore = finita.trips[0];
   const prossima = viaggio.tappe[viaggio.indice + 1];
@@ -1326,51 +1337,29 @@ function chiudiViaggio() {
   viaggio = null;
 }
 
-async function chiediConsiglioViaggio(scelte) {
+function chiediConsiglioViaggio(scelte) {
   if (scelte.length < 2) return;
-  tripAdviceEl.hidden = false;
-  tripAdviceEl.classList.remove('advice--muto');
-  tripAdviceEl.innerHTML = '<h2>Consiglio sul viaggio</h2><p>Sto guardando come stanno insieme le tappe…</p>';
-  const body = {
-    pax: Number(form.elements.pax.value) || 1,
-    with_checked_bag: form.elements.bag.checked,
-    max_budget: Number(form.elements.budget.value) || null,
-    raw_text: form.elements.nl.value.trim() || null,
-    legs: scelte.map(({ tappa, panel }, i) => {
-      const migliore = panel && panel.trips[0];
-      return {
-        label: `Tappa ${i + 1}`,
-        origin: tappa.origin,
-        destination: tappa.destination,
-        date: tappa.date,
-        stay_days: tappa.stay,
-        found: panel ? panel.trips.length : 0,
-        chosen: migliore ? {
-          depart: migliore.depart,
-          arrive: migliore.out.arrive,
-          duration_min: migliore.duration_min,
-          total: Number(migliore.total.toFixed(2)),
-          modes: migliore.modes,
-          operators: migliore.operators,
-          n_changes: migliore.n_changes,
-          n_tickets: migliore.n_tickets,
-          flags: migliore.flags,
-        } : null,
-      };
+  consiglio(
+    tripAdviceEl,
+    'Consiglio sul viaggio',
+    '/api/advice/trip',
+    () => ({
+      ...contestoConsiglio(),
+      legs: scelte.map(({ tappa, panel }, i) => {
+        const migliore = panel && panel.perIA(1)[0];
+        return {
+          label: `Tappa ${i + 1}`,
+          origin: tappa.origin,
+          destination: tappa.destination,
+          date: tappa.date,
+          stay_days: tappa.stay,
+          found: panel ? panel.trips.length : 0,
+          chosen: migliore || null,
+        };
+      }),
     }),
-  };
-  try {
-    const risposta = await fetch('/api/advice/trip', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    const dati = risposta.ok ? await risposta.json() : { reason: 'failed' };
-    if (!dati.text && !motivoDaDire(dati.reason)) { tripAdviceEl.hidden = true; return; }
-    mostraConsiglio(tripAdviceEl, 'Consiglio sul viaggio', dati.text, dati.reason);
-  } catch {
-    mostraConsiglio(tripAdviceEl, 'Consiglio sul viaggio', null, 'failed');
-  }
+    { attesa: 'Sto guardando come stanno insieme le tappe…' },
+  );
 }
 
 /* ------------------------------------------------------------- ricerca --- */
@@ -1434,7 +1423,7 @@ function chosenNodes(field) {
   return [...stops.get(field).chosen].join(',');
 }
 
-function buildUrl(combo, { reverse = false, advice = true } = {}) {
+function buildUrl(combo, { reverse = false } = {}) {
   const data = new FormData(form);
   const modes = data.getAll('mode');
   const origin = reverse ? combo.destination : combo.origin;
@@ -1458,11 +1447,6 @@ function buildUrl(combo, { reverse = false, advice = true } = {}) {
   const to = chosenNodes(destination.field);
   if (from) params.set('origin_nodes', from);
   if (to) params.set('destination_nodes', to);
-  // Un consiglio che nessuno mostrera' e' comunque una richiesta al fornitore,
-  // e sono quelle che insieme facevano scattare il 429. Si chiede solo dove
-  // finisce davvero a schermo: mai sul ritorno (`onAdvice` lo scarta) e mai
-  // con piu' combinazioni, dove parla il confronto.
-  if (!advice) params.set('advice', '0');
   return `/api/search?${params}`;
 }
 
@@ -1503,6 +1487,7 @@ function startSearch(confirmed = false) {
     return;
   }
 
+  generazione += 1;
   panels.forEach((panel) => panel.close());
   panels.length = 0;
   resultsEl.replaceChildren();
@@ -1516,16 +1501,19 @@ function startSearch(confirmed = false) {
   countsEl.textContent = '';
 
   const piuDate = new Set(combos.map((c) => c.date)).size > 1;
-  combos.forEach((combo) => {
+  combos.forEach((combo, index) => {
     const panel = new SearchPanel(combo, {
       roundtrip,
       returnDate: roundtrip ? form.elements.return_date.value : null,
       showDate: piuDate,
     });
+    // Con più colonne il numero da solo non basta: «3» esiste in ognuna. La
+    // lettera dice quale, ed è la stessa che il consiglio scrive fra parentesi.
+    if (combos.length > 1) panel.refLetter = String.fromCharCode(65 + index);
     panels.push(panel);
     panel.start(
-      buildUrl(combo, { advice: combos.length === 1 }),
-      roundtrip ? buildUrl(combo, { reverse: true, advice: false }) : null,
+      buildUrl(combo),
+      roundtrip ? buildUrl(combo, { reverse: true }) : null,
     );
   });
   relayout();
@@ -1554,6 +1542,7 @@ document.getElementById('reset-search').addEventListener('click', resetSearch);
 
 /** Riporta tutto com'era all'apertura, risultati compresi. */
 function resetSearch() {
+  generazione += 1;
   panels.forEach((panel) => panel.close());
   panels.length = 0;
   resultsEl.replaceChildren();
@@ -1608,7 +1597,21 @@ function refreshSummary() {
     return;
   }
   // Il viaggio prosegue: la tappa appena chiusa dice quando parte la prossima.
-  if (viaggio) { avanzaViaggio(); if (viaggio) return; }
+  // `avanzaViaggio` azzera `viaggio` in due casi opposti — il viaggio si è
+  // chiuso bene, oppure è stato interrotto — e distinguerli qui è necessario:
+  // trattando l'interruzione come una fine si finiva a confrontare le tappe
+  // fra loro come se fossero alternative, mentre sono tutte obbligatorie.
+  if (viaggio) {
+    const eraViaggio = viaggio;
+    avanzaViaggio();
+    if (viaggio) return;
+    if (eraViaggio.interrotto) {
+      stopBtn.hidden = true;
+      goBtn.disabled = false;
+      phaseEl.textContent = 'Viaggio interrotto';
+      return;
+    }
+  }
   stopBtn.hidden = true;
   goBtn.disabled = false;
   const interrotte = panels.length && panels.every((panel) => panel.endLabel === 'Interrotta');
@@ -1634,8 +1637,23 @@ const PERCHE_NIENTE_IA = {
   rate_limited: 'Il fornitore ha rifiutato la richiesta (429): troppe in poco tempo.',
   truncated: 'Il modello ha troncato la risposta.',
   garbled: 'Il modello ha risposto col suo ragionamento invece che col consiglio.',
+  invented: 'Il modello ha citato soluzioni che non esistono.',
+  unanchored: 'Il modello non ha detto di quale soluzione parlava.',
   failed: 'Nessun modello ha risposto.',
 };
+
+// Il rimedio, che è un'altra cosa dal motivo. Prima ce n'era uno solo per
+// tutti — «le chiavi si mettono nelle impostazioni» — e compariva anche sul
+// troncamento, cioè quando le chiavi c'erano e funzionavano: un invito a
+// sistemare la cosa sbagliata, e nessun modo di riprovare quella giusta.
+const RIMEDIO_IA = {
+  not_configured: 'Le chiavi si mettono nelle impostazioni.',
+  no_models: 'Scegli un modello nelle impostazioni, o lascia «automatico».',
+  rate_limited: 'Riprova fra poco, oppure aggiungi la chiave di un secondo fornitore.',
+};
+//: Per tutti gli altri: il difetto è del modello, non della configurazione, e
+//: riprovando ne tocca un altro — il server lo ha appena penalizzato.
+const RIMEDIO_MODELLO = 'Ha sbagliato il modello, non la configurazione: riprovando ne tocca un altro.';
 
 /** Vero se il motivo va scritto a schermo. `nothing` no: significa che non
  *  c'era niente da consigliare, e non è colpa dell'IA. */
@@ -1643,24 +1661,220 @@ function motivoDaDire(motivo) {
   return Boolean(motivo) && motivo !== 'nothing';
 }
 
+/** I riferimenti `[3]` / `[B2]` diventano bottoni che portano alla scheda.
+ *
+ *  Si lavora sul testo **già escapato**: il pattern non contiene niente che
+ *  `escapeHtml` possa aver toccato, quindi sostituire dopo è sicuro e non
+ *  reintroduce HTML dal modello. Un riferimento che non trova la sua scheda
+ *  resta testo semplice: meglio un numero muto di un bottone che non porta da
+ *  nessuna parte. */
+function conRiferimenti(escapato) {
+  return escapato.replace(/\[([A-Za-z]{0,2}\d{1,3})\]/g, (intero, ref) => {
+    if (!document.querySelector(`[data-ref="${CSS.escape(ref)}"]`)) return intero;
+    return `<button type="button" class="ref-chip" data-goto="${ref}"
+      title="Vai a questa soluzione">${ref}</button>`;
+  });
+}
+
+/** Toglie il markdown che il modello a volte scrive lo stesso.
+ *
+ *  Il prompt vieta grassetto e titoli, ma un modello che disobbedisce mandava
+ *  a schermo `**così**` con gli asterischi in chiaro: la pagina rende testo
+ *  semplice, non markdown. Si toglie la marcatura e si tiene la parola. */
+function senzaMarcature(testo) {
+  return testo
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/(^|\s)\*(\S[^*]*?)\*(?=[\s.,;:!?)]|$)/g, '$1$2')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/^\s{0,3}#{1,6}\s+/gm, '');
+}
+
 /** Riempie il blocco consiglio: il testo se c'è, altrimenti perché manca.
  *  Il caso «manca» resta smorzato, perché una cornice accesa che dice «non
  *  disponibile» griderebbe più forte del consiglio vero. */
-function mostraConsiglio(el, titolo, testo, motivo) {
-  el.hidden = false;
+function mostraConsiglio(el, titolo, testo, motivo, riprova) {
+  scopri(el);
   el.classList.toggle('advice--muto', !testo);
   if (testo) {
     el.innerHTML = `<h2>${escapeHtml(titolo)}</h2>`
-      + testo.split('\n').filter(Boolean).map((p) => `<p>${escapeHtml(p)}</p>`).join('');
+      + senzaMarcature(testo).split('\n').filter(Boolean)
+        .map((p) => `<p>${conRiferimenti(escapeHtml(p))}</p>`).join('');
     return;
   }
   const perche = PERCHE_NIENTE_IA[motivo] || PERCHE_NIENTE_IA.failed;
-  const rimedio = motivo === 'rate_limited'
-    ? 'Riprova fra poco, oppure aggiungi la chiave di un secondo fornitore.'
-    : 'Le chiavi si mettono nelle impostazioni.';
+  const rimedio = RIMEDIO_IA[motivo] || RIMEDIO_MODELLO;
+  const link = RIMEDIO_IA[motivo] && motivo !== 'rate_limited'
+    ? ' <a href="#impostazioni">Apri le impostazioni</a>'
+    : '';
   el.innerHTML = `<h2>${escapeHtml(titolo)} non disponibile</h2>`
-    + `<p>${escapeHtml(perche)} ${escapeHtml(rimedio)} `
-    + '<a href="#impostazioni">Apri le impostazioni</a></p>';
+    + `<p>${escapeHtml(perche)} ${escapeHtml(rimedio)}${link}</p>`
+    + (riprova ? '<p><button type="button" class="link riprova-ia">Riprova</button></p>' : '');
+  if (riprova) el.querySelector('.riprova-ia').addEventListener('click', riprova);
+}
+
+// Il clic su un riferimento porta alla sua scheda e la fa notare per un attimo.
+// È il pezzo che rende il consiglio verificabile: leggi «la [4] costa 120,80»,
+// clicchi, e hai davanti la scheda con quel prezzo scritto sopra.
+document.addEventListener('click', (event) => {
+  const chip = event.target.closest('.ref-chip[data-goto]');
+  if (!chip) return;
+  const scheda = document.querySelector(`[data-ref="${CSS.escape(chip.dataset.goto)}"]`);
+  if (!scheda) return;
+  scheda.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  scheda.classList.remove('puntata');
+  // Riavvia l'animazione anche al secondo clic sullo stesso riferimento:
+  // togliere la classe non basta se il browser non ha ancora ridisegnato.
+  void scheda.offsetWidth;
+  scheda.classList.add('puntata');
+  setTimeout(() => scheda.classList.remove('puntata'), 2000);
+});
+
+/** Mostra un blocco senza scavalcare una colonna chiusa a mano.
+ *
+ *  `collapse` ricorda com'era ogni figlio per rimetterlo com'era: un blocco
+ *  che si accendeva da solo dentro una colonna chiusa veniva ricordato come
+ *  «era nascosto», e alla riapertura spariva per sempre. */
+function scopri(el) {
+  const pannello = el.closest('.panel');
+  if (pannello && pannello.querySelector('.toggle-panel').getAttribute('aria-expanded') === 'false') {
+    el.dataset.eraNascosto = 'false';
+    return;
+  }
+  el.hidden = false;
+}
+
+/* --------------------------------------------------------- i tre consigli --- */
+
+//: Quanto si aspetta prima del tentativo automatico. Il server ha appena
+//: penalizzato la coppia (fornitore, modello) che ha fallito, quindi il
+//: secondo tentativo non ripete lo stesso errore — ma la penalità va scritta
+//: sul database e un attimo di respiro evita anche il throttle dell'host.
+const RESPIRO_RIPROVA = 3000;
+
+/** Chiede un consiglio, lo scrive, e se fallisce riprova una volta sola.
+ *
+ *  Una funzione per tutti e tre i consigli: prima ce n'erano tre, ognuna con
+ *  la sua idea di cosa fare quando la risposta non arriva. */
+async function consiglio(el, titolo, url, corpo, { attesa, automatico = true } = {}) {
+  const gen = generazione;
+  const rifai = () => consiglio(el, titolo, url, corpo, { attesa, automatico: true });
+  scopri(el);
+  el.classList.remove('advice--muto');
+  el.innerHTML = `<h2>${escapeHtml(titolo)}</h2><p>${escapeHtml(attesa)}</p>`;
+
+  let dati;
+  try {
+    const risposta = await fetch(url, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(corpo()),
+    });
+    dati = risposta.ok ? await risposta.json() : { reason: 'failed' };
+  } catch {
+    // La rete è caduta a metà: anche questo si dice, invece di far sparire il
+    // blocco che un attimo prima diceva «sto pensando».
+    dati = { reason: 'failed' };
+  }
+  if (gen !== generazione) return;
+
+  if (dati.text) { mostraConsiglio(el, titolo, dati.text, ''); return; }
+  if (!motivoDaDire(dati.reason)) { el.hidden = true; el.innerHTML = ''; return; }
+
+  // Un tentativo automatico, uno solo. Non sui motivi che riprovare non può
+  // risolvere: senza chiavi non c'è modello da provare, e insistere su un 429
+  // è esattamente il burst che lo ha causato.
+  if (automatico && !['not_configured', 'no_models', 'rate_limited'].includes(dati.reason)) {
+    el.innerHTML = `<h2>${escapeHtml(titolo)}</h2>`
+      + `<p>${escapeHtml(PERCHE_NIENTE_IA[dati.reason] || '')} Riprovo con un altro modello…</p>`;
+    await new Promise((ok) => setTimeout(ok, RESPIRO_RIPROVA));
+    if (gen !== generazione) return;
+    await consiglio(el, titolo, url, corpo, { attesa, automatico: false });
+    return;
+  }
+  mostraConsiglio(el, titolo, null, dati.reason, rifai);
+}
+
+/** Il corpo comune a tutte le richieste di consiglio. */
+function contestoConsiglio() {
+  return {
+    pax: Number(form.elements.pax.value) || 1,
+    with_checked_bag: form.elements.bag.checked,
+    max_budget: Number(form.elements.budget.value) || null,
+    raw_text: form.elements.nl.value.trim() || null,
+  };
+}
+
+/** Una soluzione come la vede il modello: gli stessi numeri della scheda.
+ *
+ *  `ref` è il numero scritto sulla scheda, ed è tutto il punto: è così che il
+ *  consiglio può dire «la [3]» e chi legge sa quale guardare. La durata del
+ *  ritorno va a parte — sommarla a quella dell'andata e spedirla con gli orari
+ *  della sola andata dava al modello un numero che a schermo non esisteva. */
+function opzionePerIA(trip, ref) {
+  return {
+    ref,
+    depart: trip.depart,
+    arrive: trip.out.arrive,
+    duration_min: trip.out.duration_min,
+    total: Number(trip.total.toFixed(2)),
+    modes: trip.modes,
+    operators: trip.operators,
+    n_changes: trip.n_changes,
+    n_tickets: trip.n_tickets,
+    flags: trip.flags,
+    notes: noteDaSapere(trip),
+    return_depart: trip.back ? trip.back.depart : null,
+    return_arrive: trip.back ? trip.back.arrive : null,
+    return_duration_min: trip.back ? trip.back.duration_min : null,
+  };
+}
+
+/** Quello che la scheda dice nel dettaglio e il totale da solo non dice.
+ *
+ *  Un prezzo «a partire da» e una tariffa scontata sono condizioni, non
+ *  numeri: il modello che vede solo il totale li presenta come definitivi
+ *  mentre la scheda, aperta, avverte. */
+function noteDaSapere(trip) {
+  const note = new Set();
+  for (const itinerary of [trip.out, trip.back]) {
+    for (const leg of (itinerary && itinerary.legs) || []) {
+      for (const nota of leg.notes || []) note.add(nota);
+    }
+    for (const riga of ((itinerary && itinerary.cost) || {}).lines || []) {
+      if (riga.label && riga.label.includes('dichiarato da te')) {
+        note.add(`sconto ${riga.label}: non verificato con l'operatore`);
+      }
+    }
+  }
+  return [...note].slice(0, 8);
+}
+
+/** Il consiglio su una classifica sola: quella che si sta guardando. */
+function chiediConsiglio(panel) {
+  if (!panel.trips.length) return;
+  consiglio(
+    // Non più «Consiglio sull'andata»: il titolo diceva a metà una verità che
+    // adesso è intera, perché il modello vede la coppia come la vedi tu.
+    panel.adviceEl,
+    'Consiglio',
+    '/api/advice',
+    () => ({
+      ...contestoConsiglio(),
+      label: panel.title,
+      origin: panel.combo.origin.value,
+      destination: panel.combo.destination.value,
+      date: panel.combo.date,
+      return_date: panel.options.returnDate,
+      depart_after: form.elements.depart_after.value || null,
+      arrive_by: form.elements.arrive_by.value || null,
+      allow_night: form.elements.allow_night.checked,
+      found: panel.trips.length,
+      partial: panel.endLabel === 'Interrotta',
+      relaxed: panel.relaxed,
+      options: panel.perIA(5),
+    }),
+    { attesa: 'Sto guardando le soluzioni…' },
+  );
 }
 
 /* ------------------------------------------- consiglio che mette a confronto */
@@ -1668,58 +1882,29 @@ function mostraConsiglio(el, titolo, testo, motivo) {
 // Con due o piu' combinazioni i consigli per colonna non servono: ciascuno vede
 // solo la propria classifica e nessuno puo' dire "vai a Palermo, costa 30 euro
 // meno". Si chiede quindi un consiglio solo, che li confronta.
-async function askCompare() {
+function askCompare() {
   const utili = panels.filter((panel) => panel.trips.length);
   if (utili.length < 2) return;
-  compareEl.hidden = false;
-  compareEl.classList.remove('advice--muto');
-  compareEl.innerHTML = '<h2>Consiglio</h2><p>Sto confrontando le possibilità…</p>';
-
-  const body = {
-    pax: Number(form.elements.pax.value) || 1,
-    with_checked_bag: form.elements.bag.checked,
-    max_budget: Number(form.elements.budget.value) || null,
-    raw_text: form.elements.nl.value.trim() || null,
-    candidates: utili.map((panel) => ({
-      label: panel.title,
-      origin: panel.combo.origin.value,
-      destination: panel.combo.destination.value,
-      date: panel.combo.date,
-      return_date: panel.options.returnDate,
-      options: panel.trips.slice(0, 5).map((trip) => ({
-        depart: trip.depart,
-        arrive: trip.out.arrive,
-        duration_min: trip.duration_min,
-        total: Number(trip.total.toFixed(2)),
-        modes: trip.modes,
-        operators: trip.operators,
-        n_changes: trip.n_changes,
-        n_tickets: trip.n_tickets,
-        flags: trip.flags,
-        return_depart: trip.back ? trip.back.depart : null,
-        return_arrive: trip.back ? trip.back.arrive : null,
+  consiglio(
+    compareEl,
+    'Consiglio',
+    '/api/advice/compare',
+    () => ({
+      ...contestoConsiglio(),
+      candidates: utili.map((panel) => ({
+        label: panel.title,
+        origin: panel.combo.origin.value,
+        destination: panel.combo.destination.value,
+        date: panel.combo.date,
+        return_date: panel.options.returnDate,
+        found: panel.trips.length,
+        partial: panel.endLabel === 'Interrotta',
+        relaxed: panel.relaxed,
+        options: panel.perIA(5),
       })),
-    })),
-  };
-
-  try {
-    const response = await fetch('/api/advice/compare', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    const data = response.ok ? await response.json() : { reason: 'failed' };
-    if (!data.text && !motivoDaDire(data.reason)) {
-      compareEl.hidden = true;
-      compareEl.innerHTML = '';
-      return;
-    }
-    mostraConsiglio(compareEl, 'Consiglio', data.text, data.reason);
-  } catch {
-    // La rete è caduta a metà: anche questo si dice, invece di far sparire il
-    // blocco che un attimo prima diceva «sto confrontando».
-    mostraConsiglio(compareEl, 'Consiglio', null, 'failed');
-  }
+    }),
+    { attesa: 'Sto confrontando le possibilità…' },
+  );
 }
 
 /* ------------------------------------------------ coppie andata/ritorno --- */
@@ -1815,6 +2000,20 @@ class SearchPanel {
     this.countText = '';
     this.sort = lastSort;
     this.modeFilter = '';
+    /** I vincoli che il motore ha messo da parte, come arrivano dal server. */
+    this.relaxed = [];
+    /**
+     * Il numero scritto sulla scheda, per `trip.id`. Si assegna una volta
+     * sola, a ricerca finita e in ordine di punteggio, e da lì non cambia
+     * più: è quello che permette a un consiglio già scritto di continuare a
+     * puntare alla soluzione giusta anche dopo che si è riordinato per prezzo
+     * o filtrato il mezzo. Numerare la posizione a schermo, invece, farebbe
+     * scivolare il consiglio sulla scheda sbagliata al primo riordino.
+     */
+    this.refs = new Map();
+    /** La lettera della colonna: serve solo quando le colonne sono più d'una,
+     *  perché lì «3» da solo non dice in quale classifica. */
+    this.refLetter = '';
     /** Le schede aperte restano aperte quando la classifica si aggiorna. */
     this.expanded = new Set();
     this.providerState = new Map();
@@ -1888,6 +2087,24 @@ class SearchPanel {
     return Boolean(this.streams.out || this.streams.back);
   }
 
+  /** Fissa i numeri delle schede. Idempotente: chi ha già il suo lo tiene. */
+  numera() {
+    const perPunteggio = [...this.trips].sort((a, b) => b.score - a.score);
+    for (const trip of perPunteggio) {
+      if (!this.refs.has(trip.id)) {
+        this.refs.set(trip.id, `${this.refLetter}${this.refs.size + 1}`);
+      }
+    }
+  }
+
+  /** Le prime `quante` soluzioni per punteggio, come le vede il modello. */
+  perIA(quante) {
+    return [...this.trips]
+      .sort((a, b) => b.score - a.score)
+      .slice(0, quante)
+      .map((trip) => opzionePerIA(trip, this.refs.get(trip.id) || ''));
+  }
+
   /** Chiude o riapre il contenuto, lasciando la testata al suo posto. */
   collapse(chiudi) {
     this.chiuso = chiudi;
@@ -1934,7 +2151,6 @@ class SearchPanel {
     stream.addEventListener('known_routes', parse(this.onKnownRoutes));
     stream.addEventListener('provider', parse(this.onProvider));
     stream.addEventListener('itineraries', parse(this.onItineraries));
-    stream.addEventListener('advice', parse(this.onAdvice));
     stream.addEventListener('error', (event) => {
       if (!event.data) return;
       const payload = JSON.parse(event.data);
@@ -1962,7 +2178,19 @@ class SearchPanel {
     }
     this.endLabel = this.trips.length ? 'Completata' : 'Nessuna soluzione';
     this.phaseText = this.endLabel;
+    // I numeri si fissano qui, non a ogni ondata di risultati: durante la
+    // ricerca la classifica si rimescola, e un numero che cambia sotto gli
+    // occhi non è un riferimento.
+    this.numera();
+    this.render();
     this.syncMeta();
+    // Il consiglio di questa colonna. Con più colonne parallele parla invece
+    // il confronto, che le vede tutte insieme (`askCompare`); le tappe di un
+    // viaggio non sono colonne parallele — sono in sequenza, e ognuna ha la
+    // sua classifica da commentare.
+    if (this.options.stageIndex !== undefined || panels.length === 1) {
+      chiediConsiglio(this);
+    }
     refreshSummary();
   }
 
@@ -1978,6 +2206,11 @@ class SearchPanel {
     this.close();
     this.endLabel = label;
     this.phaseText = label;
+    // Anche una classifica interrotta è una classifica: le sue schede vanno
+    // numerate, o un confronto che le include (una colonna ferma e una finita)
+    // manderebbe al modello soluzioni senza nome.
+    this.numera();
+    this.render();
     this.syncMeta();
   }
 
@@ -2079,6 +2312,10 @@ class SearchPanel {
    * riga si leggono orari che si era chiesto di escludere, e l'unico indizio
    * resta il consiglio dell'IA, che e' opzionale e non sempre lo nota. */
   showRelaxed(relaxed) {
+    // Si tengono anche per il consiglio: il modello leggeva «budget massimo
+    // 120 euro» sopra una lista che lo sforava tutta, e non aveva modo di
+    // accorgersene.
+    this.relaxed = relaxed || [];
     if (!relaxed || !relaxed.length) { this.relaxedEl.hidden = true; return; }
     const detto = {
       depart_after: (v) => `partenza dopo le ${v}`,
@@ -2098,19 +2335,6 @@ class SearchPanel {
     this.relaxedEl.hidden = false;
     this.relaxedEl.textContent = `Nessuna soluzione rispetta ${elenco}: `
       + `qui sotto ci sono le migliori senza ${quel}.`;
-  }
-
-  onAdvice(data, which) {
-    // Con piu' combinazioni il consiglio e' uno solo, in cima, e confronta:
-    // due consigli per colonna non potrebbero dirsi niente a vicenda.
-    if (which !== 'out' || panels.length > 1 || !data) return;
-    if (!data.text && !motivoDaDire(data.reason)) return;
-    mostraConsiglio(
-      this.adviceEl,
-      `Consiglio${this.options.roundtrip ? ' sull\'andata' : ''}`,
-      data.text,
-      data.reason,
-    );
   }
 
   /* ----------------------------------------------------- resa risultati --- */
@@ -2177,6 +2401,19 @@ class SearchPanel {
     const node = tripTemplate.content.firstElementChild.cloneNode(true);
     if (isBest) node.classList.add('best');
     if (trip.is_new) node.classList.add('fresh');
+
+    // Il numero della scheda. Finché la ricerca gira non c'è: la classifica si
+    // rimescola a ogni ondata e un numero ballerino sarebbe peggio di nessun
+    // numero. Compare a ricerca finita, insieme al consiglio che lo cita.
+    const ref = this.refs.get(trip.id);
+    const refEl = node.querySelector('.ref');
+    if (ref) {
+      node.dataset.ref = ref;
+      refEl.textContent = ref;
+      refEl.setAttribute('aria-label', `Soluzione ${ref}`);
+    } else {
+      refEl.remove();
+    }
 
     const tratte = node.querySelector('.tratte');
     tratte.appendChild(tratta(trip.out, trip.back ? 'andata' : ''));

@@ -27,6 +27,7 @@ import asyncio
 import logging
 import time
 from collections import deque
+from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 
@@ -65,9 +66,13 @@ NO_MODELS = "no_models"
 RATE_LIMITED = "rate_limited"
 TRUNCATED = "truncated"
 GARBLED = "garbled"
+INVENTED = "invented"
+UNANCHORED = "unanchored"
 FAILED = "failed"
 #: L'eccezione: non c'era niente da dire. Nessun itinerario da consigliare, o
-#: una sola possibilita' da confrontare. Non riguarda l'IA e non va mostrato.
+#: una sola possibilita' da confrontare. Non riguarda l'IA, e la pagina lo
+#: riconosce per tacere invece di scrivere "consiglio non disponibile"
+#: (`motivoDaDire` in `app/static/app.js`).
 NOTHING = "nothing"
 
 #: Gli stessi motivi, detti a chi legge. Stanno qui e non nell'interfaccia
@@ -79,20 +84,14 @@ WHY = {
     RATE_LIMITED: "il fornitore ha rifiutato la richiesta (429)",
     TRUNCATED: "il modello ha troncato la risposta",
     GARBLED: "il modello ha risposto con il suo ragionamento invece che con il consiglio",
+    INVENTED: "il modello ha citato soluzioni che non esistono",
+    UNANCHORED: "il modello non ha detto di quale soluzione parla",
     FAILED: "nessun modello ha risposto",
 }
 
 
 def why(reason: str) -> str:
     return WHY.get(reason, WHY[FAILED])
-
-
-def worth_saying(reason: str) -> bool:
-    """Vero se il motivo va portato a schermo.
-
-    `NOTHING` no: una ricerca senza risultati si spiega da sola, e scriverci
-    sopra "consiglio non disponibile" sposterebbe la colpa sull'IA."""
-    return bool(reason) and reason != NOTHING
 
 
 #: Un lock per fornitore. Le chiamate all'IA di una ricerca partono insieme (un
@@ -285,14 +284,29 @@ async def complete(
     temperature: float = 0.2,
     json_mode: bool = False,
     cache_key: str | None = None,
+    check: Callable[[str], str] | None = None,
 ) -> Answer:
     """Prova le coppie (fornitore, modello) in ordine finche' una risponde bene.
 
     Le chiamate allo stesso fornitore vanno in fila (`_LOCKS`) e un 429 fa
     riaspettare **lo stesso** modello invece di scartarlo subito: sono le due
-    correzioni al burst che aveva zittito l'IA."""
+    correzioni al burst che aveva zittito l'IA.
+
+    `check` e' un controllo che conosce la richiesta e questo modulo no: gli si
+    passa il testo e risponde con il motivo dello scarto, o stringa vuota se va
+    bene. Serve a chi puo' verificare la risposta contro i dati che ha mandato
+    — per esempio che le soluzioni citate esistano davvero. Uno scarto qui vale
+    come un troncamento: penalita' alla coppia e modello successivo."""
     if not is_configured():
         return Answer(reason=NOT_CONFIGURED)
+
+    def scartabile(text: str) -> str:
+        """Il motivo per cui questo testo non va mostrato, o stringa vuota."""
+        if json_mode:
+            return ""  # un JSON non e' in italiano e non cita soluzioni
+        if sembra_ragionamento(text):
+            return GARBLED
+        return check(text) if check else ""
 
     if cache_key:
         cached = await cache.get(cache_key)
@@ -300,9 +314,7 @@ async def complete(
         # ieri resta sbagliata oggi, e servirla senza guardarla vuol dire che il
         # controllo non protegge proprio il caso in cui costa di piu': quello
         # che si ripete uguale a ogni ricarica.
-        if cached and not (
-            not json_mode and sembra_ragionamento(str(cached.get("text", "")))
-        ):
+        if cached and not scartabile(str(cached.get("text", ""))):
             # Le voci scritte prima del multi-fornitore non hanno il campo:
             # vale la pena leggerle lo stesso invece di buttare la cache.
             return Answer(
@@ -314,7 +326,9 @@ async def complete(
                 )
             )
         if cached:
-            logger.info("scarto una risposta in cache: e' ragionamento, non consiglio")
+            logger.info(
+                "scarto una risposta in cache (%s)", scartabile(str(cached.get("text", "")))
+            )
 
     candidates = await model_selector.rank_candidates(task)
     if not candidates:
@@ -383,12 +397,13 @@ async def complete(
             continue
         # Solo sul testo discorsivo: un JSON non e' in italiano e non deve
         # esserlo, e passarlo di qui lo boccerebbe sempre.
-        if not json_mode and sembra_ragionamento(text):
-            await model_selector.record_penalty(model, GARBLED, provider=provider.name)
+        problema = scartabile(text)
+        if problema:
+            await model_selector.record_penalty(model, problema, provider=provider.name)
             logger.info(
-                "%s/%s ha risposto col ragionamento: %r", provider.name, model, text[:80]
+                "%s/%s scartato (%s): %r", provider.name, model, problema, text[:80]
             )
-            last_reason, last_detail = GARBLED, f"{provider.name}/{model}"
+            last_reason, last_detail = problema, f"{provider.name}/{model}"
             continue
 
         completion = Completion(

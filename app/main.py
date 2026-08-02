@@ -28,6 +28,7 @@ from app.config import get_settings
 from app.geo.resolver import PlaceNotFound, get_resolver
 from app.models import (
     BOOKABLE_MODES,
+    AdviceRequest,
     CompareRequest,
     Discount,
     Mode,
@@ -179,10 +180,6 @@ async def search(
     origin_nodes: str | None = None,
     destination_nodes: str | None = None,
     use_discounts: bool = True,
-    #: La pagina lo spegne quando sta lanciando piu' combinazioni: quel
-    #: consiglio lo dara' il confronto, e una richiesta in meno per colonna e'
-    #: una in meno nello stesso secondo verso lo stesso fornitore.
-    advice: bool = True,
 ) -> EventSourceResponse:
     selected = {
         Mode(value.strip())
@@ -221,7 +218,7 @@ async def search(
     )
 
     async def stream() -> AsyncIterator[dict[str, str]]:
-        async for event in SearchService(with_advice=advice).run(query):
+        async for event in SearchService().run(query):
             yield event.as_sse()
 
     return EventSourceResponse(stream())
@@ -408,6 +405,28 @@ async def resolve(q: str = Query(min_length=2)) -> JSONResponse:
     except PlaceNotFound as exc:
         raise HTTPException(404, str(exc)) from exc
     return JSONResponse(place.model_dump(mode="json"))
+
+
+@app.post("/api/advice")
+async def advice(request: AdviceRequest) -> dict:
+    """Il consiglio su una classifica sola, chiesto dalla pagina.
+
+    Prima nasceva dentro la ricerca e viaggiava con l'evento `advice`. Cosi'
+    pero' il consiglio vedeva quello che vedeva il **motore**, non quello che
+    vede chi guarda: su un'andata e ritorno commentava i prezzi della sola
+    andata sotto schede che mostravano il totale, e numerava soluzioni che a
+    schermo non avevano numero. Chiedendolo dalla pagina il problema non si
+    corregge: non esiste. In piu' e' l'unico modo per avere un «Riprova» che
+    faccia davvero qualcosa."""
+    from app.ai import client
+    from app.ai.advisor import advise
+
+    try:
+        answer = await advise(request)
+    except Exception:  # noqa: BLE001 - un consiglio mancante non rompe la pagina
+        logger.debug("consiglio non disponibile", exc_info=True)
+        answer = client.Answer(reason=client.FAILED)
+    return {"text": answer.text or None, "reason": answer.reason}
 
 
 @app.post("/api/advice/compare")

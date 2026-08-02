@@ -9,16 +9,35 @@ danno errore, danno risultati sbagliati.
 from __future__ import annotations
 
 import asyncio
-from datetime import date, time
+import re
+from datetime import date, datetime, time
 from types import SimpleNamespace
 
 import pytest
 
 from app import config
-from app.ai import anthropic_client, client, endpoint_health, model_selector, nl_query, providers
+from app.ai import (
+    advisor,
+    anthropic_client,
+    client,
+    endpoint_health,
+    model_selector,
+    nl_query,
+    providers,
+)
 from app.ai.client import _extract_json
 from app.config import get_settings
-from app.models import Mode, TripStage, chain_dates
+from app.models import (
+    RISK_TEXT,
+    AdviceCandidate,
+    AdviceOption,
+    AdviceRequest,
+    CompareRequest,
+    Mode,
+    RiskFlag,
+    TripStage,
+    chain_dates,
+)
 
 
 @pytest.fixture
@@ -720,13 +739,297 @@ async def test_le_chiamate_allo_stesso_fornitore_vanno_in_fila(catena) -> None:
     assert massimo == 1
 
 
-def test_il_niente_da_dire_resta_muto() -> None:
-    """L'unico motivo che non si scrive: una ricerca senza risultati si spiega da
-    sola, e «consiglio non disponibile» sposterebbe la colpa sull'IA."""
-    assert client.worth_saying(client.RATE_LIMITED)
-    assert client.worth_saying(client.NOT_CONFIGURED)
-    assert not client.worth_saying(client.NOTHING)
-    assert not client.worth_saying("")
+def test_ogni_motivo_ha_la_sua_frase() -> None:
+    """I motivi arrivano fino a schermo e sono cose diverse: «manca la chiave» e
+    «il fornitore ha rifiutato» si risolvono in due modi. Un motivo senza frase
+    diventerebbe in silenzio «nessun modello ha risposto»."""
+    motivi = {
+        client.NOT_CONFIGURED, client.NO_MODELS, client.RATE_LIMITED,
+        client.TRUNCATED, client.GARBLED, client.INVENTED, client.UNANCHORED,
+        client.FAILED,
+    }
+    assert motivi <= set(client.WHY)
+    # `nothing` non e' un guasto e non ha frase: lo riconosce la pagina, per
+    # tacere invece di dare la colpa all'IA.
+    assert client.NOTHING not in client.WHY
+
+
+# ------------------------------------------- il consiglio dice di quale parla
+#
+# Il difetto da cui nasce tutto: il modello scriveva «la Torino → Matera 4,
+# 120,80 euro» e a schermo nessun 4 esisteva. La numerazione viveva solo dentro
+# il prompt, quindi non era verificabile e nessuno poteva accorgersi che fosse
+# sbagliata.
+
+
+def _opzione(ref: str, **extra) -> AdviceOption:
+    base = {
+        "ref": ref,
+        "depart": datetime(2026, 8, 7, 18, 30),
+        "arrive": datetime(2026, 8, 8, 8, 45),
+        "duration_min": 855,
+        "total": 80.0,
+        "modes": ["bus"],
+        "operators": ["Marino Autolinee"],
+        "n_changes": 0,
+        "n_tickets": 1,
+    }
+    return AdviceOption(**{**base, **extra})
+
+
+def _richiesta(**extra) -> AdviceRequest:
+    base = {
+        "origin": "Torino",
+        "destination": "Matera",
+        "date": date(2026, 8, 7),
+        "options": [_opzione("1"), _opzione("2", total=24.98)],
+        "found": 25,
+    }
+    return AdviceRequest(**{**base, **extra})
+
+
+@pytest.fixture
+def prompt_visto(monkeypatch):
+    """Cattura il prompt spedito, senza chiamare nessun modello."""
+    visti: list[str] = []
+
+    async def complete(task, system, user, **kwargs):
+        visti.append(f"{system}\n---\n{user}")
+        return client.Answer(
+            completion=client.Completion(text="Prenderei la [1].", model="m", finish_reason="stop")
+        )
+
+    monkeypatch.setattr(client, "complete", complete)
+    monkeypatch.setattr(client, "is_configured", lambda: True)
+    return visti
+
+
+async def test_ogni_soluzione_arriva_al_modello_col_numero_della_scheda(prompt_visto) -> None:
+    """Il riferimento e' il numero scritto sulla scheda: e' l'unico modo che ha
+    il modello di nominare una soluzione in modo verificabile."""
+    await advisor.advise(_richiesta())
+
+    assert "[1] 07/08 18:30" in prompt_visto[0]
+    assert "[2] 07/08 18:30" in prompt_visto[0]
+
+
+async def test_il_modello_sa_quante_soluzioni_ci_sono_davvero(prompt_visto) -> None:
+    """Ne vedeva sei e le credeva tutte: «e' l'unica sotto i 50 euro» era falso
+    rispetto alle altre diciannove che l'utente poteva scorrere."""
+    await advisor.advise(_richiesta())
+
+    assert "le prime 2 per punteggio, su 25 trovate" in prompt_visto[0]
+
+
+async def test_l_arrivo_del_giorno_dopo_porta_la_sua_data(prompt_visto) -> None:
+    """La scheda scrive `+1`. Il prompt scriveva la sola ora, e un arrivo alle
+    08:45 del giorno dopo diventava un arrivo in giornata."""
+    await advisor.advise(_richiesta())
+
+    assert "18:30 - 08/08 08:45" in prompt_visto[0]
+
+
+async def test_i_vincoli_saltati_arrivano_al_modello(prompt_visto) -> None:
+    """Il difetto piu' pericoloso della famiglia: la pagina dichiara che nessuna
+    soluzione rispetta il budget, il prompt continuava a dire «budget massimo
+    120 euro» sopra una lista che lo sforava tutta."""
+    await advisor.advise(
+        _richiesta(max_budget=120, relaxed=[{"kind": "max_budget", "value": 120}])
+    )
+
+    assert "ATTENZIONE" in prompt_visto[0]
+    assert "budget massimo 120 euro" in prompt_visto[0]
+
+
+async def test_il_budget_e_detto_a_persona(prompt_visto) -> None:
+    """Il motore filtra per persona. Senza dirlo, il modello moltiplicava per i
+    passeggeri e annunciava uno sforamento che non c'era."""
+    await advisor.advise(_richiesta(max_budget=120, pax=3))
+
+    assert "Budget massimo: 120 euro a persona" in prompt_visto[0]
+
+
+async def test_gli_avvisi_arrivano_in_italiano(prompt_visto) -> None:
+    """`last_leg_unverified` dentro un prompt italiano non e' un avviso, e' un
+    codice: a schermo l'utente legge una frase compiuta."""
+    await advisor.advise(
+        _richiesta(options=[_opzione("1", flags=["separate_tickets"]), _opzione("2")])
+    )
+
+    assert "biglietti separati" in prompt_visto[0]
+    assert "separate_tickets" not in prompt_visto[0]
+
+
+async def test_l_andata_e_ritorno_non_somma_le_durate(prompt_visto) -> None:
+    """La pagina mandava gli orari della sola andata con la durata di andata +
+    ritorno: un numero che a schermo non compariva da nessuna parte."""
+    await advisor.advise(
+        _richiesta(
+            options=[
+                _opzione(
+                    "1",
+                    return_depart=datetime(2026, 8, 10, 9, 0),
+                    return_arrive=datetime(2026, 8, 10, 14, 30),
+                    return_duration_min=330,
+                ),
+                _opzione("2"),
+            ]
+        )
+    )
+
+    assert "(14h15)" in prompt_visto[0]  # l'andata, non la somma
+    assert "ritorno 10/08 09:00 - 10/08 14:30 (5h30)" in prompt_visto[0]
+
+
+async def test_le_differenze_arrivano_gia_calcolate(prompt_visto) -> None:
+    """Il modello sbaglia le sottrazioni: a schermo ha scritto «ti fa
+    risparmiare quasi due ore» fra 12h35 e 12h30. I dati erano giusti, il conto
+    no — quindi il conto non glielo si fa fare."""
+    await advisor.advise(
+        _richiesta(
+            options=[
+                _opzione("1", total=80.0, duration_min=855),  # 14h15
+                _opzione("2", total=74.60, duration_min=750),  # 12h30
+            ]
+        )
+    )
+
+    assert "la più economica e la più rapida" in prompt_visto[0]
+    assert "+5,40 euro della più economica, +1h45 della più rapida" in prompt_visto[0]
+
+
+async def test_i_pari_merito_sono_entrambi_i_migliori(prompt_visto) -> None:
+    """Confrontando gli oggetti invece dei valori, la seconda soluzione dallo
+    stesso prezzo sarebbe risultata «piu' cara di zero euro» della prima."""
+    await advisor.advise(
+        _richiesta(options=[_opzione("1", total=24.98), _opzione("2", total=24.98)])
+    )
+
+    assert prompt_visto[0].count("la più economica") == 2
+
+
+async def test_su_andata_e_ritorno_il_confronto_guarda_il_viaggio_intero(
+    prompt_visto,
+) -> None:
+    """Nella riga le due tratte restano separate — sommarle produceva un numero
+    che a schermo non c'era — ma per dire quale dura di meno contano insieme."""
+    await advisor.advise(
+        _richiesta(
+            options=[
+                _opzione(
+                    "1",
+                    duration_min=60,
+                    return_depart=datetime(2026, 8, 10, 9, 0),
+                    return_arrive=datetime(2026, 8, 10, 15, 0),
+                    return_duration_min=360,  # sei ore di ritorno: in tutto 7h
+                ),
+                _opzione("2", duration_min=120, total=99.0),  # due ore in tutto
+            ]
+        )
+    )
+
+    assert "la più economica, +5h00 della più rapida" in prompt_visto[0]
+
+
+async def test_una_soluzione_citata_che_non_esiste_fa_scartare_la_risposta(catena) -> None:
+    """La rete di sicurezza contro il difetto originale. Un riferimento
+    inventato non e' un dettaglio di stile: manda a cercare a schermo una
+    scheda che non c'e'."""
+    tentativi: list[str] = []
+
+    async def chiamata(provider, model, *args, **kwargs):
+        tentativi.append(model)
+        if len(tentativi) == 1:
+            return "Prenderei senza dubbio la [9], costa poco.", "stop"
+        return "Prenderei la [1], e' la piu' comoda.", "stop"
+
+    spia = catena(chiamata)
+    risposta = await advisor.advise(_richiesta())
+
+    assert risposta.ok
+    assert "[1]" in risposta.text
+    assert spia.penalita == [("groq", "modello-0", client.INVENTED)]
+
+
+async def test_un_consiglio_che_non_nomina_nessuna_soluzione_si_scarta(catena) -> None:
+    """«Io sceglierei l'opzione con Ryanair» con due voli Ryanair non si puo'
+    seguire: e' il difetto visto a schermo, non una sfumatura."""
+    async def chiamata(provider, model, *args, **kwargs):
+        return "Sceglierei l'opzione con Ryanair, arriva prima di tutte.", "stop"
+
+    spia = catena(chiamata, quanti=2)
+    risposta = await advisor.advise(_richiesta())
+
+    assert not risposta.ok
+    assert risposta.reason == client.UNANCHORED
+    assert len(spia.penalita) == 2
+
+
+async def test_con_una_sola_soluzione_non_serve_nominarla(catena) -> None:
+    """Non c'e' ambiguita' da sciogliere: pretendere il riferimento butterebbe
+    un consiglio valido."""
+    async def chiamata(provider, model, *args, **kwargs):
+        return "E' l'unica soluzione trovata: parte alle 18:30 e costa 80 euro.", "stop"
+
+    catena(chiamata)
+    risposta = await advisor.advise(_richiesta(options=[_opzione("1")]))
+
+    assert risposta.ok
+
+
+def test_la_chiave_del_confronto_tiene_conto_della_frase_scritta() -> None:
+    """La chiave ignorava `raw_text` e la valigia, che pero' finiscono nel
+    prompt: per un'ora si serviva la risposta a una domanda diversa."""
+    from app.orchestrator import cache
+
+    def chiave(**extra):
+        richiesta = CompareRequest(
+            candidates=[
+                AdviceCandidate(
+                    label=f"Meta {i}",
+                    origin="Torino",
+                    destination=f"Meta {i}",
+                    date=date(2026, 8, 7),
+                    options=[_opzione("1")],
+                )
+                for i in (1, 2)
+            ],
+            **extra,
+        )
+        return cache.make_key(
+            "ai:compare",
+            richiesta.pax,
+            richiesta.max_budget,
+            richiesta.with_checked_bag,
+            richiesta.raw_text,
+            sorted(
+                f"{c.label}|{c.date}|{c.return_date}|{c.found}|{c.partial}|"
+                + ";".join(
+                    f"{o.ref}/{o.depart:%d%H%M}/{o.total:.2f}/{o.n_changes}/{o.n_tickets}"
+                    for o in c.options
+                )
+                for c in richiesta.candidates
+            ),
+        )
+
+    assert chiave(raw_text="vado a Bari") != chiave(raw_text="vado a Bari con la bici")
+    assert chiave(with_checked_bag=True) != chiave(with_checked_bag=False)
+
+
+def test_ogni_avviso_ha_la_sua_frase_anche_nella_pagina() -> None:
+    """Due mappe gemelle, una in Python e una in JavaScript. Se divergono, il
+    modello e l'utente leggono due descrizioni diverse della stessa scheda —
+    ed e' esattamente il difetto che questa versione toglie di mezzo."""
+    from pathlib import Path
+
+    sorgente = (Path(__file__).parent.parent / "app" / "static" / "app.js").read_text(
+        encoding="utf-8"
+    )
+    blocco = sorgente.split("const FLAG_TEXT = {", 1)[1].split("};", 1)[0]
+    nella_pagina = set(re.findall(r"^\s*(\w+):", blocco, re.MULTILINE))
+
+    assert nella_pagina == {flag.value for flag in RiskFlag}
+    assert set(RISK_TEXT) == set(RiskFlag)
 
 
 # ------------------------------------------------------------- aggiornamenti

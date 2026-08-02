@@ -272,6 +272,25 @@ fieldset.modes label { flex-direction: row; align-items: center; gap: 5px; font-
   color: var(--muted);
 }
 .advice--muto h2 { color: var(--muted); font-weight: 600; }
+/* Il rimedio non puo' essere affidato al solo colore piu' smorto: chi non lo
+   distingue vede un consiglio che comincia con "non disponibile" e basta. */
+.advice--muto .riprova-ia { margin-top: 2px; }
+
+/* Il riferimento dentro il testo del consiglio: stesso segno del numero sulla
+   scheda, ma cliccabile. Non e' un link — non porta altrove, porta piu' in
+   basso nella stessa pagina — quindi e' un bottone travestito. */
+.ref-chip {
+  padding: 0 6px;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ref-chip:hover { background: var(--accent); color: var(--on-accent); }
 
 /* Una colonna per combinazione.
    Con piu' colonne i pannelli non possono restare scatole indipendenti: una ha
@@ -366,12 +385,44 @@ main.multi .panel > .cards { grid-row: calc(var(--rowbase) + 9); margin-bottom: 
 }
 
 .itinerary {
+  position: relative;
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   overflow: hidden;
 }
 .itinerary.best { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+
+/* Il numero della scheda: e' il nome con cui il consiglio la chiama.
+   Sta nell'angolo e non nel flusso, ma lo spazio glielo si riserva davvero
+   (`.itinerary[data-ref] .tratta { padding-left }`): sovrapposto agli orari
+   sarebbe illeggibile proprio nel momento in cui serve leggerlo. */
+.ref {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  min-width: 20px;
+  padding: 1px 5px;
+  border-radius: 6px;
+  background: var(--line);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+.itinerary[data-ref] .tratta { padding-left: 42px; }
+.itinerary.best .ref { background: var(--accent); color: var(--on-accent); }
+
+/* La scheda a cui punta un riferimento appena cliccato. Due secondi, poi
+   torna com'era: e' un "eccola", non uno stato. */
+.itinerary.puntata {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .itinerary.puntata { transition: box-shadow .2s ease, border-color .2s ease; }
+}
 
 /* Una riga per tratta: una sola per la sola andata, due per l'andata e
    ritorno, che e' una scheda unica perche' unico e' il prezzo che conta. */
