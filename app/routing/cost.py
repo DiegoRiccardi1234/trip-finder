@@ -122,7 +122,19 @@ def compute(legs: list[Leg], query: SearchQuery) -> CostBreakdown:
         label = f"{leg.operator or leg.provider}: {leg.origin.name} - {leg.destination.name}"
         if leg.fare is not None:
             prezzo = round(leg.fare.amount, 2)
-            lines.append(CostLine(label=label, amount=prezzo, kind="fare"))
+            # «A partire da» non e' il prezzo di quella corsa, e' il minimo del
+            # giorno: va detto dove si legge il totale, non solo nella nota
+            # dentro il dettaglio. Il principio vale per tutte le voci — quelle
+            # stimate si chiamano stimate — e questa era l'unica che sfuggiva.
+            indicativo = leg.fare.indicative
+            lines.append(
+                CostLine(
+                    label=f"{label} (a partire da)" if indicativo else label,
+                    amount=prezzo,
+                    kind="fare",
+                    estimated=indicativo,
+                )
+            )
             sconto = _discount_line(leg, query, prezzo)
             if sconto is not None:
                 lines.append(sconto)

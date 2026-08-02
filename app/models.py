@@ -101,6 +101,11 @@ class Fare(BaseModel):
     #: Costo per aggiungere un bagaglio da stiva, se noto.
     checked_bag_price: float | None = None
     seats_left: int | None = None
+    #: L'operatore dichiara «a partire da»: la cifra e' un minimo, non il
+    #: prezzo di quella corsa. Era solo una nota testuale dentro la gamba, e il
+    #: totale la presentava come una cifra certa — mentre il principio del
+    #: progetto e' che le voci stimate si chiamino stimate.
+    indicative: bool = False
 
 
 class Leg(BaseModel):
@@ -181,6 +186,31 @@ class RiskFlag(str, Enum):
     NIGHT_ARRIVAL = "night_arrival"  # arrivo fra 00:00 e 06:00
     LAST_LEG_UNVERIFIED = "last_leg_unverified"  # orario da fonte statica, non live
     ESTIMATED_COST = "estimated_cost"  # una voce di costo e' una stima
+
+
+#: Gli stessi avvisi detti a parole. Al modello arrivavano i valori dell'enum —
+#: `last_leg_unverified` dentro un prompt italiano, senza legenda — mentre a
+#: schermo l'utente leggeva una frase compiuta: due descrizioni diverse della
+#: stessa scheda, e il consiglio poteva parafrasare male proprio l'avviso.
+#: Sono volutamente piu' brevi delle frasi della pagina (`FLAG_TEXT` in
+#: `app/static/app.js`): li' spiegano, qui devono solo essere capiti.
+#: Un test verifica che le due mappe coprano gli stessi codici.
+RISK_TEXT: dict[RiskFlag, str] = {
+    RiskFlag.SEPARATE_TICKETS: "biglietti separati, nessuna riprotezione fra una tratta e l'altra",
+    RiskFlag.TIGHT_CONNECTION: "coincidenza stretta rispetto al margine consigliato",
+    RiskFlag.STATION_CHANGE: "cambio di stazione o scalo, serve spostarsi",
+    RiskFlag.NIGHT_ARRIVAL: "arrivo nel cuore della notte",
+    RiskFlag.LAST_LEG_UNVERIFIED: "ultima tratta da orario statico, non verificata live",
+    RiskFlag.ESTIMATED_COST: "alcune voci di costo sono stimate",
+}
+
+
+def risk_text(flag: str) -> str:
+    """La frase per un avviso, o il codice se e' nuovo e nessuno l'ha tradotto."""
+    try:
+        return RISK_TEXT[RiskFlag(flag)]
+    except ValueError:
+        return flag
 
 
 class Itinerary(BaseModel):
@@ -466,11 +496,15 @@ class ProviderReport(BaseModel):
     detail: str | None = None
 
 
-# --- Confronto fra piu' ricerche -------------------------------------------
+# --- I consigli ------------------------------------------------------------
 #
-# Quando si cercano due mete insieme, i due consigli separati non possono dire
-# quale conviene: ciascuno vede solo la propria colonna. Il confronto arriva
-# quindi da una chiamata a parte, con le soluzioni che il frontend ha gia'.
+# Tutti e tre i consigli — la classifica di una ricerca, il confronto fra piu'
+# ricerche, il viaggio a tappe — arrivano da una chiamata della pagina con le
+# soluzioni che la pagina ha gia'. Il consiglio sulla classifica prima nasceva
+# invece dentro la ricerca, lato server: li' un'andata e ritorno era una coppia
+# a schermo e due classifiche separate nel motore, e il consiglio parlava dei
+# prezzi della sola andata mentre ogni scheda mostrava il totale. Con la pagina
+# come sorgente unica, il modello vede per costruzione quello che si vede.
 #
 # Il corpo e' volutamente **compatto** e non un `Itinerary`: dieci campi
 # dell'itinerario (`depart`, `duration_min`, `n_changes`, `co2_kg`...) sono
@@ -483,6 +517,11 @@ class ProviderReport(BaseModel):
 class AdviceOption(BaseModel):
     """Una soluzione, ridotta a quello che serve per consigliare."""
 
+    #: Il numero scritto sulla scheda. E' l'unico modo che ha il modello di
+    #: nominare una soluzione in modo verificabile: senza, diceva "l'opzione
+    #: Itabus" e con due Itabus non si capiva quale, o citava un indice che a
+    #: schermo non esisteva.
+    ref: str = ""
     depart: datetime
     arrive: datetime
     duration_min: int
@@ -495,6 +534,23 @@ class AdviceOption(BaseModel):
     #: Andata e ritorno: gli estremi della tratta di ritorno, se c'e'.
     return_depart: datetime | None = None
     return_arrive: datetime | None = None
+    #: E la sua durata. Prima la pagina mandava in `duration_min` la **somma**
+    #: di andata e ritorno insieme agli orari della sola andata: un numero che
+    #: non compariva in nessun punto dello schermo.
+    return_duration_min: int | None = None
+    #: Quello che la scheda dice nel dettaglio e il totale da solo non dice:
+    #: "prezzo a partire da", la tariffa ridotta dell'operatore, uno sconto
+    #: dichiarato dall'utente e non verificato.
+    notes: list[str] = Field(default_factory=list, max_length=8)
+
+
+class RelaxedConstraint(BaseModel):
+    """Un vincolo che il motore ha messo da parte per non dare pagina vuota.
+
+    Forma identica a quella prodotta da `ranker.unmet_constraints`."""
+
+    kind: str
+    value: str | float | bool | None = None
 
 
 class AdviceCandidate(BaseModel):
@@ -506,6 +562,33 @@ class AdviceCandidate(BaseModel):
     date: date
     return_date: date | None = None
     options: list[AdviceOption] = Field(default_factory=list, max_length=8)
+    #: Quante soluzioni ha in tutto la classifica: senza, il modello vede cinque
+    #: righe e crede che siano tutte, e scrive "e' l'unica sotto i 50 euro".
+    found: int = 0
+    #: La ricerca e' stata interrotta a meta': la classifica non e' definitiva.
+    partial: bool = False
+    relaxed: list[RelaxedConstraint] = Field(default_factory=list, max_length=6)
+
+
+class AdviceRequest(BaseModel):
+    """Una classifica sola da consigliare: quella che si sta guardando."""
+
+    label: str = ""
+    origin: str
+    destination: str
+    date: date
+    return_date: date | None = None
+    options: list[AdviceOption] = Field(default_factory=list, max_length=8)
+    found: int = 0
+    partial: bool = False
+    relaxed: list[RelaxedConstraint] = Field(default_factory=list, max_length=6)
+    pax: int = 1
+    with_checked_bag: bool = False
+    max_budget: float | None = None
+    depart_after: str | None = None
+    arrive_by: str | None = None
+    allow_night: bool = True
+    raw_text: str | None = None
 
 
 class CompareRequest(BaseModel):

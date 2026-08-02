@@ -85,6 +85,35 @@ def test_gamba_senza_prezzo_non_vale_zero(query: SearchQuery) -> None:
     )
 
 
+def test_il_prezzo_a_partire_da_e_una_stima(query: SearchQuery) -> None:
+    """Trenitalia manda certi prezzi come «a partire da»: e' il minimo del
+    giorno, non il prezzo di quella corsa. Finiva nel totale come una cifra
+    certa, e l'avvertenza viveva solo dentro «Dettagli» — mentre il totale in
+    grande e' proprio quello su cui si decide."""
+    leg = make_leg("trenitalia", Mode.RAIL, TORINO_PN, BARI_C, at(8), at(16), price=39.0)
+    leg.fare.indicative = True
+
+    breakdown = cost.compute([leg], query)
+
+    assert breakdown.total == 39.0, "il prezzo resta quello, cambia come lo si dice"
+    assert breakdown.has_estimates
+    assert any("a partire da" in line.label for line in breakdown.lines)
+    assert RiskFlag.ESTIMATED_COST in ranker.compute_flags(
+        Itinerary(id="x", legs=[leg], cost=breakdown)
+    )
+
+
+def test_un_prezzo_normale_non_diventa_una_stima(query: SearchQuery) -> None:
+    """La controprova: senza il segnale dell'operatore la voce resta certa,
+    altrimenti il badge comparirebbe ovunque e smetterebbe di dire qualcosa."""
+    leg = make_leg("trenitalia", Mode.RAIL, TORINO_PN, BARI_C, at(8), at(16), price=39.0)
+
+    breakdown = cost.compute([leg], query)
+
+    assert not breakdown.has_estimates
+    assert all("a partire da" not in line.label for line in breakdown.lines)
+
+
 def test_ultimo_miglio_curato_bari_matera() -> None:
     """Il collegamento Bari aeroporto - Matera e' quello che ribalta i conti su
     un volo low cost, e va preso dalla tabella curata, non stimato."""

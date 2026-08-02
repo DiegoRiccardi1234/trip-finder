@@ -166,6 +166,7 @@ class Trenitalia(Provider):
             # di cui non conosciamo il significato.
             notes.append(f"non acquistabile online ({status.lower()}): prezzo da verificare")
         elif isinstance(amount, (int, float)) and not price.get("hideAmount"):
+            indicativo = bool(price.get("indicative"))
             fare = Fare(
                 amount=float(amount),
                 currency="EUR",
@@ -175,8 +176,12 @@ class Trenitalia(Provider):
                 refundable=None,
                 included_cabin_bags=1,
                 included_checked_bags=1,
+                # Non basta la nota: quella la legge chi apre il dettaglio,
+                # mentre il totale in grande resta uguale a quello di una cifra
+                # certa. Questo lo legge il calcolo del costo, che marca la voce.
+                indicative=indicativo,
             )
-            if price.get("indicative"):
+            if indicativo:
                 notes.append("prezzo indicativo: 'a partire da'")
         else:
             notes.append("prezzo non esposto dal motore di ricerca")
