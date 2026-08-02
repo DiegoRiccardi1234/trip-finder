@@ -898,6 +898,25 @@ async def test_le_differenze_arrivano_gia_calcolate(prompt_visto) -> None:
     assert "+5,40 euro della più economica, +1h45 della più rapida" in prompt_visto[0]
 
 
+async def test_anche_cambi_e_biglietti_arrivano_contati(prompt_visto) -> None:
+    """Gli altri due paragoni che il consiglio fa di continuo. Si dicono solo
+    quando c'e' una differenza: su ogni riga sarebbero rumore, e i numeri
+    assoluti la riga li porta gia'."""
+    await advisor.advise(
+        _richiesta(
+            options=[
+                _opzione("1", n_changes=0, n_tickets=1),
+                _opzione("2", total=60.0, n_changes=2, n_tickets=3),
+            ]
+        )
+    )
+
+    assert "+2 cambi della più diretta" in prompt_visto[0]
+    assert "+2 biglietti da comprare a parte" in prompt_visto[0]
+    # La soluzione diretta non si porta dietro un «+0 cambi».
+    assert "+0 cambi" not in prompt_visto[0]
+
+
 async def test_i_pari_merito_sono_entrambi_i_migliori(prompt_visto) -> None:
     """Confrontando gli oggetti invece dei valori, la seconda soluzione dallo
     stesso prezzo sarebbe risultata «piu' cara di zero euro» della prima."""

@@ -110,9 +110,9 @@ python -m venv .venv
 
 Poi apri <http://127.0.0.1:8010/>. Oppure, più corto: `.\start.ps1`.
 
-I due dataset (circa 29 MB) si scaricano una volta sola e non stanno nel
+I tre dataset (circa 37 MB) si scaricano una volta sola e non stanno nel
 repository. Il primo avvio impiega un paio di secondi a costruire l'indice
-geografico: 62.000 fermate e 10.000 località.
+geografico: 62.000 fermate e 44.000 località, di cui 34.000 dal mondo.
 
 I comandi sono in PowerShell perché l'avvio senza console, con l'icona nell'area
 di notifica, è pensato per Windows (`pystray`). Su Linux e macOS funziona tutto
@@ -512,6 +512,12 @@ credenziale, nessun acquisto automatizzato, nessun aggiramento di protezioni —
 dove c'è un captcha o una sessione autenticata l'operatore resta fuori, e in
 `docs/operatori.md` sta scritto quale e perché. I dati non vengono
 redistribuiti, e non esiste alcun servizio pubblico costruito su questo codice.
+
+I dataset geografici sono di terzi e conservano la loro licenza: le stazioni
+sono di [Trainline EU](https://github.com/trainline-eu/stations) (ODbL), gli
+aeroporti di [OurAirports](https://ourairports.com/data/) (pubblico dominio), e
+le città del mondo di [GeoNames](https://www.geonames.org/) (CC BY 4.0). Si
+scaricano dalle rispettive fonti al primo avvio e non vengono ridistribuiti.
 
 Se rappresenti un operatore e vuoi che il suo adapter venga rimosso, apri una
 issue: lo togliamo.

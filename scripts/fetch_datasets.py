@@ -6,6 +6,12 @@ Sorgenti:
     E' il pezzo che rende possibile parlare con piu' operatori senza mappare
     gli ID a mano.
   - OurAirports `airports.csv`: aeroporti mondiali con IATA e coordinate.
+  - GeoNames `cities15000.txt`: 34.000 citta' del mondo sopra i quindicimila
+    abitanti, con coordinate, popolazione, **fuso orario** e i nomi in altre
+    lingue. E' quello che fa esistere il mondo fuori dall'Europa: il gazetteer
+    Trainline e' europeo, quindi senza questo "Tokyo" non si trovava e
+    "Londra" finiva su Ondara, in Spagna. Licenza CC BY 4.0, attribuzione nel
+    README.
 
 Uso:
     python scripts/fetch_datasets.py [--force]
@@ -14,7 +20,10 @@ Uso:
 from __future__ import annotations
 
 import argparse
+import io
 import sys
+import zipfile
+from pathlib import Path
 
 import _bootstrap  # noqa: F401  (path e codifica dell'uscita)
 
@@ -29,6 +38,9 @@ SOURCES: dict[str, list[str]] = {
     "airports.csv": [
         "https://davidmegginson.github.io/ourairports-data/airports.csv",
         "https://raw.githubusercontent.com/davidmegginson/ourairports-data/main/airports.csv",
+    ],
+    "cities15000.txt": [
+        "https://download.geonames.org/export/dump/cities15000.zip",
     ],
 }
 
@@ -50,6 +62,19 @@ def download(url: str, dest: Path) -> int:
         if written < MIN_BYTES:
             tmp.unlink(missing_ok=True)
             raise RuntimeError(f"risposta troppo corta ({written} byte)")
+
+        # GeoNames distribuisce uno zip con dentro un file solo. Si estrae qui e
+        # non a ogni avvio: l'indice geografico si costruisce a ogni processo, e
+        # decomprimere sette megabyte ogni volta sarebbe un costo pagato per
+        # sempre invece che una volta.
+        if url.endswith(".zip"):
+            with zipfile.ZipFile(tmp) as archivio:
+                nome = dest.name if dest.name in archivio.namelist() else archivio.namelist()[0]
+                dest.write_bytes(archivio.read(nome))
+            written = dest.stat().st_size
+            tmp.unlink(missing_ok=True)
+            return written
+
         tmp.replace(dest)
         return written
 

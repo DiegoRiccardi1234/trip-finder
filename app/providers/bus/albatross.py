@@ -80,9 +80,13 @@ class AlbatrossProvider(Provider):
         return node.kind in {NodeKind.BUS_STOP, NodeKind.STATION, NodeKind.CITY}
 
     def can_serve(self, origin: Node, destination: Node) -> bool:
-        if origin.id == destination.id or city_key(origin) == city_key(destination):
+        # `super()` prima di tutto: qui si aggiunge una condizione (stessa
+        # citta' = niente da vendere), non se ne sostituisce una. Senza,
+        # `countries = {"IT"}` restava scritto e non filtrava niente, e su
+        # Parigi-Berlino rispondevano «copro io» trentadue autolinee italiane.
+        if city_key(origin) == city_key(destination):
             return False
-        return self.supports_node(origin) and self.supports_node(destination)
+        return super().can_serve(origin, destination)
 
     # ------------------------------------------------------------- anagrafica
 

@@ -66,9 +66,11 @@ class Itabus(Provider):
         return node.kind in {NodeKind.BUS_STOP, NodeKind.STATION, NodeKind.CITY}
 
     def can_serve(self, origin: Node, destination: Node) -> bool:
-        if origin.id == destination.id or city_key(origin) == city_key(destination):
+        # Vedi `albatross.py`: si aggiunge una condizione a quella della base,
+        # non la si sostituisce, altrimenti `countries` non filtra piu' nulla.
+        if city_key(origin) == city_key(destination):
             return False
-        return self.supports_node(origin) and self.supports_node(destination)
+        return super().can_serve(origin, destination)
 
     # ------------------------------------------------------------- anagrafica
 

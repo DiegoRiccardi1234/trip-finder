@@ -102,11 +102,13 @@ def _confronti(options: list[AdviceOption]) -> Callable[[AdviceOption], str]:
         return lambda _option: ""
     minimo_prezzo = min(option.total for option in options)
     minima_durata = min(_durata_totale(option) for option in options)
+    minimi_cambi = min(option.n_changes for option in options)
+    minimi_biglietti = min(option.n_tickets for option in options)
 
     def nota(option: AdviceOption) -> str:
-        # I due criteri si dicono sempre tutti e due: la più economica che dura
-        # cinque ore di più è la stessa soluzione di prima, ma detta così si
-        # capisce cosa costa risparmiare.
+        # Prezzo e durata si dicono sempre tutti e due: la più economica che
+        # dura cinque ore di più è la stessa soluzione di prima, ma detta così
+        # si capisce cosa costa risparmiare.
         #
         # Accenti veri, qui: il resto del modulo scrive «piu'» perché sono
         # commenti e istruzioni, ma queste parole il modello le ricopia di peso
@@ -114,13 +116,27 @@ def _confronti(options: list[AdviceOption]) -> Callable[[AdviceOption], str]:
         euro = option.total - minimo_prezzo
         minuti = _durata_totale(option) - minima_durata
         if euro < 0.01 and minuti < 1:
-            return "la più economica e la più rapida"
-        pezzi = [
-            "la più economica"
-            if euro < 0.01
-            else f"+{_euro(euro)} euro della più economica",
-            "la più rapida" if minuti < 1 else f"+{_durata(minuti)} della più rapida",
-        ]
+            pezzi = ["la più economica e la più rapida"]
+        else:
+            pezzi = [
+                "la più economica"
+                if euro < 0.01
+                else f"+{_euro(euro)} euro della più economica",
+                "la più rapida"
+                if minuti < 1
+                else f"+{_durata(minuti)} della più rapida",
+            ]
+
+        # Cambi e biglietti solo quando **aggiungono** qualcosa: dirli su ogni
+        # riga li trasformerebbe in rumore, e la riga porta già i numeri assoluti.
+        cambi = option.n_changes - minimi_cambi
+        if cambi > 0:
+            pezzi.append(f"+{cambi} camb{'io' if cambi == 1 else 'i'} della più diretta")
+        biglietti = option.n_tickets - minimi_biglietti
+        if biglietti > 0:
+            pezzi.append(
+                f"+{biglietti} bigliett{'o' if biglietti == 1 else 'i'} da comprare a parte"
+            )
         return ", ".join(pezzi)
 
     return nota

@@ -15,6 +15,7 @@ from __future__ import annotations
 import csv
 import json
 import logging
+import math
 import sys
 import unicodedata
 from dataclasses import dataclass, field
@@ -28,6 +29,7 @@ logger = logging.getLogger(__name__)
 
 STATIONS_CSV = DATA_DIR / "stations.csv"
 AIRPORTS_CSV = DATA_DIR / "airports.csv"
+WORLD_CITIES_TXT = DATA_DIR / "cities15000.txt"
 OVERRIDES_JSON = Path(__file__).with_name("overrides.json")
 
 #: colonna ID -> colonna booleana che dice se l'operatore serve davvero la fermata.
@@ -120,6 +122,31 @@ COUNTRY_TZ: dict[str, str] = {
 
 #: Tipi OurAirports che ci interessano: gli heliport e i campi chiusi no.
 AIRPORT_TYPES = frozenset({"large_airport", "medium_airport"})
+
+#: Colonne del dump GeoNames `cities15000.txt`, che non ha intestazione.
+GEONAMES_NAME = 1
+GEONAMES_ALT_NAMES = 3
+GEONAMES_LAT = 4
+GEONAMES_LON = 5
+GEONAMES_COUNTRY = 8
+GEONAMES_POPULATION = 14
+GEONAMES_TIMEZONE = 17
+
+#: Nomi alternativi per citta': si tengono tutti quelli scrivibili con una
+#: tastiera latina e si buttano ideogrammi, cirillico, greco e arabo.
+#:
+#: Tagliarne un numero fisso non funziona, ed e' stato provato: «Parigi» e' il
+#: ventiduesimo nome di Paris, «Londra» il venticinquesimo, «New York» il
+#: ventiquattresimo di New York City. Con un tetto a dodici si perdevano tutti e
+#: tre. Tenerli tutti sono 350.000 voci, che in una mappa non pesano — l'unico
+#: posto dove un candidato in piu' fa danno e' il matching per somiglianza, e
+#: li' gli alias non entrano affatto (vedi `Resolver._corpus`).
+MAX_ALIASES = 60
+
+#: Lato della cella per la griglia dei fusi orari, in gradi. Con un grado le
+#: celle sono ~110 km: abbastanza fitte da trovare sempre una citta' vicina a un
+#: aeroporto, abbastanza larghe da non moltiplicare le celle vuote.
+TZ_GRID_STEP = 1.0
 
 
 def normalize(text: str) -> str:
@@ -246,6 +273,104 @@ def _load_airports() -> tuple[list[Node], dict[str, Node]]:
             nodes.append(node)
             by_iata[iata] = node
     return nodes, by_iata
+
+
+def _load_world_cities() -> tuple[list[CityEntry], dict[tuple[int, int], list[tuple[float, float, str]]]]:
+    """Il gazetteer mondiale, e la griglia dei fusi orari che ne deriva.
+
+    Senza questo file il mondo fuori dall'Europa non esisteva: il gazetteer
+    Trainline copre 43 paesi europei, quindi «Tokyo» non si trovava affatto e
+    «Londra» — che nel dataset europeo non c'e' — finiva per somiglianza su
+    **Ondara**, in Spagna, senza che niente lo dicesse.
+
+    Porta tre cose che servivano tutte e tre: le coordinate delle citta' del
+    mondo, i loro nomi in altre lingue (gli esonimi italiani stanno li'), e il
+    fuso orario, che OurAirports non pubblica e che senza questo file ogni
+    aeroporto extra-europeo ereditava da `Europe/Rome`.
+
+    Manca il file: si continua senza. L'Europa funziona lo stesso, e chi ha
+    clonato il repository senza scaricare i dataset non deve vedere un errore
+    al posto di una ricerca."""
+    cities: list[CityEntry] = []
+    griglia: dict[tuple[int, int], list[tuple[float, float, str]]] = {}
+    if not WORLD_CITIES_TXT.exists():
+        return cities, griglia
+
+    with WORLD_CITIES_TXT.open(encoding="utf-8", newline="") as handle:
+        for riga in handle:
+            campi = riga.rstrip("\n").split("\t")
+            if len(campi) <= GEONAMES_TIMEZONE:
+                continue
+            name = campi[GEONAMES_NAME].strip()
+            lat = _to_float(campi[GEONAMES_LAT])
+            lon = _to_float(campi[GEONAMES_LON])
+            if not name or lat is None or lon is None:
+                continue
+
+            timezone = campi[GEONAMES_TIMEZONE].strip() or None
+            if timezone:
+                cella = (int(lat // TZ_GRID_STEP), int(lon // TZ_GRID_STEP))
+                griglia.setdefault(cella, []).append((lat, lon, timezone))
+
+            popolazione = _to_float(campi[GEONAMES_POPULATION]) or 0.0
+            alias = []
+            for grezzo in campi[GEONAMES_ALT_NAMES].split(","):
+                if not grezzo.strip():
+                    continue
+                normalizzato = normalize(grezzo)
+                # Dopo `normalize` gli accenti sono spariti, quindi «Köln» passa;
+                # quello che resta non-ascii sono gli altri alfabeti, che nessuno
+                # scrivera' mai nel campo di ricerca.
+                if not normalizzato or not normalizzato.isascii():
+                    continue
+                alias.append(normalizzato)
+                if len(alias) >= MAX_ALIASES:
+                    break
+            cities.append(
+                CityEntry(
+                    name=name,
+                    normalized=normalize(name),
+                    lat=lat,
+                    lon=lon,
+                    country=(campi[GEONAMES_COUNTRY].strip() or None),
+                    # Fra due omonime vince la piu' grande, ed e' quasi sempre
+                    # quella intesa: London (GB, 8,9 milioni) contro London
+                    # (Canada, 422 mila). In scala logaritmica, altrimenti una
+                    # metropoli schiaccerebbe qualunque altra cosa.
+                    weight=max(1.0, math.log10(max(popolazione, 1.0)) - 3.0),
+                    aliases=[a for a in dict.fromkeys(alias) if a],
+                )
+            )
+    return cities, griglia
+
+
+def _tz_da_griglia(
+    griglia: dict[tuple[int, int], list[tuple[float, float, str]]],
+    lat: float,
+    lon: float,
+) -> str | None:
+    """Il fuso della citta' piu' vicina, cercata solo nelle celle attorno.
+
+    Trentaquattromila citta' per tremila aeroporti sarebbero cento milioni di
+    confronti a ogni avvio. Con la griglia se ne guardano poche decine."""
+    base_lat, base_lon = int(lat // TZ_GRID_STEP), int(lon // TZ_GRID_STEP)
+    # Prima le celle attorno; se non c'e' nessuna citta' — succede per gli scali
+    # nel deserto, sulle isole e nel grande nord — si allarga invece di
+    # arrendersi, perche' il ripiego e' `Europe/Rome` e su un volo alle Svalbard
+    # sarebbe un orario sbagliato senza avviso.
+    for raggio in (1, 3, 8):
+        migliore: tuple[float, str] | None = None
+        for dlat in range(-raggio, raggio + 1):
+            for dlon in range(-raggio, raggio + 1):
+                for city_lat, city_lon, timezone in griglia.get(
+                    (base_lat + dlat, base_lon + dlon), ()
+                ):
+                    distanza = haversine_km(lat, lon, city_lat, city_lon)
+                    if migliore is None or distanza < migliore[0]:
+                        migliore = (distanza, timezone)
+        if migliore is not None:
+            return migliore[1]
+    return None
 
 
 def _load_stations(by_iata: dict[str, Node]) -> tuple[list[Node], list[CityEntry]]:
@@ -377,9 +502,19 @@ def _load_overrides() -> tuple[list[Node], list[CityEntry]]:
 @lru_cache(maxsize=1)
 def load_index() -> GeoIndex:
     """Costruisce l'indice una volta sola per processo."""
+    world_cities, tz_grid = _load_world_cities()
     airports, by_iata = _load_airports()
     stations, cities = _load_stations(by_iata)
     extra_nodes, extra_cities = _load_overrides()
+
+    # I fusi degli aeroporti fuori dai paesi noti: senza, un volo giapponese
+    # veniva composto in `Europe/Rome` e mostrato con sette ore di scarto, senza
+    # che niente lo segnalasse.
+    if tz_grid:
+        for node in airports:
+            if node.timezone:
+                continue
+            node.timezone = _tz_da_griglia(tz_grid, node.lat, node.lon)
 
     nodes = airports + stations
     by_id = {node.id: node for node in nodes}
@@ -396,7 +531,24 @@ def load_index() -> GeoIndex:
         by_id[node.id] = node
 
     by_iata_all = {node.iata: node for node in nodes if node.iata}
+
+    # L'ordine e' una precedenza: gli override sono correzioni scritte a mano,
+    # le voci Trainline portano le coordinate tarate sulle stazioni, quelle
+    # mondiali riempiono tutto il resto. Una citta' gia' presente con lo stesso
+    # nome e lo stesso paese non si duplica: si prende solo i suoi nomi in
+    # altre lingue, che sono la ragione per cui «Parigi» adesso si trova.
     all_cities = extra_cities + cities
+    gia_note = {(city.normalized, city.country) for city in all_cities}
+    per_chiave = {(city.normalized, city.country): city for city in all_cities}
+    for city in world_cities:
+        chiave = (city.normalized, city.country)
+        if chiave in gia_note:
+            esistente = per_chiave[chiave]
+            esistente.aliases = list(dict.fromkeys([*esistente.aliases, *city.aliases]))
+            continue
+        all_cities.append(city)
+        gia_note.add(chiave)
+        per_chiave[chiave] = city
 
     by_provider: dict[str, dict[str, Node]] = {}
     for node in nodes:
@@ -404,10 +556,11 @@ def load_index() -> GeoIndex:
             by_provider.setdefault(provider, {}).setdefault(str(native_id), node)
 
     logger.info(
-        "indice geografico: %d nodi (%d aeroporti), %d citta'",
+        "indice geografico: %d nodi (%d aeroporti), %d citta' (%d dal mondo)",
         len(nodes),
         len(airports),
         len(all_cities),
+        len(world_cities),
     )
     return GeoIndex(
         nodes=nodes,

@@ -114,3 +114,64 @@ def test_le_fermate_scelte_restringono_la_ricerca() -> None:
 
     assert _only_chosen_nodes(place, set()).nodes == place.nodes
     assert _only_chosen_nodes(place, {"non-esiste"}).nodes == place.nodes
+
+
+# ------------------------------------------------------------------ il mondo
+#
+# Il gazetteer Trainline copre 43 paesi europei. Fuori di li' il resolver non
+# diceva "non trovato": trovava **un'altra cosa**, per somiglianza, e la ricerca
+# partiva su una citta' che nessuno aveva chiesto.
+
+
+@pytest.mark.parametrize(
+    ("query", "atteso"),
+    [
+        ("Tokyo", "JP"),
+        ("Osaka", "JP"),
+        ("New York", "US"),
+        ("Sydney", "AU"),
+        ("Cairo", "EG"),
+        ("Bangkok", "TH"),
+        ("Buenos Aires", "AR"),
+    ],
+)
+def test_le_citta_del_mondo_si_trovano(resolver, query, atteso) -> None:
+    place = resolver.resolve(query)
+    assert place.country == atteso
+    assert place.nodes, "trovata la citta' ma nessuna fermata"
+
+
+@pytest.mark.parametrize(
+    ("italiano", "paese", "contiene"),
+    [
+        ("Londra", "GB", "London"),
+        ("Parigi", "FR", "Paris"),
+        ("Il Cairo", "EG", "Cairo"),
+        ("Monaco di Baviera", "DE", "nchen"),
+        ("Lisbona", "PT", "Lisbo"),
+    ],
+)
+def test_gli_esonimi_italiani_portano_alla_citta_giusta(
+    resolver, italiano, paese, contiene
+) -> None:
+    """«Londra» non e' in nessun dataset di stazioni, e prima finiva per
+    somiglianza su **Ondara**, in Spagna: otto fermate vere di una citta' che
+    nessuno aveva chiesto. I nomi in altre lingue arrivano da GeoNames."""
+    place = resolver.resolve(italiano)
+    assert place.country == paese
+    assert contiene.lower() in place.label.lower()
+
+
+def test_gli_orari_fuori_europa_non_sono_ora_italiana() -> None:
+    """Il fuso mancante ripiegava su `Europe/Rome`: un volo giapponese sarebbe
+    stato mostrato con sette ore di scarto, senza che niente lo dicesse."""
+    from app.geo.datasets import load_index
+
+    index = load_index()
+    fusi = {code: index.by_iata[code].timezone for code in ("HND", "JFK", "GRU", "SYD", "DXB")}
+
+    assert fusi["HND"] == "Asia/Tokyo"
+    assert fusi["JFK"] == "America/New_York"
+    assert fusi["GRU"] == "America/Sao_Paulo"
+    assert fusi["SYD"] == "Australia/Sydney"
+    assert fusi["DXB"] == "Asia/Dubai"

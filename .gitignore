@@ -5,6 +5,10 @@ __pycache__/
 .pytest_cache/
 .env
 data/*.csv
+# Il gazetteer mondiale di GeoNames, otto megabyte scaricati da
+# `scripts/fetch_datasets.py`. Non e' un `.csv` — e' un TSV senza intestazione —
+# quindi la riga sopra non lo prendeva.
+data/cities15000.txt
 data/*.db
 data/*.db-journal
 data/*.db-wal

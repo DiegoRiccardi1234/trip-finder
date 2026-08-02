@@ -150,9 +150,26 @@ class Resolver:
         self._nodes_by_name: dict[str, list[Node]] = {}
         for node in self._index.nodes:
             self._nodes_by_name.setdefault(normalize(node.name), []).append(node)
+            # Anche la citta' dell'aeroporto: il nodo si chiama «Tokyo Haneda
+            # International Airport» e chi cerca scrive «Tokyo». Il campo c'era
+            # gia' nel dato e non lo leggeva nessuno.
+            if node.city:
+                chiave = normalize(node.city)
+                if chiave and chiave not in self._nodes_by_name:
+                    self._nodes_by_name[chiave] = []
+                if chiave:
+                    self._nodes_by_name[chiave].append(node)
 
         # Corpus per il matching fuzzy, usato solo quando l'esatto fallisce.
-        self._corpus: list[str] = list(self._cities_by_name) + list(self._nodes_by_name)
+        #
+        # I nomi in altre lingue **non** entrano qui, e sono trecentocinquantamila:
+        # in una mappa esatta non pesano, in un confronto per somiglianza
+        # sarebbero altrettante occasioni di sbagliare. Cercare per somiglianza
+        # e' l'ultima spiaggia, e va fatta sul minor numero di candidati
+        # possibile.
+        self._corpus: list[str] = [
+            city.normalized for city in self._index.cities
+        ] + list(self._nodes_by_name)
 
     # ------------------------------------------------------------------ ancore
 
@@ -237,24 +254,36 @@ class Resolver:
         return anchor
 
     def _nearest_city(self, lat: float, lon: float) -> str | None:
-        """La citta' del gazetteer piu' vicina a un punto.
+        """La citta' a cui attribuire un punto.
 
         Serve quando l'ancora non e' una citta' ma una fermata o un codice
         IATA, e la fermata non dichiara la propria citta' (nel dataset delle
         stazioni succede spesso). Senza, la citta' diventerebbe l'etichetta
         dell'ancora — "Torino Porta Nuova" — e quella stringa e' la chiave con
         cui FlixBus, Itabus, Albatross e Grimaldi cercano: nessuno di loro
-        conosce una citta' con quel nome, e sparirebbero tutti in silenzio."""
+        conosce una citta' con quel nome, e sparirebbero tutti in silenzio.
+
+        **Non** la piu' vicina in assoluto: la piu' importante fra le vicine.
+        Con il solo gazetteer europeo le due cose coincidevano; da quando ci
+        sono le trentaquattromila del mondo, dentro Torino ci stanno anche i
+        suoi quartieri sopra i quindicimila abitanti, e Porta Nuova finiva
+        attribuita a **San Salvario** — che nessun operatore vende. Un peso
+        contro un chilometro: cosi' una fermata in periferia resta della sua
+        citta', e una citta' vera a venti chilometri non viene scavalcata dal
+        paese accanto."""
         best: CityEntry | None = None
-        best_km = NEAREST_CITY_KM
+        best_score = float("-inf")
         for city in self._index.cities:
             # Pre-filtro rettangolare, come in `nodes_within`: la scansione e'
             # su tutto il gazetteer e la haversine costa piu' di due sottrazioni.
             if abs(city.lat - lat) > 0.4 or abs(city.lon - lon) > 0.6:
                 continue
             distance = haversine_km(lat, lon, city.lat, city.lon)
-            if distance < best_km:
-                best, best_km = city, distance
+            if distance >= NEAREST_CITY_KM:
+                continue
+            score = city.weight * 10.0 - distance
+            if score > best_score:
+                best, best_score = city, score
         return best.name if best else None
 
     # -------------------------------------------------------------------- nodi

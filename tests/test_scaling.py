@@ -58,6 +58,45 @@ def test_i_compiti_non_si_duplicano_fra_percorsi() -> None:
     assert len(keys) == len(set(keys))
 
 
+def _estero(node_id: str, name: str, country: str, lat: float, lon: float) -> Node:
+    """Una fermata fuori dall'Italia, con il paese valorizzato."""
+    return Node(
+        id=node_id,
+        name=name,
+        kind=NodeKind.BUS_STOP,
+        lat=lat,
+        lon=lon,
+        country=country,
+        timezone="Europe/Paris",
+    )
+
+
+def test_chi_copre_solo_l_italia_non_si_offre_per_parigi_berlino() -> None:
+    """Il filtro per paese esisteva e non filtrava niente.
+
+    `albatross` e `itabus` ridefinivano `can_serve` senza chiamare quella della
+    base, quindi il loro `countries = {"IT"}` era una dichiarazione senza
+    effetto: su Parigi-Berlino rispondevano «copro io» trentadue autolinee
+    italiane, e ognuna si prendeva una richiesta di rete per scoprire di no."""
+    from app.providers import registry
+
+    parigi = _estero("x:par", "Paris Bercy", "FR", 48.84, 2.38)
+    berlino = _estero("x:ber", "Berlin ZOB", "DE", 52.50, 13.28)
+
+    disponibili = [
+        provider.id
+        for provider in registry.all_providers()
+        if provider.can_serve(parigi, berlino)
+    ]
+
+    assert "itabus" not in disponibili
+    assert "marino" not in disponibili
+    assert "giuntabus" not in disponibili
+    # E chi non dichiara vincoli di paese resta in gara: la copertura vera la
+    # sa solo lui.
+    assert "flixbus" in disponibili
+
+
 # ----------------------------------------------------------------- copertura
 
 
