@@ -1,4 +1,4 @@
-"""Hub europei candidati come punto di cambio.
+"""Hub candidati come punto di cambio.
 
 Su scala continentale non si puo' provare ogni citta' come scalo: il numero di
 richieste esploderebbe e il 99% sarebbe assurdo (Torino-Matera via Amburgo).
@@ -7,14 +7,26 @@ il percorso spezzato origine-hub-destinazione non allunga oltre una certa soglia
 il percorso diretto. Fra quelli ammissibili si preferiscono i nodi grandi, che
 hanno piu' collegamenti e piu' probabilita' di produrre una soluzione vera.
 
-I pesi non sono la popolazione: sono quanto quel posto e' utile *come scalo*.
-Bologna pesa piu' di quanto suggerisca la sua taglia perche' e' lo snodo di
-tutta la rete ferroviaria italiana.
+Gli hub sono di due specie, e la differenza conta.
+
+**Quelli scritti a mano, in Europa.** I loro pesi non sono la popolazione: sono
+quanto quel posto e' utile *come scalo*. Bologna pesa piu' di quanto suggerisca
+la sua taglia perche' e' lo snodo di tutta la rete ferroviaria italiana. Questo
+si sa e non si deduce da un dataset.
+
+**Quelli ricavati dal gazetteer, nel resto del mondo.** Erano ottantotto citta'
+europee e basta: su una tratta asiatica o americana l'elenco degli ammissibili
+restava vuoto e restavano solo i voli diretti — Tokyo-Lima senza scalo non
+esiste, quindi non usciva niente. Le citta' grandi del mondo con un aeroporto
+vicino diventano scali **solo per l'aereo**: fuori Europa non c'e' un solo
+adapter ferroviario o di pullman, e proporre un cambio treno a Nagoya
+significherebbe generare richieste che nessuno puo' soddisfare.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
+from functools import lru_cache
 
 from app.models import Mode, haversine_km
 
@@ -124,6 +136,70 @@ HUBS: tuple[Hub, ...] = (
 )
 
 
+#: Popolazione oltre la quale una citta' del mondo puo' fare da scalo. Un
+#: milione non e' una soglia di prestigio: sotto, l'aeroporto quasi sempre non
+#: ha collegamenti che facciano di quella citta' un punto di cambio.
+MIN_POP_HUB = 1_000_000
+#: Quanto lontano puo' stare l'aeroporto dalla citta' perche' conti come suo.
+#: Sessanta chilometri copre i casi veri (Narita sta a 60 da Tokyo).
+HUB_AIRPORT_KM = 60.0
+#: I paesi gia' coperti dalla lista curata: li' i pesi scritti a mano valgono
+#: piu' di qualunque conteggio di abitanti.
+PAESI_CURATI = frozenset(hub.country for hub in HUBS)
+
+
+@lru_cache(maxsize=1)
+def world_hubs() -> tuple[Hub, ...]:
+    """Scali ricavati dal gazetteer, fuori dai paesi gia' curati a mano.
+
+    Senza i dataset non ce ne sono, e non e' un guasto: l'Europa continua a
+    funzionare con la lista scritta, che e' quella che serve piu' spesso."""
+    try:
+        from app.geo.datasets import load_index
+    except ImportError:  # pragma: no cover - solo se il modulo sparisse
+        return ()
+
+    try:
+        index = load_index()
+    except FileNotFoundError:
+        return ()
+
+    # Gli aeroporti in una griglia di un grado: per ogni citta' si guardano
+    # nove celle invece di tremila scali.
+    griglia: dict[tuple[int, int], list[tuple[float, float]]] = {}
+    for node in index.nodes:
+        if node.iata:
+            griglia.setdefault((int(node.lat), int(node.lon)), []).append((node.lat, node.lon))
+
+    def ha_aeroporto(lat: float, lon: float) -> bool:
+        for dlat in (-1, 0, 1):
+            for dlon in (-1, 0, 1):
+                for air_lat, air_lon in griglia.get((int(lat) + dlat, int(lon) + dlon), ()):
+                    if haversine_km(lat, lon, air_lat, air_lon) <= HUB_AIRPORT_KM:
+                        return True
+        return False
+
+    solo_aereo = frozenset({Mode.AIR})
+    hubs: list[Hub] = []
+    for city in index.cities:
+        if city.country in PAESI_CURATI or not city.country:
+            continue
+        # `weight` del gazetteer e' log10(popolazione) - 3: un milione fa 3.
+        if city.weight < 3.0 or not ha_aeroporto(city.lat, city.lon):
+            continue
+        hubs.append(
+            Hub(
+                name=city.name,
+                lat=city.lat,
+                lon=city.lon,
+                country=city.country,
+                weight=3 if city.weight >= 3.7 else 2,  # cinque milioni
+                modes=solo_aereo,
+            )
+        )
+    return tuple(hubs)
+
+
 def candidate_hubs(
     origin_lat: float,
     origin_lon: float,
@@ -151,7 +227,7 @@ def candidate_hubs(
     min_leg = min(40.0, direct * 0.08)
 
     admissible: list[tuple[float, float, float, Hub]] = []
-    for hub in HUBS:
+    for hub in (*HUBS, *world_hubs()):
         if not hub.modes & modes:
             continue
         to_hub = haversine_km(origin_lat, origin_lon, hub.lat, hub.lon)

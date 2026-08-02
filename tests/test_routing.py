@@ -8,6 +8,7 @@ from app.models import Itinerary, Mode, NodeKind, RiskFlag, SearchQuery
 from app.routing import composer, cost, feasibility, ranker, transfers
 from app.routing.hub_graph import candidate_hubs
 
+from ._datasets import needs_datasets
 from .conftest import (
     BARI_AIR,
     make_node,
@@ -34,6 +35,27 @@ def test_bari_e_sempre_fra_gli_hub_per_matera() -> None:
         45.0703, 7.6869, 40.6663, 16.6044, modes={Mode.RAIL, Mode.BUS, Mode.AIR}
     )
     assert "Bari" in [hub.name for hub in hubs]
+
+
+@needs_datasets
+def test_fuori_europa_gli_scali_esistono() -> None:
+    """Gli hub erano ottantotto citta' europee scritte a mano: su una tratta
+    asiatica l'elenco restava vuoto e restavano solo i voli diretti, che fra
+    Tokyo e Lima non esistono. Ora le citta' grandi del mondo con un aeroporto
+    fanno da scalo — per il solo aereo, perche' fuori Europa non c'e' un adapter
+    ferroviario o di pullman che possa servire quel cambio."""
+    from app.routing.hub_graph import world_hubs
+
+    hubs = candidate_hubs(35.68, 139.69, -12.04, -77.03, modes={Mode.AIR})
+    assert hubs, "nessuno scalo fra Tokyo e Lima"
+
+    mondiali = world_hubs()
+    assert len(mondiali) > 100
+    assert all(hub.modes == {Mode.AIR} for hub in mondiali)
+    # I paesi con la lista curata restano com'erano: li' i pesi scritti a mano
+    # dicono cose che la popolazione non sa (Bologna e' uno snodo, non una
+    # metropoli).
+    assert not any(hub.country == "IT" for hub in mondiali)
 
 
 def test_nessun_hub_per_tratte_brevi() -> None:
