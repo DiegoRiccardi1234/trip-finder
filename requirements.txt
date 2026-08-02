@@ -35,3 +35,7 @@ anthropic>=0.40
 # --- test ---
 pytest>=8.3
 pytest-asyncio>=0.24
+# Serve al `TestClient` che chiama gli endpoint senza alzare un server. Era gia'
+# installato, ma per caso: lo tira dentro l'SDK di Anthropic, e una dipendenza
+# che arriva di rimbalzo sparisce insieme a chi la portava.
+httpx>=0.27

@@ -4,8 +4,13 @@
 # I due dataset geografici (29 MB) non stanno nel repository e qui non vengono
 # scaricati: scaricarli a ogni giro renderebbe l'esito di questa verifica
 # dipendente da due siti di terzi. Gli otto test che ne hanno bisogno si saltano
-# dichiarandolo (vedi `tests/_datasets.py`), e ne restano 86 che girano davvero.
-# Misurato su un clone senza `data/`: 86 passed, 8 skipped.
+# dichiarandolo (vedi `tests/_datasets.py`), e gli altri girano davvero.
+# Misurato su un clone senza `data/`: 175 passed, 8 skipped.
+#
+# Chi aggiunge test che alzano l'applicazione (`TestClient`) non usi il context
+# manager: quello esegue l'avvio, che costruisce l'indice geografico e senza i
+# dataset non fallisce con uno skip — fallisce e basta, ma solo qui, non sul
+# portatile di chi li ha scaricati.
 name: tests
 
 on:
