@@ -185,6 +185,12 @@ class CityEntry:
     #: Peso usato per rompere i pareggi fra omonimi (es. Roma IT vs Roma altro).
     weight: float = 1.0
     aliases: list[str] = field(default_factory=list)
+    #: Vero se la citta' viene da un dataset di **trasporto** e non solo da un
+    #: gazetteer: e' dove sappiamo interrogare qualcuno. Fra due omonime conta
+    #: piu' della popolazione — «Valencia» in Spagna ha meno abitanti di
+    #: «Valencia» in Venezuela, ma solo per una delle due sappiamo cercare un
+    #: treno.
+    transport: bool = False
 
 
 @dataclass
@@ -418,6 +424,7 @@ def _load_stations(by_iata: dict[str, Node]) -> tuple[list[Node], list[CityEntry
                         lon=lon,
                         country=country,
                         weight=2.0,
+                        transport=True,
                     )
                 )
                 # Le voci "citta'" di Trainline non sono fermate fisiche: servono
@@ -493,6 +500,7 @@ def _load_overrides() -> tuple[list[Node], list[CityEntry]]:
             country=entry.get("country"),
             weight=entry.get("weight", 3.0),
             aliases=[normalize(a) for a in entry.get("aliases", [])],
+            transport=True,
         )
         for entry in payload.get("cities", [])
     ]
@@ -545,6 +553,10 @@ def load_index() -> GeoIndex:
         if chiave in gia_note:
             esistente = per_chiave[chiave]
             esistente.aliases = list(dict.fromkeys([*esistente.aliases, *city.aliases]))
+            # E il peso migliore dei due. Senza, «Madrid» finiva in **Colombia**:
+            # la voce Trainline ne portava uno fisso (2.0) e l'omonima
+            # sudamericana, che ha il suo dalla popolazione, la scavalcava.
+            esistente.weight = max(esistente.weight, city.weight)
             continue
         all_cities.append(city)
         gia_note.add(chiave)

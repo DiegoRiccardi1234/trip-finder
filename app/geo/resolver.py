@@ -91,8 +91,24 @@ class _Anchor:
     city: str | None = None
 
 
+#: Quanto vale essere una citta' in cui **sappiamo interrogare qualcuno**.
+#: «Valencia» in Venezuela ha il doppio degli abitanti di quella spagnola, e
+#: senza questo la ricerca ci finiva dentro; ma per la spagnola conosciamo le
+#: stazioni e gli operatori, e quella e' la risposta utile. Vale quanto un
+#: fattore dieci di popolazione, non di piu': una metropoli mondiale resta
+#: raggiungibile.
+BONUS_TRASPORTO = 12.0
+
+#: Quanto scala un'ancora trovata attraverso un nome in un'altra lingua invece
+#: che col nome proprio. Cercando «napoli» esistono due candidate: la voce
+#: italiana che si chiama cosi', e «Naples» che ha «napoli» fra i suoi alias.
+#: Senza questo vinceva la seconda per popolazione, e chi cercava Napoli si
+#: vedeva rispondere «Naples».
+PENALITA_ALIAS = 0.90
+
+
 def _city_priority(city: CityEntry) -> float:
-    return 100.0 + city.weight * 10.0
+    return 100.0 + city.weight * 10.0 + (BONUS_TRASPORTO if city.transport else 0.0)
 
 
 def _node_priority(node: Node) -> float:
@@ -143,9 +159,12 @@ class Resolver:
         self._settings = get_settings()
 
         self._cities_by_name: dict[str, list[CityEntry]] = {}
+        #: Le chiavi che sono il **nome** della citta', non un suo alias.
+        self._city_own_name: set[tuple[str, int]] = set()
         for city in self._index.cities:
             for key in [city.normalized, *city.aliases]:
                 self._cities_by_name.setdefault(key, []).append(city)
+            self._city_own_name.add((city.normalized, id(city)))
 
         self._nodes_by_name: dict[str, list[Node]] = {}
         for node in self._index.nodes:
@@ -176,9 +195,12 @@ class Resolver:
     def _anchors_exact(self, key: str) -> list[_Anchor]:
         anchors: list[_Anchor] = []
         for city in self._cities_by_name.get(key, []):
+            priorita = _city_priority(city)
+            if (key, id(city)) not in self._city_own_name:
+                priorita *= PENALITA_ALIAS
             anchors.append(
                 _Anchor(
-                    city.name, city.lat, city.lon, city.country, _city_priority(city),
+                    city.name, city.lat, city.lon, city.country, priorita,
                     city=city.name,
                 )
             )

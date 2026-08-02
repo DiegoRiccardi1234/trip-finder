@@ -40,6 +40,134 @@
         ["palermo", "cagliari"],
         ["termoli", "tremiti"]
       ]
+    },
+
+    {
+      "id": "jr-central",
+      "name": "Shinkansen (JR Central)",
+      "mode": "rail",
+      "url": "https://global.jr-central.co.jp/en/",
+      "note": "La linea Tokaido: Tokyo-Nagoya-Kyoto-Osaka in due ore e mezza. JR non pubblica API.",
+      "routes": [
+        ["tokyo", "osaka"],
+        ["tokyo", "kyoto"],
+        ["tokyo", "nagoya"],
+        ["nagoya", "osaka"],
+        ["nagoya", "kyoto"]
+      ]
+    },
+    {
+      "id": "jr-west",
+      "name": "Shinkansen (JR West)",
+      "mode": "rail",
+      "url": "https://www.westjr.co.jp/global/en/",
+      "note": "La linea Sanyo, da Osaka verso ovest fino a Fukuoka.",
+      "routes": [
+        ["osaka", "hiroshima"],
+        ["osaka", "fukuoka"],
+        ["hiroshima", "fukuoka"],
+        ["tokyo", "hiroshima"],
+        ["tokyo", "fukuoka"]
+      ]
+    },
+    {
+      "id": "korail",
+      "name": "KTX (Korail)",
+      "mode": "rail",
+      "url": "https://www.korail.com/",
+      "note": "Seul-Busan in poco piu' di due ore.",
+      "routes": [["seoul", "busan"], ["seul", "busan"]]
+    },
+    {
+      "id": "china-railway",
+      "name": "China Railway",
+      "mode": "rail",
+      "url": "https://www.12306.cn/en/",
+      "note": "L'alta velocita' cinese. La vendita passa solo da 12306, che vuole un documento registrato.",
+      "routes": [
+        ["beijing", "shanghai"],
+        ["pechino", "shanghai"],
+        ["shanghai", "hangzhou"],
+        ["beijing", "xi an"]
+      ]
+    },
+    {
+      "id": "amtrak",
+      "name": "Amtrak",
+      "mode": "rail",
+      "url": "https://www.amtrak.com/",
+      "note": "Il Northeast Corridor, l'unico corridoio ferroviario americano con frequenze europee.",
+      "routes": [
+        ["new york city", "washington"],
+        ["new york", "washington"],
+        ["new york city", "boston"],
+        ["new york", "boston"],
+        ["new york city", "philadelphia"],
+        ["washington", "boston"],
+        ["washington", "philadelphia"]
+      ]
+    },
+    {
+      "id": "renfe",
+      "name": "Renfe (AVE)",
+      "mode": "rail",
+      "url": "https://www.renfe.com/",
+      "note": "L'alta velocita' spagnola. Le stazioni sono nei dataset, l'API di vendita no.",
+      "routes": [
+        ["madrid", "barcelona"],
+        ["madrid", "sevilla"],
+        ["madrid", "valencia"],
+        ["madrid", "malaga"],
+        ["barcelona", "valencia"]
+      ]
+    },
+    {
+      "id": "sncf",
+      "name": "SNCF (TGV)",
+      "mode": "rail",
+      "url": "https://www.sncf-connect.com/",
+      "note": "L'alta velocita' francese. Trainline la coprirebbe, ma ha il captcha.",
+      "routes": [
+        ["paris", "lyon"],
+        ["paris", "marseille"],
+        ["paris", "bordeaux"],
+        ["paris", "lille"],
+        ["paris", "strasbourg"],
+        ["lyon", "marseille"]
+      ]
+    },
+    {
+      "id": "eurostar",
+      "name": "Eurostar",
+      "mode": "rail",
+      "url": "https://www.eurostar.com/",
+      "note": "Sotto la Manica e verso il Benelux: le uniche ferrovie che collegano Londra al continente.",
+      "routes": [
+        ["london", "paris"],
+        ["london", "brussels"],
+        ["london", "bruxelles"],
+        ["london", "amsterdam"],
+        ["paris", "brussels"],
+        ["paris", "bruxelles"],
+        ["brussels", "amsterdam"]
+      ]
+    },
+    {
+      "id": "db",
+      "name": "Deutsche Bahn (ICE)",
+      "mode": "rail",
+      "url": "https://www.bahn.de/",
+      "note": "Risponde 403 a qualunque richiesta automatica, anche da dentro una sua pagina.",
+      "routes": [
+        ["berlin", "muenchen"],
+        ["berlin", "hamburg"],
+        ["berlin", "frankfurt am main"],
+        ["berlin", "koln"],
+        ["muenchen", "frankfurt am main"],
+        ["muenchen", "hamburg"],
+        ["koln", "muenchen"],
+        ["frankfurt am main", "hamburg"]
+      ]
     }
   ]
 }

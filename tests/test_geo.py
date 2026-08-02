@@ -175,3 +175,25 @@ def test_gli_orari_fuori_europa_non_sono_ora_italiana() -> None:
     assert fusi["GRU"] == "America/Sao_Paulo"
     assert fusi["SYD"] == "Australia/Sydney"
     assert fusi["DXB"] == "Asia/Dubai"
+
+
+@pytest.mark.parametrize(
+    ("query", "paese", "etichetta"),
+    [
+        # Omonime dove la piu' popolosa non e' quella giusta: per la spagnola
+        # sappiamo interrogare gli operatori, per l'altra no.
+        ("Madrid", "ES", "Madrid"),
+        ("Valencia", "ES", "Valencia"),
+        # E il nome proprio batte il nome in un'altra lingua: «Naples» ha
+        # «napoli» fra i suoi alias e piu' abitanti della voce italiana.
+        ("Napoli", "IT", "Napoli"),
+        ("Firenze", "IT", "Firenze"),
+    ],
+)
+def test_le_omonime_del_mondo_non_scavalcano_casa(resolver, query, paese, etichetta) -> None:
+    """Il gazetteer mondiale ha portato dentro trentaquattromila citta', e con
+    loro le omonime: senza un criterio, «Madrid» finiva in Colombia, «Valencia»
+    in Venezuela e Napoli si chiamava «Naples»."""
+    place = resolver.resolve(query)
+    assert place.country == paese
+    assert place.label == etichetta

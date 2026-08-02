@@ -17,7 +17,7 @@ import orjson
 import pytest
 
 from app.config import FIXTURES_DIR
-from app.models import Leg, Node
+from app.models import Leg, Mode, Node
 from app.providers import registry
 from app.providers.base import SearchContext
 from tests._datasets import needs_datasets
@@ -462,3 +462,31 @@ def test_uic_verso_id_lefrecce() -> None:
     assert uic_to_location_id("8308409") == "830008409"  # Roma Termini
     assert uic_to_location_id("") is None
     assert uic_to_location_id("abc") is None
+
+
+@needs_datasets
+def test_gli_operatori_del_mondo_si_dichiarano() -> None:
+    """Fuori Europa la ricerca non trova niente, ed e' onesto: quello che non e'
+    onesto e' tacere che il collegamento esista. Shinkansen, Amtrak e gli altri
+    non si possono interrogare, ma si possono nominare — con il link, come si fa
+    da sempre con Italo e Tirrenia."""
+    from app.geo.resolver import get_resolver
+    from app.providers import known_routes
+
+    resolver = get_resolver()
+    tutti = {Mode.RAIL, Mode.BUS, Mode.AIR, Mode.FERRY}
+
+    def nomi(origine: str, destinazione: str) -> set[str]:
+        suggeriti = known_routes.suggestions(
+            resolver.resolve(origine), resolver.resolve(destinazione), tutti
+        )
+        for voce in suggeriti:
+            assert voce["url"].startswith("https://"), f"{voce['name']} senza link"
+            assert voce["note"], f"{voce['name']} senza spiegazione"
+        return {voce["name"] for voce in suggeriti}
+
+    assert "Shinkansen (JR Central)" in nomi("Tokyo", "Osaka")
+    assert "Amtrak" in nomi("New York", "Washington")
+    assert "Eurostar" in nomi("Londra", "Parigi")
+    # E dove invece cerchiamo davvero non si suggerisce nessuno al posto nostro.
+    assert not nomi("Torino", "Matera")
