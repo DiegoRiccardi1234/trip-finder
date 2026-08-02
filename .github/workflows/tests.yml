@@ -5,7 +5,10 @@
 # scaricati: scaricarli a ogni giro renderebbe l'esito di questa verifica
 # dipendente da due siti di terzi. Gli otto test che ne hanno bisogno si saltano
 # dichiarandolo (vedi `tests/_datasets.py`), e gli altri girano davvero.
-# Misurato su un clone senza `data/`: 175 passed, 8 skipped.
+# Misurato su un clone senza `data/`, col browser installato: 186 passed,
+# 27 skipped. Gli skip sono tutti e soli i test che vogliono i dataset — da
+# quando c'e' anche il gazetteer mondiale sono le citta' del mondo, gli esonimi,
+# i fusi orari e gli hub.
 #
 # Chi aggiunge test che alzano l'applicazione (`TestClient`) non usi il context
 # manager: quello esegue l'avvio, che costruisce l'indice geografico e senza i
@@ -31,6 +34,12 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
+
+      # I test della pagina guidano un browser vero. Senza questo passo si
+      # saltano da soli, dichiarandolo: e' il comportamento giusto sul portatile
+      # di chi clona, ma qui la pagina va provata davvero.
+      - name: Install Chromium
+        run: patchright install --with-deps chromium
 
       - name: Run the offline suite
         run: pytest tests -q
