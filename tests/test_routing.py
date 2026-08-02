@@ -114,6 +114,44 @@ def test_un_prezzo_normale_non_diventa_una_stima(query: SearchQuery) -> None:
     assert all("a partire da" not in line.label for line in breakdown.lines)
 
 
+def test_un_prezzo_in_sterline_non_diventa_euro_per_finta(query: SearchQuery) -> None:
+    """Il totale e' la cifra su cui si decide, e la classifica ci ordina sopra.
+
+    Prima `compute` sommava `leg.fare.amount` senza mai guardare la valuta: 95
+    sterline finivano nel totale come 95 euro, stampate «95,00 €», sbagliate del
+    venti per cento e senza un avviso."""
+    from app.routing import rates
+
+    rates.imposta_per_test({"GBP": 0.85573}, "2026-07-31")
+    leg = make_leg("ryanair", Mode.AIR, TORINO_PN, BARI_C, at(8), at(10), price=95.0)
+    leg.fare.currency = "GBP"
+
+    breakdown = cost.compute([leg], query)
+    riga = next(line for line in breakdown.lines if line.kind == "fare")
+
+    assert riga.amount == 111.02  # 95 / 0,85573
+    assert "[GBP]" in riga.label, "la valuta dell'operatore resta in chiaro"
+    assert not riga.estimated, "convertita al cambio del giorno, non stimata"
+
+
+def test_una_valuta_senza_cambio_non_passa_per_certa(query: SearchQuery) -> None:
+    """Senza tasso non si inventa: la cifra resta quella e la riga si dichiara
+    incerta, perche' e' l'unica cosa onesta da fare con un numero che non e'
+    confrontabile con gli altri."""
+    from app.routing import rates
+
+    rates.imposta_per_test({"GBP": 0.85573}, "2026-07-31")
+    leg = make_leg("misterioso", Mode.AIR, TORINO_PN, BARI_C, at(8), at(10), price=50.0)
+    leg.fare.currency = "AUD"
+
+    breakdown = cost.compute([leg], query)
+    riga = next(line for line in breakdown.lines if line.kind == "fare")
+
+    assert riga.amount == 50.0
+    assert riga.estimated
+    assert breakdown.has_estimates
+
+
 def test_ultimo_miglio_curato_bari_matera() -> None:
     """Il collegamento Bari aeroporto - Matera e' quello che ribalta i conti su
     un volo low cost, e va preso dalla tabella curata, non stimato."""

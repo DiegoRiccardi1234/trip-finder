@@ -69,12 +69,18 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     # altrimenti il catalogo di agosto per sempre, mentre il 30 novembre
     # scadono due promo.
     async def _tessere() -> None:
-        from app.routing import tessere
+        from app.routing import rates, tessere
 
         try:
             await tessere.aggiorna()
         except Exception:  # noqa: BLE001 - mai far cadere l'avvio per questo
             logger.debug("aggiornamento del catalogo tessere non riuscito", exc_info=True)
+        try:
+            # I cambi servono a `cost.compute`, che e' sincrona e gira decine di
+            # migliaia di volte per ricerca: si scaricano qui, una volta.
+            await rates.aggiorna()
+        except Exception:  # noqa: BLE001 - senza cambi si continua a non convertire
+            logger.debug("cambi non aggiornati", exc_info=True)
 
     compito = asyncio.create_task(_tessere())
     try:

@@ -10,7 +10,7 @@ numero e' solido e dove no.
 from __future__ import annotations
 
 from app.models import CostBreakdown, CostLine, Leg, Mode, SearchQuery
-from app.routing import discounts, transfers
+from app.routing import discounts, rates, transfers
 
 #: Prezzo di un bagaglio da stiva a tratta, per operatore.
 #: Le compagnie che lo includono valgono zero e non vanno indovinate.
@@ -121,18 +121,32 @@ def compute(legs: list[Leg], query: SearchQuery) -> CostBreakdown:
 
         label = f"{leg.operator or leg.provider}: {leg.origin.name} - {leg.destination.name}"
         if leg.fare is not None:
-            prezzo = round(leg.fare.amount, 2)
+            # Il totale e' in euro e deve restarci, perche' e' quello che la
+            # classifica confronta. Una tariffa in sterline sommata com'e'
+            # sbagliava del venti per cento senza dirlo, e cambiava anche quale
+            # viaggio veniva consigliato.
+            prezzo, convertito = rates.converti(round(leg.fare.amount, 2), leg.fare.currency)
+            prezzo = round(prezzo, 2)
+            nota_valuta = rates.note(leg.fare.currency)
             # «A partire da» non e' il prezzo di quella corsa, e' il minimo del
             # giorno: va detto dove si legge il totale, non solo nella nota
             # dentro il dettaglio. Il principio vale per tutte le voci — quelle
             # stimate si chiamano stimate — e questa era l'unica che sfuggiva.
             indicativo = leg.fare.indicative
+            etichetta = label
+            if indicativo:
+                etichetta += " (a partire da)"
+            if nota_valuta:
+                etichetta += f" [{leg.fare.currency}]"
             lines.append(
                 CostLine(
-                    label=f"{label} (a partire da)" if indicativo else label,
+                    label=etichetta,
                     amount=prezzo,
                     kind="fare",
-                    estimated=indicativo,
+                    # Un prezzo che non si e' potuto convertire non e' una cifra
+                    # certa: dichiararlo tale sarebbe la bugia peggiore, perche'
+                    # e' proprio il numero su cui si decide.
+                    estimated=indicativo or not convertito,
                 )
             )
             sconto = _discount_line(leg, query, prezzo)
