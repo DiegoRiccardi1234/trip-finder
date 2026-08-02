@@ -146,7 +146,14 @@ Due conseguenze non ovvie:
   merita un ritmo suo.
 
 La coda dei 31 secondi non sono i risultati — quelli ci sono dopo sei — ma gli
-operatori più lenti che chiudono e il consiglio dell'IA, che arriva per ultimo.
+operatori più lenti che chiudono.
+
+Il consiglio dell'IA **non è più dentro quel numero**: nasceva in fondo alla
+ricerca, che quindi non poteva dichiararsi finita prima che un modello avesse
+risposto. Ora lo chiede la pagina a ricerca chiusa, e la differenza non è solo
+di tempo — così il modello vede le soluzioni come le vede chi guarda, coppie
+andata e ritorno comprese, e la richiesta si può ripetere senza rifare la
+ricerca.
 
 ---
 

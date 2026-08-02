@@ -139,6 +139,12 @@ dice**, con il motivo: nessuna chiave, fornitore che ha rifiutato, risposta
 troncata. Prima il blocco spariva e basta, e l'IA rotta era indistinguibile
 dall'IA assente.
 
+E il motivo porta con sé il rimedio giusto, che non è sempre lo stesso: se manca
+la chiave si va nelle impostazioni, se ha sbagliato il modello si **riprova** —
+un tentativo parte da solo, poi resta il bottone. Riprovare serve davvero perché
+il server ha appena penalizzato la coppia (fornitore, modello) che ha fallito, e
+al giro dopo ne tocca un'altra.
+
 I fornitori a pagamento restano spenti anche con la chiave inserita, finché non
 si accende l'interruttore nelle impostazioni: metterli in fondo alla fila non
 bastava, perché una giornata storta dei gratuiti li faceva scattare lo stesso.
@@ -220,6 +226,31 @@ si confondono di continuo:
 
 I margini minimi di coincidenza sono per modo: dieci minuti fra due treni, ma
 110 minuti per prendere un aereo, perché il vincolo è il check-in.
+
+### Il consiglio, che deve dire di quale soluzione parla
+
+Una classifica ordinata non è una decisione: le prime tre sono spesso
+incommensurabili, e il compromesso qualcuno deve dirlo ad alta voce. Il punto
+difficile non è farlo scrivere a un modello, è farlo scrivere su **queste**
+soluzioni.
+
+Ogni scheda porta un numero, scritto in alto a sinistra e fissato a ricerca
+conclusa. Il consiglio lo cita, e nel testo quel numero è un bottone: ci si
+clicca e si finisce sulla scheda giusta, evidenziata. Il numero resta attaccato
+alla soluzione anche riordinando per prezzo o filtrando il mezzo — un consiglio
+già scritto continua a puntare dove deve.
+
+Il modello riceve esattamente quello che è a schermo, perché è **la pagina** a
+chiederlo, non il motore: coppie andata e ritorno con il prezzo sommato, quante
+soluzioni ci sono in tutto, i vincoli che il motore ha dovuto mettere da parte,
+gli avvisi in italiano e le note che rendono un prezzo condizionato. E le
+differenze fra le soluzioni arrivano **già calcolate**: le sottrazioni fatte a
+mente da un modello sono sbagliate abbastanza spesso, dentro frasi che sembrano
+perfette.
+
+Due controlli prima che il testo compaia: se cita una soluzione che non esiste,
+o se non ne cita nessuna, la risposta si scarta e tocca a un altro modello.
+Quando invece non arriva niente, la pagina dice il motivo e offre «Riprova».
 
 ### Le tessere, che sono un dato che scade
 
@@ -448,9 +479,11 @@ Una ricerca Torino → Matera genera 8 percorsi candidati e circa 520
 interrogazioni verso gli operatori. Misurata con i valori di default: i primi
 **25 itinerari sono a schermo dopo 6-7 secondi**, e la ricerca si dichiara
 completata intorno ai 30 secondi a cache fredda, 16 con la cache calda. La coda
-non sono i risultati, sono gli operatori più lenti che chiudono e il consiglio
-dell'IA, che arriva per ultimo: i risultati intanto sono già in classifica, che
-si riordina in streaming man mano che arrivano.
+non sono i risultati, sono gli operatori più lenti che chiudono: i risultati
+intanto sono già in classifica, che si riordina in streaming man mano che
+arrivano. Il consiglio dell'IA non è dentro quel numero — lo chiede la pagina a
+ricerca chiusa, e prima invece la ricerca non poteva dichiararsi finita finché
+un modello non aveva risposto.
 
 Tre manopole in `.env` se serve muoverle:
 
