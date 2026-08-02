@@ -46,6 +46,39 @@ TOP_N = 25
 #: Ogni quanto ricalcolare la classifica mentre arrivano gambe nuove.
 REFRESH_SECONDS = 1.2
 
+#: Dove sappiamo interrogare qualcuno. Non e' un vincolo del motore — le citta'
+#: del mondo si risolvono, gli scali si generano, i fusi sono giusti — e' l'elenco
+#: dei paesi in cui esiste almeno un adapter oltre a Ryanair.
+PAESI_COPERTI = frozenset(
+    {"IT", "FR", "DE", "AT", "CH", "ES", "PT", "NL", "BE", "LU", "GB", "IE",
+     "DK", "SE", "NO", "FI", "PL", "CZ", "SK", "HU", "SI", "HR", "RO", "BG",
+     "GR", "EE", "LV", "LT", "RS", "BA", "ME", "MK", "AL", "LI", "MC", "SM",
+     "MT", "CY", "MA", "TN", "TR", "UA"}
+)
+
+
+def _fuori_copertura(origin: Place, destination: Place) -> str:
+    """Perche' non c'e' niente, detto in modo che si capisca cosa fare.
+
+    «Nessun operatore copre questa tratta» era vero e inutile: chi cerca Tokyo
+    non ha sbagliato a scrivere, e non ha modo di sapere che il problema non e'
+    la sua ricerca ma la nostra copertura. Dirlo e' la stessa regola che vale
+    per un operatore che non risponde: cio' che manca si dichiara."""
+    fuori = [
+        place.label
+        for place in (origin, destination)
+        if place.country and place.country not in PAESI_COPERTI
+    ]
+    if not fuori:
+        return "nessun operatore copre questa tratta con i modi scelti"
+    dove = " e ".join(fuori)
+    return (
+        f"Nessuno degli operatori che sappiamo interrogare arriva a {dove}. "
+        "La ricerca copre l'Europa: fuori, per ora, ci sono solo i voli Ryanair. "
+        "Gli orari e i prezzi di treni e pullman locali vanno cercati sui siti "
+        "degli operatori del posto."
+    )
+
 
 @dataclass
 class SearchEvent:
@@ -152,12 +185,7 @@ class SearchService:
             yield SearchEvent("known_routes", unreachable)
 
         if not tasks_spec:
-            yield SearchEvent(
-                "error",
-                {
-                    "message": "nessun operatore copre questa tratta con i modi scelti",
-                },
-            )
+            yield SearchEvent("error", {"message": _fuori_copertura(origin, destination)})
             yield SearchEvent("done", {"itineraries": 0})
             return
 
@@ -292,6 +320,14 @@ class SearchService:
                 "relaxed": self._relaxed(itineraries[:TOP_N], state, query),
             },
         )
+
+        # Zero soluzioni fuori dai paesi coperti non e' «non c'e' niente quel
+        # giorno», e' «non sappiamo chiedere a nessuno». Sono due cose diverse e
+        # solo una delle due si risolve cambiando data.
+        if not itineraries:
+            messaggio = _fuori_copertura(origin, destination)
+            if "sappiamo interrogare" in messaggio:
+                yield SearchEvent("error", {"message": messaggio})
 
         yield SearchEvent(
             "done",

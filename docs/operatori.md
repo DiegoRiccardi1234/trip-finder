@@ -159,6 +159,33 @@ l'evidenza e il punto da cui ripartire.
 
 ---
 
+## Voli fuori Europa: nessuna API aperta, quattro sondate
+
+Sondato il 2 agosto 2026, quando la ricerca ha smesso di essere europea. Il
+problema non e' piu' geografico — le citta' del mondo si trovano, gli aeroporti
+sono nel dataset, gli scali si generano — ma di **chi interrogare**: fuori
+Europa l'unico adapter che risponde e' Ryanair, che li' non vola.
+
+| Fonte | Cosa risponde | Nota |
+|---|---|---|
+| **Amadeus Self-Service** | `test.api.amadeus.com` e `api.amadeus.com` **non hanno record DNS**. Verificato due volte, dal resolver locale e da Cloudflare DoH (`Status: 0`, nessun record A, AAAA o CNAME); `amadeus.com` e `developers.amadeus.com` risolvono regolarmente | Era il candidato che sembrava piu' probabile. Non e' raggiungibile: qualunque adapter fallirebbe in DNS |
+| **Duffel** | `400 Missing version header` su `api.duffel.com/air/airports` — l'API c'e' ed e' viva | Serve una chiave. Il piano di prova vende voli di una compagnia fittizia (Duffel Airways): per prezzi veri serve un accordo con i vettori |
+| **Kiwi Tequila** | `403 'apikey' header is required` | Programma partner, non piu' aperto alle registrazioni libere |
+| **Travelpayouts (Aviasales Data API)** | `401 Unauthorized`, e la documentazione e' pubblica e viva | **Il piu' praticabile**: registrazione da affiliato gratuita e senza carta, token subito. I prezzi sono quelli osservati dalle ricerche fatte sul loro network, non una disponibilita' live — vanno quindi dichiarati per quello che sono |
+
+La conclusione onesta: **una copertura mondiale dei voli e' possibile, ma non
+senza una chiave di qualcuno.** La forma giusta e' la stessa gia' usata per
+l'IA — la chiave la mette l'utente dalle impostazioni, e senza chiave il
+programma funziona identico solo senza quei voli.
+
+Treni e pullman fuori Europa sono un'altra storia e vanno detti chiaramente:
+JR in Giappone e Amtrak negli Stati Uniti non pubblicano API, e chi li rivende
+lo fa dietro accordo commerciale. Per quelli l'unica cosa corretta e' quella che
+il programma fa gia' con Italo e Tirrenia: dichiararli, con il link, invece di
+far credere che il collegamento non esista.
+
+---
+
 ## FAL: orario statico da PDF
 
 Ferrovie Appulo Lucane non ha nessuna API ed e' l'unico servizio ferroviario che
