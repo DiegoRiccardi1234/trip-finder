@@ -41,6 +41,31 @@ URBAN_CATEGORIES = {"Urbano", "Metropolitano"}
 SOLD_OUT = "SOLD_OUT"
 
 
+#: Da che ora si guarda la giornata quando nessuno ha chiesto altro. Non le
+#: 00:00 perche' il backend vuole un orario gia' cominciato.
+PRIMA_ORA = "00:01:00.000"
+
+#: Quante soluzioni tornano per richiesta. **Non e' una scelta nostra**: il
+#: backend ne manda dieci qualunque cosa si chieda. `limit` viene accettato e
+#: ignorato (30 e 100 rispondono le stesse dieci), e i nomi alternativi
+#: plausibili — `pageSize`, `size`, `maxResults`, `numberOfSolutions` — sono
+#: chiavi sconosciute e fanno HTTP 400. Verificato il 2026-08-17.
+PAGINA = 10
+
+#: Quante pagine al massimo. Sulla tratta piu' densa misurata, Firenze SMN ->
+#: Torino Porta Nuova, la giornata intera stava in cinque pagine (41 soluzioni,
+#: l'ultima partenza alle 19:55). Sei e' il margine; serve solo a impedire che
+#: un cambio di comportamento del backend diventi un ciclo senza fine.
+MAX_PAGINE = 6
+
+
+def _ora_di_partenza(ctx: SearchContext) -> str:
+    """L'orario da cui chiedere le soluzioni, nel formato del backend."""
+    if ctx.depart_after is None:
+        return PRIMA_ORA
+    return ctx.depart_after.strftime("%H:%M:%S.000")
+
+
 def uic_to_location_id(uic: str) -> str | None:
     """Converte l'UIC del dataset (8300219) nell'ID usato da lefrecce (830000219).
 
@@ -63,6 +88,13 @@ class Trenitalia(Provider):
     website = "https://www.lefrecce.it/"
     sample_route = ("Torino", "Milano")
 
+    def cache_key(self, origin: Node, destination: Node, ctx: SearchContext) -> str:
+        # L'ora minima entra nella richiesta, quindi deve entrare nella chiave:
+        # due ricerche sulla stessa tratta e data ricevono risposte diverse, e
+        # riusarne una per l'altra rimetterebbe il difetto esattamente dov'era,
+        # ma senza traffico di rete che lo renda visibile.
+        return f"{super().cache_key(origin, destination, ctx)}:{_ora_di_partenza(ctx)}"
+
     async def fetch(self, origin: Node, destination: Node, ctx: SearchContext) -> Any:
         origin_id = uic_to_location_id(self.native_id(origin) or "")
         dest_id = uic_to_location_id(self.native_id(destination) or "")
@@ -72,9 +104,16 @@ class Trenitalia(Provider):
         payload = {
             "departureLocationId": int(origin_id),
             "arrivalLocationId": int(dest_id),
-            # Si parte dalla mezzanotte per coprire l'intera giornata: il
-            # backend restituisce le soluzioni a partire dall'orario indicato.
-            "departureTime": f"{ctx.date.isoformat()}T00:01:00.000",
+            # Il backend restituisce le soluzioni **a partire** dall'orario
+            # indicato, dieci per richiesta: `limit` viene ignorato (misurato il
+            # 2026-08-17 su Firenze SMN -> Torino Porta Nuova, dove 30 e 100
+            # rispondono le stesse dieci soluzioni, 00:40 -> 07:53). Chiedere
+            # sempre dalla mezzanotte vuol dire quindi non vedere mai il
+            # pomeriggio di una tratta frequentata. Quando chi cerca ha gia'
+            # detto da che ora puo' partire, quella e' l'ora giusta da cui
+            # guardare: stessa richiesta, stesso costo, e la parte di giornata
+            # che gli serve. Senza vincolo si riparte dalla mezzanotte.
+            "departureTime": f"{ctx.date.isoformat()}T{_ora_di_partenza(ctx)}",
             "adults": max(1, ctx.pax),
             "children": 0,
             "criteria": {
@@ -84,12 +123,39 @@ class Trenitalia(Provider):
                 "tourismOnly": False,
                 "noChanges": False,
                 "order": "DEPARTURE_DATE",
-                "limit": 30,
+                "limit": PAGINA,
                 "offset": 0,
             },
             "advancedSearchRequest": {"bestFare": False, "bikeFilter": False},
         }
 
+        # La giornata si prende a pagine, perche' non c'e' altro modo di
+        # prenderla: `offset` cammina contiguo e l'unico segnale di fine e' una
+        # pagina corta. Sulla tratta magra questo resta **una** richiesta come
+        # prima; su una densa ne servono cinque, ed e' il prezzo di non
+        # nascondere il pomeriggio.
+        prima: dict | None = None
+        soluzioni: list[Any] = []
+        for pagina in range(MAX_PAGINE):
+            # Un payload nuovo per pagina invece di mutare quello di prima: chi
+            # tiene un riferimento — un log, una fixture, un test — deve vedere
+            # la richiesta che e' partita davvero, non l'ultimo `offset` scritto.
+            corrente = await self._una_pagina(
+                {**payload, "criteria": {**payload["criteria"], "offset": pagina * PAGINA}},
+                ctx,
+            )
+            if prima is None:
+                prima = corrente
+            trovate = corrente.get("solutions") or []
+            soluzioni.extend(trovate)
+            if len(trovate) < PAGINA:
+                break
+
+        risposta = dict(prima or {"solutions": []})
+        risposta["solutions"] = soluzioni
+        return risposta
+
+    async def _una_pagina(self, payload: dict, ctx: SearchContext) -> dict:
         try:
             response = await ctx.http.post(
                 SOLUTIONS_URL,

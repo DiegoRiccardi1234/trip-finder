@@ -58,6 +58,15 @@ class SearchContext:
     pax: int = 1
     with_checked_bag: bool = False
     currency: str = "EUR"
+    #: L'ora minima di partenza dichiarata da chi cerca, se c'e'. Non e' un
+    #: filtro — quello lo applica il ranker — ma un'informazione che permette a
+    #: un operatore di rispondere sulla parte di giornata che interessa davvero.
+    #: Serve dove il backend pagina: Trenitalia restituisce dieci soluzioni per
+    #: richiesta a partire dall'orario indicato, quindi chiedere sempre dalla
+    #: mezzanotte significa non vedere mai il pomeriggio. Chi la usa deve
+    #: metterla anche nella propria `cache_key`, o si riprende la risposta
+    #: dell'altra ora.
+    depart_after: time | None = None
     http: HttpClient = field(default_factory=get_http_client)
 
     def local_dt(self, node: Node, day: date, clock: time) -> datetime:

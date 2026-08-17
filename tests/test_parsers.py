@@ -11,7 +11,7 @@ Per aggiungere o aggiornare una fixture:
 
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, time
 
 import orjson
 import pytest
@@ -490,3 +490,140 @@ def test_gli_operatori_del_mondo_si_dichiarano() -> None:
     assert "Eurostar" in nomi("Londra", "Parigi")
     # E dove invece cerchiamo davvero non si suggerisce nessuno al posto nostro.
     assert not nomi("Torino", "Matera")
+
+
+# ------------------------------------ Trenitalia: da che ora guarda la giornata
+
+
+class _RispostaFinta:
+    """Il minimo che `Trenitalia.fetch` legge di una risposta HTTP."""
+
+    def __init__(self, payload: dict) -> None:
+        self._payload = payload
+        self.status_code = 200
+        self.text = ""
+
+    def json(self) -> dict:
+        return self._payload
+
+
+class _HttpFinto:
+    """Registra i payload inviati e restituisce le pagine preparate, in ordine.
+
+    Serve a leggere **cosa chiediamo** a Trenitalia: e' li' che stava il difetto,
+    non nel parsing."""
+
+    def __init__(self, pagine: list[dict] | None = None) -> None:
+        self.pagine = pagine or [{"solutions": []}]
+        self.inviati: list[dict] = []
+
+    async def post(self, url: str, **kwargs) -> _RispostaFinta:
+        self.inviati.append(kwargs.get("json") or {})
+        indice = min(len(self.inviati) - 1, len(self.pagine) - 1)
+        return _RispostaFinta(self.pagine[indice])
+
+
+def _stazione(node_id: str, nome: str, trenitalia_id: str, lat: float, lon: float) -> Node:
+    return Node(
+        id=node_id,
+        name=nome,
+        kind="station",
+        lat=lat,
+        lon=lon,
+        country="IT",
+        timezone="Europe/Rome",
+        provider_ids={"trenitalia": trenitalia_id},
+    )
+
+
+FIRENZE_SMN = _stazione("tl:8434", "Firenze Santa Maria Novella", "8306421", 43.7768, 11.2478)
+TORINO_PN_RAIL = _stazione("tl:8300219", "Torino Porta Nuova", "8300219", 45.0625, 7.6785)
+
+
+async def test_l_ora_minima_di_partenza_arriva_fino_a_trenitalia() -> None:
+    """Chi ha un impegno la mattina cerca il ritorno del pomeriggio, e il
+    pomeriggio non arrivava mai.
+
+    Misurato il 2026-08-17 su Firenze SMN -> Torino Porta Nuova: il backend
+    restituisce **dieci** soluzioni per richiesta e ignora il `limit`, quindi
+    partire dalla mezzanotte copre fino alle 07:53 e basta. Ancorando invece la
+    richiesta alle 13:30 risponde 13:37 -> 16:55. L'ora che l'utente ha gia'
+    dichiarato e' l'informazione che rende la richiesta utile: va usata."""
+    provider = registry.get("trenitalia")
+    http = _HttpFinto()
+    ctx = SearchContext(date=date(2026, 8, 27), http=http, depart_after=time(13, 30))
+
+    await provider.fetch(FIRENZE_SMN, TORINO_PN_RAIL, ctx)
+
+    assert http.inviati, "nessuna richiesta inviata"
+    assert http.inviati[0]["departureTime"] == "2026-08-27T13:30:00.000"
+
+
+async def test_senza_ora_minima_si_parte_dalla_mezzanotte() -> None:
+    """Il comportamento di prima resta quello giusto quando non c'e' un vincolo:
+    chi non ha dichiarato un'ora vuole vedere la giornata dall'inizio."""
+    provider = registry.get("trenitalia")
+    http = _HttpFinto()
+    ctx = SearchContext(date=date(2026, 8, 27), http=http)
+
+    await provider.fetch(FIRENZE_SMN, TORINO_PN_RAIL, ctx)
+
+    assert http.inviati[0]["departureTime"] == "2026-08-27T00:01:00.000"
+
+
+def _soluzioni(quante: int, prima_ora: int = 6) -> dict:
+    return {
+        "solutions": [
+            {"solution": {"departureTime": f"2026-08-27T{prima_ora + i:02d}:00:00.000"}}
+            for i in range(quante)
+        ]
+    }
+
+
+async def test_la_giornata_si_chiede_a_pagine_finche_ce_n_e() -> None:
+    """Il backend risponde dieci soluzioni per volta e non si puo' alzare la
+    pagina: `pageSize`, `size`, `maxResults` e `numberOfSolutions` sono chiavi
+    sconosciute (HTTP 400), `limit` viene accettato e ignorato. L'unico modo di
+    vedere la giornata e' `offset`, che cammina contiguo — misurato il
+    2026-08-17 su Firenze SMN -> Torino Porta Nuova: 00:40, 07:55, 12:28, 14:55,
+    19:55 — e si ferma da solo quando la pagina torna corta."""
+    provider = registry.get("trenitalia")
+    http = _HttpFinto([_soluzioni(10), _soluzioni(3, prima_ora=16)])
+    ctx = SearchContext(date=date(2026, 8, 27), http=http)
+
+    raw = await provider.fetch(FIRENZE_SMN, TORINO_PN_RAIL, ctx)
+
+    assert [p["criteria"]["offset"] for p in http.inviati] == [0, 10]
+    assert len(raw["solutions"]) == 13
+
+
+async def test_una_pagina_corta_chiude_la_giornata() -> None:
+    """La tratta magra deve costare quanto costava: una richiesta sola. Una
+    pagina che torna corta dice gia' che dopo non c'e' altro, e insistere
+    sarebbe una richiesta buttata su ogni coppia di stazioni di ogni ricerca."""
+    provider = registry.get("trenitalia")
+    http = _HttpFinto([_soluzioni(4)])
+    ctx = SearchContext(date=date(2026, 8, 27), http=http)
+
+    await provider.fetch(FIRENZE_SMN, TORINO_PN_RAIL, ctx)
+
+    assert len(http.inviati) == 1
+
+
+def test_due_ore_di_partenza_diverse_non_condividono_la_cache() -> None:
+    """La chiave di cache dice quale risposta e' riusabile. Da quando l'ora
+    minima cambia **la richiesta**, due ricerche sulla stessa tratta e data non
+    ricevono piu' la stessa risposta: senza questo, la ricerca col vincolo si
+    riprenderebbe le corse del mattino gia' in cache e il difetto tornerebbe
+    identico, ma invisibile perche' senza traffico di rete."""
+    provider = registry.get("trenitalia")
+    giorno = date(2026, 8, 27)
+
+    mezzanotte = provider.cache_key(
+        FIRENZE_SMN, TORINO_PN_RAIL, SearchContext(date=giorno)
+    )
+    pomeriggio = provider.cache_key(
+        FIRENZE_SMN, TORINO_PN_RAIL, SearchContext(date=giorno, depart_after=time(13, 30))
+    )
+
+    assert mezzanotte != pomeriggio

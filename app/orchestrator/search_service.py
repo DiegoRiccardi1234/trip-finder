@@ -195,6 +195,7 @@ class SearchService:
             date=query.date,
             pax=query.pax,
             with_checked_bag=query.with_checked_bag,
+            depart_after=query.depart_after,
             http=get_http_client(),
         )
         semaphore = asyncio.Semaphore(self._settings.search_max_concurrency)
