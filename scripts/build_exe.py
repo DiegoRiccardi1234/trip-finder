@@ -28,7 +28,13 @@ BUILD = ROOT / "build"
 BUNDLE = DIST / "TripFinder"
 
 #: I cataloghi che il resolver geografico non puo' non avere.
-DATASETS = ("stations.csv", "airports.csv")
+#: Quello che finisce nello zip. Sviluppo e bundle sono due ambienti diversi:
+#: `data/` qui e' pieno, nel bundle c'e' **solo** cio' che questa tupla nomina.
+#: Una funzione che dipende da un dato nuovo va aggiunta qui, o funziona per chi
+#: sviluppa e non per chi scarica — che e' esattamente com'e' uscita la 0.5.0:
+#: il gazetteer mondiale c'era nel repo e non nello zip, quindi nell'app
+#: scaricabile «Tokyo» non esisteva e «Londra» risolveva su Ondara, in Spagna.
+DATASETS = ("stations.csv", "airports.csv", "cities15000.txt")
 
 
 def _assicura_datasets() -> bool:
