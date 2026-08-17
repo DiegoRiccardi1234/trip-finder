@@ -4,6 +4,50 @@ Le versioni seguono [semver](https://semver.org/lang/it/). Il testo di ogni
 sezione finisce nelle note della release: si scrive per chi usa il programma,
 non per chi lo scrive.
 
+## [0.6.0]
+
+**I treni non spariscono più.** La 0.5.1 chiedeva a Trenitalia l'intera
+giornata su **ogni** coppia di stazioni, una richiesta dopo l'altra: venti
+coppie, cinque pagine a testa, cento richieste allo stesso sito, ventinove
+secondi di coda contro i diciotto che ogni operatore ha per rispondere. Le
+ultime non ce la facevano, e dopo tre volte il motore spegneva Trenitalia per
+cinque minuti — cioè una ricerca di treni poteva rispondere **senza un treno**.
+Adesso la giornata intera si chiede solo sulla tratta che stai cercando, le
+pagine partono insieme invece che in fila, e quelle di scorta hanno un tempo
+massimo: nel caso peggiore vedi qualche corsa in meno, mai zero. Da cento
+richieste a trentasei, e la ricerca dura la metà.
+
+**La ricerca si toglie di mezzo quando hai cercato.** Il modulo restava aperto e
+alto, e con le fermate risolte spingeva il primo risultato a ottocento pixel di
+scorrimento. Ora si chiude su una riga — «Prato → Torino, dal gio 27 ago» — e
+«Modifica» lo riapre esattamente com'era, fermate scelte comprese.
+
+**Quando un operatore non risponde, adesso c'è scritto.** Prima lo diceva solo
+il colore di una pastiglia fra tredici, con una spiegazione in gergo inglese
+dentro un suggerimento che sul telefono non esiste. Se un operatore cade, sopra
+la classifica compare una riga che lo dice: la classifica è meno completa di
+come sembra, ed è il genere di cosa che questo programma dichiara.
+
+**«Nessuna soluzione rispetta il tuo vincolo» non si dice più a metà ricerca.**
+Compariva mentre gli operatori stavano ancora rispondendo, e a ricerca finita le
+soluzioni che lo rispettavano erano due. Finché cerca, adesso è scritto come
+provvisorio.
+
+**Il punteggio si legge.** In fondo ai dettagli c'era una fila di decimali senza
+etichette. Adesso è un prospetto con gli stessi nomi dei cursori di «Priorità»,
+e risponde alla domanda che conta: perché questa soluzione è la prima.
+
+**«Interpreta» non perde più i vincoli per strada.** Scrivendo «massimo due
+cambi» il limite restava a tre e il riepilogo non lo nominava: al modello quel
+dato non era mai stato chiesto. Ora lo chiede, lo applica e lo scrive.
+
+**Il Profilo ricorda quello che ripeti davvero:** niente notturni, massimo
+cambi, budget e valigia da stiva, oltre alla partenza abituale.
+
+**E i prezzi dicono di quando sono.** Si muovono: la stessa corsa è passata da
+28,98 a 36,18 euro in diciassette minuti. Accanto ai risultati c'è l'ora in cui
+sono stati letti.
+
 ## [0.5.1]
 
 **Il pomeriggio esiste.** Su una tratta ferroviaria frequentata la ricerca
