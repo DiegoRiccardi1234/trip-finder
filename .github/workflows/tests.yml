@@ -1,11 +1,11 @@
 # La suite non tocca la rete: i parser girano sulle fixture salvate in
 # `tests/fixtures/` e il motore su dati sintetici.
 #
-# I due dataset geografici (29 MB) non stanno nel repository e qui non vengono
+# I tre dataset geografici (37 MB) non stanno nel repository e qui non vengono
 # scaricati: scaricarli a ogni giro renderebbe l'esito di questa verifica
-# dipendente da due siti di terzi. Gli otto test che ne hanno bisogno si saltano
+# dipendente da siti di terzi. I test che ne hanno bisogno si saltano
 # dichiarandolo (vedi `tests/_datasets.py`), e gli altri girano davvero.
-# Misurato su un clone senza `data/`, col browser installato: 186 passed,
+# Misurato su un clone senza `data/`, col browser installato: 192 passed,
 # 27 skipped. Gli skip sono tutti e soli i test che vogliono i dataset — da
 # quando c'e' anche il gazetteer mondiale sono le citta' del mondo, gli esonimi,
 # i fusi orari e gli hub.
