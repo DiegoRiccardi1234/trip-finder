@@ -11,6 +11,7 @@ Per aggiungere o aggiornare una fixture:
 
 from __future__ import annotations
 
+import asyncio
 from datetime import date, time
 
 import orjson
@@ -19,7 +20,9 @@ import pytest
 from app.config import FIXTURES_DIR
 from app.models import Leg, Mode, Node
 from app.providers import registry
-from app.providers.base import SearchContext
+from app.providers.base import ProviderError, SearchContext
+from app.providers.http_client import HttpError
+from app.providers.rail import trenitalia
 from tests._datasets import needs_datasets
 
 #: FlixBus non pubblica le coordinate delle sue fermate: il parser le recupera
@@ -508,19 +511,49 @@ class _RispostaFinta:
 
 
 class _HttpFinto:
-    """Registra i payload inviati e restituisce le pagine preparate, in ordine.
+    """Registra cosa chiediamo a Trenitalia e con quale contemporaneita'.
 
-    Serve a leggere **cosa chiediamo** a Trenitalia: e' li' che stava il difetto,
-    non nel parsing."""
+    Serve a leggere **cosa chiediamo**: e' li' che stava il difetto, non nel
+    parsing. Le pagine si indirizzano per `offset` e non per ordine di arrivo,
+    perche' da quando partono insieme l'ordine non e' piu' garantito.
 
-    def __init__(self, pagine: list[dict] | None = None) -> None:
+    `max_in_volo` e' il modo deterministico di misurare il parallelismo: contare
+    i secondi renderebbe il test una misura della velocita' della macchina."""
+
+    def __init__(
+        self,
+        pagine: list[dict] | None = None,
+        rompe_a: set[int] | None = None,
+        lente: set[int] | None = None,
+    ) -> None:
         self.pagine = pagine or [{"solutions": []}]
+        self.rompe_a = rompe_a or set()
+        self.lente = lente or set()
         self.inviati: list[dict] = []
+        self.in_volo = 0
+        self.max_in_volo = 0
 
     async def post(self, url: str, **kwargs) -> _RispostaFinta:
-        self.inviati.append(kwargs.get("json") or {})
-        indice = min(len(self.inviati) - 1, len(self.pagine) - 1)
-        return _RispostaFinta(self.pagine[indice])
+        payload = kwargs.get("json") or {}
+        self.inviati.append(payload)
+        offset = (payload.get("criteria") or {}).get("offset", 0)
+        self.in_volo += 1
+        self.max_in_volo = max(self.max_in_volo, self.in_volo)
+        try:
+            # Cede il controllo: senza un punto di sospensione le coroutine
+            # finirebbero una per volta e il parallelismo non si vedrebbe.
+            await asyncio.sleep(30 if offset in self.lente else 0)
+            if offset in self.rompe_a:
+                raise HttpError(f"finto guasto sull'offset {offset}")
+            indice = offset // trenitalia.PAGINA
+            if indice >= len(self.pagine):
+                return _RispostaFinta({"solutions": []})
+            return _RispostaFinta(self.pagine[indice])
+        finally:
+            self.in_volo -= 1
+
+    def offsets(self) -> list[int]:
+        return sorted((p.get("criteria") or {}).get("offset", 0) for p in self.inviati)
 
 
 def _stazione(node_id: str, nome: str, trenitalia_id: str, lat: float, lon: float) -> Node:
@@ -538,6 +571,10 @@ def _stazione(node_id: str, nome: str, trenitalia_id: str, lat: float, lon: floa
 
 FIRENZE_SMN = _stazione("tl:8434", "Firenze Santa Maria Novella", "8306421", 43.7768, 11.2478)
 TORINO_PN_RAIL = _stazione("tl:8300219", "Torino Porta Nuova", "8300219", 45.0625, 7.6785)
+
+#: La tratta che l'utente ha chiesto. Solo su questa si spende la giornata
+#: intera: sulle coincidenze intermedie la prima pagina e' quello che c'e'.
+CHIESTA = (frozenset({FIRENZE_SMN.id}), frozenset({TORINO_PN_RAIL.id}))
 
 
 async def test_l_ora_minima_di_partenza_arriva_fino_a_trenitalia() -> None:
@@ -580,27 +617,64 @@ def _soluzioni(quante: int, prima_ora: int = 6) -> dict:
     }
 
 
-async def test_la_giornata_si_chiede_a_pagine_finche_ce_n_e() -> None:
+async def test_la_giornata_si_chiede_a_pagine() -> None:
     """Il backend risponde dieci soluzioni per volta e non si puo' alzare la
     pagina: `pageSize`, `size`, `maxResults` e `numberOfSolutions` sono chiavi
     sconosciute (HTTP 400), `limit` viene accettato e ignorato. L'unico modo di
     vedere la giornata e' `offset`, che cammina contiguo — misurato il
     2026-08-17 su Firenze SMN -> Torino Porta Nuova: 00:40, 07:55, 12:28, 14:55,
-    19:55 — e si ferma da solo quando la pagina torna corta."""
+    19:55."""
     provider = registry.get("trenitalia")
-    http = _HttpFinto([_soluzioni(10), _soluzioni(3, prima_ora=16)])
-    ctx = SearchContext(date=date(2026, 8, 27), http=http)
+    http = _HttpFinto([_soluzioni(10), _soluzioni(10), _soluzioni(3, prima_ora=16)])
+    ctx = SearchContext(date=date(2026, 8, 27), http=http, endpoints=CHIESTA)
 
     raw = await provider.fetch(FIRENZE_SMN, TORINO_PN_RAIL, ctx)
 
-    assert [p["criteria"]["offset"] for p in http.inviati] == [0, 10]
-    assert len(raw["solutions"]) == 13
+    assert http.offsets() == [0, 10, 20, 30, 40]
+    assert len(raw["solutions"]) == 23
 
 
-async def test_una_pagina_corta_chiude_la_giornata() -> None:
-    """La tratta magra deve costare quanto costava: una richiesta sola. Una
-    pagina che torna corta dice gia' che dopo non c'e' altro, e insistere
-    sarebbe una richiesta buttata su ogni coppia di stazioni di ogni ricerca."""
+async def test_le_pagine_dopo_la_prima_partono_insieme() -> None:
+    """In fila indiana la giornata costava **11,94 s** (cinque pagine da ~2,4 s,
+    misurate il 2026-08-17), e il budget di un provider `tier 1` e' 18 s: sotto
+    carico si sfora, e tre timeout aprono il circuito per cinque minuti. Il
+    risultato era peggiore del difetto che la paginazione doveva curare — prima
+    si vedevano solo i treni del mattino, poi nessun treno.
+
+    Gli `offset` non dipendono l'uno dall'altro, quindi non c'e' motivo di
+    aspettarli in fila."""
+    provider = registry.get("trenitalia")
+    http = _HttpFinto([_soluzioni(10)] * 5)
+    ctx = SearchContext(date=date(2026, 8, 27), http=http, endpoints=CHIESTA)
+
+    await provider.fetch(FIRENZE_SMN, TORINO_PN_RAIL, ctx)
+
+    assert http.max_in_volo > 1, "le pagine sono ancora in fila indiana"
+
+
+async def test_una_coincidenza_intermedia_si_ferma_alla_prima_pagina() -> None:
+    """Venti coppie di stazioni per ricerca, cinque pagine a testa, sono cento
+    richieste allo stesso host: ventinove secondi di coda contro i diciotto di
+    budget, misurati il 2026-08-17 su Prato -> Torino. Le ultime sforavano e
+    l'operatore veniva dichiarato guasto — cioe' i treni sparivano del tutto.
+
+    La giornata intera si paga dove serve: sulla tratta cercata. Per una gamba
+    di mezzo la prima pagina e' quello che c'e'."""
+    provider = registry.get("trenitalia")
+    http = _HttpFinto([_soluzioni(10)] * 5)
+    ctx = SearchContext(date=date(2026, 8, 27), http=http)  # nessun endpoint: e' di mezzo
+
+    await provider.fetch(FIRENZE_SMN, TORINO_PN_RAIL, ctx)
+
+    assert len(http.inviati) == 1
+
+
+async def test_la_prima_pagina_resta_una_sonda() -> None:
+    """La tratta magra deve costare quanto costava: una richiesta sola.
+
+    E' il motivo per cui la prima pagina si aspetta da sola invece di partire
+    insieme alle altre: su una tratta con pochi treni chiedere il resto sarebbe
+    lavoro buttato su ogni coppia di stazioni di ogni ricerca."""
     provider = registry.get("trenitalia")
     http = _HttpFinto([_soluzioni(4)])
     ctx = SearchContext(date=date(2026, 8, 27), http=http)
@@ -608,6 +682,53 @@ async def test_una_pagina_corta_chiude_la_giornata() -> None:
     await provider.fetch(FIRENZE_SMN, TORINO_PN_RAIL, ctx)
 
     assert len(http.inviati) == 1
+
+
+async def test_una_pagina_persa_non_porta_via_la_giornata() -> None:
+    """Restituire il mattino e' meglio che restituire niente.
+
+    Le pagine dopo la prima sono un di piu': se una non arriva, quello che e'
+    arrivato vale comunque. Sollevare l'eccezione farebbe fallire l'intero
+    provider — e un provider che fallisce ripetutamente si spegne da solo."""
+    provider = registry.get("trenitalia")
+    http = _HttpFinto([_soluzioni(10)] * 5, rompe_a={20})
+    ctx = SearchContext(date=date(2026, 8, 27), http=http, endpoints=CHIESTA)
+
+    raw = await provider.fetch(FIRENZE_SMN, TORINO_PN_RAIL, ctx)
+
+    assert len(raw["solutions"]) == 40, "la pagina persa doveva togliere solo se stessa"
+
+
+async def test_le_pagine_in_piu_hanno_un_tempo_massimo(monkeypatch) -> None:
+    """Nel caso peggiore si vedono meno corse, mai zero.
+
+    Una ricerca tocca decine di coppie di stazioni e tutte chiedono allo stesso
+    host: se la coda si allunga, aspettare comunque tutte le pagine porta la
+    chiamata oltre i 18 s di budget, e tre volte di fila il circuito si apre —
+    cioe' Trenitalia sparisce del tutto dalla classifica. Le pagine dopo la
+    prima sono un di piu': hanno un tempo, e chi non arriva viene lasciato.
+
+    E' la differenza fra «qualche corsa in meno» e «nessun treno»."""
+    monkeypatch.setattr(trenitalia, "BUDGET_PAGINE", 0.05)
+    provider = registry.get("trenitalia")
+    http = _HttpFinto([_soluzioni(10)] * 5, lente={20, 30, 40})
+    ctx = SearchContext(date=date(2026, 8, 27), http=http, endpoints=CHIESTA)
+
+    raw = await provider.fetch(FIRENZE_SMN, TORINO_PN_RAIL, ctx)
+
+    # La prima e la seconda ce l'hanno fatta, le tre lente no.
+    assert len(raw["solutions"]) == 20
+
+
+async def test_se_manca_la_prima_pagina_si_fallisce() -> None:
+    """La prima invece e' la ricerca: senza, non c'e' niente da salvare, e dire
+    «nessun treno» quando non lo sappiamo sarebbe una risposta inventata."""
+    provider = registry.get("trenitalia")
+    http = _HttpFinto([_soluzioni(10)], rompe_a={0})
+    ctx = SearchContext(date=date(2026, 8, 27), http=http)
+
+    with pytest.raises(ProviderError):
+        await provider.fetch(FIRENZE_SMN, TORINO_PN_RAIL, ctx)
 
 
 def test_due_ore_di_partenza_diverse_non_condividono_la_cache() -> None:

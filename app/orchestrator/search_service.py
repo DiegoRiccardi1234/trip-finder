@@ -196,6 +196,10 @@ class SearchService:
             pax=query.pax,
             with_checked_bag=query.with_checked_bag,
             depart_after=query.depart_after,
+            endpoints=(
+                frozenset(node.id for node in origin.nodes),
+                frozenset(node.id for node in destination.nodes),
+            ),
             http=get_http_client(),
         )
         semaphore = asyncio.Semaphore(self._settings.search_max_concurrency)
@@ -370,7 +374,9 @@ class SearchService:
         except NotServed as exc:
             return self._report(state, provider, ProviderStatus.SKIPPED, started, str(exc))
         except asyncio.TimeoutError:
-            await circuit_breaker.record_failure(provider.id, "timeout", scope=scope)
+            await circuit_breaker.record_failure(
+                provider.id, circuit_breaker.TIMEOUT, scope=scope
+            )
             return self._report(
                 state, provider, ProviderStatus.TIMEOUT, started, f"oltre {timeout:.0f}s"
             )

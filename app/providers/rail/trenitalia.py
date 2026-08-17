@@ -14,6 +14,7 @@ ma i cambi ci sono e vanno detti.
 
 from __future__ import annotations
 
+import asyncio
 import logging
 from datetime import datetime
 from typing import Any
@@ -53,10 +54,27 @@ PRIMA_ORA = "00:01:00.000"
 PAGINA = 10
 
 #: Quante pagine al massimo. Sulla tratta piu' densa misurata, Firenze SMN ->
-#: Torino Porta Nuova, la giornata intera stava in cinque pagine (41 soluzioni,
-#: l'ultima partenza alle 19:55). Sei e' il margine; serve solo a impedire che
-#: un cambio di comportamento del backend diventi un ciclo senza fine.
-MAX_PAGINE = 6
+#: Torino Porta Nuova, la giornata intera stava in cinque pagine: 41 soluzioni,
+#: dalle 00:40 alle 19:55, e la sesta tornava vuota.
+MAX_PAGINE = 5
+
+#: Quanto si aspettano, in secondi, le pagine dopo la prima. Non e' il budget
+#: del provider (18 s per un `tier 1`): e' la fetta di quel budget che si e'
+#: disposti a spendere per il **di piu'**. La prima pagina in coda costa fino a
+#: ~7 s misurati; sei secondi di margine tengono il totale sotto i diciotto
+#: anche nel caso storto, che e' la condizione perche' l'operatore non venga
+#: mai dichiarato in timeout e spento.
+BUDGET_PAGINE = 6.0
+
+
+def _con_offset(payload: dict, offset: int) -> dict:
+    """Lo stesso payload spostato di una pagina.
+
+    Copia invece di mutare: le pagine partono insieme e si passano lo stesso
+    dizionario, quindi scriverci dentro darebbe a tutte l'ultimo `offset`
+    assegnato. Vale anche per chi il payload lo tiene da parte — un log, una
+    fixture, un test — che deve vedere la richiesta partita davvero."""
+    return {**payload, "criteria": {**payload["criteria"], "offset": offset}}
 
 
 def _ora_di_partenza(ctx: SearchContext) -> str:
@@ -130,38 +148,64 @@ class Trenitalia(Provider):
         }
 
         # La giornata si prende a pagine, perche' non c'e' altro modo di
-        # prenderla: `offset` cammina contiguo e l'unico segnale di fine e' una
-        # pagina corta. Sulla tratta magra questo resta **una** richiesta come
-        # prima; su una densa ne servono cinque, ed e' il prezzo di non
-        # nascondere il pomeriggio.
-        prima: dict | None = None
-        soluzioni: list[Any] = []
-        for pagina in range(MAX_PAGINE):
-            # Un payload nuovo per pagina invece di mutare quello di prima: chi
-            # tiene un riferimento — un log, una fixture, un test — deve vedere
-            # la richiesta che e' partita davvero, non l'ultimo `offset` scritto.
-            corrente = await self._una_pagina(
-                {**payload, "criteria": {**payload["criteria"], "offset": pagina * PAGINA}},
-                ctx,
-            )
-            if prima is None:
-                prima = corrente
-            trovate = corrente.get("solutions") or []
-            soluzioni.extend(trovate)
-            if len(trovate) < PAGINA:
-                break
+        # prenderla. La prima si aspetta da sola e fa da sonda: se torna corta
+        # non c'e' altro, e la tratta con pochi treni costa **una** richiesta
+        # esatta come prima che la paginazione esistesse.
+        prima = await self._una_pagina(_con_offset(payload, 0), ctx)
+        soluzioni: list[Any] = list(prima.get("solutions") or [])
 
-        risposta = dict(prima or {"solutions": []})
+        if len(soluzioni) >= PAGINA and ctx.is_endpoint_pair(origin, destination):
+            # Le altre partono insieme. `offset` e' assoluto e non dipende da
+            # quello che torna prima, quindi metterle in fila indiana era solo
+            # attesa: misurate il 2026-08-17, cinque pagine sequenziali sono
+            # **11,94 s** contro i 18 s di budget di un provider `tier 1`.
+            #
+            # E hanno un tempo. Una ricerca tocca decine di coppie di stazioni,
+            # tutte verso lo stesso host: se la coda si allunga, aspettarle
+            # comunque porterebbe la chiamata oltre il budget, e tre volte di
+            # fila il circuito si apre — cioe' i treni spariscono del tutto
+            # dalla classifica. Il caso peggiore deve essere «qualche corsa in
+            # meno», mai «nessun treno».
+            compiti = [
+                asyncio.ensure_future(
+                    self._una_pagina(_con_offset(payload, p * PAGINA), ctx, retries=0)
+                )
+                for p in range(1, MAX_PAGINE)
+            ]
+            arrivati, in_ritardo = await asyncio.wait(compiti, timeout=BUDGET_PAGINE)
+            for compito in in_ritardo:
+                compito.cancel()
+            # Si aspettano anche i cancellati, o restano eccezioni non raccolte
+            # che compaiono molto dopo, in un log dove nessuno le collega a qui.
+            await asyncio.gather(*in_ritardo, return_exceptions=True)
+
+            for compito in arrivati:
+                # Una pagina persa toglie **solo se stessa**: il mattino vale
+                # anche senza il pomeriggio, mentre sollevare qui farebbe
+                # fallire il provider intero per qualche corsa mancante. Per lo
+                # stesso motivo queste non ritentano: tre tentativi su una
+                # pagina di scorta costano piu' di quello che salvano.
+                if compito.exception() is not None:
+                    logger.debug(
+                        "%s: una pagina non e' arrivata: %s", self.id, compito.exception()
+                    )
+                    continue
+                soluzioni.extend(compito.result().get("solutions") or [])
+
+        risposta = dict(prima)
         risposta["solutions"] = soluzioni
         return risposta
 
-    async def _una_pagina(self, payload: dict, ctx: SearchContext) -> dict:
+    async def _una_pagina(
+        self, payload: dict, ctx: SearchContext, *, retries: int = 2
+    ) -> dict:
         try:
             response = await ctx.http.post(
                 SOLUTIONS_URL,
                 json=payload,
                 headers={"Accept": "application/json"},
                 allow_status={400},
+                retries=retries,
             )
         except HttpError as exc:
             raise ProviderError(str(exc)) from exc

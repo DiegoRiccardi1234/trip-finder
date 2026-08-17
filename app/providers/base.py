@@ -67,7 +67,27 @@ class SearchContext:
     #: metterla anche nella propria `cache_key`, o si riprende la risposta
     #: dell'altra ora.
     depart_after: time | None = None
+    #: Le fermate della partenza e dell'arrivo **chiesti dall'utente**. Le
+    #: coppie intermedie di un percorso con cambio non ci stanno dentro.
+    #: Serve a chi puo' spendere di piu' su una tratta sola: vedi
+    #: `is_endpoint_pair`.
+    endpoints: tuple[frozenset[str], frozenset[str]] = (frozenset(), frozenset())
     http: HttpClient = field(default_factory=get_http_client)
+
+    def is_endpoint_pair(self, origin: Node, destination: Node) -> bool:
+        """Vero se questa e' la tratta che l'utente ha chiesto, non un pezzo.
+
+        Un operatore che pagina non puo' permettersi la giornata intera su ogni
+        coppia di stazioni: una ricerca ne tocca una ventina, e moltiplicare le
+        richieste allunga la coda verso quell'host finche' le ultime sforano il
+        proprio budget e l'operatore viene dichiarato guasto. Misurato il
+        2026-08-17 su Prato -> Torino: venti coppie, cinque pagine a testa, cento
+        richieste, ventinove secondi di coda contro diciotto di budget.
+
+        Qui si dice dove vale la pena spendere: la tratta che si sta cercando.
+        Sulle coincidenze intermedie la prima pagina e' quello che c'e'."""
+        partenze, arrivi = self.endpoints
+        return origin.id in partenze and destination.id in arrivi
 
     def local_dt(self, node: Node, day: date, clock: time) -> datetime:
         """Compone un datetime aware nel fuso della fermata."""

@@ -86,6 +86,30 @@ HOST_RATE_OVERRIDES: dict[str, float] = {
     "www.ryanair.com": 6.0,
 }
 
+#: Richieste contemporanee concesse a un host specifico, quando il limite
+#: generale non basta.
+#:
+#: Ritmo e concorrenza sembrano la stessa manopola e non lo sono, e quale delle
+#: due morde dipende da **quanto ci mette a rispondere** l'host. Ryanair aveva
+#: un problema di ritmo: JSON minuscoli, risposta immediata, e il tetto di
+#: quattro al secondo era il vincolo. Lefrecce e' il caso opposto: ogni risposta
+#: costa circa 2,3 secondi, quindi con quattro posti la portata reale e' 4/2,3
+#: = **1,7 richieste al secondo** — molto sotto il tetto di ritmo, che quindi
+#: non c'entra niente. Il vincolo sono i posti.
+#:
+#: Serve da quando la ricerca chiede a Trenitalia l'intera giornata invece della
+#: sola prima pagina (il backend ne manda dieci per volta e non si puo' alzare:
+#: `limit` 10, 20, 41 e 50 rispondono tutti dieci, verificato il 2026-08-17
+#: anche col payload identico a quello del loro sito). Una ricerca tocca decine
+#: di coppie di stazioni: a 1,7 al secondo la coda supera i 18 s di budget di un
+#: provider, le ultime muoiono tutte insieme e il circuito si apre — cioe' i
+#: treni spariscono dalla classifica. Con otto posti la portata sale a 3,5 al
+#: secondo, ancora **sotto** il tetto di ritmo di quattro: non puo' diventare
+#: una raffica, e' la coda che scorre.
+HOST_CONCURRENCY_OVERRIDES: dict[str, int] = {
+    "www.lefrecce.it": 8,
+}
+
 
 class _HostGate:
     """Distanzia nel tempo le richieste verso lo stesso host.
@@ -95,10 +119,10 @@ class _HostGate:
     uno, e con un secondo di latenza a richiesta cinquanta interrogazioni
     diventerebbero un minuto pieno."""
 
-    def __init__(self, min_interval: float) -> None:
+    def __init__(self, min_interval: float, slots: int = MAX_CONCURRENT_PER_HOST) -> None:
         self._min_interval = min_interval
         self._pace = asyncio.Lock()
-        self._slots = asyncio.Semaphore(MAX_CONCURRENT_PER_HOST)
+        self._slots = asyncio.Semaphore(slots)
         self._next_allowed = 0.0
 
     async def __aenter__(self) -> None:
@@ -141,7 +165,8 @@ class HttpClient:
         gate = self._gates.get(host)
         if gate is None:
             rate = HOST_RATE_OVERRIDES.get(host, self._settings.domain_rate_limit)
-            gate = _HostGate(1.0 / max(0.05, rate))
+            slots = HOST_CONCURRENCY_OVERRIDES.get(host, MAX_CONCURRENT_PER_HOST)
+            gate = _HostGate(1.0 / max(0.05, rate), slots)
             self._gates[host] = gate
         return gate
 

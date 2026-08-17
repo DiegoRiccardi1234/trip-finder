@@ -11,6 +11,7 @@ from __future__ import annotations
 import pytest
 
 from app.models import Mode, Node, NodeKind, SearchQuery
+from app.orchestrator import circuit_breaker
 from app.providers import coverage
 from app.routing import composer
 
@@ -180,3 +181,34 @@ def test_ogni_adapter_dichiara_una_tratta_di_prova() -> None:
 
     senza = [p.id for p in registry.all_providers() if not p.sample_route]
     assert not senza, f"adapter senza sample_route: {senza}"
+
+
+# ------------------------------------------ quanto costa un fallimento
+
+
+def test_un_timeout_non_si_paga_come_un_rifiuto() -> None:
+    """Un 403 e un timeout non dicono la stessa cosa.
+
+    Il primo e' il sito che ci respinge: insistere peggiora la posizione, e
+    qualche minuto di pausa e' il minimo. Il secondo e' il sito che ci ha messo
+    troppo, e la colpa puo' benissimo essere nostra — una rete lenta, una
+    ricerca affollata, un adapter che chiede troppe pagine in fila.
+
+    Farli costare uguale toglie dalla ricerca un operatore sano: e' quello che
+    e' successo a Trenitalia il 2026-08-17, quando la paginazione sequenziale
+    sforava i 18 s di budget e tre ricerche di fila lo spegnevano per cinque
+    minuti."""
+    assert circuit_breaker.pausa_dopo(3, "timeout") == 60.0
+    assert circuit_breaker.pausa_dopo(3, "blocked") == 300.0
+
+    # La clemenza vale per l'episodio, non per l'abitudine: chi continua a non
+    # rispondere torna a pesare come tutti gli altri.
+    assert circuit_breaker.pausa_dopo(12, "timeout") == circuit_breaker.pausa_dopo(
+        12, "blocked"
+    )
+
+
+def test_sotto_soglia_il_circuito_resta_chiuso() -> None:
+    """Due fallimenti sono sfortuna, non un guasto: si continua a chiedere."""
+    assert circuit_breaker.pausa_dopo(2, "blocked") == 0.0
+    assert circuit_breaker.pausa_dopo(2, "timeout") == 0.0

@@ -22,7 +22,34 @@ logger = logging.getLogger(__name__)
 FAILURE_THRESHOLD = 3
 #: Backoff progressivo in secondi, indicizzato sul numero di aperture.
 OPEN_SECONDS = [300.0, 600.0, 1800.0, 3600.0]
+
+#: Lo stato che il servizio registra quando un provider non ha risposto in tempo.
+TIMEOUT = "timeout"
+
+#: Per i timeout la prima pausa e' molto piu' corta. Un rifiuto e un ritardo non
+#: sono la stessa cosa: il primo e' il sito che ci respinge, e insistere peggiora
+#: la posizione; il secondo e' il sito che ci ha messo troppo, e la colpa puo'
+#: essere nostra — una rete lenta, una ricerca affollata, un adapter che chiede
+#: troppe pagine in fila. Trattarli uguale e' costato caro il 2026-08-17: la
+#: paginazione di Trenitalia sforava i 18 s di budget, tre ricerche di fila
+#: spegnevano l'operatore per cinque minuti, e chi cercava un treno non ne
+#: vedeva **nessuno**. Da qui in poi le pause si riallineano: la clemenza vale
+#: per l'episodio, non per l'abitudine.
+OPEN_SECONDS_TIMEOUT = [60.0, 300.0, 1800.0, 3600.0]
+
 GLOBAL_SCOPE = "*"
+
+
+def pausa_dopo(fails: int, status: str) -> float:
+    """Per quanti secondi si smette di interrogare, dopo questo fallimento.
+
+    Zero significa che il circuito resta chiuso e si continua a chiedere: due
+    fallimenti sono sfortuna, non un guasto."""
+    if fails < FAILURE_THRESHOLD:
+        return 0.0
+    scala = OPEN_SECONDS_TIMEOUT if status == TIMEOUT else OPEN_SECONDS
+    step = min((fails - FAILURE_THRESHOLD) // FAILURE_THRESHOLD, len(scala) - 1)
+    return scala[step]
 
 
 async def is_open(provider: str, scope: str = GLOBAL_SCOPE) -> tuple[bool, str | None]:
@@ -67,10 +94,8 @@ async def record_failure(
         row = await cursor.fetchone()
     fails = (row[0] if row else 0) + 1
 
-    opened_until = 0.0
-    if fails >= FAILURE_THRESHOLD:
-        step = min((fails - FAILURE_THRESHOLD) // FAILURE_THRESHOLD, len(OPEN_SECONDS) - 1)
-        opened_until = time.time() + OPEN_SECONDS[step]
+    pausa = pausa_dopo(fails, status)
+    opened_until = time.time() + pausa if pausa else 0.0
 
     await db.execute(
         "INSERT INTO provider_health(provider, scope, fails, opened_until, "
