@@ -4,6 +4,21 @@ Le versioni seguono [semver](https://semver.org/lang/it/). Il testo di ogni
 sezione finisce nelle note della release: si scrive per chi usa il programma,
 non per chi lo scrive.
 
+## [0.6.1]
+
+**Il mondo arriva anche a chi aggiorna.** Il gazetteer delle città viaggiava nel
+pacchetto dalla 0.5.1, ma sta nella cartella `data/` — quella che
+l'aggiornamento non tocca mai, per non portarti via database e chiavi. Risultato:
+la correzione raggiungeva solo chi installava da zero. Su un'installazione
+aggiornata «Londra» rispondeva ancora **Ondara, in Spagna**. Ora dentro `data/`
+si scrive quello che manca e si lascia stare quello che c'è già: un dato nuovo
+arriva, il tuo non si tocca.
+
+**Il pulsante «Aggiorna e riavvia» non compare più quando non può funzionare.**
+Chi fa girare il programma dal codice sorgente lo vedeva, ci cliccava, e solo
+allora leggeva che l'aggiornamento automatico vale solo per il pacchetto. Adesso
+è scritto prima.
+
 ## [0.6.0]
 
 **I treni non spariscono più.** La 0.5.1 chiedeva a Trenitalia l'intera
