@@ -4,6 +4,30 @@ Le versioni seguono [semver](https://semver.org/lang/it/). Il testo di ogni
 sezione finisce nelle note della release: si scrive per chi usa il programma,
 non per chi lo scrive.
 
+## [0.5.1]
+
+**Il pomeriggio esiste.** Su una tratta ferroviaria frequentata la ricerca
+mostrava solo le corse del mattino, e taceva sul resto: Prato → Torino si
+fermava all'ultima partenza delle 8:43, come se dopo non ci fossero treni.
+Trenitalia risponde dieci soluzioni per richiesta a partire dall'ora che le
+indichi, e le si chiedeva sempre dalla mezzanotte: quelle dieci finivano prima
+di mezzogiorno. Ora la giornata si chiede per intero, e la stessa ricerca arriva
+alle 18:40 con sei soluzioni pomeridiane che prima non comparivano. Sulle tratte
+con pochi treni non cambia niente e non costa niente: si smette di chiedere
+quando l'operatore non ha altro da dire.
+
+**«Parti dopo» non ti riporta più al giorno prima.** Chiedendo un viaggio del 27
+in partenza dopo le 13:30, arrivavano corse che partivano alle 23:50 del **26**:
+il vincolo confrontava le ore e non le date, quindi la sera prima passava per
+«più tardi delle 13:30». Chi cercava il ritorno dopo un impegno si vedeva
+proporre, con sicurezza, la notte che lo precedeva. Ora l'ora di partenza guarda
+anche il giorno, come già faceva l'ora di arrivo.
+
+**Il mondo arriva anche a chi scarica.** Il gazetteer di trentaquattromila città
+introdotto con la 0.5.0 era nel progetto ma non nel pacchetto Windows: nell'app
+scaricata «Tokyo» e «Parigi» continuavano a non esistere e «Londra» risolveva su
+Ondara, in Spagna. Adesso è dentro. Il file da scaricare pesa di più.
+
 ## [0.5.0]
 
 **Il mondo si trova.** Prima, fuori Europa, la ricerca non falliva: rispondeva
