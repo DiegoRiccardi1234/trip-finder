@@ -28,9 +28,11 @@ jobs:
           pip install -r requirements.txt -r requirements-dev.txt
 
       - name: Costruisci il bundle
-        # `build_exe.py` scarica da solo i due cataloghi delle fermate se non ci
-        # sono: in un checkout pulito `data/` non esiste, ed e' la parte che
-        # deve finire dentro lo zip.
+        # `build_exe.py` scarica da solo i tre dataset se non ci sono: in un
+        # checkout pulito `data/` non esiste, ed e' la parte che deve finire
+        # dentro lo zip. Sono le fermate, gli aeroporti e il gazetteer
+        # mondiale — quest'ultimo dalla 0.5.1, perche' nella 0.5.0 era nel
+        # progetto e non nel pacchetto.
         run: python scripts/build_exe.py
 
       - name: Estrai le note dal CHANGELOG

@@ -74,7 +74,15 @@ def main() -> int:
             shutil.rmtree(cartella)
 
     print("PyInstaller in corso...")
-    subprocess.check_call(["pyinstaller", str(SPEC), "--noconfirm"], cwd=ROOT)
+    # `-m PyInstaller` e non il comando nudo: `pyinstaller.exe` sta in
+    # `.venv/Scripts/`, che e' nel PATH solo con l'ambiente **attivato**. Chi
+    # lancia questo script col python del venv per percorso — come fa chiunque
+    # automatizzi qualcosa — riceveva `WinError 2: impossibile trovare il file
+    # specificato`, che non nomina PyInstaller e sembra un problema dello spec.
+    # Due righe piu' su `_assicura_datasets` gia' usava `sys.executable`.
+    subprocess.check_call(
+        [sys.executable, "-m", "PyInstaller", str(SPEC), "--noconfirm"], cwd=ROOT
+    )
     if not BUNDLE.exists():
         print("PyInstaller non ha prodotto dist/TripFinder/", file=sys.stderr)
         return 2
