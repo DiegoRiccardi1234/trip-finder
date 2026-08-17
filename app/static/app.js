@@ -10,6 +10,8 @@ const goBtn = document.getElementById('go');
 const saveBtn = document.getElementById('save-search');
 const compareEl = document.getElementById('compare-advice');
 const feedbackEl = document.getElementById('form-feedback');
+const summaryTextEl = document.getElementById('summary-text');
+const editSearchBtn = document.getElementById('edit-search');
 const panelTemplate = document.getElementById('panel-template');
 const tripTemplate = document.getElementById('trip-template');
 const trattaTemplate = document.getElementById('tratta-template');
@@ -44,9 +46,35 @@ const FLAG_TEXT = {
   tight_connection: ['danger', 'Coincidenza stretta rispetto al margine consigliato'],
   station_change: ['', 'Cambio di stazione o scalo: serve spostarsi'],
   night_arrival: ['', 'Arrivo nel cuore della notte'],
-  estimated_cost: ['info', 'Alcune voci di costo sono stimate'],
-  last_leg_unverified: ['info', 'Ultima tratta da orario statico, non verificata live'],
+  // Queste due sono avvertenze, non pregi: dette con il colore dell'accento —
+  // che in questo sistema vuol dire «questa e' l'azione», «questo e' scelto» —
+  // si leggevano come una buona notizia. Un prezzo stimato non lo e'.
+  estimated_cost: ['', 'Alcune voci di costo sono stimate'],
+  last_leg_unverified: ['', 'Ultima tratta da orario statico, non verificata live'],
 };
+
+/** Come si dice all'utente lo stato di un operatore.
+ *
+ * Prima arrivava a schermo l'identificatore interno: `circuit_open`, `empty`.
+ * Mezzo inglese e mezzo gergo, in un'interfaccia che per il resto e' scritta
+ * con cura. */
+const STATO_OPERATORE = {
+  pending: 'sto ancora aspettando',
+  ok: 'ha risposto',
+  empty: 'nessuna corsa su questa tratta',
+  timeout: 'non ha risposto in tempo',
+  blocked: 'ci ha respinti',
+  error: 'ha risposto in modo inatteso',
+  circuit_open: 'sospeso dopo troppi tentativi andati male',
+  skipped: 'non copre questa tratta',
+};
+
+/** Gli stati che sono un **guasto**, non una risposta.
+ *
+ * `empty` e `skipped` restano fuori di proposito: «non ci sono corse» e «non
+ * copre questa tratta» sono risposte legittime, e annunciarle come problemi
+ * insegnerebbe a ignorare l'avviso proprio quando conta. */
+const STATI_GUASTI = new Set(['timeout', 'blocked', 'error', 'circuit_open']);
 
 /* ------------------------------------------------------------- utilità --- */
 
@@ -1302,6 +1330,16 @@ function startTrip() {
   for (const el of [compareEl, tripAdviceEl]) { el.hidden = true; el.innerHTML = ''; }
   tripSummary.hidden = true;
 
+  // Una volta per l'intero viaggio: `avviaTappa` e `avanzaViaggio` non passano
+  // di qui, quindi il modulo non sbatte a ogni tappa.
+  contraiModulo(describeParsed({
+    // `costruisciTappe` chiama la sosta `stay`, `describeParsed` la legge come
+    // `stay_days`: e' la stessa cosa con due nomi, e senza il ponte il
+    // riassunto tacerebbe proprio le soste.
+    stages: elenco.map((t) => ({ ...t, stay_days: t.stay })),
+    pax: Number(form.elements.pax.value) || 1,
+  }));
+
   viaggio = { tappe: elenco, indice: 0 };
   statusBox.hidden = false;
   stopBtn.hidden = false;
@@ -1470,6 +1508,57 @@ function chosenNodes(field) {
   return [...statoFermate(field).chosen].join(',');
 }
 
+/* ------------------------------------------------- il modulo che si chiude ---
+ *
+ * Con le fermate risolte il modulo diventa alto: due file di pastiglie sotto i
+ * campi, e il primo risultato finiva a 788 px di scorrimento su uno schermo da
+ * 1440x900 — misurato il 2026-08-17. Chi cerca un treno vuole vedere i treni.
+ *
+ * Il collasso e' **una regola sola sui figli diretti del form** (`.compatta` in
+ * `style.css`), non un giro a nascondere i pezzi: `[hidden]` perde sempre
+ * contro un `display` d'autore, e qui ce ne sono tre in gioco (`.row`, `label`,
+ * `display: contents` dei pannelli). Il vantaggio di fermarsi ai figli diretti
+ * e' che i campi opzionali — seconda partenza, seconda meta, pesi — sono
+ * discendenti: spariscono con l'antenato e **riappaiono col proprio `hidden`
+ * esattamente com'era**, senza stato da salvare e rimettere a mano. */
+
+function riassuntoRicerca(combos, roundtrip) {
+  const prima = combos[0];
+  const testo = describeParsed({
+    stages: [{
+      origin: prima.origin.value,
+      destination: prima.destination.value,
+      date: prima.date,
+      depart_after: form.elements.depart_after.value || null,
+      arrive_by: form.elements.arrive_by.value || null,
+    }],
+    pax: Number(form.elements.pax.value) || 1,
+    max_budget: form.elements.budget.value || null,
+    allow_night: form.elements.allow_night.checked,
+    with_checked_bag: form.elements.bag.checked,
+  });
+  const extra = [];
+  if (combos.length > 1) extra.push(`${combos.length} combinazioni`);
+  if (roundtrip && form.elements.return_date.value) {
+    extra.push(`ritorno il ${fmtDate(form.elements.return_date.value)}`);
+  }
+  // Una fermata esclusa cambia i risultati e da chiuso non si vedrebbe: un
+  // filtro attivo e invisibile e' la cosa che questo progetto non fa.
+  const filtrate = ['origin', 'origin2', 'destination', 'destination2']
+    .some((campo) => statoFermate(campo).chosen.size);
+  if (filtrate) extra.push('fermate filtrate');
+  return extra.length ? `${testo} · ${extra.join(' · ')}` : testo;
+}
+
+function contraiModulo(testo) {
+  summaryTextEl.textContent = testo;
+  form.classList.add('compatta');
+}
+
+function espandiModulo() {
+  form.classList.remove('compatta');
+}
+
 function buildUrl(combo, { reverse = false } = {}) {
   const data = new FormData(form);
   const modes = data.getAll('mode');
@@ -1541,6 +1630,11 @@ function startSearch(confirmed = false) {
   for (const el of [compareEl, tripAdviceEl]) { el.hidden = true; el.innerHTML = ''; }
   tripSummary.hidden = true;
 
+  // Qui e non prima: sopra la funzione esce ancora, per un mezzo mancante o per
+  // la conferma delle molte ricerche, e chiudere il modulo su un errore
+  // nasconderebbe proprio il campo da correggere.
+  contraiModulo(riassuntoRicerca(combos, roundtrip));
+
   statusBox.hidden = false;
   stopBtn.hidden = false;
   goBtn.disabled = true;
@@ -1586,6 +1680,9 @@ function relayout() {
 }
 
 document.getElementById('reset-search').addEventListener('click', resetSearch);
+// Riaprire non ferma niente: la ricerca in corso continua a riempire le colonne
+// mentre si cambia idea sui campi.
+editSearchBtn.addEventListener('click', espandiModulo);
 
 /** Riporta tutto com'era all'apertura, risultati compresi. */
 function resetSearch() {
@@ -1603,6 +1700,9 @@ function resetSearch() {
   confirmBox.hidden = true;
   say('');
   nlFeedback.hidden = true;
+  // Senza questa riga «Azzera la ricerca» lascerebbe un modulo pulito nascosto
+  // dietro una barra che riassume una ricerca che non esiste piu'.
+  espandiModulo();
 
   form.reset();
   form.elements.date.value = oggiLocale();
@@ -2036,7 +2136,7 @@ function buildTrips(outbound, inbound) {
 
 /** Quante righe della griglia occupa un pannello: serve ad allineare le colonne.
  * Va tenuto uguale al numero di righe dichiarate in `main.multi .panel > *`. */
-const PANEL_ROWS = 9;
+const PANEL_ROWS = 10;
 
 class SearchPanel {
   constructor(combo, options) {
@@ -2087,6 +2187,7 @@ class SearchPanel {
     this.knownEl = node.querySelector('.known-routes');
     this.adviceEl = node.querySelector('.advice');
     this.relaxedEl = node.querySelector('.relaxed');
+    this.operatoriGiuEl = node.querySelector('.operatori-giu');
     this.cardsEl = node.querySelector('.cards');
 
     this.routeEl.textContent = this.title;
@@ -2334,13 +2435,39 @@ class SearchPanel {
       const count = report.legs_found ? ` ${report.legs_found}` : '';
       const title = usable
         ? (on ? 'Mostrato: clicca per toglierlo dal filtro' : 'Clicca per vedere solo questo operatore')
-        : report.status + detail;
+        : STATO_OPERATORE[report.status] + detail;
       return `<button type="button" class="chip ${report.status}${usable ? '' : ' mute'}`
         + `${on ? ' on' : ''}${filtering && usable && !on ? ' off' : ''}"`
         + ` data-provider="${escapeHtml(report.provider)}" aria-pressed="${on}"`
-        + ` title="${escapeHtml(title)}">${escapeHtml(report.provider)}${count}</button>`;
+        + ` title="${escapeHtml(title)}"`
+        // Lo stato viveva nel solo colore del bordo. Il colore non e' un canale:
+        // non arriva a chi non lo distingue, e il `title` non arriva a chi tocca.
+        + ` aria-label="${escapeHtml(`${report.provider}: ${usable ? `${report.legs_found} corse` : STATO_OPERATORE[report.status]}`)}"`
+        + `>${escapeHtml(report.provider)}${count}</button>`;
     });
     this.providersEl.innerHTML = chips.join('');
+    this.mostraOperatoriGiu();
+  }
+
+  /** Un operatore che non ha risposto e' un pezzo di classifica che manca.
+   *
+   * Il 2026-08-17 Trenitalia e' caduta durante una ricerca di treni e le
+   * soluzioni sono passate da undici a tre, tutte in pullman: l'unico segnale
+   * era una pastiglia ambra fra tredici. Un guasto non e' «zero corse su questa
+   * tratta», e confonderli fa credere completa una classifica che non lo e'. */
+  mostraOperatoriGiu() {
+    if (!this.operatoriGiuEl) return;
+    const giu = [...this.providerState.values()]
+      .filter((r) => STATI_GUASTI.has(r.status))
+      .map((r) => r.provider);
+    if (!giu.length) { this.operatoriGiuEl.hidden = true; return; }
+    const elenco = giu.length > 1
+      ? `${giu.slice(0, -1).join(', ')} e ${giu[giu.length - 1]}`
+      : giu[0];
+    const verbo = giu.length > 1 ? 'non hanno risposto' : 'non ha risposto';
+    this.operatoriGiuEl.hidden = false;
+    this.operatoriGiuEl.textContent = `${elenco} ${verbo}: `
+      + `le loro corse potrebbero mancare da questa classifica.`;
   }
 
   onItineraries(data, which) {
@@ -2351,7 +2478,7 @@ class SearchPanel {
       ? buildTrips(this.outbound, this.inbound)
       : this.outbound.map(oneWayTrip);
 
-    if (which === 'out') this.showRelaxed(data.relaxed);
+    if (which === 'out') this.showRelaxed(data.relaxed, data.partial);
     this.syncMeta();
     this.render();
     refreshSummary();
@@ -2362,7 +2489,7 @@ class SearchPanel {
    * fuori vincolo a una pagina vuota). Dirlo non e' una gentilezza: senza questa
    * riga si leggono orari che si era chiesto di escludere, e l'unico indizio
    * resta il consiglio dell'IA, che e' opzionale e non sempre lo nota. */
-  showRelaxed(relaxed) {
+  showRelaxed(relaxed, partial) {
     // Si tengono anche per il consiglio: il modello leggeva «budget massimo
     // 120 euro» sopra una lista che lo sforava tutta, e non aveva modo di
     // accorgersene.
@@ -2384,8 +2511,17 @@ class SearchPanel {
       : voci[0];
     const quel = voci.length > 1 ? 'quei vincoli' : 'quel vincolo';
     this.relaxedEl.hidden = false;
-    this.relaxedEl.textContent = `Nessuna soluzione rispetta ${elenco}: `
-      + `qui sotto ci sono le migliori senza ${quel}.`;
+    // A meta' ricerca questa frase e' una previsione, non un fatto: gli
+    // operatori stanno ancora rispondendo e la soluzione che rispetta il
+    // vincolo puo' arrivare fra un secondo. Detta al presente assoluto e' una
+    // bugia che si corregge da sola — ma chi ha gia' chiuso la pagina se n'e'
+    // andato convinto del contrario. Verificato il 2026-08-17 su
+    // «arrivo entro le 10:30»: a ricerca finita le soluzioni erano due.
+    this.relaxedEl.textContent = partial
+      ? `Per ora non ho trovato niente che rispetti ${elenco}: `
+        + `qui sotto le migliori senza ${quel}, mentre cerco.`
+      : `Nessuna soluzione rispetta ${elenco}: `
+        + `qui sotto ci sono le migliori senza ${quel}.`;
   }
 
   /* ----------------------------------------------------- resa risultati --- */

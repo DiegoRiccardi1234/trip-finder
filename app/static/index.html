@@ -186,6 +186,14 @@
 
 <section id="view-ricerca" class="view is-active">
 <form id="search-form" autocomplete="off">
+  <!-- Il modulo aperto e' alto: con le fermate risolte spingeva il primo
+       risultato a 788 px di scorrimento. Appena la ricerca parte si chiude su
+       questa riga, e «Modifica» lo riapre com'era. -->
+  <div class="search-summary" id="search-summary" aria-live="polite">
+    <span class="testo" id="summary-text"></span>
+    <button type="button" class="link" id="edit-search">Modifica</button>
+  </div>
+
   <div class="row natural">
     <label class="grow">
       <span>Scrivilo come lo diresti a voce</span>
@@ -388,6 +396,7 @@
     <div class="known-routes" hidden></div>
     <div class="advice" aria-live="polite" hidden></div>
     <p class="relaxed" hidden></p>
+    <p class="operatori-giu" role="status" hidden></p>
     <div class="cards"></div>
   </section>
 </template>

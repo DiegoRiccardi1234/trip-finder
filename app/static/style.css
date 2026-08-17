@@ -62,7 +62,15 @@
 * { box-sizing: border-box; }
 
 body {
-  margin: 0;
+  margin: 0 auto;
+  /* Senza un tetto la pagina si stira quanto e' largo lo schermo, e tre cose
+     che sembrano difetti diversi sono in realta' questo: nella scheda il testo
+     dell'operatore (`1fr` in `.tratta`) si mangiava ~870 px lasciando il prezzo
+     solo in fondo a destra; il piè di pagina a `70ch` diventava un nastro
+     stretto in un angolo di 1440; il Profilo aveva la stessa aria. Il tetto e'
+     largo abbastanza per due colonne di risultati affiancate, che e' il caso
+     che ne chiede di piu'. */
+  max-width: 1400px;
   padding: 0 clamp(12px, 4vw, 40px) 60px;
   background: var(--bg);
   color: var(--ink);
@@ -196,6 +204,26 @@ fieldset.modes label { flex-direction: row; align-items: center; gap: 5px; font-
 .weights input[type="range"] { flex: 1; max-width: 320px; }
 .weights output { font-family: var(--mono); width: 34px; color: var(--muted); }
 
+/* ------------------------------------------- il modulo che si contrae ----
+ *
+ * Con le fermate risolte il modulo diventa alto due file di pastiglie, e il
+ * primo risultato finiva a 788 px di scorrimento su 1440x900 (misurato il
+ * 2026-08-17). Appena la ricerca parte si chiude su una riga.
+ *
+ * Una regola sola, sui **figli diretti** del form. Rincorrere i pezzi non
+ * funzionerebbe: `[hidden]` perde sempre contro un `display` d'autore, e qui
+ * ce ne sono due proprio qui sopra (`.row` e `label`). Fermarsi ai figli
+ * diretti ha anche un pregio: i campi opzionali stanno piu' in basso
+ * nell'albero, quindi spariscono con l'antenato e riappaiono col proprio
+ * `hidden` intatto, senza niente da salvare e rimettere a posto. */
+
+.search-summary { display: none; align-items: center; gap: 12px; flex-wrap: wrap; }
+.search-summary .testo { flex: 1 1 auto; min-width: 0; }
+
+#search-form.compatta { padding: 10px 14px; gap: 0; }
+#search-form.compatta > *:not(.search-summary) { display: none !important; }
+#search-form.compatta > .search-summary { display: flex; }
+
 /* -------------------------------------------------------------- stato ---- */
 
 #status {
@@ -324,7 +352,8 @@ main.multi .panel > .filter-line { grid-row: calc(var(--rowbase) + 5); }
 main.multi .panel > .known-routes { grid-row: calc(var(--rowbase) + 6); }
 main.multi .panel > .advice { grid-row: calc(var(--rowbase) + 7); }
 main.multi .panel > .relaxed { grid-row: calc(var(--rowbase) + 8); }
-main.multi .panel > .cards { grid-row: calc(var(--rowbase) + 9); margin-bottom: 18px; }
+main.multi .panel > .operatori-giu { grid-row: calc(var(--rowbase) + 9); }
+main.multi .panel > .cards { grid-row: calc(var(--rowbase) + 10); margin-bottom: 18px; }
 
 /* Sotto i 900px due colonne diventano illeggibili: si torna in fila indiana e
    i pannelli ridiventano scatole normali. */
@@ -550,7 +579,7 @@ button.chip:hover:not(.mute) { filter: none; border-color: var(--accent); }
    regola batterebbe la regola del browser e la scatola resterebbe li', vuota. */
 .relaxed[hidden] { display: none; }
 
-.relaxed {
+.relaxed, .operatori-giu {
   margin: 10px 0 0;
   padding: 8px 12px;
   background: var(--warn-soft);
@@ -559,6 +588,13 @@ button.chip:hover:not(.mute) { filter: none; border-color: var(--accent); }
   color: var(--warn);
   font-size: 13.5px;
 }
+
+/* Un operatore che non ha risposto e' un pezzo di classifica che manca, e fin
+   qui lo diceva solo il colore di una pastiglia piu' un `title` — che sul
+   telefono non esiste e allo screen reader non arriva. Stesso posto e stesso
+   tono del vincolo messo da parte: sono la stessa cosa, un risultato meno
+   completo di quello che sembra. */
+.operatori-giu[hidden] { display: none; }
 
 /* --------------------------------------------------------------- tab --- */
 
