@@ -221,6 +221,25 @@ def _arrives_too_late(itinerary: Itinerary, query: SearchQuery) -> bool:
     return itinerary.arrive.date() == query.date and itinerary.arrive.time() > query.arrive_by
 
 
+def _departs_too_early(itinerary: Itinerary, query: SearchQuery) -> bool:
+    """Vero se la partenza precede l'ora chiesta, **nel giorno chiesto**.
+
+    Simmetrica a `_arrives_too_late`, e per lo stesso motivo: "dopo le 13:30" e'
+    un'ora di quel giorno, non di un giorno qualunque. Confrontando le sole ore,
+    un viaggio che parte alle 23:50 della sera prima passava il vincolo a pieni
+    voti — non e' tardi abbastanza, e' presto di un giorno — e a chi cercava il
+    ritorno dopo un impegno veniva proposta la notte **precedente** l'impegno.
+
+    Una partenza posticipata al giorno dopo non viola niente: chi mette un'ora
+    minima sta dicendo da quando e' libero, non entro quando vuole essere
+    partito. A dire l'ultima parola su quello e' `arrive_by`."""
+    if not query.depart_after:
+        return False
+    if itinerary.depart.date() < query.date:
+        return True
+    return itinerary.depart.date() == query.date and itinerary.depart.time() < query.depart_after
+
+
 def filter_by_query(itineraries: list[Itinerary], query: SearchQuery) -> list[Itinerary]:
     """Applica i vincoli espliciti dell'utente. Restano fuori solo le violazioni."""
     kept: list[Itinerary] = []
@@ -231,7 +250,7 @@ def filter_by_query(itineraries: list[Itinerary], query: SearchQuery) -> list[It
             continue
         if not query.allow_night and itinerary.overnight:
             continue
-        if query.depart_after and itinerary.depart.time() < query.depart_after:
+        if _departs_too_early(itinerary, query):
             continue
         if _arrives_too_late(itinerary, query):
             continue
@@ -268,7 +287,7 @@ def unmet_constraints(
     if not query.allow_night and any(item.overnight for item in itineraries):
         unmet.append({"kind": "allow_night", "value": False})
     if query.depart_after and any(
-        item.depart.time() < query.depart_after for item in itineraries
+        _departs_too_early(item, query) for item in itineraries
     ):
         unmet.append(
             {"kind": "depart_after", "value": query.depart_after.strftime("%H:%M")}

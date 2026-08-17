@@ -384,6 +384,39 @@ def test_arrivare_il_giorno_dopo_sfora_l_ora_di_arrivo(query: SearchQuery) -> No
     assert ranker.filter_by_query([domani, oggi], entro_mezzanotte) == [oggi]
 
 
+def test_partire_la_sera_prima_non_rispetta_l_ora_di_partenza(query: SearchQuery) -> None:
+    """"Dopo le 13:30" e' un'ora **del giorno chiesto**, come "entro le 23:59".
+
+    E' il caso di chi ha un impegno la mattina e cerca il ritorno: confrontando
+    le sole ore, un viaggio che parte alle 23:50 della sera prima passa il
+    vincolo a pieni voti e si presenta come la risposta migliore. Non e' tardi
+    abbastanza, e' **presto di un giorno**, e chi legge lo scopre all'arrivo."""
+    sera_prima = _itinerary(
+        [
+            make_leg(
+                "a",
+                Mode.BUS,
+                TORINO_PN,
+                MATERA_BUS,
+                at(23, 50, day_offset=-1),
+                at(8, 10),
+                41.0,
+            )
+        ],
+        query,
+    )
+    pomeriggio = _itinerary(
+        [make_leg("b", Mode.BUS, TORINO_PN, MATERA_BUS, at(14, 5), at(22, 30), 45.0)], query
+    )
+    dopo_pranzo = query.model_copy(update={"depart_after": time(13, 30)})
+
+    assert ranker.filter_by_query([sera_prima, pomeriggio], dopo_pranzo) == [pomeriggio]
+    # E se resta solo quella, va detto quale vincolo la sta tenendo fuori.
+    assert [v["kind"] for v in ranker.unmet_constraints([sera_prima], dopo_pranzo)] == [
+        "depart_after"
+    ]
+
+
 def test_i_vincoli_messi_da_parte_sono_solo_quelli_che_mordono(query: SearchQuery) -> None:
     """Quando nessuna soluzione rispetta i vincoli la ricerca mostra quelle fuori
     vincolo, e deve dire quali ha messo da parte. Nominare anche i vincoli che
