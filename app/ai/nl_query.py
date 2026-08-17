@@ -50,6 +50,7 @@ Rispondi SOLO con JSON, senza commenti, con queste chiavi:
   "modes": ["rail","bus","air","ferry"],
   "with_checked_bag": false,
   "max_budget": null,
+  "max_changes": null,
   "allow_night": true
 }
 Regole:
@@ -65,6 +66,8 @@ Regole:
 - "modes" contiene solo i mezzi ammessi; se l'utente non li nomina, mettili tutti.
 - "allow_night" false solo se l'utente rifiuta esplicitamente i viaggi notturni.
 - "max_budget" e' un numero in euro per persona, oppure null.
+- "max_changes" e' quanti cambi si accettano al massimo ("massimo due cambi" = 2,
+  "diretto" o "senza cambi" = 0), oppure null se non lo dice.
 - Se un dato non c'e', usa il valore di default: non inventare."""
 
 
@@ -101,6 +104,13 @@ async def parse(text: str, today: date | None = None) -> TripPlan:
         modes=_modes(parsed.get("modes")),
         with_checked_bag=bool(parsed.get("with_checked_bag")),
         max_budget=_float(parsed.get("max_budget")),
+        # `None` e zero non sono la stessa cosa: «diretto» e' zero cambi, «non
+        # l'ha detto» non e' un vincolo. Un `or` qui li confonderebbe.
+        max_changes=(
+            None
+            if parsed.get("max_changes") is None
+            else _int(parsed.get("max_changes"), default=3, low=0, high=5)
+        ),
         allow_night=parsed.get("allow_night") is not False,
         raw_text=text,
     )

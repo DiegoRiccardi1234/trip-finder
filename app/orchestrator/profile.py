@@ -29,7 +29,15 @@ MAX_SAVED = 100
 
 #: Le sole preferenze riconosciute. Una chiave non prevista viene ignorata
 #: invece di finire nel database e restarci per sempre.
-KNOWN_PREFERENCES = frozenset({"home", "preset", "modes", "pax", "sort"})
+#: `allow_night`, `max_changes`, `budget` e `bag` sono qui da quando la sezione
+#: prometteva piu' di quello che manteneva: diceva «vengono applicate a ogni
+#: ricerca nuova, cosi' non le riscrivi ogni volta» e ricordava solo la partenza
+#: abituale e la priorita' — mentre i vincoli che uno ripete davvero sempre
+#: uguali sono proprio questi.
+KNOWN_PREFERENCES = frozenset({
+    "home", "preset", "modes", "pax", "sort",
+    "allow_night", "max_changes", "budget", "bag",
+})
 
 
 async def list_searches() -> list[dict[str, Any]]:

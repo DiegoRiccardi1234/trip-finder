@@ -35,7 +35,9 @@
 
 <section id="view-profilo" class="view">
   <h2>Preferenze</h2>
-  <p class="hint">Vengono applicate a ogni ricerca nuova, così non le riscrivi ogni volta.</p>
+  <p class="hint">Vengono applicate a ogni ricerca nuova, così non le riscrivi ogni volta.
+    Oltre a quello che scrivi qui sotto, «Salva preferenze» si ricorda come hai
+    lasciato la ricerca: mezzi, persone, notturni, massimo cambi, budget e valigia.</p>
   <div class="profile-body">
     <div class="row prefs">
       <label class="grow"><span>Partenza abituale</span>
@@ -305,7 +307,9 @@
     <p class="hint">Quanto conta ciascun criterio nella classifica. Zero significa «ignoralo».
       La classifica mostra comunque sempre anche l'opzione più economica e la più rapida, qualunque peso tu metta.</p>
     <div class="presets">
-      <span>Partenze rapide:</span>
+      <!-- Non «Partenze rapide»: in un'app di viaggi si legge come un filtro
+           sugli orari, non come le scorciatoie che sono. -->
+      <span>Scorciatoie:</span>
       <button type="button" data-preset="balanced" aria-pressed="true">Equilibrata</button>
       <button type="button" data-preset="cheap" aria-pressed="false">Più economico</button>
       <button type="button" data-preset="fast" aria-pressed="false">Più veloce</button>

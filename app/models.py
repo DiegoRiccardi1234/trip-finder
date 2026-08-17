@@ -453,6 +453,7 @@ class TripPlan(BaseModel):
     modes: set[Mode] = Field(default_factory=lambda: set(BOOKABLE_MODES))
     with_checked_bag: bool = False
     max_budget: float | None = None
+    max_changes: int | None = None
     allow_night: bool = True
     raw_text: str | None = None
 

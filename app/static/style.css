@@ -112,6 +112,21 @@ form {
 .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
 .row.options { align-items: center; gap: 14px; }
 
+/* La riga principale si allinea in **alto**, non in basso.
+   `flex-end` va bene quando i pezzi sono alti uguali, e qui non lo sono: sotto
+   «Quando» ci stanno «+ seconda data» e «Andata e ritorno», sotto «Da» le
+   pastiglie delle fermate. Allineando i fondi, la sua etichetta risaliva —
+   «Quando» a y 293 contro «Da» a 310, misurato il 2026-08-17 — e con la
+   seconda partenza aperta i due campi non erano nemmeno piu' sulla stessa
+   riga. Le teste invece sono sempre l'etichetta, quindi si allineano da sole. */
+.row.primary { align-items: start; }
+/* Questi due non hanno un'etichetta sopra, e da soli galleggerebbero in cima:
+   scendono dell'altezza di una, per trovarsi accanto ai campi a cui servono.
+   Il pulsante di scambio in particolare appartiene alla coppia Da/A, non a una
+   colonna, e appeso in alto sembrava di «Da». */
+.row.primary > #swap,
+.row.primary > #go { margin-top: 23px; }
+
 label { display: flex; flex-direction: column; gap: 3px; font-size: 13px; }
 /* Vale per ogni campo che si nasconde: `display: flex` qui sopra batterebbe
    la regola del browser per [hidden]. */
@@ -149,7 +164,10 @@ button[disabled] { opacity: .55; cursor: progress; }
   color: var(--muted);
   border-color: var(--line);
   padding: 9px 11px;
-  align-self: flex-end;
+  /* Non `flex-end`: il fondo della colonna e' sotto le pastiglie delle fermate
+     e sotto «+ seconda partenza», e il pulsante finiva a galleggiare la' in
+     basso, lontano dai due campi che scambia. */
+  align-self: start;
 }
 
 button.link {
@@ -525,7 +543,18 @@ main.multi .tratta .tratta-total { grid-column: 1 / -1; }
 .breakdown tr.sum td { font-weight: 600; border-bottom: none; padding-top: 6px; }
 .breakdown .est { color: var(--muted); font-size: 11px; }
 
-.scoring { margin-top: 10px; color: var(--muted); font-size: 12px; font-family: var(--mono); }
+/* Il prospetto del punteggio risponde a «perche' questa e' prima?»: stessa
+   forma del rendiconto del prezzo, perche' fa lo stesso mestiere — apre un
+   numero e mostra da cosa e' fatto. */
+.scoring { margin-top: 12px; }
+.scoring table { border-collapse: collapse; width: 100%; max-width: 520px; font-size: 12.5px; }
+.scoring td { padding: 3px 0; border-bottom: 1px dotted var(--line); color: var(--muted); }
+.scoring td:last-child {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--mono);
+}
+.scoring tr.sum td { color: var(--ink); font-weight: 600; border-bottom: none; padding-top: 6px; }
 
 .empty-state { color: var(--muted); padding: 24px 0; }
 

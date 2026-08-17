@@ -396,6 +396,10 @@ function applyParsed(q) {
   form.elements.bag.checked = Boolean(q.with_checked_bag);
   form.elements.allow_night.checked = q.allow_night !== false;
   form.elements.budget.value = q.max_budget ?? '';
+  // Zero e' un vincolo («diretto»), null e' «non l'ha detto»: `??` e non `||`.
+  if (q.max_changes !== null && q.max_changes !== undefined) {
+    form.elements.max_changes.value = q.max_changes;
+  }
   form.elements.depart_after.value = prima.depart_after ? String(prima.depart_after).slice(0, 5) : '';
   form.elements.arrive_by.value = prima.arrive_by ? String(prima.arrive_by).slice(0, 5) : '';
   const wanted = new Set(q.modes || []);
@@ -424,6 +428,9 @@ function describeParsed(q) {
   }
   if (q.pax > 1) bits.push(`${q.pax} persone`);
   if (q.max_budget) bits.push(`max ${q.max_budget} €`);
+  if (q.max_changes !== null && q.max_changes !== undefined) {
+    bits.push(q.max_changes === 0 ? 'senza cambi' : `max ${q.max_changes} cambi`);
+  }
   if (prima.depart_after) bits.push(`partenza dopo le ${String(prima.depart_after).slice(0, 5)}`);
   if (prima.arrive_by) bits.push(`arrivo entro le ${String(prima.arrive_by).slice(0, 5)}`);
   if (q.allow_night === false) bits.push('niente notturni');
@@ -794,6 +801,12 @@ async function loadProfile(applyPreferences) {
     if (prefs.preset) applyPreset(prefs.preset);
     if (prefs.pax) form.elements.pax.value = prefs.pax;
     if (prefs.sort) lastSort = prefs.sort;
+    // `false` e' un valore, non un'assenza: con `if (prefs.allow_night)` chi
+    // aveva salvato «niente notturni» non se lo vedeva rimettere mai.
+    if (prefs.allow_night !== undefined) form.elements.allow_night.checked = Boolean(prefs.allow_night);
+    if (prefs.bag !== undefined) form.elements.bag.checked = Boolean(prefs.bag);
+    if (prefs.max_changes) form.elements.max_changes.value = prefs.max_changes;
+    if (prefs.budget) form.elements.budget.value = prefs.budget;
     if (Array.isArray(prefs.modes) && prefs.modes.length) {
       const wanted = new Set(prefs.modes);
       form.querySelectorAll('input[name="mode"]').forEach((box) => { box.checked = wanted.has(box.value); });
@@ -828,6 +841,13 @@ document.getElementById('prefs-save').addEventListener('click', async () => {
     modes: [...form.querySelectorAll('input[name="mode"]:checked')].map((b) => b.value),
     pax: Number(form.elements.pax.value) || 1,
     sort: lastSort,
+    // I vincoli che si ripetono sempre uguali. La sezione prometteva «così non
+    // le riscrivi ogni volta» e ricordava la partenza abituale e la priorità:
+    // notturni, cambi, budget e valigia si rimettevano a mano a ogni ricerca.
+    allow_night: form.elements.allow_night.checked,
+    max_changes: Number(form.elements.max_changes.value) || 3,
+    budget: form.elements.budget.value || '',
+    bag: form.elements.bag.checked,
   };
   try {
     await fetch('/api/profile/preferences', {
@@ -924,6 +944,11 @@ const allowPaid = document.getElementById('allow-paid');
 const aiModelsEl = document.getElementById('ai-models');
 let impostazioniCaricate = false;
 
+/* Ogni chiave sta in un `<form>` suo, e non e' decorazione: un campo password
+   fuori da un form fa dire a Chrome «Password field is not contained in a
+   form» — undici volte, una per fornitore — e i gestori di password lo trattano
+   come un campo qualunque. Il form non si invia mai: il salvataggio resta il
+   suo bottone. */
 function schedaFornitore(p) {
   const info = CATALOGO_IA[p.name] || { label: p.name, placeholder: '…' };
   const stato = p.configured ? '✓ configurata' : 'nessuna chiave';
@@ -941,13 +966,14 @@ function schedaFornitore(p) {
         <span class="provider-stato">${stato}</span>
       </div>
       ${note || registrati ? `<p class="hint">${escapeHtml(note)}${registrati}</p>` : ''}
-      <div class="provider-riga">
+      <form class="provider-riga" autocomplete="off">
         <input type="password" autocomplete="off" spellcheck="false"
+               name="chiave-${escapeHtml(p.name)}"
                placeholder="${escapeHtml(info.placeholder)}"
                aria-label="Chiave per ${escapeHtml(info.label)}">
         <button type="button" class="salva-chiave">Salva</button>
         ${p.configured ? '<button type="button" class="link togli-chiave">Rimuovi</button>' : ''}
-      </div>
+      </form>
     </div>`;
 }
 
@@ -1028,7 +1054,7 @@ function gruppo(etichetta, elenco, scelto) {
     + elenco.map((m) => opzione(m, scelto)).join('') + '</optgroup>';
 }
 
-function bloccoCompito(chiave, t) {
+function testaCompito(chiave, t) {
   const scelto = t.pinned || '';
   const consigliati = t.candidates.filter((m) => m.consigliato);
   const gratuiti = t.candidates.filter((m) => !m.consigliato && m.gratuito);
@@ -1040,34 +1066,65 @@ function bloccoCompito(chiave, t) {
     + gruppo('Altri gratuiti', gratuiti, scelto)
     + gruppo(`A pagamento (${pagamento.length})`, pagamento, scelto);
 
+  return `<div class="compito-head">
+      <h4>${escapeHtml(t.label)}</h4>
+      <select class="scelta-modello" data-task="${escapeHtml(chiave)}"
+              aria-label="Modello per ${escapeHtml(t.label)}">${opzioni}</select>
+    </div>`;
+}
+
+/** L'elenco dei modelli, **uno solo**.
+ *
+ * Prima ogni compito portava il suo, e i due erano gli stessi diciassette
+ * modelli con le stesse percentuali di salute, in ordine diverso: due schermate
+ * per dire una cosa sola. Qui non si toglie informazione — la salute e i
+ * modelli morti restano tutti — si toglie la ripetizione, e chi usa cosa lo
+ * dicono le etichette accanto alla riga. */
+function elencoModelliUnico(compiti) {
+  const attivi = new Map();          // id del modello -> compiti che lo usano
+  const fissati = new Set();
+  for (const [, t] of compiti) {
+    const scelto = t.pinned || t.auto;
+    if (t.pinned) fissati.add(t.pinned);
+    if (!scelto) continue;
+    if (!attivi.has(scelto)) attivi.set(scelto, []);
+    attivi.get(scelto).push(t.label);
+  }
+
+  // In elenco i gratuiti, che sono una dozzina e si leggono. Quelli a pagamento
+  // sono centinaia: stanno nei menu, e qui si dice quanti sono invece di
+  // troncare in silenzio. Tranne quelli scelti, che vanno visti.
+  const visti = new Set();
+  const mostrati = [];
+  let nascosti = 0;
+  for (const [, t] of compiti) {
+    for (const m of t.candidates) {
+      if (visti.has(m.id)) continue;
+      visti.add(m.id);
+      if (m.gratuito || fissati.has(m.id)) mostrati.push(m);
+      else nascosti += 1;
+    }
+  }
+
   const riga = (m) => {
     const stato = statoModello(m);
-    const attivo = m.id === (scelto || t.auto);
-    return `<li class="modello ${stato.classe}${attivo ? ' in-uso' : ''}">`
+    const usato = attivi.get(m.id);
+    return `<li class="modello ${stato.classe}${usato ? ' in-uso' : ''}">`
       + '<span class="pallino" aria-hidden="true"></span>'
       + `<span class="modello-id">${escapeHtml(m.model)}</span>`
       + `<span class="modello-stato">${escapeHtml(stato.testo)}</span>`
-      + `${attivo ? '<span class="modello-uso">in uso</span>' : ''}</li>`;
+      + (usato ? `<span class="modello-uso">${escapeHtml(`in uso: ${usato.join(', ')}`)}</span>` : '')
+      + '</li>';
   };
 
-  // In elenco i gratuiti, che sono una dozzina e si leggono. Quelli a pagamento
-  // sono centinaia: stanno nel menu, e qui si dice quanti sono invece di
-  // troncare in silenzio. Tranne quello scelto, che va visto.
-  const mostrati = t.candidates.filter((m) => m.gratuito || m.id === scelto);
-  const nascosti = t.candidates.length - mostrati.length;
   const coda = nascosti
-    ? `<li class="modelli-coda">e altri ${nascosti} a pagamento, nel menu qui sopra`
+    ? `<li class="modelli-coda">e altri ${nascosti} a pagamento, nei menu qui sopra`
       + ' — la loro salute OpenRouter non la pubblica</li>'
     : '';
 
-  return `<section class="compito">
-      <div class="compito-head">
-        <h4>${escapeHtml(t.label)}</h4>
-        <select class="scelta-modello" data-task="${escapeHtml(chiave)}"
-                aria-label="Modello per ${escapeHtml(t.label)}">${opzioni}</select>
-      </div>
-      <ul class="modelli">${mostrati.map(riga).join('') || '<li class="hint">Nessun modello disponibile.</li>'}${coda}</ul>
-    </section>`;
+  return `<ul class="modelli">`
+    + (mostrati.map(riga).join('') || '<li class="hint">Nessun modello disponibile.</li>')
+    + `${coda}</ul>`;
 }
 
 async function caricaModelli() {
@@ -1078,8 +1135,11 @@ async function caricaModelli() {
       aiModelsEl.innerHTML = '<p class="hint">Nessuna chiave: l’IA è spenta e il resto del sito funziona identico.</p>';
       return;
     }
-    aiModelsEl.innerHTML = Object.entries(dati.tasks)
-      .map(([chiave, t]) => bloccoCompito(chiave, t)).join('');
+    const compiti = Object.entries(dati.tasks);
+    aiModelsEl.innerHTML = `<section class="compito">`
+      + compiti.map(([chiave, t]) => testaCompito(chiave, t)).join('')
+      + elencoModelliUnico(compiti)
+      + `</section>`;
   } catch {
     aiModelsEl.innerHTML = '<p class="hint">Elenco dei modelli non raggiungibile.</p>';
   }
@@ -1231,13 +1291,15 @@ function renderStages() {
     <div class="stage-row" data-index="${i}">
       <span class="stage-arrow">⤷</span>
       <label class="inline">mi fermo a <strong>${escapeHtml(nomeMeta(i))}</strong> per
-        <input type="number" class="stage-stay" min="0" max="60" value="${tappa.stay}"> giorni,
+        <input type="number" class="stage-stay" min="0" max="60" value="${tappa.stay}">
+        <span class="stage-giorni">${Number(tappa.stay) === 1 ? 'giorno' : 'giorni'}</span>,
       </label>
       <label class="grow">poi vado a
         <input class="stage-dest" list="places-destination" placeholder="Torino"
                value="${escapeHtml(tappa.destination)}" minlength="2">
       </label>
-      <button type="button" class="link stage-remove" title="Togli questa tappa">×</button>
+      <button type="button" class="link stage-remove"
+              title="Togli questa tappa" aria-label="Togli questa tappa">×</button>
       <div class="stops" data-field="${escapeHtml(campoTappa(tappa))}"></div>
     </div>`).join('');
   // I chip vivono in `stops` e non nell'HTML: ridisegnarli dopo ogni render
@@ -1257,7 +1319,13 @@ stagesList.addEventListener('input', (event) => {
   if (!row) return;
   const tappa = tappe[Number(row.dataset.index)];
   if (event.target.classList.contains('stage-dest')) tappa.destination = event.target.value;
-  if (event.target.classList.contains('stage-stay')) tappa.stay = Number(event.target.value) || 0;
+  if (event.target.classList.contains('stage-stay')) {
+    tappa.stay = Number(event.target.value) || 0;
+    // Solo la parola, non tutta la riga: un `renderStages()` qui rifarebbe
+    // l'input mentre ci si sta scrivendo dentro e porterebbe via il cursore.
+    const parola = row.querySelector('.stage-giorni');
+    if (parola) parola.textContent = tappa.stay === 1 ? 'giorno' : 'giorni';
+  }
 });
 
 // Le fermate si chiedono quando il nome e' finito di scrivere, come per «Da» e
@@ -1738,7 +1806,13 @@ function resetSearch() {
 function refreshSummary() {
   const running = panels.filter((panel) => panel.running);
   const total = panels.reduce((sum, panel) => sum + panel.trips.length, 0);
-  countsEl.textContent = total ? `${total} soluzioni in tutto` : '';
+  // «in tutto» e «finora» a sessanta pixel di distanza, sulla stessa cifra, si
+  // contraddicevano: uno dei due mentiva sempre. Mentre si cerca il numero e'
+  // provvisorio, e questa riga lo dice come lo dicono i pannelli.
+  const finita = !panels.some((panel) => panel.running);
+  countsEl.textContent = total
+    ? `${total} soluzion${total === 1 ? 'e' : 'i'}${finita ? ' in tutto' : ' finora'}`
+    : '';
   if (running.length) {
     if (!viaggio) {
       phaseEl.textContent = panels.length > 1
@@ -2284,7 +2358,18 @@ class SearchPanel {
       const cosa = this.options.roundtrip ? 'combinazioni' : 'soluzioni';
       this.countText = `${this.trips.length} ${cosa}${this.running ? ' finora…' : ''}`;
     }
-    this.metaEl.textContent = [this.phaseText, this.countText].filter(Boolean).join(' · ');
+    // I prezzi si muovono: il 2026-08-17 la stessa Marino+FlixBus e' passata da
+    // 28,98 a 36,18 euro in diciassette minuti. Il piede di pagina dice di
+    // riverificare, ma senza un'ora non si sa **quanto** e' vecchio quello che
+    // si sta guardando. Si segna una volta sola, quando la ricerca chiude: una
+    // riscrittura a ogni aggiornamento darebbe l'ora dell'ultimo ridisegno.
+    if (!this.running && !this.oraPrezzi && this.trips.length) {
+      const ora = new Date();
+      this.oraPrezzi = `prezzi letti alle ${pad(ora.getHours())}:${pad(ora.getMinutes())}`;
+    }
+    this.metaEl.textContent = [this.phaseText, this.countText, this.oraPrezzi]
+      .filter(Boolean)
+      .join(' · ');
   }
 
   start(outUrl, backUrl) {
@@ -2665,7 +2750,7 @@ function detailFor(trip) {
     (trip.back ? `<h3>${titolo} · ${fmtDate(itinerary.depart)}</h3>` : '')
     + `<ol class="legs">${renderLegs(itinerary.legs)}</ol>`
     + renderBreakdown(itinerary)
-    + `<div class="scoring">${escapeHtml(renderScore(itinerary))}</div>`
+    + `<div class="scoring">${renderScore(itinerary)}</div>`
   )).join('')
     + (trip.back
       ? `<p class="pair-total">Andata e ritorno, a persona: <strong>${fmtMoney(trip.total)}</strong></p>`
@@ -2719,12 +2804,37 @@ function renderBreakdown(itinerary) {
     + `</tbody></table></div>`;
 }
 
+/** Le stesse parole dei cursori in «Priorità…»: il prospetto risponde a
+ *  «perché questa è prima?», e la risposta deve usare i nomi dei criteri che
+ *  l'utente ha appena spostato, non le chiavi interne. */
+const NOME_CRITERIO = {
+  prezzo: 'Prezzo totale',
+  durata: 'Durata porta a porta',
+  affidabilita: 'Affidabilità coincidenze',
+  notturno: 'Bonus viaggio notturno',
+  ora_arrivo: 'Ora di arrivo comoda',
+  co2: 'Emissioni CO₂',
+};
+
+/** Perché questa soluzione sta dov'è.
+ *
+ * In un prodotto che classifica è l'informazione più preziosa della pagina, e
+ * fin qui era una fila di decimali senza etichette — `punteggio 3.12 prezzo
+ * 1.00 durata 1.00 affidabilita 0.52` — che sembrava output di debug scappato
+ * in produzione. Resta dov'era, dentro «Dettagli»: cambia la forma, non la
+ * quantità («ogni totale si apre», `docs/PRODUCT.md`). */
 function renderScore(itinerary) {
-  const parts = Object.entries(itinerary.score_parts || {})
-    .map(([key, value]) => `${key} ${value.toFixed(2)}`)
-    .join('  ');
-  const co2 = itinerary.co2_kg ? `  co₂ ${itinerary.co2_kg} kg` : '';
-  return `punteggio ${itinerary.score.toFixed(2)}   ${parts}${co2}`;
+  const righe = Object.entries(itinerary.score_parts || {})
+    .map(([key, value]) =>
+      `<tr><td>${escapeHtml(NOME_CRITERIO[key] || key)}</td>`
+      + `<td>${value.toFixed(2)}</td></tr>`)
+    .join('');
+  const co2 = itinerary.co2_kg
+    ? `<tr><td>Anidride carbonica stimata</td><td>${itinerary.co2_kg} kg</td></tr>`
+    : '';
+  return `<table><tbody>${righe}${co2}`
+    + `<tr class="sum"><td>Punteggio</td><td>${itinerary.score.toFixed(2)}</td></tr>`
+    + `</tbody></table>`;
 }
 
 /* ------------------------------------------------------------- avvio --- */
