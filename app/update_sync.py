@@ -31,9 +31,28 @@ DA_NON_TOCCARE = ("data", ".env", ".env.local", ".browser-profiles")
 ATTESE = (1.0, 2.0, 4.0, 8.0, 16.0)
 
 
-def _protetto(relativo: Path) -> bool:
+def _protetto(relativo: Path, arrivo: Path) -> bool:
+    """Vero se questo file e' dell'utente e non va scritto.
+
+    Dentro `data/` c'e' roba di due proprietari diversi: il database, le chiavi,
+    i cookie e i log sono suoi; i dataset geografici sono nostri e viaggiano
+    nello zip. Proteggere la cartella per intero proteggeva anche **da noi**: la
+    0.5.1 metteva il gazetteer mondiale nel pacchetto, ma chi aggiornava non lo
+    riceveva mai, e su un'installazione aggiornata alla 0.6.0 «Londra»
+    rispondeva ancora Ondara, in Spagna. La correzione valeva solo per chi
+    installava da zero.
+
+    La regola: dentro `data/` si scrive **solo quello che ancora non c'e'**. Un
+    file nuovo arriva, uno esistente non viene toccato — e siccome il pacchetto
+    non contiene nessun file dell'utente, non c'e' modo che questo ne
+    sovrascriva uno. Per rinfrescare un dataset gia' presente c'e'
+    `scripts/fetch_datasets.py`, che e' un gesto voluto."""
     parti = relativo.parts
-    return bool(parti) and parti[0] in DA_NON_TOCCARE
+    if not parti or parti[0] not in DA_NON_TOCCARE:
+        return False
+    if parti[0] == "data" and not arrivo.exists():
+        return False
+    return True
 
 
 def _e_questo_programma(destinazione: Path) -> bool:
@@ -83,9 +102,9 @@ def sincronizza(*, origine: Path, destinazione: Path) -> int:
         if not file.is_file():
             continue
         relativo = file.relative_to(origine)
-        if _protetto(relativo):
-            continue
         arrivo = destinazione / relativo
+        if _protetto(relativo, arrivo):
+            continue
         if _e_questo_programma(arrivo):
             continue
         arrivo.parent.mkdir(parents=True, exist_ok=True)

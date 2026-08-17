@@ -48,6 +48,33 @@ def test_i_dati_dell_utente_non_si_toccano(tmp_path) -> None:
     assert (installato / ".env").read_text(encoding="utf-8") == "la sua configurazione"
 
 
+def test_un_dataset_nuovo_arriva_anche_a_chi_aggiorna(tmp_path) -> None:
+    """Proteggere `data/` per intero proteggeva anche da noi stessi.
+
+    La 0.5.1 metteva il gazetteer mondiale nello zip, ma sta in `data/` — e
+    `data/` non si tocca. Verificato il 2026-08-17 su un'installazione vera
+    appena aggiornata a 0.6.0: «Londra» rispondeva ancora **Ondara, in Spagna**,
+    perche' il file non era mai arrivato. La correzione valeva solo per chi
+    installava da zero, cioe' per nessuno di quelli che gia' usavano il
+    programma."""
+    nuovo, installato = tmp_path / "nuovo", tmp_path / "installato"
+    _albero(nuovo, {
+        "TripFinder.exe": "versione nuova",
+        "data/cities15000.txt": "le citta' del mondo",
+        "data/trip_finder.db": "QUESTO NON DEVE ARRIVARE",
+    })
+    _albero(installato, {
+        "TripFinder.exe": "versione vecchia",
+        "data/trip_finder.db": "il database dell'utente",
+    })
+
+    update_sync.sincronizza(origine=nuovo, destinazione=installato)
+
+    assert (installato / "data" / "cities15000.txt").read_text(encoding="utf-8") == "le citta' del mondo"
+    # E l'altra meta' della regola regge: quello che c'era resta suo.
+    assert (installato / "data" / "trip_finder.db").read_text(encoding="utf-8") == "il database dell'utente"
+
+
 def test_non_si_riscrive_addosso(tmp_path, monkeypatch) -> None:
     """È il difetto che ha fatto fallire l'aggiornamento del 2026-08-01: fra i
     file da sostituire c'è l'aggiornatore stesso, e su Windows un eseguibile in

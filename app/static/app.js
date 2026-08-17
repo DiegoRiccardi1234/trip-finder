@@ -1180,10 +1180,17 @@ async function controllaAggiornamenti(automatico = false) {
     const dati = await (await fetch('/api/update/check')).json();
     versioneInstallata = dati.installed || '';
     versionEl.textContent = dati.installed || '—';
-    updateInstallBtn.hidden = !dati.update_available;
+    // Il bottone solo se l'aggiornamento puo' davvero partire. Girando da
+    // sorgente `install()` rifiuta — «vale solo per il bundle» — e offrirlo
+    // comunque significa far cliccare una cosa che non puo' funzionare, per poi
+    // spiegarlo dopo. Il motivo il backend lo manda gia' in `detail`: si dice
+    // prima.
+    const installabile = Boolean(dati.update_available && dati.frozen);
+    updateInstallBtn.hidden = !installabile;
     if (dati.update_available) {
-      updateState.textContent = `C'è la ${dati.latest}. `
-        + 'Scarico, sostituisco e riapro: i tuoi dati non si toccano.';
+      updateState.textContent = installabile
+        ? `C'è la ${dati.latest}. Scarico, sostituisco e riapro: i tuoi dati non si toccano.`
+        : `C'è la ${dati.latest}, ma da qui non posso installarla: ${dati.detail}.`;
     } else if (automatico) {
       updateState.textContent = '';
     } else {
