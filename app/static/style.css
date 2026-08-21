@@ -322,6 +322,42 @@ fieldset.modes label { flex-direction: row; align-items: center; gap: 5px; font-
    distingue vede un consiglio che comincia con "non disponibile" e basta. */
 .advice--muto .riprova-ia { margin-top: 2px; }
 
+/* La conversazione: il consiglio che continua. Vive dentro lo stesso riquadro,
+   separata solo da una riga, perché non è una funzione a parte — è la stessa
+   voce a cui si può rispondere. */
+.chat { margin-top: 12px; border-top: 1px solid var(--accent); padding-top: 10px; }
+.chat-turni:empty { display: none; }
+.chat-turni { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+.chat-turno p { margin: 0 0 4px; }
+.chat-turno p:last-child { margin-bottom: 0; }
+/* La domanda si riconosce dal rientro e dal colore più smorto: è già stata
+   letta da chi l'ha scritta, la risposta no. */
+.chat-turno--utente {
+  align-self: flex-end;
+  max-width: 85%;
+  color: var(--muted);
+  font-style: italic;
+}
+.chat-turno--muto { color: var(--muted); }
+/* `flex-direction` esplicito: una regola piu' generale su `form` mette
+   `column`, e senza questa riga il campo e il bottone si impilano a tutta
+   larghezza. Misurato a schermo — `display: flex` risultava giusto mentre il
+   risultato era sbagliato. */
+.chat-riga { display: flex; flex-direction: row; align-items: center; gap: 8px; }
+.chat-input {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 10px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.chat-input:disabled { opacity: .6; }
+.chat-invia { flex: 0 0 auto; }
+
 /* Il riferimento dentro il testo del consiglio: stesso segno del numero sulla
    scheda, ma cliccabile. Non e' un link — non porta altrove, porta piu' in
    basso nella stessa pagina — quindi e' un bottone travestito. */
@@ -586,6 +622,9 @@ main.multi .tratta .tratta-total { grid-column: 1 / -1; }
 .stops:empty { display: none; }
 .stops .hint { font-size: 12px; }
 .chip.stop { font-family: inherit; font-size: 12px; }
+/* La distanza accompagna il nome, non compete con lui: e' il secondo dato
+   della pastiglia, quello che spiega perche' sta in quel punto della lista. */
+.chip.stop .km { opacity: .6; margin-left: 4px; font-variant-numeric: tabular-nums; }
 
 /* I chip degli operatori sono bottoni: cliccandoli si filtra la classifica. */
 button.chip {

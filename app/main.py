@@ -29,6 +29,7 @@ from app.geo.resolver import PlaceNotFound, get_resolver
 from app.models import (
     BOOKABLE_MODES,
     AdviceRequest,
+    ChatRequest,
     CompareRequest,
     Discount,
     Mode,
@@ -405,12 +406,24 @@ async def ai_status() -> dict:
 
 @app.get("/api/resolve")
 async def resolve(q: str = Query(min_length=2)) -> JSONResponse:
-    """Diagnostica: mostra in quali fermate si traduce una localita'."""
+    """In quali fermate si traduce una localita'. La usa il modulo di ricerca.
+
+    L'ordine qui e' quello di **presentazione**, con la distanza allegata: il
+    motore non passa da questo endpoint (`search_service` chiama il resolver
+    direttamente) e continua a usare `place.nodes` in ordine di punteggio.
+    Riordinare qui, e non nella pagina, tiene la regola in Python dove la suite
+    la puo' provare, e la rende impossibile da confondere con la selezione."""
     try:
         place = get_resolver().resolve(q)
     except PlaceNotFound as exc:
         raise HTTPException(404, str(exc)) from exc
-    return JSONResponse(place.model_dump(mode="json"))
+
+    payload = place.model_dump(mode="json")
+    payload["nodes"] = [
+        {**node.model_dump(mode="json"), "km": round(km, 1)}
+        for node, km in place.fermate_da_mostrare()
+    ]
+    return JSONResponse(payload)
 
 
 @app.post("/api/advice")
@@ -431,6 +444,29 @@ async def advice(request: AdviceRequest) -> dict:
         answer = await advise(request)
     except Exception:  # noqa: BLE001 - un consiglio mancante non rompe la pagina
         logger.debug("consiglio non disponibile", exc_info=True)
+        answer = client.Answer(reason=client.FAILED)
+    return {"text": answer.text or None, "reason": answer.reason}
+
+
+@app.post("/api/chat")
+async def chat(request: ChatRequest) -> dict:
+    """Una domanda sulla classifica che si sta guardando.
+
+    E' il consiglio che continua, non una funzione nuova: stessa classifica,
+    stessi vincoli, stessi riferimenti cliccabili. La differenza e' che qui la
+    conversazione ha una storia, e che il Profilo entra finalmente nel prompt
+    invece di arrivare solo di rimbalzo attraverso i campi del modulo.
+
+    Il modello non lancia ricerche e non tocca il modulo. E' un limite voluto:
+    puo' parlare solo di cio' che ha davanti, quindi non puo' inventare un
+    collegamento che non e' stato trovato."""
+    from app.ai import client
+    from app.ai.advisor import chat as rispondi
+
+    try:
+        answer = await rispondi(request)
+    except Exception:  # noqa: BLE001 - una risposta mancante non rompe la pagina
+        logger.debug("risposta in chat non disponibile", exc_info=True)
         answer = client.Answer(reason=client.FAILED)
     return {"text": answer.text or None, "reason": answer.reason}
 

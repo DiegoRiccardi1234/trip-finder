@@ -46,6 +46,20 @@ MAX_NODES_PER_KIND: dict[NodeKind, int] = {
     NodeKind.PORT: 2,
 }
 
+#: L'ordine in cui si scandiscono i tipi di fermata. Era l'ordine di iterazione
+#: di un `set` di Enum, cioe' dipendente da `PYTHONHASHSEED`: **cambiava a ogni
+#: riavvio del server**. Misurato il 2026-08-22 su sei esecuzioni, sei ordini
+#: diversi. Si vedeva a schermo — cercando «Canelli» a volte usciva prima
+#: l'aeroporto di Genova — ma non era solo estetica: a parita' di punteggio
+#: questo ordine fa da spareggio anche su quali fermate vengono davvero
+#: interrogate, e uno spareggio casuale rende irriproducibile una ricerca.
+KIND_SCAN_ORDER: tuple[NodeKind, ...] = (
+    NodeKind.STATION,
+    NodeKind.BUS_STOP,
+    NodeKind.AIRPORT,
+    NodeKind.PORT,
+)
+
 #: Quanto pesa un chilometro di distanza dall'ancora nel punteggio di un nodo.
 #: Senza, la distanza contava solo a parita' di punteggio, e vinceva sempre
 #: l'aeroporto piu' grande: Milano scartava Linate (7 km) per Malpensa e
@@ -330,7 +344,13 @@ class Resolver:
             NodeKind.AIRPORT: settings.air_radius_km,
             NodeKind.PORT: settings.port_radius_km,
         }
-        for kind in wanted_kinds:
+        # I tipi noti nel loro ordine, poi gli altri in ordine alfabetico. La
+        # coda non e' pedanteria: senza, un tipo aggiunto domani a
+        # `MODE_NODE_KINDS` e dimenticato qui sparirebbe in silenzio, che e'
+        # peggio del disordine che questa costante e' venuta a togliere.
+        noti = [k for k in KIND_SCAN_ORDER if k in wanted_kinds]
+        altri = sorted(wanted_kinds - set(KIND_SCAN_ORDER), key=lambda k: k.value)
+        for kind in noti + altri:
             radius = radii.get(kind, settings.ground_radius_km)
             nearby = [
                 node

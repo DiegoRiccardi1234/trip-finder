@@ -277,9 +277,13 @@ function renderStops(field) {
   if (state.nodes.length < 2) { box.replaceChildren(); return; }
   const chips = state.nodes.map((node) => {
     const on = state.chosen.has(node.id);
+    // La distanza scritta accanto al nome: e' cio' che rende l'ordine
+    // leggibile invece che misterioso. Cercando «Canelli» comparivano nove
+    // fermate in un ordine che nessuno poteva spiegare; ora si spiega da se'.
+    const km = typeof node.km === 'number' ? ` <span class="km">${node.km} km</span>` : '';
     return `<button type="button" class="chip stop ${on ? 'on' : ''}" aria-pressed="${on}"`
       + ` data-node="${escapeHtml(node.id)}">`
-      + `${KIND_ICON[node.kind] || '•'} ${escapeHtml(node.name)}</button>`;
+      + `${KIND_ICON[node.kind] || '•'} ${escapeHtml(node.name)}${km}</button>`;
   });
   const quante = state.chosen.size
     ? `<span class="hint">solo ${state.chosen.size} di ${state.nodes.length} — <a href="#" data-clear="1">tutte</a></span>`
@@ -306,7 +310,23 @@ document.addEventListener('click', (event) => {
   }
 });
 
+// Le pastiglie si chiedevano solo su `change` e `blur`, che il browser manda
+// **alla conferma**: Invio, Tab, o un click fuori dal campo. Chi scriveva il
+// nome per intero e andava dritto su «Cerca» non le vedeva mai comparire, e
+// sembrava che il campo non avesse capito quello che aveva scritto. Ora si
+// chiedono anche mentre si scrive, con lo stesso respiro dei suggerimenti.
+// Non serve altra protezione contro la raffica: `loadStops` esce subito se il
+// testo non e' cambiato e scarta le risposte arrivate tardi.
+const RESPIRO_FERMATE = 220;
+const attesaFermate = new Map();
+
+function chiediFermate(field) {
+  clearTimeout(attesaFermate.get(field));
+  attesaFermate.set(field, setTimeout(() => loadStops(field), RESPIRO_FERMATE));
+}
+
 for (const field of PLACE_FIELDS) {
+  form.elements[field].addEventListener('input', () => chiediFermate(field));
   form.elements[field].addEventListener('change', () => loadStops(field));
   form.elements[field].addEventListener('blur', () => loadStops(field));
 }
@@ -619,6 +639,8 @@ const prefsState = document.getElementById('prefs-state');
 const discountList = document.getElementById('discount-list');
 
 let discountsCache = [];
+//: Le preferenze del Profilo, come le ha lette l'ultimo caricamento.
+let profiloCorrente = {};
 
 const SCOPE_LABEL = {
   all: 'tutti gli operatori',
@@ -791,6 +813,11 @@ async function loadProfile(applyPreferences) {
     discountsCache = data.discounts || [];
     renderDiscounts(discountsCache);
     const prefs = data.preferences || {};
+    // Tenuto da parte anche per la conversazione: finora nessun prompt vedeva
+    // il Profilo, ci arrivava solo di rimbalzo perché la pagina ne aveva già
+    // scritto i valori nei campi del modulo. In una chat serve davvero: «e se
+    // partissi domani?» si risponde diversamente a chi i notturni non li vuole.
+    profiloCorrente = prefs;
     document.getElementById('pref-home').value = prefs.home || '';
     document.getElementById('pref-preset').value = prefs.preset || '';
     if (!applyPreferences) return;
@@ -1335,14 +1362,17 @@ stagesList.addEventListener('input', (event) => {
   }
 });
 
-// Le fermate si chiedono quando il nome e' finito di scrivere, come per «Da» e
-// «A»: a ogni tasto sarebbe una richiesta per lettera.
-for (const evento of ['change', 'blur']) {
+// Le fermate di una tappa seguono la stessa regola di «Da» e «A»: mentre si
+// scrive con un respiro, alla conferma subito. A ogni tasto sarebbe una
+// richiesta per lettera.
+for (const evento of ['input', 'change', 'blur']) {
   stagesList.addEventListener(evento, (event) => {
     if (!event.target.classList.contains('stage-dest')) return;
     const row = event.target.closest('.stage-row');
     const tappa = tappe[Number(row.dataset.index)];
-    if (tappa) loadStops(campoTappa(tappa));
+    if (!tappa) return;
+    if (evento === 'input') chiediFermate(campoTappa(tappa));
+    else loadStops(campoTappa(tappa));
   }, true);  // `blur` non risale: si ascolta in discesa
 }
 
@@ -2081,6 +2111,31 @@ function noteDaSapere(trip) {
   return [...note].slice(0, 8);
 }
 
+/** Il corpo della richiesta per questa classifica: lo stesso per consiglio e chat.
+ *
+ *  Era dentro `chiediConsiglio`. Sta a parte perché la conversazione deve
+ *  vedere **esattamente** quello che ha visto il consiglio: due copie di questo
+ *  oggetto avrebbero cominciato a divergere alla prima aggiunta, e il modello
+ *  si sarebbe trovato a rispondere su una classifica diversa da quella che
+ *  aveva appena commentato. */
+function corpoConsiglio(panel) {
+  return {
+    ...contestoConsiglio(),
+    label: panel.title,
+    origin: panel.combo.origin.value,
+    destination: panel.combo.destination.value,
+    date: panel.combo.date,
+    return_date: panel.options.returnDate,
+    depart_after: form.elements.depart_after.value || null,
+    arrive_by: form.elements.arrive_by.value || null,
+    allow_night: form.elements.allow_night.checked,
+    found: panel.trips.length,
+    partial: panel.endLabel === 'Interrotta',
+    relaxed: panel.relaxed,
+    options: panel.perIA(5),
+  };
+}
+
 /** Il consiglio su una classifica sola: quella che si sta guardando. */
 function chiediConsiglio(panel) {
   if (!panel.trips.length) return;
@@ -2106,7 +2161,99 @@ function chiediConsiglio(panel) {
       options: panel.perIA(5),
     }),
     { attesa: 'Sto guardando le soluzioni…' },
-  );
+  ).then(() => montaConversazione(panel));
+}
+
+/* ------------------------------------------------------ la conversazione --- */
+
+// Il consiglio era un monologo: diceva la sua e chiudeva. Ma la domanda vera
+// arriva subito dopo averlo letto — «e se partissi un'ora dopo?», «perché non
+// la 2?» — e finora non c'era dove farla.
+//
+// Non è un pannello nuovo: è lo stesso blocco che continua. Riusa i riferimenti
+// cliccabili, il controllo che scarta le risposte che citano schede
+// inesistenti, e i motivi tradotti quando l'IA è spenta. Il modello vede la
+// classifica che stai guardando e nient'altro: non lancia ricerche e non tocca
+// il modulo, quindi non può inventare un collegamento che non è stato trovato.
+
+const CHIEDI_ALTRO = 'Chiedi altro su questi risultati…';
+
+function montaConversazione(panel) {
+  const el = panel.adviceEl;
+  // Senza consiglio non c'è conversazione: se l'IA è spenta o non ha nulla da
+  // dire, un campo di testo lì sotto sarebbe un invito a una cosa che non
+  // funziona.
+  if (!el || el.hidden || el.classList.contains('advice--muto')) return;
+  if (el.querySelector('.chat')) return;
+
+  panel.conversazione = [];
+  const box = document.createElement('div');
+  box.className = 'chat';
+  box.innerHTML = '<div class="chat-turni"></div>'
+    + '<form class="chat-riga">'
+    + `<input type="text" class="chat-input" placeholder="${CHIEDI_ALTRO}"`
+    + ' aria-label="Chiedi altro su questi risultati" maxlength="500" autocomplete="off">'
+    + '<button type="submit" class="chat-invia">Chiedi</button>'
+    + '</form>';
+  el.appendChild(box);
+  box.querySelector('.chat-riga').addEventListener('submit', (event) => {
+    event.preventDefault();
+    inviaDomanda(panel, box);
+  });
+}
+
+function turno(box, ruolo, testo) {
+  const riga = document.createElement('div');
+  riga.className = `chat-turno chat-turno--${ruolo}`;
+  riga.innerHTML = senzaMarcature(testo).split('\n').filter(Boolean)
+    .map((p) => `<p>${conRiferimenti(escapeHtml(p))}</p>`).join('');
+  box.querySelector('.chat-turni').appendChild(riga);
+  return riga;
+}
+
+async function inviaDomanda(panel, box) {
+  const input = box.querySelector('.chat-input');
+  const domanda = input.value.trim();
+  if (!domanda) return;
+
+  const invia = box.querySelector('.chat-invia');
+  input.value = '';
+  input.disabled = true;
+  invia.disabled = true;
+  turno(box, 'utente', domanda);
+  panel.conversazione.push({ role: 'user', content: domanda });
+  const attesa = turno(box, 'ia', 'Sto guardando…');
+
+  // Lo stesso contatore anti-race del consiglio: una risposta che arriva dopo
+  // che è partita un'altra ricerca parlerebbe di una classifica che non c'è più.
+  const gen = generazione;
+  let dati = { reason: 'failed' };
+  try {
+    const risposta = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...corpoConsiglio(panel), messages: panel.conversazione, profilo: profiloCorrente }),
+    });
+    if (risposta.ok) dati = await risposta.json();
+  } catch { /* senza rete resta il motivo generico */ }
+
+  if (gen !== generazione) return;
+  attesa.remove();
+  if (dati.text) {
+    turno(box, 'ia', dati.text);
+    panel.conversazione.push({ role: 'assistant', content: dati.text });
+  } else {
+    const perche = PERCHE_NIENTE_IA[dati.reason] || PERCHE_NIENTE_IA.failed;
+    const rimedio = RIMEDIO_IA[dati.reason] || RIMEDIO_MODELLO;
+    // La domanda senza risposta esce dalla storia: lasciarla dentro la
+    // farebbe rispedire a ogni turno successivo, e un modello che vede una
+    // domanda mai risposta tende a rispondere a quella.
+    panel.conversazione.pop();
+    turno(box, 'muto', `${perche} ${rimedio}`);
+  }
+  input.disabled = false;
+  invia.disabled = false;
+  input.focus();
 }
 
 /* ------------------------------------------- consiglio che mette a confronto */

@@ -35,6 +35,7 @@ from app.ai import client
 from app.models import (
     AdviceOption,
     AdviceRequest,
+    ChatRequest,
     CompareRequest,
     RelaxedConstraint,
     TripAdviceRequest,
@@ -341,6 +342,123 @@ async def advise(request: AdviceRequest) -> client.Answer:
     )
     if answer.completion is not None:
         logger.debug("consiglio prodotto da %s", answer.completion.model)
+    return answer
+
+
+# --- La conversazione ------------------------------------------------------
+
+CHAT_SYSTEM = """Sei un amico che si intende di viaggi. Hai gia' dato il tuo parere su
+una classifica di itinerari e ora chi legge ti fa una domanda. Rispondi a
+**quella** domanda.
+
+Scrivi in italiano, breve: due o tre frasi, un paragrafo al massimo. Chi
+chiede vuole una risposta, non un secondo consiglio completo.
+
+Regole:
+{riferimenti}
+- Rispondi solo con i dati che hai qui sotto. Se la risposta non c'e' —
+  perche' riguarda un orario, un prezzo o un collegamento che non ti e' stato
+  dato — dillo in una riga invece di dedurla: chi legge puo' rifare la ricerca
+  con altri parametri, ma non puo' accorgersi che hai inventato.
+- Se la domanda chiede di cambiare la ricerca (altra data, altro orario, altri
+  mezzi), spiega cosa cambierebbe e di' che va rilanciata: tu non la lanci.
+- Non ripetere il consiglio che hai gia' dato.
+- Niente elenchi puntati, niente titoli, niente formule di cortesia.
+- Niente asterischi e niente grassetto: il testo va a schermo cosi' com'e'.""".format(
+    riferimenti=REGOLA_RIFERIMENTI
+)
+
+
+def _controllo_chat(options: list[AdviceOption]) -> Callable[[str], str]:
+    """Come il controllo del consiglio, ma **senza** pretendere un riferimento.
+
+    Un consiglio che non nomina nessuna soluzione non e' seguibile. Una
+    risposta a «quanto dura il cambio?» invece puo' benissimo non nominarne
+    nessuna, ed e' giusta lo stesso. Riusare il controllo del consiglio qui
+    avrebbe scartato le risposte buone e fatto credere che il modello fosse
+    rotto. Resta l'altra meta', che e' quella che conta: un riferimento
+    **inventato** manda a cercare una scheda che non esiste."""
+    validi = {(option.ref or "").upper() for option in options if option.ref}
+
+    def check(text: str) -> str:
+        citati = {match.group(1).upper() for match in RIFERIMENTO_RE.finditer(text)}
+        return client.INVENTED if citati - validi else ""
+
+    return check
+
+
+_PROFILO_IN_CHIARO = {
+    "allow_night": lambda v: "accetta viaggi notturni" if v else "non vuole viaggi notturni",
+    "max_changes": lambda v: f"al massimo {v} cambi",
+    "budget": lambda v: f"budget abituale {v} euro a persona",
+    "bag": lambda v: "viaggia con una valigia da stiva" if v else "solo bagaglio a mano",
+    "home": lambda v: f"parte di solito da {v}",
+}
+
+
+def _righe_profilo(profilo: dict) -> list[str]:
+    """Cosa l'utente ha gia' dichiarato di se', una volta per tutte.
+
+    Finora nessun prompt lo vedeva: arrivava al modello solo di rimbalzo,
+    perche' la pagina aveva gia' scritto quei valori nei campi del modulo. In
+    una conversazione serve davvero — «e se partissi domani?» si risponde
+    diversamente a chi i notturni non li vuole."""
+    voci = [
+        _PROFILO_IN_CHIARO[chiave](valore)
+        for chiave, valore in profilo.items()
+        if chiave in _PROFILO_IN_CHIARO and valore not in (None, "", [])
+    ]
+    return [f"Chi chiede: {', '.join(voci)}."] if voci else []
+
+
+async def chat(request: ChatRequest) -> client.Answer:
+    """Una domanda sulla classifica che si sta guardando.
+
+    Vede esattamente cio' che vede il consiglio — stessa testa, stesse
+    soluzioni, stessi vincoli rilassati — piu' i turni precedenti e il Profilo.
+    Non lancia ricerche e non tocca il modulo: puo' solo parlare di cio' che ha
+    davanti, ed e' la ragione per cui e' difendibile."""
+    if not client.is_configured():
+        return client.Answer(reason=client.NOT_CONFIGURED)
+    if not request.messages or request.messages[-1].role != "user":
+        return client.Answer(reason=client.NOTHING)
+
+    candidates = request.options[:MAX_CANDIDATES]
+    confronto = _confronti(candidates)
+    righe = "\n".join(
+        _describe_option(option, str(index), confronto(option))
+        for index, option in enumerate(candidates, start=1)
+    )
+    contesto = "\n".join(
+        _testa_richiesta(request)
+        + _righe_profilo(request.profilo)
+        + [
+            "",
+            f"Itinerari ({_quante(len(candidates), request.found, request.partial)}):",
+            righe,
+        ]
+    )
+
+    domanda = request.messages[-1].content
+    storia = [
+        {"role": messaggio.role, "content": messaggio.content}
+        for messaggio in request.messages[:-1]
+    ]
+
+    # La classifica sta nel messaggio di sistema e non nella storia: e' il dato
+    # stabile su cui si ragiona, e ripeterlo a ogni turno lo farebbe invecchiare
+    # dentro la conversazione mentre a schermo e' sempre lo stesso.
+    answer = await client.complete(
+        "advice",
+        f"{CHAT_SYSTEM}\n\n--- Di cosa state parlando ---\n{contesto}",
+        domanda,
+        max_tokens=700,
+        temperature=0.4,
+        check=_controllo_chat(candidates),
+        history=storia,
+    )
+    if answer.completion is not None:
+        logger.debug("risposta in chat da %s", answer.completion.model)
     return answer
 
 

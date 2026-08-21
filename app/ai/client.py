@@ -200,6 +200,7 @@ async def _call_openai_dialect(
     max_tokens: int,
     temperature: float,
     json_mode: bool,
+    history: list[dict[str, str]] | None = None,
 ) -> tuple[str, str | None]:
     """Il formato Chat Completions, che sei fornitori su sette parlano uguale."""
     base = providers.base_url(provider)
@@ -217,8 +218,12 @@ async def _call_openai_dialect(
 
     payload: dict[str, Any] = {
         "model": model,
+        # La storia sta **in mezzo**: il sistema apre, i turni precedenti nel
+        # loro ordine, la domanda nuova in coda. Chi non la passa vede
+        # esattamente il payload di prima.
         "messages": [
             {"role": "system", "content": system},
+            *(history or []),
             {"role": "user", "content": user},
         ],
         "max_tokens": max_tokens,
@@ -257,12 +262,19 @@ async def _call(
     temperature: float,
     json_mode: bool,
     task: str,
+    history: list[dict[str, str]] | None = None,
 ) -> tuple[str, str | None]:
     if provider.dialect == "anthropic":
         from app.ai import anthropic_client
 
         return await anthropic_client.call(
-            provider, model, system, user, max_tokens=max_tokens, task=task
+            provider,
+            model,
+            system,
+            user,
+            max_tokens=max_tokens,
+            task=task,
+            history=history,
         )
     return await _call_openai_dialect(
         provider,
@@ -272,6 +284,7 @@ async def _call(
         max_tokens=max_tokens,
         temperature=temperature,
         json_mode=json_mode,
+        history=history,
     )
 
 
@@ -285,6 +298,7 @@ async def complete(
     json_mode: bool = False,
     cache_key: str | None = None,
     check: Callable[[str], str] | None = None,
+    history: list[dict[str, str]] | None = None,
 ) -> Answer:
     """Prova le coppie (fornitore, modello) in ordine finche' una risponde bene.
 
@@ -359,6 +373,7 @@ async def complete(
                         temperature=temperature,
                         json_mode=json_mode,
                         task=task,
+                        history=history,
                     )
             except CallFailed as exc:
                 if exc.reason == RATE_LIMITED and waits and remaining_wait > 0:

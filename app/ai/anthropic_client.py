@@ -72,6 +72,7 @@ async def call(
     *,
     max_tokens: int,
     task: str,
+    history: list[dict[str, str]] | None = None,
 ) -> tuple[str, str | None]:
     """Una chiamata sola. Restituisce (testo, motivo di fine) o solleva `CallFailed`."""
     import anthropic
@@ -84,7 +85,7 @@ async def call(
             model=model,
             max_tokens=budget,
             system=system,
-            messages=[{"role": "user", "content": user}],
+            messages=[*(history or []), {"role": "user", "content": user}],
             thinking={"type": "adaptive"},
             output_config={"effort": EFFORT.get(task, "low")},
         )

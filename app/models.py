@@ -10,7 +10,7 @@ from __future__ import annotations
 import math
 from datetime import date, datetime, time, timedelta
 from enum import Enum
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, computed_field
 
@@ -72,6 +72,18 @@ class Node(BaseModel):
         return hash(self.id)
 
 
+#: I gruppi in cui si presentano le fermate, nell'ordine in cui si mostrano.
+#: Terra prima dell'aria perche' sono scelte diverse: chi guarda le stazioni
+#: sta valutando un viaggio, chi guarda gli aeroporti ne sta valutando un
+#: altro, e mescolarli costringe a rileggere la lista due volte.
+GRUPPI_DI_PRESENTAZIONE: tuple[frozenset[NodeKind], ...] = (
+    frozenset({NodeKind.STATION, NodeKind.BUS_STOP}),
+    frozenset({NodeKind.AIRPORT}),
+    frozenset({NodeKind.PORT}),
+    frozenset({NodeKind.CITY}),
+)
+
+
 class Place(BaseModel):
     """Esito della risoluzione di un testo libero ("Torino", "Matera")."""
 
@@ -85,6 +97,39 @@ class Place(BaseModel):
     def nodes_for(self, mode: Mode) -> list[Node]:
         kinds = MODE_NODE_KINDS.get(mode, frozenset())
         return [n for n in self.nodes if n.kind in kinds]
+
+    def fermate_da_mostrare(self) -> list[tuple[Node, float]]:
+        """Le fermate come le legge una persona, con la loro distanza in km.
+
+        **Non e' l'ordine di `nodes`, ed e' voluto.** `nodes` e' ordinata per
+        punteggio — importanza meno distanza — ed e' cosi' che il motore decide
+        chi interrogare quando i posti sono meno delle fermate: e' un ordine
+        tarato, che protegge Linate a 7 km dal venire scavalcato da Malpensa
+        (vedi `DISTANCE_PENALTY_PER_KM` nel resolver). Non si tocca.
+
+        Ma a schermo quell'ordine mente. Cercando «Canelli» metteva in cima
+        l'aeroporto di Genova, a 55 km, e Canelli stessa nona: chi legge cerca
+        per tipo e per vicinanza, il motore no. Da qui due ordini distinti, e
+        una regola: **questo non arriva mai al motore**.
+
+        La distanza si ricalcola invece di essere portata dietro in un campo.
+        I nodi dell'indice sono condivisi fra tutte le ricerche, e la distanza
+        non e' una proprieta' della stazione ma della relazione fra stazione e
+        ancora — la stessa fermata sta a 1 km da «Torino» e a 19 da «Ciriè».
+        Un campo sul nodo sarebbe un dato duplicato che finirebbe dentro ogni
+        gamba serializzata, dove non significa niente."""
+        per_gruppo: list[tuple[int, float, str, Node]] = []
+        for node in self.nodes:
+            gruppo = next(
+                (i for i, kinds in enumerate(GRUPPI_DI_PRESENTAZIONE) if node.kind in kinds),
+                len(GRUPPI_DI_PRESENTAZIONE),
+            )
+            km = haversine_km(self.lat, self.lon, node.lat, node.lon)
+            # Il nome come terzo criterio: due fermate equidistanti non devono
+            # scambiarsi di posto fra una chiamata e l'altra.
+            per_gruppo.append((gruppo, km, node.name, node))
+        per_gruppo.sort(key=lambda riga: riga[:3])
+        return [(node, km) for _, km, _, node in per_gruppo]
 
 
 class Fare(BaseModel):
@@ -590,6 +635,33 @@ class AdviceRequest(BaseModel):
     arrive_by: str | None = None
     allow_night: bool = True
     raw_text: str | None = None
+
+
+class ChatMessage(BaseModel):
+    """Un turno della conversazione, come lo rimanda la pagina."""
+
+    role: Literal["user", "assistant"]
+    content: str = Field(max_length=4000)
+
+
+class ChatRequest(AdviceRequest):
+    """Il consiglio, ma continuabile.
+
+    E' `AdviceRequest` piu' la storia dei turni, e l'eredita' non e' pigrizia:
+    la conversazione deve vedere **esattamente** cio' che vede il consiglio,
+    perche' e' lo stesso blocco a schermo. Due strutture separate avrebbero
+    cominciato a divergere alla prima aggiunta, e il modello si sarebbe trovato
+    a rispondere su una classifica diversa da quella che ha commentato."""
+
+    #: I turni precedenti, dal piu' vecchio. Il tetto e' basso di proposito:
+    #: una conversazione su una classifica non ha bisogno di memoria lunga, e
+    #: una storia che cresce senza limite finisce per costare piu' della
+    #: risposta e per far troncare i modelli piccoli.
+    messages: list[ChatMessage] = Field(default_factory=list, max_length=12)
+    #: Quello che l'utente ha messo nel Profilo. Oggi nessun prompt lo vede:
+    #: arrivava al modello solo di rimbalzo, perche' la pagina lo aveva gia'
+    #: scritto nei campi del modulo.
+    profilo: dict[str, Any] = Field(default_factory=dict)
 
 
 class CompareRequest(BaseModel):

@@ -197,3 +197,66 @@ def test_le_omonime_del_mondo_non_scavalcano_casa(resolver, query, paese, etiche
     place = resolver.resolve(query)
     assert place.country == paese
     assert place.label == etichetta
+
+
+# ------------------------------------- l'ordine con cui le fermate si mostrano
+
+
+def test_l_ordine_dei_gruppi_non_dipende_piu_dall_avvio(resolver) -> None:
+    """Era l'ordine di iterazione di un `set` di Enum.
+
+    Cioe' dipendeva da `PYTHONHASHSEED`: misurato il 2026-08-22 su sei
+    esecuzioni, sei ordini diversi. Si vedeva a schermo — cercando «Canelli» a
+    volte usciva prima l'aeroporto di Genova — ma non era solo estetica: a
+    parita' di punteggio quell'ordine fa da spareggio anche su quali fermate
+    vengono davvero interrogate, e uno spareggio casuale rende una ricerca
+    irriproducibile.
+
+    Si prova la causa e non il sintomo: dentro un processo solo il seme non si
+    puo' cambiare, quindi si verifica che i gruppi escano nell'ordine
+    dichiarato invece che in uno qualsiasi."""
+    from app.geo.resolver import KIND_SCAN_ORDER
+
+    place = resolver.resolve("Canelli")
+    posizioni = [KIND_SCAN_ORDER.index(node.kind) for node in place.nodes]
+    assert posizioni == sorted(posizioni), (
+        f"i gruppi non seguono l'ordine dichiarato: "
+        f"{[n.kind.value for n in place.nodes]}"
+    )
+
+
+def test_le_fermate_mostrate_vanno_per_gruppo_e_per_distanza(resolver) -> None:
+    """Il caso Canelli, che e' quello da cui e' nato tutto.
+
+    A schermo la prima pastiglia era «Genoa Cristoforo Colombo Airport», a 55
+    km, e Canelli stessa era la nona. L'ordine del motore e' tarato e resta
+    com'e' (vedi il test su Linate qui sopra): quello che cambia e' cosa legge
+    una persona."""
+    place = resolver.resolve("Canelli")
+    mostrate = place.fermate_da_mostrare()
+
+    primo, km_primo = mostrate[0]
+    assert primo.name == "Canelli"
+    assert km_primo < 1.0
+
+    terra = [km for nodo, km in mostrate if nodo.kind.value in {"station", "bus_stop"}]
+    aria = [km for nodo, km in mostrate if nodo.kind.value == "airport"]
+    assert terra == sorted(terra), "dentro il gruppo si va per distanza crescente"
+    assert aria == sorted(aria)
+    indici_aria = [i for i, (n, _) in enumerate(mostrate) if n.kind.value == "airport"]
+    indici_terra = [i for i, (n, _) in enumerate(mostrate) if n.kind.value != "airport"]
+    assert max(indici_terra) < min(indici_aria), "la terra prima dell'aria"
+
+
+def test_l_ordine_del_motore_resta_quello_del_punteggio(resolver) -> None:
+    """La separazione ha senso solo se le due liste restano diverse.
+
+    Se `nodes` cominciasse a coincidere con l'ordine di presentazione vorrebbe
+    dire che il riordino e' arrivato dove non doveva, e la correzione su Linate
+    sarebbe da rifare senza che nessun test lo dica."""
+    place = resolver.resolve("Canelli")
+    motore = [node.id for node in place.nodes]
+    schermo = [node.id for node, _ in place.fermate_da_mostrare()]
+
+    assert sorted(motore) == sorted(schermo), "le stesse fermate, in ordine diverso"
+    assert motore != schermo, "su Canelli i due ordini devono differire"
