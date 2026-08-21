@@ -14,9 +14,9 @@ Si scarica e si fa doppio click: niente Python, niente terminale.
 ![Torino → Matera, 25 soluzioni confrontate sul costo porta a porta](docs/img/comparison.png)
 
 **English summary** — Trip Finder is a local-first, multimodal trip search
-engine for Italy and its neighbours: 42 operator adapters across trains,
-coaches, flights and ferries, queried in parallel and merged into a single
-ranking. What makes it different from an aggregator is the unit of comparison:
+engine for Italy and its neighbours: 43 operator adapters across trains,
+coaches, flights, ferries and local public transport, queried in parallel and
+merged into a single ranking. What makes it different from an aggregator is the unit of comparison:
 not the fare, but the **real door-to-door cost** — fare plus checked bag, plus
 the ride to the first stop and from the last one, plus transfers between legs,
 with every estimated item labelled as such. It also separates *changes* from
@@ -37,8 +37,16 @@ them and opens an issue when they drift. Better still, where an operator returns
 its reduced fares inside the search response, the ranking uses **their** number
 instead of estimating a percentage, and says so.
 
+Every leg an adapter returns is checked against the pair that was actually
+asked for — by geography, and by whether its duration is even physically
+possible — because an adapter that quietly answers about somewhere else is
+worse than one that fails: a search for Asti → Canelli, twenty-one kilometres
+apart, once came back with an eighteen-hour coach between two towns six hundred
+kilometres away, and nothing downstream noticed.
+
 Stack: Python, FastAPI, SQLite, `curl_cffi` and Playwright for the harder
-operators, and an LLM for the comparative advice — eleven providers tried in a
+operators, and an LLM for the comparative advice — which you can now also talk
+back to, asking about the ranking in front of you — eleven providers tried in a
 chain, free tiers first, queued per host, with per-(provider, model) penalties
 learned at runtime so a model that truncates JSON on one host is not written off
 on another. Any one API key is enough, entered from the settings tab, and none
@@ -252,6 +260,15 @@ Due controlli prima che il testo compaia: se cita una soluzione che non esiste,
 o se non ne cita nessuna, la risposta si scarta e tocca a un altro modello.
 Quando invece non arriva niente, la pagina dice il motivo e offre «Riprova».
 
+Sotto il consiglio si può rispondere. «Perché non la 2? io i cambi li evito»,
+«e a che ora arriva quella che mi hai consigliato?»: la conversazione vede la
+stessa classifica del consiglio, più le preferenze del Profilo, e i riferimenti
+restano cliccabili anche nelle risposte. Con un limite dichiarato, che è la
+ragione per cui è difendibile: **non lancia ricerche e non tocca il modulo**.
+Può parlare solo di quello che ha davanti, quindi non può inventare un
+collegamento che non è stato trovato — se la risposta richiede altri parametri
+lo dice, e la ricerca la rilanci tu.
+
 ### Le tessere, che sono un dato che scade
 
 Una tessera non è un fatto stabile. Delle voci raccolte ad agosto 2026 cinque
@@ -317,9 +334,14 @@ possono dire.
 Ogni adapter è un plugin isolato: se il suo parser si rompe, gli altri
 continuano a funzionare e la ricerca degrada invece di fallire.
 
-**42 adapter, tutti verdi** su `scripts/check_providers.py`.
+**43 adapter.** L'ultima corsa di `scripts/check_providers.py` (22 agosto 2026,
+data di prova 5 settembre) ne dà **32 verdi e 11 vuoti**: gli undici sono tutti
+operatori regionali della piattaforma Albatross, che sulla loro tratta di prova
+quel giorno non avevano corse. Un `VUOTO` non è necessariamente un parser rotto
+— molti di questi fanno una corsa al giorno o viaggiano a stagione — ma **non è
+nemmeno un verde**, e vale la pena rileggerlo prima di fidarsene.
 
-Otto sono autonomi:
+Nove sono autonomi:
 
 | Operatore | Cosa dà |
 |---|---|
@@ -331,6 +353,7 @@ Otto sono autonomi:
 | **Grimaldi Lines** | il primo traghetto di linea vero, con il prezzo |
 | **ÖBB** | l'orario austriaco, compresi i diretti Vienna–Venezia. Senza prezzi |
 | **SBB CFF FFS** | l'orario svizzero, compreso Zurigo–Milano. Senza prezzi |
+| **Transitous** | il trasporto pubblico locale, dai dati aperti che gli enti pubblicano. Senza prezzi |
 
 Gli altri trentaquattro sono **un solo adapter**. Molti operatori di pullman
 italiani non hanno un sito ciascuno: usano lo stesso motore di prenotazione,
@@ -345,6 +368,27 @@ Aggiungerne un altro costa una riga nella tabella `OPERATORS` di
 sia l'una sia l'altra c'è `scripts/probe_albatross.py`, che parte dagli
 operatori già noti, ne legge i vettori collegati e prova le coppie di località
 ricavate dalle **linee reali** invece di tentare a caso.
+
+### Transitous: il pezzo che mancava, e come si sta a casa d'altri
+
+Una ricerca **Asti → Canelli** — ventun chilometri — non aveva nessuno che
+sapesse rispondere. Trenitalia dice il vero quando risponde «nessuna soluzione»
+(quella tratta in treno non esiste), FlixBus non ci passa, e l'unico mezzo
+pubblico è un autobus di linea. Transitous quella corsa la sa: linea 41,
+quarantacinque minuti.
+
+Sotto c'è MOTIS, un motore libero alimentato dai GTFS aperti che gli enti
+pubblicano. Non è un'azienda: è un servizio di volontari, che dichiara il
+routing «resource-intensive» e chiede di essere avvisato prima che qualcuno
+cominci a fare molte richieste. Da qui una **disciplina di richiesta** scritta
+nel codice invece che affidata alle buone intenzioni: l'adapter tace sulle
+coincidenze intermedie, tace sopra i 150 km (misurato: la lunga percorrenza
+torna comunque vuota), ragiona per città invece che per fermata, e tiene la
+risposta in cache sei ore. Il risultato è **una richiesta per ricerca**, non
+una per coppia di fermate. In più: un `User-Agent` che dice chi siamo e come
+scriverci, un tetto di una richiesta ogni due secondi e mai due in volo
+insieme, e l'attribuzione delle fonti in fondo alla pagina, che è un obbligo
+della loro licenza e non un ringraziamento.
 
 ### Quelli che non ci sono, e perché
 

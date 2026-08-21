@@ -3,16 +3,25 @@
 Verifiche fatte sugli endpoint reali. Serve a non rifare le stesse ricerche fra
 sei mesi, e a sapere dove riprendere.
 
-Ultimo aggiornamento: **2 agosto 2026**: Deutsche Bahn dal browser, Volotea
-ripreso, i voli mondiali sondati e gli operatori del mondo dichiarati.
+Ultimo aggiornamento: **22 agosto 2026**: aggiunto Transitous per il trasporto
+pubblico locale, e chiuso il difetto per cui FlixBus rispondeva su un'altra
+citta' invece di dire di no.
 
 ---
 
 ## Funzionanti
 
-**42 adapter, tutti verdi** su `scripts/check_providers.py`.
+**43 adapter**, di cui **32 verdi e 11 vuoti** all'ultima corsa di
+`scripts/check_providers.py` (22 agosto 2026, data di prova 5 settembre).
 
-I sette autonomi:
+Gli undici vuoti sono tutti della piattaforma Albatross: acierno, consorzio,
+dimaio, federico, giuntabus, giuntatrasporti, intersaj, marinourbano, onebus,
+satam, tiemme. Nella stessa giornata `federico` e `intersaj` hanno restituito
+corse dentro una ricerca Torino-Matera vera, quindi i loro parser funzionano: e'
+la tratta di prova a non avere corse quel giorno. Da guardare comunque, perche'
+un `VUOTO` che dura e' il modo in cui questi adapter si rompono in silenzio.
+
+I nove autonomi:
 
 | Operatore | Modo | Endpoint | Note |
 |---|---|---|---|
@@ -24,6 +33,7 @@ I sette autonomi:
 | Grimaldi Lines | nave | `booking.grimaldi-lines.com/ajax.php` | Con prezzo. HTML, non JSON. Dettagli sotto |
 | OBB | treno | `fahrplan.oebb.at/bin/mgate.exe` | Orari senza prezzo. Copre i diretti Vienna-Venezia |
 | SBB CFF FFS | treno | `transport.opendata.ch/v1/connections` | Orari senza prezzo. Copre Zurigo-Milano |
+| Transitous | pullman | `api.transitous.org/api/v1/plan` | Trasporto pubblico locale dai GTFS aperti, via MOTIS. Nessuna chiave. Orari senza prezzo. **Politica d'uso da rispettare**: solo progetti open source, `User-Agent` con contatto, attribuzione in pagina, e loro chiedono di essere avvisati prima di fare molte richieste — per questo l'adapter tace sulle coincidenze intermedie e sopra i 150 km |
 
 I trentaquattro della piattaforma Albatross, in `app/providers/bus/albatross.py`:
 
@@ -156,6 +166,7 @@ l'evidenza e il punto da cui ripartire.
 | **DB** | Tentato il 2 agosto: **dal browser la pagina di ricerca non blocca**. Manca il deep link con la data, o la compilazione del modulo. Vedi la sezione dedicata |
 | **SNCF, Renfe** | Non sondati. Trainline li coprirebbe tutti in un colpo, ma ha il captcha DataDome |
 | **Trenord** | Da verificare se serve: Trenitalia restituisce gia' molte corse regionali lombarde |
+| **Transitous** | Attivo dal 22 agosto 2026. **Da fare: scrivere loro**, come chiede la politica d'uso, prima di un uso continuativo. Copertura a macchia di leopardo: dove il feed manca risponde `200` con zero itinerari, che e' `EMPTY` e non un guasto |
 
 ---
 

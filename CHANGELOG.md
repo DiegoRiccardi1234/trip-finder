@@ -4,6 +4,61 @@ Le versioni seguono [semver](https://semver.org/lang/it/). Il testo di ogni
 sezione finisce nelle note della release: si scrive per chi usa il programma,
 non per chi lo scrive.
 
+## [7.0.0]
+
+**Una ricerca poteva rispondere con il viaggio sbagliato, e sembrava giusto.**
+Asti → Canelli, ventun chilometri: l'unica soluzione proposta era un pullman di
+**diciotto ore** fra Castiglione della Pescaia e Lamezia Terme — Toscana e
+Calabria, seicento chilometri più in là. Non era un errore di orario: era la
+corsa di un'altra tratta, entrata in classifica come se fosse la risposta.
+
+Succedeva così: Canelli non ha una città nel nostro dataset, il motore gliene
+attribuiva una vicina — Acqui Terme — e l'autocompletamento di FlixBus, che è
+approssimato e risponde comunque qualcosa, traduceva «asti» in Castiglione
+della Pescaia e «acqui terme» in Lamezia Terme. Nessuno confrontava il nome
+trovato con quello chiesto. E niente se ne accorgeva a valle, perché quella
+corsa portava **le coordinate della tratta chiesta** con i nomi di un'altra.
+
+Tre correzioni, dalla più profonda:
+
+- FlixBus non indovina più: la città proposta si accetta solo se è **dove hai
+  chiesto**, e le coordinate lo dicono senza ambiguità — zero chilometri quando
+  è giusta, trecento quando non lo è. Le traduzioni sbagliate già salvate non
+  sopravvivono all'aggiornamento.
+- **Ogni** operatore, anche quelli scritti domani, ora passa da un controllo:
+  una corsa che parte o arriva lontano da quello che hai chiesto, o che
+  impiegherebbe più tempo di una persona che va a piedi, non entra in
+  classifica. Durante le prove ha già preso un secondo caso, di un altro
+  operatore: una corsa per **Sibari** dentro una ricerca per Bari.
+- Una corsa di FlixBus poteva anche portare il nome di una fermata e la
+  posizione di un'altra. Ora non più.
+
+**Il trasporto pubblico locale c'è.** Asti → Canelli adesso risponde:
+quarantacinque minuti, linea 41, due euro e cinquanta. Arriva da
+[Transitous](https://transitous.org/), che raccoglie gli orari aperti che gli
+enti pubblicano — l'attribuzione delle fonti è in fondo alla pagina. È il pezzo
+che mancava fuori dalle grandi città, e Matera e Canelli erano esattamente i
+posti che ne avevano più bisogno.
+
+**Al consiglio si può rispondere.** Sotto il testo c'è un campo: «perché non la
+2? io i cambi li evito», «e a che ora arriva quella che mi hai consigliato?».
+Vede la classifica che stai guardando e le preferenze del Profilo, e i numeri
+delle soluzioni restano cliccabili anche nelle risposte. Non lancia ricerche e
+non tocca il modulo: parla solo di quello che hai davanti, quindi non può
+inventare un collegamento che non è stato trovato.
+
+**Le fermate si spiegano da sole.** Cercando «Canelli» la prima pastiglia
+proposta era l'aeroporto di **Genova**, a 55 km, e Canelli era la nona — e
+l'ordine cambiava a ogni riavvio del programma. Ora le fermate vicine vengono
+prima degli aeroporti, dentro ogni gruppo si va per distanza, e su ogni
+pastiglia c'è scritto quanto dista. L'ordine con cui il motore sceglie chi
+interrogare è rimasto quello di prima, che era tarato: sono due cose diverse e
+ora sono separate.
+
+**Le fermate compaiono mentre scrivi.** Prima bisognava premere Invio o
+cliccare fuori dal campo, anche avendo scritto il nome per intero: sembrava che
+non avesse capito.
+
 ## [0.6.1]
 
 **Il mondo arriva anche a chi aggiorna.** Il gazetteer delle città viaggiava nel
