@@ -42,6 +42,82 @@ def city_key(node: Node) -> str:
     return node.name.split(",")[0].split("(")[0].strip().lower()
 
 
+#: Quanto puo' distare, al massimo, la fermata dichiarata da una gamba da
+#: quella che era stata chiesta. Misurato il 2026-08-22 su tutte le 150 gambe
+#: delle fixture salvate: lo scarto e' **zero** per ogni adapter sano, perche'
+#: tutti costruiscono la gamba sui nodi richiesti. Cento chilometri sono quindi
+#: larghi di proposito: qui non si tara una tolleranza fine, si mette una rete
+#: sotto un errore di categoria — una gamba di un'altra regione.
+SCARTO_MASSIMO_KM = 100.0
+
+#: Quanto puo' essere lenta una gamba vera, e l'attesa che le si concede
+#: comunque. Sono le due meta' della stessa domanda: questa durata sta in piedi
+#: per questa distanza?
+#:
+#: La soglia e' **la velocita' di una persona che cammina**, e non e' una scelta
+#: arbitraria: e' l'unica riga che si puo' difendere davanti a un caso vero.
+#: Sopra ci sta qualunque viaggio, per quanto storto; sotto non ci sta niente
+#: che abbia senso chiamare collegamento.
+#:
+#: Era 8 km/h, tarata sulle fixture, e il 2026-08-22 ha scartato una gamba
+#: **vera**: Trenitalia vende Bari Centrale -> Matera come Frecciarossa 8302 +
+#: 9583 + FrecciaLink, 07:40 -> 19:20, cioe' 55 km in linea d'aria e settecento
+#: minuti — un biglietto assurdo ma acquistabile, che sale a nord e ritorna.
+#: E' il promemoria che una soglia tarata solo sui dati che si hanno in mano
+#: mangia i casi che non si sono guardati. Con 5 km/h e due ore di attesa quel
+#: viaggio passa con un margine del dieci per cento, mentre la gamba sbagliata
+#: che ha fatto nascere il controllo — Asti-Canelli servita con una corsa
+#: Toscana-Calabria, 21 km in 1091 minuti — sfora ancora di tre volte.
+#:
+#: L'attesa serve alle gambe corte, dove la velocita' media non dice niente:
+#: due chilometri in venti minuti sono un autobus urbano normale, non un
+#: errore. Senza questo termine il controllo scarterebbe proprio il trasporto
+#: locale, che e' la copertura che manca di piu'.
+VELOCITA_MINIMA_KMH = 5.0
+ATTESA_CONCESSA_MIN = 120.0
+
+
+def perche_non_risponde(leg: Leg, origin: Node, destination: Node) -> str:
+    """Perche' questa gamba non risponde alla domanda fatta, o stringa vuota.
+
+    Nasce da un difetto vero, trovato il 2026-08-22: una ricerca Asti->Canelli
+    ha ricevuto da FlixBus una corsa **Castiglione della Pescaia -> Lamezia
+    Terme**, che e' entrata in classifica come se fosse la risposta, con 18 ore
+    di viaggio per ventun chilometri.
+
+    Nessun controllo a valle se ne era accorto, e il motivo merita di restare
+    scritto: guardavano tutti le **coordinate**, e quella gamba portava le
+    coordinate della tratta chiesta con i nomi di un'altra. Le prende in
+    prestito `flixbus._station_node` quando la fermata non e' nel dataset, che
+    misurato e' il caso normale e non l'eccezione. Da qui i due controlli: uno
+    geografico, che serve agli adapter che dicono la verita' sulle coordinate,
+    e uno sulla **durata**, che e' l'unico segnale che una coordinata presa in
+    prestito non puo' falsificare.
+
+    Uno scarto qui non e' un guasto dell'operatore: e' una gamba sola che non
+    risponde alla domanda. Chi ne sbaglia una su venti resta utile per le altre
+    diciannove.
+    """
+    from app.models import node_distance_km
+
+    da_origine = node_distance_km(origin, leg.origin)
+    da_arrivo = node_distance_km(destination, leg.destination)
+    if da_origine > SCARTO_MASSIMO_KM or da_arrivo > SCARTO_MASSIMO_KM:
+        return (
+            f"parte a {da_origine:.0f} km da {origin.name} "
+            f"e arriva a {da_arrivo:.0f} km da {destination.name}"
+        )
+
+    km = node_distance_km(leg.origin, leg.destination)
+    plausibile = ATTESA_CONCESSA_MIN + km / VELOCITA_MINIMA_KMH * 60.0
+    if leg.duration_min > plausibile:
+        return (
+            f"{km:.0f} km in {leg.duration_min} minuti, "
+            f"oltre il massimo plausibile di {plausibile:.0f}"
+        )
+    return ""
+
+
 class ProviderError(Exception):
     """Errore recuperabile dell'adapter: la ricerca prosegue senza di lui."""
 
@@ -73,6 +149,19 @@ class SearchContext:
     #: `is_endpoint_pair`.
     endpoints: tuple[frozenset[str], frozenset[str]] = (frozenset(), frozenset())
     http: HttpClient = field(default_factory=get_http_client)
+
+    @property
+    def endpoints_noti(self) -> bool:
+        """Se qualcuno ha dichiarato quali sono gli estremi della ricerca.
+
+        Serve a distinguere due `False` diversi di `is_endpoint_pair`: «questa
+        non e' la tratta cercata» e «non so quale sia la tratta cercata». Il
+        secondo caso e' quello degli script di diagnostica, che costruiscono un
+        contesto nudo: senza questa distinzione un adapter prudente li vedrebbe
+        come coincidenze intermedie, tacerebbe sempre, e `check_providers.py`
+        lo dichiarerebbe rotto quando invece sta obbedendo."""
+        partenze, arrivi = self.endpoints
+        return bool(partenze or arrivi)
 
     def is_endpoint_pair(self, origin: Node, destination: Node) -> bool:
         """Vero se questa e' la tratta che l'utente ha chiesto, non un pezzo.
@@ -210,7 +299,40 @@ class Provider(ABC):
         if raw is None:
             raw = await self.fetch(origin, destination, ctx)
             await cache.set(key, raw, kind=self.cache_kind)
-        return self.parse(raw, origin, destination, ctx)
+        return self._solo_coerenti(
+            self.parse(raw, origin, destination, ctx), origin, destination
+        )
+
+    def _solo_coerenti(
+        self, legs: list[Leg], origin: Node, destination: Node
+    ) -> list[Leg]:
+        """Le gambe che rispondono davvero alla tratta chiesta.
+
+        Sta in `search` e non nei singoli adapter perche' e' l'unico punto da
+        cui passano tutti: l'orchestratore chiama solo questo. Un adapter
+        scritto domani eredita il controllo senza doverlo sapere, che e'
+        esattamente il motivo per cui il difetto di FlixBus era invisibile —
+        c'era un posto dove metterlo e non lo usava nessuno.
+
+        Uno scarto non e' un guasto: chi sbaglia una gamba su dieci resta utile
+        per le altre nove. Va pero' **detto**, perche' un adapter che comincia
+        a produrre gambe incoerenti e' rotto e il log e' l'unico posto in cui
+        si vede prima che lo veda l'utente."""
+        tenute: list[Leg] = []
+        for leg in legs:
+            motivo = perche_non_risponde(leg, origin, destination)
+            if motivo:
+                logger.warning(
+                    "%s: scarto una gamba che non risponde alla tratta chiesta "
+                    "(%s -> %s): %s",
+                    self.id,
+                    leg.origin.name,
+                    leg.destination.name,
+                    motivo,
+                )
+                continue
+            tenute.append(leg)
+        return tenute
 
     def __repr__(self) -> str:  # pragma: no cover - diagnostica
         return f"<{type(self).__name__} id={self.id} mode={self.mode.value} tier={self.tier}>"

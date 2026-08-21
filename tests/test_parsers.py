@@ -12,7 +12,8 @@ Per aggiungere o aggiornare una fixture:
 from __future__ import annotations
 
 import asyncio
-from datetime import date, time
+from datetime import date, datetime, time
+from zoneinfo import ZoneInfo
 
 import orjson
 import pytest
@@ -20,7 +21,7 @@ import pytest
 from app.config import FIXTURES_DIR
 from app.models import Leg, Mode, Node
 from app.providers import registry
-from app.providers.base import ProviderError, SearchContext
+from app.providers.base import NotServed, ProviderError, SearchContext
 from app.providers.http_client import HttpError
 from app.providers.rail import trenitalia
 from tests._datasets import needs_datasets
@@ -748,3 +749,352 @@ def test_due_ore_di_partenza_diverse_non_condividono_la_cache() -> None:
     )
 
     assert mezzanotte != pomeriggio
+
+
+# ------------------------------------- la gamba che non risponde alla domanda
+
+
+def _nodo(nid: str, nome: str, lat: float, lon: float) -> Node:
+    return Node(id=nid, name=nome, kind="station", lat=lat, lon=lon, country="IT")
+
+
+ASTI = _nodo("tl:20216", "Asti", 44.9009, 8.2065)
+CANELLI = _nodo("tl:21031", "Canelli", 44.7192, 8.2871)
+
+
+def test_una_gamba_di_un_altra_regione_non_entra_in_classifica() -> None:
+    """Il difetto del 2026-08-22, bloccato dove passano tutti gli adapter.
+
+    Una ricerca Asti-Canelli ha ricevuto da FlixBus la corsa Castiglione della
+    Pescaia -> Lamezia Terme: diciotto ore per ventun chilometri. Entrava in
+    classifica perche' portava **le coordinate della tratta chiesta** con i
+    nomi di un'altra, e ogni controllo a valle guardava le coordinate."""
+    from app.providers.base import perche_non_risponde
+
+    finta = Leg(
+        provider="flixbus",
+        mode=Mode.BUS,
+        origin=_nodo("flix:a", "Castiglione della Pescaia", ASTI.lat, ASTI.lon),
+        destination=_nodo("flix:b", "Lamezia Terme", CANELLI.lat, CANELLI.lon),
+        depart=datetime(2026, 8, 23, 18, 18, tzinfo=ZoneInfo("Europe/Rome")),
+        arrive=datetime(2026, 8, 24, 12, 29, tzinfo=ZoneInfo("Europe/Rome")),
+    )
+
+    motivo = perche_non_risponde(finta, ASTI, CANELLI)
+    assert motivo, "una corsa di diciotto ore per ventun chilometri deve essere scartata"
+    assert "plausibile" in motivo
+
+
+def test_una_gamba_vera_e_corta_non_viene_scartata() -> None:
+    """Il rovescio: il controllo non deve mangiarsi il trasporto locale.
+
+    Asti-Canelli in autobus sono cinquantadue minuti (linea 41, misurata). Una
+    soglia sulla sola velocita' media, senza l'attesa concessa, scarterebbe le
+    gambe corte, che sono esattamente quelle che mancano."""
+    from app.providers.base import perche_non_risponde
+
+    vera = Leg(
+        provider="transitous",
+        mode=Mode.BUS,
+        origin=ASTI,
+        destination=CANELLI,
+        depart=datetime(2026, 8, 24, 10, 2, tzinfo=ZoneInfo("Europe/Rome")),
+        arrive=datetime(2026, 8, 24, 10, 54, tzinfo=ZoneInfo("Europe/Rome")),
+    )
+
+    assert perche_non_risponde(vera, ASTI, CANELLI) == ""
+
+
+@pytest.mark.skipif(not FIXTURES, reason="nessuna fixture salvata")
+@pytest.mark.parametrize("provider_id,path", CASI)
+def test_nessuna_gamba_delle_fixture_viene_scartata(provider_id: str, path) -> None:
+    """La rete di sicurezza deve prendere il difetto e nient'altro.
+
+    Parametrizzato come `test_parser_su_fixture`, e non con un ciclo interno,
+    perche' cosi' FlixBus entra davvero: e' l'adapter che ha prodotto il
+    difetto, ed e' anche l'unico che ha bisogno dei dataset geografici. Un
+    ciclo che lo saltasse per comodita' proverebbe tutto tranne il caso che
+    conta.
+
+    Misurato sulle 150 gambe salvate: la piu' lenta e' un regionale svizzero
+    che usa il 27% del tempo concesso. Se questo test diventa rosso, la soglia
+    sta mangiando un adapter sano e va guardata prima di alzarla."""
+    from app.providers.base import perche_non_risponde
+
+    payload = orjson.loads(path.read_bytes())
+    origin = Node(**payload["origin_node"])
+    destination = Node(**payload["destination_node"])
+    captured = payload["captured_for"]
+    ctx = SearchContext(
+        date=date.fromisoformat(captured["date"]), pax=captured.get("pax", 1)
+    )
+
+    scartate = [
+        motivo
+        for leg in registry.get(provider_id).parse(payload["raw"], origin, destination, ctx)
+        if (motivo := perche_non_risponde(leg, origin, destination))
+    ]
+    assert not scartate, f"gambe sane scartate dal controllo: {scartate}"
+
+
+# ---------------------------------- FlixBus non indovina piu' le localita'
+
+
+def test_l_autocomplete_fuzzy_non_puo_piu_spedirci_in_un_altra_regione() -> None:
+    """I due casi veri, misurati sull'API il 2026-08-22.
+
+    `q=asti` propone "Castiglione della Pescaia" (punteggio 17,95) e
+    `q=acqui terme` propone "Lamezia Terme" (22,17). Il confronto e' per parole
+    intere e non per sottostringa proprio per il primo: `castiglione` contiene
+    `asti`, e un controllo per sottostringa lo avrebbe accettato."""
+    from app.providers.bus.flixbus import _stesso_posto
+
+    assert not _stesso_posto("asti", "Castiglione della Pescaia")
+    assert not _stesso_posto("acqui terme", "Lamezia Terme")
+    assert not _stesso_posto("canelli", "Cannelli di Sopra")
+
+
+def test_le_localita_giuste_restano_riconosciute() -> None:
+    """Il confronto vale nelle due direzioni perche' i cataloghi si troncano a
+    vicenda: nessuno dei due nomi e' quello ufficiale dell'altro."""
+    from app.providers.bus.flixbus import _stesso_posto
+
+    assert _stesso_posto("asti", "Asti")
+    assert _stesso_posto("milano", "Milano")
+    assert _stesso_posto("forli", "Forlì")
+    assert _stesso_posto("bolzano", "Bolzano/Bozen")
+    assert _stesso_posto("san marzano oliveto", "San Marzano")
+    assert _stesso_posto("reggio emilia", "Reggio nell'Emilia")
+
+
+def test_la_citta_si_riconosce_dalle_coordinate_non_dal_nome() -> None:
+    """I numeri veri dell'autocomplete, misurati il 2026-08-22.
+
+    Quando FlixBus indovina la citta' sta a 0-3 km da quella chiesta; quando
+    sbaglia sta a centinaia. Non c'e' zona grigia, ed e' il motivo per cui il
+    criterio e' geografico: sui nomi i due cataloghi non vanno d'accordo
+    ("Parigi" contro "Paris") e nessuna soglia di somiglianza separa i buoni
+    dai cattivi."""
+    from app.providers.bus.flixbus import _e_qui
+
+    asti = _nodo("tl:20216", "Asti", 44.9009, 8.2065)
+    castiglione = {"id": "x", "name": "Castiglione della Pescaia",
+                   "location": {"lat": 42.7639, "lon": 10.8750}}
+    assert not _e_qui(castiglione, asti, "asti"), "320 km non sono Asti"
+
+    canelli = _nodo("tl:21031", "Canelli", 44.7192, 8.2871)
+    lamezia = {"id": "y", "name": "Lamezia Terme",
+               "location": {"lat": 38.9629, "lon": 16.3093}}
+    assert not _e_qui(lamezia, canelli, "acqui terme"), "922 km non sono l'astigiano"
+
+    milano = _nodo("tl:8490", "Milano Centrale", 45.4871, 9.2048)
+    vera = {"id": "z", "name": "Milano", "location": {"lat": 45.4881, "lon": 9.1997}}
+    assert _e_qui(vera, milano, "milano")
+
+
+def test_senza_coordinate_si_ripiega_sul_nome() -> None:
+    """Il ripiego serve al giorno in cui l'autocomplete cambia forma: meglio un
+    criterio debole di nessun criterio."""
+    from app.providers.bus.flixbus import _e_qui
+
+    asti = _nodo("tl:20216", "Asti", 44.9009, 8.2065)
+    assert _e_qui({"id": "a", "name": "Asti"}, asti, "asti")
+    assert not _e_qui({"id": "b", "name": "Castiglione della Pescaia"}, asti, "asti")
+    assert not _e_qui({"name": "Asti"}, asti, "asti"), "senza id non e' utilizzabile"
+
+
+@needs_datasets
+def test_la_fermata_di_genova_non_diventa_antibes() -> None:
+    """L'unico aggancio che l'indice produceva era sbagliato.
+
+    Misurato il 2026-08-22: delle 27 fermate nelle fixture, `flixbus_id` ne
+    aggancia due, ed entrambe sono «Genova (Fanti d'Italia/Principe)», che
+    l'indice risolve in **Antibes** (Francia, 170 km da Torino). Il ramo
+    "conosciuto" era piu' pericoloso di quello di ripiego, perche' sembrava
+    autorevole."""
+    from app.providers.bus.flixbus import _station_node
+
+    torino = _nodo("tl:8567", "Torino Porta Nuova", 45.0610, 7.6777)
+    stazioni = {"g": {"legacy_id": 3938, "name": "Genova (Fanti d'Italia/Principe)"}}
+
+    nodo = _station_node("g", stazioni, torino)
+    assert "Antibes" not in nodo.name
+    assert nodo.country != "FR"
+
+
+# --------------------------------------------- Transitous: il trasporto locale
+
+
+def test_transitous_legge_gli_orari_nel_fuso_della_fermata() -> None:
+    """MOTIS manda UTC con la `Z` e il fuso della fermata a parte.
+
+    Letti come locali, ogni corsa risulterebbe due ore prima: e' la stessa
+    trappola gia' pagata con Albatross, dove sbagliavano insieme il
+    riconoscimento del viaggio notturno e la penalita' sull'ora di arrivo."""
+    from app.providers.bus import transitous
+
+    istante = transitous._momento("2026-08-24T08:12:00Z", "Europe/Rome")
+    assert istante is not None
+    assert istante.hour == 10, "le 08:12 UTC sono le 10:12 a Roma"
+    assert istante.utcoffset().total_seconds() == 2 * 3600
+
+
+def test_transitous_non_conta_la_camminata_dentro_la_gamba() -> None:
+    """La gamba comincia alla fermata, non sul marciapiede di casa.
+
+    Il primo e l'ultimo miglio li calcola `routing/feasibility.py` col suo
+    modello uniforme: sommarne due diversi sarebbe peggio che sceglierne uno.
+    La camminata resta scritta nei segmenti, dove si legge senza entrare nel
+    conto."""
+    provider = registry.get("transitous")
+    ctx = SearchContext(date=date(2026, 8, 24))
+    grezzo = {
+        "itineraries": [
+            {
+                "transfers": 0,
+                "legs": [
+                    {"mode": "WALK", "duration": 600,
+                     "from": {"name": "START", "lat": 44.9009, "lon": 8.2065, "tz": "Europe/Rome"},
+                     "to": {"name": "ASTI - AUTOSTAZIONE", "lat": 44.896053, "lon": 8.208715,
+                            "tz": "Europe/Rome"}},
+                    {"mode": "BUS", "routeShortName": "41", "agencyName": "Coas",
+                     "startTime": "2026-08-24T08:12:00Z", "endTime": "2026-08-24T08:52:00Z",
+                     "from": {"name": "ASTI - AUTOSTAZIONE", "stopId": "a",
+                              "lat": 44.896053, "lon": 8.208715, "tz": "Europe/Rome"},
+                     "to": {"name": "CANELLI - PAESE", "stopId": "b",
+                            "lat": 44.718586, "lon": 8.287022, "tz": "Europe/Rome"}},
+                    {"mode": "WALK", "duration": 120,
+                     "from": {"name": "CANELLI - PAESE", "lat": 44.718586, "lon": 8.287022,
+                              "tz": "Europe/Rome"},
+                     "to": {"name": "END", "lat": 44.7192, "lon": 8.2871, "tz": "Europe/Rome"}},
+                ],
+            }
+        ]
+    }
+
+    (leg,) = provider.parse(grezzo, ASTI, CANELLI, ctx)
+    assert leg.duration_min == 40, "40 minuti di autobus, non i 52 con la camminata"
+    assert leg.origin.name == "ASTI - AUTOSTAZIONE"
+    assert any("a piedi" in s for s in leg.segments)
+    assert leg.fare is None, "non pubblica prezzi, e non deve inventarne"
+
+
+def test_transitous_non_spaccia_un_treno_per_un_pullman() -> None:
+    """Si dichiara pullman e deve restituire pullman.
+
+    Il ranker non rifiltra per modo: un treno consegnato sotto la bandiera del
+    bus scavalcherebbe in silenzio la scelta di chi ha tolto la spunta al
+    treno."""
+    provider = registry.get("transitous")
+    ctx = SearchContext(date=date(2026, 8, 24))
+    grezzo = {
+        "itineraries": [
+            {
+                "transfers": 0,
+                "legs": [
+                    {"mode": "RAIL", "routeShortName": "R", "agencyName": "x",
+                     "startTime": "2026-08-24T08:12:00Z", "endTime": "2026-08-24T08:52:00Z",
+                     "from": {"name": "A", "stopId": "a", "lat": 44.9, "lon": 8.2,
+                              "tz": "Europe/Rome"},
+                     "to": {"name": "B", "stopId": "b", "lat": 44.7, "lon": 8.3,
+                            "tz": "Europe/Rome"}},
+                ],
+            }
+        ]
+    }
+
+    assert provider.parse(grezzo, ASTI, CANELLI, ctx) == []
+
+
+@pytest.mark.asyncio
+async def test_transitous_tace_fuori_dalla_tratta_cercata() -> None:
+    """La disciplina di richiesta si prova contando le chiamate, non i risultati.
+
+    Dietro c'e' un servizio di volontari che chiede di non fare molte
+    richieste: sulle coincidenze intermedie questo adapter non deve nemmeno
+    aprire la connessione."""
+    provider = registry.get("transitous")
+
+    class _MaiChiamato:
+        async def get_json(self, *args, **kwargs):  # noqa: ANN002, ANN003
+            raise AssertionError("non doveva chiedere niente")
+
+    ctx = SearchContext(
+        date=date(2026, 8, 24),
+        endpoints=(frozenset({"tl:altro"}), frozenset({"tl:ancora-altro"})),
+        http=_MaiChiamato(),
+    )
+    with pytest.raises(NotServed):
+        await provider.fetch(ASTI, CANELLI, ctx)
+
+
+def test_transitous_tace_sulla_lunga_percorrenza() -> None:
+    """Torino -> Matera risponde 200 con zero itinerari: verificato il
+    2026-08-22. Chiedere comunque vorrebbe dire spendere il calcolo piu' caro
+    che hanno per ricevere una lista vuota."""
+    provider = registry.get("transitous")
+    torino = _nodo("tl:8567", "Torino Porta Nuova", 45.0610, 7.6777)
+    matera = _nodo("ov:matera", "Matera Centrale", 40.6670, 16.6063)
+
+    assert not provider.can_serve(torino, matera)
+    assert provider.can_serve(ASTI, CANELLI)
+
+
+def test_transitous_dichiara_chi_e() -> None:
+    """La politica d'uso chiede nome, versione e un contatto. E' un obbligo, e
+    un obbligo che si puo' verificare va verificato."""
+    from app.providers.bus.transitous import USER_AGENT
+
+    assert USER_AGENT.startswith("TripFinder/")
+    assert "github.com" in USER_AGENT
+
+
+def test_un_viaggio_assurdo_ma_vero_non_viene_scartato() -> None:
+    """Il falso positivo che ha fatto ritarare la soglia, il 2026-08-22.
+
+    Trenitalia vende davvero Bari Centrale -> Matera come Frecciarossa 8302 +
+    9583 + FrecciaLink: 07:40 -> 19:20, cioe' cinquantacinque chilometri in
+    linea d'aria e settecento minuti, perche' sale a nord e ritorna. E' un
+    biglietto vero e acquistabile, e con la prima soglia — tarata solo sulle
+    fixture che avevo in mano — spariva senza che nessuno lo sapesse.
+
+    Questo test esiste per non rifare quell'errore: chi in futuro vorra'
+    stringere il controllo deve prima spiegare cosa fa di questo viaggio."""
+    from app.providers.base import perche_non_risponde
+
+    bari = _nodo("tl:19401", "Bari Centrale", 41.117702, 16.870172)
+    matera = _nodo("tl:21644", "Matera", 40.666000, 16.604000)
+    lungo = Leg(
+        provider="trenitalia",
+        mode=Mode.RAIL,
+        origin=bari,
+        destination=matera,
+        depart=datetime(2026, 8, 28, 7, 40, tzinfo=ZoneInfo("Europe/Rome")),
+        arrive=datetime(2026, 8, 28, 19, 20, tzinfo=ZoneInfo("Europe/Rome")),
+    )
+
+    assert perche_non_risponde(lungo, bari, matera) == ""
+
+
+def test_una_gamba_che_arriva_in_un_altra_regione_viene_scartata() -> None:
+    """L'altro mezzo del controllo, e non e' teorico: durante una prova a
+    schermo del 2026-08-22 l'adapter InterSAJ ha restituito una corsa Torino ->
+    **Sibari** dentro una ricerca Torino -> Bari Centrale. Arrivava a 156 km
+    dalla meta' chiesta, e prima sarebbe entrata in classifica."""
+    from app.providers.base import perche_non_risponde
+
+    torino = _nodo("tl:8567", "Torino Porta Nuova", 45.0610, 7.6777)
+    bari = _nodo("tl:19401", "Bari Centrale", 41.117702, 16.870172)
+    sibari = _nodo("x", "Sibari", 39.7560, 16.4500)
+    sbagliata = Leg(
+        provider="intersaj",
+        mode=Mode.BUS,
+        origin=torino,
+        destination=sibari,
+        depart=datetime(2026, 8, 28, 20, 0, tzinfo=ZoneInfo("Europe/Rome")),
+        arrive=datetime(2026, 8, 29, 8, 0, tzinfo=ZoneInfo("Europe/Rome")),
+    )
+
+    motivo = perche_non_risponde(sbagliata, torino, bari)
+    assert motivo
+    assert "km da Bari Centrale" in motivo

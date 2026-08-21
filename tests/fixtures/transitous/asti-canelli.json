@@ -1,0 +1,3442 @@
+{
+  "captured_for": {
+    "origin_query": "Asti",
+    "destination_query": "Canelli",
+    "date": "2026-08-24",
+    "pax": 1
+  },
+  "origin_node": {
+    "id": "tl:20216",
+    "name": "Asti",
+    "kind": "station",
+    "lat": 44.89479,
+    "lon": 8.207582,
+    "country": "IT",
+    "city": "Asti",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {
+      "trenitalia": "8300462",
+      "distribusion": "ITAST"
+    },
+    "is_main": false
+  },
+  "destination_node": {
+    "id": "tl:21031",
+    "name": "Canelli",
+    "kind": "station",
+    "lat": 44.7148,
+    "lon": 8.28854,
+    "country": "IT",
+    "city": "Acqui Terme",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {
+      "trenitalia": "8300832"
+    },
+    "is_main": false
+  },
+  "raw": {
+    "requestParameters": {},
+    "debugOutput": {
+      "algorithm": 1,
+      "direct": 4,
+      "execute_time": 23,
+      "fares": 0,
+      "fastest_direct": 0,
+      "fp_update_prevented_by_lower_bound": 0,
+      "gpu_supported": 1,
+      "gpu_used": 1,
+      "interval_extensions": 0,
+      "lb_time": 0,
+      "n_dest_offsets": 9,
+      "n_earliest_arrival_updated_by_footpath": 0,
+      "n_earliest_arrival_updated_by_route": 0,
+      "n_earliest_trip_calls": 0,
+      "n_events_skipped_by_early_termination": 0,
+      "n_execute_bwd": 5,
+      "n_execute_fwd": 3,
+      "n_footpaths_visited": 0,
+      "n_routes_visited": 0,
+      "n_routing_time": 0,
+      "n_start_offsets": 28,
+      "n_td_dest_offsets": 0,
+      "n_td_start_offsets": 0,
+      "prepare": 8,
+      "prepare_backward_WALK": 0,
+      "prepare_forward_WALK": 7,
+      "route_update_prevented_by_lower_bound": 0,
+      "search_interval_reduction_by_early_termination": 0
+    },
+    "from": {
+      "name": "START",
+      "lat": 44.89479,
+      "lon": 8.207582,
+      "level": 0.0,
+      "vertexType": "NORMAL"
+    },
+    "to": {
+      "name": "END",
+      "lat": 44.7148,
+      "lon": 8.28854,
+      "level": 0.0,
+      "vertexType": "NORMAL"
+    },
+    "direct": [],
+    "itineraries": [
+      {
+        "duration": 6000,
+        "startTime": "2026-08-24T03:59:00Z",
+        "endTime": "2026-08-24T05:39:00Z",
+        "transfers": 1,
+        "id": "ClYh2GSNeohyRkAp/3kaMEhqIEAyHGl0LVBpZW1vbnRlLUJ1c19JVFJQLVNUNjEzNDk5e6AVGLJyRkBBemtgqwRrIEBIhIOv1AZQ9ISv1AZaBFdBTEtgAQq7AQoCNDUSOTIwMjYwODI0XzA2OjAzX2l0LVBpZW1vbnRlLUJ1c19JVFJQLVRSMTAxMTk3Nl9DdW5lb19DdW5lbxocaXQtUGllbW9udGUtQnVzX0lUUlAtU1Q2MTM0OSF7oBUYsnJGQCl6a2CrBGsgQDIcaXQtUGllbW9udGUtQnVzX0lUUlAtU1Q2MTMxNzmHhO/9DWBGQEEEUIwsmUsgQEj0hK/UBlC4k6/UBloDQlVTYAFxAAAAAAAAAAAKiwEaHGl0LVBpZW1vbnRlLUJ1c19JVFJQLVNUNjEzMTchh4Tv/Q1gRkApBFCMLJlLIEAyIWl0LVBpZW1vbnRlLUJ1c19JVFJQLVNUMDA1MDIyMDAwMzmI1R9hGGBGQEFIm6p7ZEsgQEi4k6/UBlCwlK/UBloEV0FMS2ABaQAAAAAAAAAAcQAAAAAAAAAACuABCgI0MxJUMjAyNjA4MjRfMDc6MDVfaXQtUGllbW9udGUtQnVzX0lUUlAtVFI4YmFmMjczNy02Y2E3LTRjZTQtODkwNS0yOTU5ZGUwMTNhMjVfQ09BU19Bc3RpGiFpdC1QaWVtb250ZS1CdXNfSVRSUC1TVDAwNTAyMjAwMDMhiNUfYRhgRkApSJuqe2RLIEAyIWl0LVBpZW1vbnRlLUJ1c19JVFJQLVNUMDA1MDE3MDAwMTmGrkSg+ltGQEELdy6M9JIgQEj8oa/UBlCUrq/UBloDQlVTYAFpAAAAAAAAAAAKWxohaXQtUGllbW9udGUtQnVzX0lUUlAtU1QwMDUwMTcwMDAxIYauRKD6W0ZAKQt3Loz0kiBAOSSX/5B+W0ZAQfksz4O7kyBASJSur9QGUPSxr9QGWgRXQUxLYAE=",
+        "legs": [
+          {
+            "mode": "WALK",
+            "from": {
+              "name": "START",
+              "lat": 44.89479,
+              "lon": 8.207582,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "departure": "2026-08-24T03:59:00Z",
+              "scheduledDeparture": "2026-08-24T03:59:00Z",
+              "vertexType": "NORMAL"
+            },
+            "to": {
+              "name": "ASTI - Movicentro",
+              "stopId": "it-Piemonte-Bus_ITRP-ST61349",
+              "importance": 0.00004360921593615785,
+              "lat": 44.89606,
+              "lon": 8.209019999999999,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T04:03:00Z",
+              "scheduledArrival": "2026-08-24T04:03:00Z",
+              "stopCode": "61349",
+              "vertexType": "TRANSIT",
+              "modes": [
+                "BUS"
+              ]
+            },
+            "duration": 240,
+            "startTime": "2026-08-24T03:59:00Z",
+            "endTime": "2026-08-24T04:03:00Z",
+            "scheduledStartTime": "2026-08-24T03:59:00Z",
+            "scheduledEndTime": "2026-08-24T04:03:00Z",
+            "realTime": false,
+            "scheduled": false,
+            "distance": 280.0,
+            "legGeometry": {
+              "points": "y{xhwY_gkp{C??kFsPuJqP}QkG}NvBisAjf@??_RypA??eMiv@??{VyrB??cRk|A??ukDfhA??_s@fTeb@vNaMhE??gk@pR??jB}rCHwJ??qQsc@a@{}@??k@uqA??[kp@??w@{eB??wDmiD??cC}vB??e@yb@",
+              "precision": 7,
+              "length": 41
+            },
+            "steps": [
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 68.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "toOsmNode": 3178732737,
+                "polyline": {
+                  "points": "y{xhwY_gkp{C??kFsPuJqP}QkG}NvBisAjf@",
+                  "precision": 7,
+                  "length": 7
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 11.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 133611877,
+                "fromOsmNode": 3178732737,
+                "toOsmNode": 1404063996,
+                "polyline": {
+                  "points": "af}hwYmgkp{C_RypA",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Piazza Guglielmo Marconi",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 7.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 133611877,
+                "fromOsmNode": 1404063996,
+                "toOsmNode": 1404063998,
+                "polyline": {
+                  "points": "ay}hwYgymp{CeMiv@",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Piazza Guglielmo Marconi",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 15.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 189698974,
+                "fromOsmNode": 1404063998,
+                "toOsmNode": 8983390866,
+                "polyline": {
+                  "points": "gg~hwYqpop{C{VyrB",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Piazza Guglielmo Marconi",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 12.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 970652375,
+                "fromOsmNode": 8983390866,
+                "toOsmNode": 1404064001,
+                "polyline": {
+                  "points": "c__iwYkdsp{CcRk|A",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Piazza Guglielmo Marconi",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 32.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 970652377,
+                "fromOsmNode": 1404064001,
+                "toOsmNode": 8983390865,
+                "polyline": {
+                  "points": "gr_iwYwavp{CukDfhA",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Piazza Guglielmo Marconi",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 19.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 751284430,
+                "fromOsmNode": 8983390865,
+                "toOsmNode": 8298166608,
+                "polyline": {
+                  "points": "}~diwYoxsp{C_s@fTeb@vNaMhE",
+                  "precision": 7,
+                  "length": 4
+                },
+                "streetName": "Piazza Guglielmo Marconi",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 8.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 970652376,
+                "fromOsmNode": 8298166608,
+                "toOsmNode": 925337723,
+                "polyline": {
+                  "points": "edhiwYemrp{Cgk@pR",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Piazza Guglielmo Marconi",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 20.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 678906990,
+                "fromOsmNode": 925337723,
+                "toOsmNode": 925337783,
+                "polyline": {
+                  "points": "mpiiwYsyqp{CjB}rCHwJ",
+                  "precision": 7,
+                  "length": 3
+                },
+                "streetName": "Via Alessandro Artom",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 14.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 762526130,
+                "fromOsmNode": 925337783,
+                "toOsmNode": 7124807861,
+                "polyline": {
+                  "points": "wliiwYiyvp{CqQsc@a@{}@",
+                  "precision": 7,
+                  "length": 3
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 10.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 762526130,
+                "fromOsmNode": 7124807861,
+                "toOsmNode": 7124807860,
+                "polyline": {
+                  "points": "k`jiwYy|yp{Ck@uqA",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 6.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 762526130,
+                "fromOsmNode": 7124807860,
+                "toOsmNode": 7124807859,
+                "polyline": {
+                  "points": "wajiwYoo|p{C[kp@",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 13.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 762526130,
+                "fromOsmNode": 7124807859,
+                "toOsmNode": 7124807854,
+                "polyline": {
+                  "points": "sbjiwY{`~p{Cw@{eB",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 22.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 762526130,
+                "fromOsmNode": 7124807854,
+                "toOsmNode": 7124807856,
+                "polyline": {
+                  "points": "kdjiwYwgaq{CwDmiD",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 15.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 762526130,
+                "fromOsmNode": 7124807856,
+                "toOsmNode": 7124807857,
+                "polyline": {
+                  "points": "cjjiwYerfq{CcC}vB",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 8.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "fromOsmNode": 7124807857,
+                "polyline": {
+                  "points": "gnjiwYcjjq{Ce@yb@",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              }
+            ]
+          },
+          {
+            "mode": "BUS",
+            "from": {
+              "name": "ASTI - Movicentro",
+              "stopId": "it-Piemonte-Bus_ITRP-ST61349",
+              "importance": 0.00004360921593615785,
+              "lat": 44.89606,
+              "lon": 8.209019999999999,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "departure": "2026-08-24T04:03:00Z",
+              "scheduledDeparture": "2026-08-24T04:03:00Z",
+              "stopCode": "61349",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "to": {
+              "name": "CASTAGNOLE LANZE - FS -A",
+              "stopId": "it-Piemonte-Bus_ITRP-ST61317",
+              "importance": 0.00004641633859137073,
+              "lat": 44.750426999999995,
+              "lon": 8.147652999999998,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T04:34:00Z",
+              "scheduledArrival": "2026-08-24T04:34:00Z",
+              "stopCode": "61317",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "duration": 1860,
+            "startTime": "2026-08-24T04:03:00Z",
+            "endTime": "2026-08-24T04:34:00Z",
+            "scheduledStartTime": "2026-08-24T04:03:00Z",
+            "scheduledEndTime": "2026-08-24T04:34:00Z",
+            "realTime": false,
+            "scheduled": true,
+            "interlineWithPreviousLeg": false,
+            "headsign": "ALBA - Stazione FS",
+            "tripFrom": {
+              "name": "ASTI - Movicentro",
+              "stopId": "it-Piemonte-Bus_ITRP-ST61349",
+              "importance": 0.00004360921593615785,
+              "lat": 44.89606,
+              "lon": 8.209019999999999,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "departure": "2026-08-24T04:03:00Z",
+              "scheduledDeparture": "2026-08-24T04:03:00Z",
+              "stopCode": "61349",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "tripTo": {
+              "name": "ALBA - Stazione FS",
+              "stopId": "it-Piemonte-Bus_ITRP-ST56464",
+              "importance": 0.00006773991481168196,
+              "lat": 44.697900000000004,
+              "lon": 8.03113,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T04:58:00Z",
+              "scheduledArrival": "2026-08-24T04:58:00Z",
+              "stopCode": "56464",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "routeId": "it-Piemonte-Bus_ITRP-ROFS45_Cuneo_Cuneo",
+            "routeUrl": "",
+            "directionId": "1",
+            "routeType": 3,
+            "agencyName": "Granda Bus",
+            "agencyUrl": "http://www.grandabus.it",
+            "agencyFareUrl": "",
+            "agencyId": "SGA0207",
+            "tripId": "20260824_06:03_it-Piemonte-Bus_ITRP-TR1011976_Cuneo_Cuneo",
+            "routeShortName": "45",
+            "routeLongName": "ALBA - ASTI",
+            "tripShortName": "4502",
+            "displayName": "45",
+            "cancelled": false,
+            "source": "it_Piemonte-Bus.gtfs.zip/stop_times.txt:13243:13254",
+            "intermediateStops": [
+              {
+                "name": "ASTI - Corso Savona / Boana O",
+                "stopId": "it-Piemonte-Bus_ITRP-ST69903",
+                "importance": 0.00008315930608659983,
+                "lat": 44.877829999999996,
+                "lon": 8.214549,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T04:06:00Z",
+                "departure": "2026-08-24T04:06:00Z",
+                "scheduledArrival": "2026-08-24T04:06:00Z",
+                "scheduledDeparture": "2026-08-24T04:06:00Z",
+                "stopCode": "69903",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "BUS"
+                ]
+              },
+              {
+                "name": "ISOLA D'ASTI - Via Dei Roveri",
+                "stopId": "it-Piemonte-Bus_ITRP-ST67337",
+                "importance": 0.00004360921593615785,
+                "lat": 44.83236,
+                "lon": 8.173759,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T04:15:00Z",
+                "departure": "2026-08-24T04:15:00Z",
+                "scheduledArrival": "2026-08-24T04:15:00Z",
+                "scheduledDeparture": "2026-08-24T04:15:00Z",
+                "stopCode": "67337",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "BUS"
+                ]
+              },
+              {
+                "name": "MOTTA DI COSTIGLIOLE - Stazione FS",
+                "stopId": "it-Piemonte-Bus_ITRP-ST67338",
+                "importance": 0.00004360921593615785,
+                "lat": 44.80864,
+                "lon": 8.147609999999998,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T04:22:00Z",
+                "departure": "2026-08-24T04:22:00Z",
+                "scheduledArrival": "2026-08-24T04:22:00Z",
+                "scheduledDeparture": "2026-08-24T04:22:00Z",
+                "stopCode": "67338",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "BUS"
+                ]
+              }
+            ],
+            "legGeometry": {
+              "points": "odkiwYolkq{CnKgEnKvgD?fiBnKnaDfEf{CfEfpAgiBfw@_q@~Wod@gpA?_XwQgiB_Xg{C_Xg{C_X_uCwQg{C_XwnCvuBwQnoB_Xnd@oKvuB_XfiBg^noB_XnoBod@noB_XnoBg^noB_XvQoKnoBg^fiBod@~p@oKvuB_XfiBwQnoBg^noB_Xf^gE~iAg^noBwQnoBg^noB_X~bBg^vuBwQfw@gEv|A_Xfw@fiBvQ_Xn}@ooBnoB_XnoBg^noB_XnoBg^vcAwQnoBg^noB_XnoBg^~bB_XnoBwQnoBwQnoB_XnoB_XfiBwQnoBg^noB_XnoBg^noB_XnoBg^noB_XfiBod@noB_XnoBg^noB_X~WoKvuB_XnoBg^fiB_XnoBg^vcAwQvQ~Wfw@nvAn}@?fw@ooBnoB_q@fiB_q@nKoKnoBwQnoBg^noBwQnoBg^fEgEfpA_XnoB_XnoB_XnoB_XnoB_XnoBg^fiBwQnoBg^nd@oKnoB_XnoBg^noB_Xn}@_XnoB_XnoBod@noB_XnoBod@noB_XfiBg^noBg^nvA_XfiBwj@noBod@noBwj@fiBwj@noBwj@fiBod@noBwj@fiBwj@noBwj@fiBod@noBwj@noBwj@fiBwj@noBod@fiBod@noBwj@~iAod@noBg^n}@_XnoBod@noBod@fiBwj@noBwj@fiBod@noBwj@vj@wQnoBod@noBwj@fiBwj@noBod@?gEv|Ag^noB~p@vj@fE~bBnvA~bB~iAvcAfw@fiBfw@fiBfw@fiBfw@fiBfw@v|A~p@~bB~iA~bBfpA~bBvcA~bBfpAvQnKn}@nhCfw@nhCn}@nhCfw@nhCn}@nhCn}@nhC~p@nhCn}@fbCfEnKvcAfbCvcA~{BvcAfbCvcAfbCn}@~{BvcAfbCvcAfbCvcA~{BnK~WfpAnoBnvAfiBfpAnoBfpAfiBnvAfiBfpAnoBnvAfiBfpAnoB~iA~bB~bB~iA~bBfpA~bB~iAfEfE~bBv|Av|AfpA~bBv|Av|AfpAv|AnvAv|AfpAfiBn}@fiBfw@fiBn}@fiBfw@fiBfw@n}@f^noB~p@fiB~p@fiBfw@vQ?noBnd@noBf^noBnd@noBf^noBf^fiBnd@noBf^noBnd@noBf^fiBf^noBnd@noBf^~WfEvuBf^noBvQnoB~WfiBvQvuBf^noBvQnoB~WfiB~WnoB~WvuB~WnoBvQfiB~WnoB~WnoB~WvuB~WfiBvQnoB~WfpA~WnoB~p@fiBfw@fiB~p@noB~p@fiB~p@nvAnd@~bBnvA~bB~iA~bBfpAv|A~iA~bBnvA~bB~iAv|AfpA~bBfpA~bBfpA~bBfpAv|A~iA~bBfpA~bBfpAv|AfpA~bBfpA~bB~iA~bBnvAv|A~iA~bBfpA~bB~iA~bBnvA~bBfpAv|A~iA~bBfpA~bBfpA~bBfpA~bB~iAv|AfpA~bBfpA~bBfpA~bBfpAv|A~iA~bBfpA~bBfpAvj@nd@~bBfpA~bBfpA~bB~iA~bBfpAv|AfpA~bB~iA~bBfpA~bB~iAvj@vj@~bBfpA~bBfpA~iAfw@~bBfpAv|AnvAv|AfpA~bBnvA~bBfpAfEnK~bBfpA~bBfpA~bBfpA~bBfpAv|AfpA~bB~iA~bBfpA~bBfpA~bBfpAv|AfpA~bB~iA~bBnvA~bB~iAv|AfpA~bB~iA~bBnvAv|A~iA~bBfpA~p@nd@~bBnvA~bB~iA~bBfpAv|AnvA~bB~iA~bBfpAv|A~iA~bBnvA~bB~iA~bBfpAv|AfpA~bBfpA~bBfpAv|A~iA~bBfpA~bBfpA~bBfpA~bB~iAv|AfpA~bBnvA~bB~iA~bBfpAfw@vj@~p@fw@~bBfpA~bBfpA~bBfpA~bB~iA~bBfpAv|A~iAvj@nd@~bBfpAv|AnvAv|AfpA~bBnvA~p@vj@~bBfpAfw@~p@~bBv|Av|AfpAv|AnvA~bBfpAv|Av|And@~Wv|A~bBv|AnvAv|AnvAv|Av|Avj@nd@~bBnvAv|AnvAv|AnvA~bBnvAfpAnoBfpAnoBfpAnoBnvAfiBfpAnoBfpAnoBfpAfiBfpAnoBfpAnoBn}@fpAnvAnoBfpAfiBn}@fpA~iA~{BfpAvuB~iAvuB~iAnoB~iAvuB~iAvuBfpAvuB~iA~{B~iAvuB~iAvuB~iAvuBvj@n}@~iA~{BfpAvuB~iAvuB~iA~{B~iAvuB~iAnoB~iA~{B~iAvuB~iAvuB~iA~{BfpAvuB~iAvuB~iAnoB~iA~{B~iAvuB~iAvuB~iA~{B~iAvuB~iAvuBfpAvuB~iAvuB~iAvuB~iAvuB~iA~{B~iAvuBvuBnoBfiB~{BfiBfbCfiBnhCnoB~{BfiBfbCfiBfbCfiBfbCfiBfbCnoBfbCfiBfbCfw@vcAnoBnhCfiB~{BfiBfbCn}@vcA~iA~iAv|AnoBvuB~{BfiB~{BnoB~{BvuBvuBvj@~p@~{BnvAfbCnvA~{Bv|A~{BnvAfbCv|A~{BnvAvj@~WfbC~iAfbCn}@~Wf^nhC~p@nK?_q@nzD_q@nzDoK~WoKvj@nKwj@fw@gtD~p@ozDfEg^fbCv|A~WvQfbCvcAfbCvcAnhC~iAfbCvcAvQfEfbCfpAfbCfpAfbC~iAf^nKnhC~iAfbCn}@fbCvcAnhCvcAv|Avj@~{BfiB~{B~bBvuBnoB~{B~bBfpAvcAfiB~{BnKnKnoBfbCv|AnoBfiBnhCfiBnhC~bBnhCnd@vj@~bB~tCv|AvnC~bB~tCv|AvnC~bBvnC~bB~tC~bBvnCv|A~tC~bBvnCv|AvnCvQf^~bB~tC~bBvnCv|A~tCv|AvnC~bB~tC~bB~tCv|AvnCnKvQv|A~tCv|Af{C~bBvnCv|A~tCv|A~tCv|A~tCv|AvnC~bBf{Cv|AvnCv|A~tC~bB~tC?fEfiBnhCfiBnhCnd@~p@vj@fpAv|A~tC~iAvuB~iAfiB~bB~tC~bBvnCv|A~tC~bBvnC~bBvnCv|A~tC~bBvnCv|AvnC~bB~tC~bBvnCvQf^~bBvnC~bBvnC~bBnhC~bBvnCfiBvnC~bBnhC~bBvnC~bBnhC~bBvnC~bBvnC~bBvnC~bBnhC~bBvnC~bBnhCnKvQfiBfbCn}@fpAnoBnhCfiB~{BnoBfbCfiBnhCfiB~{BfiBfbCvj@~p@fiBnhCfiB~{BfiBnhCnoBfbCfiB~{BfiBnhCfiB~{BfiBfbCnoBnhCfiB~{BfiBfbCfiBnhCvQnKnoBvuBvQvQfiBnhCfiBfbCnoBfbC~bBfbCfw@n}@fiBfbCnoBfbCfiB~{BnoBfbCfiBfbCnvAfiBn}@fpAfiBnhC~bBfbCnoBnhC~bBnhCfiBfbCfiBnhCfiBfbCfiBnhC~bBnhCfiBfbCfiBnhCfiBfbCnvAnaDv|A~tCv|Af{CnvA~tCv|Af{Cv|Af{CnvA~tC~p@fpAnvAvgDnvAnaDfw@gw@~iAgiBvj@g^fiBgbCn}@gpAfw@ovAfiB_|BvcAovA~iAgiBgw@_nDwcAgtD_q@_uCn}@ftDn}@ftD~p@vnC_jAfiB_cBnhC_jA~iAgw@nvA_cBfbCwcAfpAwj@f^_jAfiBgw@fw@nvAf{Cvj@fpAv|AnaDnvAf{Cv|A~tCnvAf{CnvAf{CnvAf{Cv|Af{CnvAf{Cv|A~tCnvAf{Cv|AnaDnvA~tCnK~Wv|Af{Cvj@n}@nvAf{Cv|Af{CnvAf{Cfw@v|Av|AnaDnvA~tCv|A~tCv|Af{CnvAf{Cv|A~tCfpAfbCnvAvgD~W~p@v|Af{CnvAnhCv|Af{Cv|A~tCv|A~tCnd@n}@vuB~{BnoBvuBnoB~{BnoBnoBnoB~{BnoBvuBvuB~{BnoBvuBfiBnoBnoB~{BvuBnoBnoB~{BnoB~{BnoB~{BvuBvuBnoBvuBfpAv|AfpAfpA_XfiB~WfmEnK~{BfpA~WvuB~p@~{Bw|Avj@od@nd@w`E?_Xo}@_nDoKwj@fbCo}@fbCwcAnhCwcAfbC_jAnhCwcAnhCwcAfbC_jAfbC_jAn}@g^fbCgpAvuB_jAfbCgpAfbC_jA~bBo}@nhCwj@noBod@vnCwQnhCg^nhC_XvnCg^nKgEvnCg^nhCwj@~bBg^vnCod@nhCwj@n}@_XvnCg^vnC_XnhCg^vnC_XnhCg^vnC_XnhCg^vnC_XnhCg^fw@oKvnCg^vnC_XnhCg^vnC_XnhCg^nhC_XvnCg^vnC_XnhCg^fw@oKvnC_XnhC_XvnC_XvnCg^vj@gEvnC_q@nhCwj@~p@oKfbCgpA~{BovAfbCgpAfbCovAfbC_jA~{BovAfbCgpAfbCovAnKgEfbCovA~{BovA~{Bw|AfbCovA~{BovAv|AwcAnhCgw@nhCo}@nhCo}@fbCgw@nKoKvnCwQ~{Bg^vnC?vcA?nhCvj@vnCvj@nhCnd@nhCnd@vQ?nhCfw@~iA~WfbCfpA~{BnvAfbCfpAfbCnvA~{BfpAfbCnvA~p@f^fbCv|A~{BnvAfbCfpA~{Bv|AfbCfpA~{Bv|A~{BfpAfbCv|A~{BnvAfbCfpA~{Bv|AfbCfpA~{Bv|AfbCfpAfbCv|A~{BfpA~{BnvAfbCv|A~{BfpAfbCv|A~{BfpAfbCv|A~{BfpAfiB~iAfbCfpAfbCnvA~WnKfbCv|AfbCnvA~{BnvA~{BnvAfbCv|A~{BfpAvQnKfbCnvA~{BnvAfbCfpAfbCnvA~{BfpA~bBn}@vnCf^vnC~WnhC~WvnCwQnhCwQ~bBoKfpAg^nhC_q@fbCgw@fbCovA~{BovAfbCovA~{BovAfbCovAfiBgpA~{BgpAfbCw|A~{BovAfbCovA~{Bw|A~{BovAfbCw|A~bB_jAnhCwcAvQoKfbCwcAfbCgpAfbCgpAfEgEvnCoKvnCoKnhCwQvnCoKvnCgEvnCwQvj@gEvnCnKvnCnKfpAfEvnCod@vnCg^nhCod@nhCg^vnCod@nhCod@nhCg^vnCod@n}@wQvnCg^vnCg^nhCg^vnCod@nhCg^vnCg^nhCg^fw@wQnhC_XvnCg^nhC_Xv|A_X~{Bw|A~{Bw|A~{B_cBnvAwcAfbCgpA~{BovAfbCgpAnKwQnhC_jAfbCgpAfbC_jAvj@od@fbCwcAvuBo}@vnC?vcA?vnCf^nhCf^vj@nKvnC?f^?nhCod@fiBod@~{BgiB~{B_cBvj@wj@vnC?vnC?nhC?vnC?vnC?nhC?vnC?vnC?vnC?vnC?vnC?nhC?nhCod@nd@oKfiB_|BnoBgbCnKoKf^w`End@w`Ef^w`EnK_jAvj@ozDf^ozDnd@ozDnd@_gE~W_uC?ohCfEw`EfEgmEfEohC?ohCoKw`EoK_gEwQ_gEoKw`E?wQgEgE?g{C?gEfiBo}@vcAwj@noBwj@vQgEnoB_q@fiBgw@vcAod@noBod@~WoKvuBgEfiBgEvuBoKfpA?noB?vuBgEnoBgEnoBgEnoBgEfpAgEv|Aw|AnvA_cBnvAgiBnd@_q@~iAooBnaDvj@ftDnd@nhCnd@nKguKf^gtDnK_nDjM{Y",
+              "precision": 7,
+              "length": 988
+            },
+            "bikesAllowed": false,
+            "wheelchairAccessible": "NOT_ACCESSIBLE",
+            "reservation": "NONE",
+            "alternatives": []
+          },
+          {
+            "mode": "WALK",
+            "from": {
+              "name": "CASTAGNOLE LANZE - FS -A",
+              "stopId": "it-Piemonte-Bus_ITRP-ST61317",
+              "importance": 0.00004641633859137073,
+              "lat": 44.750426999999995,
+              "lon": 8.147652999999998,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T04:34:00Z",
+              "departure": "2026-08-24T04:34:00Z",
+              "scheduledArrival": "2026-08-24T04:34:00Z",
+              "scheduledDeparture": "2026-08-24T04:34:00Z",
+              "stopCode": "61317",
+              "vertexType": "TRANSIT",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "to": {
+              "name": "CASTAGNOLE LANZE - PIAZZA LUCCHINI",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050220003",
+              "importance": 0.00003931287210434675,
+              "lat": 44.750744,
+              "lon": 8.147250999999997,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T04:36:00Z",
+              "scheduledArrival": "2026-08-24T04:36:00Z",
+              "stopCode": "0050220003",
+              "vertexType": "TRANSIT",
+              "modes": [
+                "BUS"
+              ]
+            },
+            "duration": 120,
+            "startTime": "2026-08-24T04:34:00Z",
+            "endTime": "2026-08-24T04:36:00Z",
+            "scheduledStartTime": "2026-08-24T04:34:00Z",
+            "scheduledEndTime": "2026-08-24T04:36:00Z",
+            "realTime": false,
+            "scheduled": false,
+            "distance": 115.0,
+            "legGeometry": {
+              "points": "c`nptYq`}kzCoBmX??kEcAif@}Ka}@kf@??i~@ipB??kXxsB}e@~uBaaAndC",
+              "precision": 7,
+              "length": 12
+            },
+            "steps": [
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 7.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "toOsmNode": 3195481225,
+                "polyline": {
+                  "points": "c`nptYq`}kzCoBmX",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 20.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 313549267,
+                "fromOsmNode": 3195481225,
+                "toOsmNode": 1062234988,
+                "polyline": {
+                  "points": "scnptY_z}kzCkEcAif@}Ka}@kf@",
+                  "precision": 7,
+                  "length": 4
+                },
+                "streetName": "Piazza P. Lucchini",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 18.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 1124674014,
+                "fromOsmNode": 1062234988,
+                "toOsmNode": 1062219913,
+                "polyline": {
+                  "points": "koqptYmp_lzCi~@ipB",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Piazza P. Lucchini",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 70.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "fromOsmNode": 1062219913,
+                "polyline": {
+                  "points": "unsptYwaclzCkXxsB}e@~uBaaAndC",
+                  "precision": 7,
+                  "length": 4
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              }
+            ]
+          },
+          {
+            "mode": "BUS",
+            "from": {
+              "name": "CASTAGNOLE LANZE - PIAZZA LUCCHINI",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050220003",
+              "importance": 0.00003931287210434675,
+              "lat": 44.750744,
+              "lon": 8.147250999999997,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "departure": "2026-08-24T05:05:00Z",
+              "scheduledDeparture": "2026-08-24T05:05:00Z",
+              "stopCode": "0050220003",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "to": {
+              "name": "CANELLI - PAESE",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050170001",
+              "importance": 0.00011362908844603226,
+              "lat": 44.718586,
+              "lon": 8.287021999999999,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T05:31:00Z",
+              "scheduledArrival": "2026-08-24T05:31:00Z",
+              "stopCode": "0050170001",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "duration": 1560,
+            "startTime": "2026-08-24T05:05:00Z",
+            "endTime": "2026-08-24T05:31:00Z",
+            "scheduledStartTime": "2026-08-24T05:05:00Z",
+            "scheduledEndTime": "2026-08-24T05:31:00Z",
+            "realTime": false,
+            "scheduled": true,
+            "interlineWithPreviousLeg": false,
+            "headsign": "NIZZA MONFERRATO - PIAZZA DAL POZZO - ISTITUTI SCOLASTICI",
+            "tripFrom": {
+              "name": "CASTAGNOLE LANZE - PIAZZA LUCCHINI",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050220003",
+              "importance": 0.00003931287210434675,
+              "lat": 44.750744,
+              "lon": 8.147250999999997,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "departure": "2026-08-24T05:05:00Z",
+              "scheduledDeparture": "2026-08-24T05:05:00Z",
+              "stopCode": "0050220003",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "tripTo": {
+              "name": "NIZZA MONFERRATO - PIAZZA DAL POZZO - ISTITUTI SCOLASTICI",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050800020",
+              "importance": 0.00013919630146119744,
+              "lat": 44.771595000000005,
+              "lon": 8.355868000000001,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T05:46:00Z",
+              "scheduledArrival": "2026-08-24T05:46:00Z",
+              "stopCode": "0050800020",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "routeId": "it-Piemonte-Bus_ITRP-RO43_COAS_Asti",
+            "routeUrl": "",
+            "directionId": "1",
+            "routeType": 3,
+            "agencyName": "Coas Consorzio Astigiano",
+            "agencyUrl": "http://www.consorziocoas.it",
+            "agencyFareUrl": "",
+            "agencyId": "SGA0194",
+            "tripId": "20260824_07:05_it-Piemonte-Bus_ITRP-TR8baf2737-6ca7-4ce4-8905-2959de013a25_COAS_Asti",
+            "routeShortName": "43",
+            "routeLongName": "NIZZA MONFERRATO - CASTAGNOLE LANZE",
+            "tripShortName": "L43003",
+            "displayName": "43",
+            "cancelled": false,
+            "source": "it_Piemonte-Bus.gtfs.zip/stop_times.txt:103844:103849",
+            "intermediateStops": [
+              {
+                "name": "BOGLIETTO",
+                "stopId": "it-Piemonte-Bus_ITRP-ST0050500016",
+                "importance": 0.00007488291885238141,
+                "lat": 44.75949,
+                "lon": 8.199855,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T05:11:00Z",
+                "departure": "2026-08-24T05:11:00Z",
+                "scheduledArrival": "2026-08-24T05:11:00Z",
+                "scheduledDeparture": "2026-08-24T05:11:00Z",
+                "stopCode": "0050500016",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "BUS"
+                ]
+              },
+              {
+                "name": "SANTO STEFANO BELBO",
+                "stopId": "it-Piemonte-Bus_ITRP-ST0042130001",
+                "importance": 0.000052425948524614796,
+                "lat": 44.708588000000006,
+                "lon": 8.230373999999998,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T05:23:00Z",
+                "departure": "2026-08-24T05:23:00Z",
+                "scheduledArrival": "2026-08-24T05:23:00Z",
+                "scheduledDeparture": "2026-08-24T05:23:00Z",
+                "stopCode": "0042130001",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "BUS"
+                ]
+              }
+            ],
+            "legGeometry": {
+              "points": "_~tptY{~tkzCgpAstAfpAcbD~p@o~B~MsyAvG_eA{JkgQ?kqBjH_~AjMsl@fYsg@fuAgfArqE_rBz~DsoAzOkHfzAct@vL{@fJcGnKcLfE{ObBkRcBgTgEkRkH_NkMkHwLoAoPrD_q@_oAo|C{mEcmAsmBcmAskC_|B{wEkpE{mJkvB_lE{{H{aPsaRsy_@_uCkgGwlSg~b@w}CcqI{Y{fAkvGskWooBkmIccF_bTg{Rw_z@crKk_d@gqRkxx@smBkfJ{vMoyo@__DgnQwbD_oUg_B{~N_tAcsMox@wgIce@_nIsb@ouSw[osEkRsuCkf@_jFwQ_cBoqAggHo{AskHsxSgqk@syAwaGon@caGw{Dgpn@kH{_GvVwhFzxB{lM~`Mowk@rl@cvDzOs`AffAkeHfzAk}PfaAo}TnjBc`^vVcmFf_B_|[zcE_nv@rl@c|KjHsgJsSsnIgEwcA_q@{oIkgBkkJwV_tAkdAonEwkB_dI{kAo}Es~AwiHv[wV~rN_hLfgH_yFb{D__DjoWouSrnXkpTbt@{h@zm@we@bt@c`@~p@{Y~p@cQjyH_hBr]wGf|@_SvurAgwY~`R_bEjmq@kfOzmJkvBnyLkoCfuKciC~qGkgBjiUsrGbsCcy@naD_{@bdC_v@zsBo}@rfCgpAbdCcrAviC{uAfoDwkBrpCwwArkCguA~dFkjCfbC{fAj|D{uAryFooBfuPoqFzh@wQjf@cVfh@oUv`@{Yn}@{w@ju@o}@~p@{aArwBwvDbkB{yDju@{sBvj@wfB~WknAnUoqArb@wgDroAcyJvwAsyKr]{sBrb@_hBv`@chA~a@s{@~z@gpA~_A{aAju@kp@z}B{_B~iAwt@f_Gs_DnvA_{@bxCczBffFceErg@kf@f^cV~WcLnUgEr]?vVRbe@nA~a@nAf^_Dnd@kWvcA_{@~{L{pK~iPgoNr{@sl@nn@gc@ndJ_yFrjUouNnaDsrBniJkiFj`RwcKjz@sg@bt@ce@j_Aos@z|@kz@zsB{bCvcAogAvfBkqBn~B_pC~xPomR~qBwpBfiBstAzkA{|@ffAwo@jdAce@fkAk\\fE{@jf@_IbdCoUjvBkM~tCoUjjCsb@~fEolAnoB_v@z_BccAbwAogArwQ{oNzno@sqh@~oMknKjmDg`DrmBczBn}@gfAfh@sq@vy@w|Abt@_cBfc@{_Bbe@oyBb`@k`Cz|@_yFfm@ceEr`AwzGr}Dwi\\bt@_cGjcD_dXn_@csCzYckBv`@{zAb`@crAns@kqB~bBkaEfaKknUnx@shB~lBclDjlBswBvVgYzw@wQflCka@ftDka@nlKw~@bnCcGbnCrIjhD~_ArrBjdAvj@rb@zaAffA~u@ffAjvB~uE~yC~jH~{`@bjaAj}KrnXvbSnag@z|Or~_@nvA~vBneB~a@v[sIrl@{Oju@ce@~u@ccAfr@k_Af^{m@fhEgpFvhFojGn`BczBbwA{iBbVk\\npDcyEfh@sq@k\\{h@_DoFce@ox@_lEwnH{|@{pAgkAgiB~}AkcDzvCogFvnC{|EnjBc{DwlDceEggCc{D_q@_hB_l@{qCwVgkAgbCwfLwrA_hG{Osq@s]waBgaA{|EooB_bJw}Hkn_@s{@k|DseKo|f@stFszWkH{c@wgD_bOwaBcdHoi@cqDgm@{xGnKgEjHsInF_Nz@{O{@{OkCsN_IoKwGcGvQwvD~WccFby@k}Fns@cnHju@{pKjRkuEb[_bJzTgyI_DwsH{O{rJgOkqGcj@_iIku@ceJ{TsyAsl@ghEwGgm@gh@_iDolFsf\\oaDomRgpAorH_|B{`Ng{C_wQsl@krDs]{bCgYo~BkM_hB{JgnB{E_kC{@s~AvBknAzJscBzJgdBvt@czGf|@geIfr@{eIvj@w}Hf^cwFvVgyDnx@orMrb@omHni@c{IvwAswVn{AstZrNg`DvB_xDoFcnCwQs_Dce@kyCsg@o~Bkz@koC{r@wzBs{@czBku@{nBwmAgqC{aAwzBk_AcfBsg@cy@cj@gw@os@k_AgdB{nBgcE{cEgkAkiA_kCohCkjCgsBo|CwuBgoDkqBcoEskC{qCcfBkiA{r@o{AkdAojBcrAgpAseAogAgfAgpAsyAwt@c~@{|@wrAgkA{sB{aA{xBgzAkaEwgD{kKklBcaG{m@cuBod@_yAsNwo@sNct@wo@koCo_@_mBgh@{gCwVswBoKcmAwLc_CwGc}Cka@saWkRg|Jw`@__XcVsgO{Y_{O?wQod@wiWwQoiJ{OgpKcGotBgE_zC?ovA?sX?{pAjC_`A?gO~C{m@zE{h@jR_eAvmAshGznB_{JfJsg@bGsSrfCg}L~tCgjNzTsoArNolArIgfA?chAoFo}@wQgkAgY_oAk{B_jKwy@ozD_{@sxDo}@o{AnFsIzEoK~CwLbB_N?sN?_NgE_NwB_NwGcLsI_I{JoF{JcBkH?oKbBkH~C{EbGwGjHgEzJkCbLkCjM?~M?jMsfHznBco@bQ~CfT",
+              "precision": 7,
+              "length": 452
+            },
+            "bikesAllowed": false,
+            "wheelchairAccessible": "NOT_ACCESSIBLE",
+            "reservation": "NONE",
+            "alternatives": []
+          },
+          {
+            "mode": "WALK",
+            "from": {
+              "name": "CANELLI - PAESE",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050170001",
+              "importance": 0.00011362908844603226,
+              "lat": 44.718586,
+              "lon": 8.287021999999999,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T05:31:00Z",
+              "departure": "2026-08-24T05:31:00Z",
+              "scheduledArrival": "2026-08-24T05:31:00Z",
+              "scheduledDeparture": "2026-08-24T05:31:00Z",
+              "stopCode": "0050170001",
+              "vertexType": "TRANSIT",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "to": {
+              "name": "END",
+              "lat": 44.7148,
+              "lon": 8.28854,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T05:39:00Z",
+              "scheduledArrival": "2026-08-24T05:39:00Z",
+              "vertexType": "NORMAL"
+            },
+            "duration": 480,
+            "startTime": "2026-08-24T05:31:00Z",
+            "endTime": "2026-08-24T05:39:00Z",
+            "scheduledStartTime": "2026-08-24T05:31:00Z",
+            "scheduledEndTime": "2026-08-24T05:39:00Z",
+            "realTime": false,
+            "scheduled": false,
+            "distance": 456.0,
+            "legGeometry": {
+              "points": "k_a}sYqq_a}C~m@uP??tqDibAptBik@??[mLVoLhAcLxBkKfDiJnE}HrFiGlGkEbHkCnHcApHB??dKlBjJ`F`IjIfGbL??paAi^??vpFcrA??bhAu[??b{Amc@??~{TaeG??|pF}~A??`wJyuC??xEyfA",
+              "precision": 7,
+              "length": 38
+            },
+            "steps": [
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 11.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "toOsmNode": 432876312,
+                "polyline": {
+                  "points": "k_a}sYqq_a}C~m@uP",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 55.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 37192355,
+                "fromOsmNode": 432876312,
+                "toOsmNode": 3802416367,
+                "polyline": {
+                  "points": "kp_}sYgc`a}CtqDibAptBik@",
+                  "precision": 7,
+                  "length": 3
+                },
+                "streetName": "Piazza Camillo Benso Conte di Cavour",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 19.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 385180147,
+                "fromOsmNode": 3802416367,
+                "toOsmNode": 3802416364,
+                "polyline": {
+                  "points": "chv|sY{rca}C[mLVoLhAcLxBkKfDiJnE}HrFiGlGkEbHkCnHcApHB",
+                  "precision": 7,
+                  "length": 12
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 9.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 385180147,
+                "fromOsmNode": 3802416364,
+                "toOsmNode": 3802416359,
+                "polyline": {
+                  "points": "cjt|sYsqfa}CdKlBjJ`F`IjIfGbL",
+                  "precision": 7,
+                  "length": 5
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 12.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 376863898,
+                "fromOsmNode": 3802416359,
+                "toOsmNode": 1599655787,
+                "polyline": {
+                  "points": "g`s|sYsoea}CpaAi^",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Corso della Libertà",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 44.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 146706456,
+                "fromOsmNode": 1599655787,
+                "toOsmNode": 1599655781,
+                "polyline": {
+                  "points": "u}p|sY}nfa}CvpFcrA",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Corso della Libertà",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 14.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 146706458,
+                "fromOsmNode": 1599655781,
+                "toOsmNode": 4408632706,
+                "polyline": {
+                  "points": "}ki|sYabia}CbhAu[",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Corso della Libertà",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 17.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 146706458,
+                "fromOsmNode": 4408632706,
+                "toOsmNode": 2253135760,
+                "polyline": {
+                  "points": "ybg|sYw~ia}Cb{Amc@",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Corso della Libertà",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 129.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 146706458,
+                "fromOsmNode": 2253135760,
+                "toOsmNode": 536473194,
+                "polyline": {
+                  "points": "ufd|sYecka}C~{TaeG",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Corso della Libertà",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 45.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 146706458,
+                "fromOsmNode": 536473194,
+                "toOsmNode": 275974984,
+                "polyline": {
+                  "points": "uin{sYgisa}C|pF}~A",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Corso della Libertà",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 70.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 37196642,
+                "fromOsmNode": 275974984,
+                "toOsmNode": 432930723,
+                "polyline": {
+                  "points": "wwf{sYeiva}C`wJyuC",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 31.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "fromOsmNode": 432930723,
+                "polyline": {
+                  "points": "u_{zsY_`{a}CxEyfA",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "duration": 6780,
+        "startTime": "2026-08-24T04:11:00Z",
+        "endTime": "2026-08-24T06:04:00Z",
+        "transfers": 2,
+        "id": "Cmoh2GSNeohyRkAp/3kaMEhqIEAyMGl0LXRyZW5pdGFsaWFfSVQ6OlF1YXk6b3RoZXJUUkVOSVRBTElBOjgzMDAwMDQ2Mjmo4PCCiHJGQEGABps6j2ogQEjUiK/UBlCQia/UBloEV0FMS2ABCpsCCglSRUcgMTE1NjMSajIwMjYwODI0XzA2OjEyX2l0LXRyZW5pdGFsaWFfSVQ6OlZlaGljbGVKb3VybmV5OnJhaWxUUkVOSVRBTElBOjEwMDgzXzBfMS0xMTU2My0yNUNELTAwODNfMS0xMTU2My0yNUNELTAwODMaMGl0LXRyZW5pdGFsaWFfSVQ6OlF1YXk6b3RoZXJUUkVOSVRBTElBOjgzMDAwMDQ2MiGo4PCCiHJGQCmABps6j2ogQDIvaXQtdHJlbml0YWxpYV9JVDo6UXVheTpyYWlsVFJFTklUQUxJQTo4MzAwMDA4MzQ5LmACt+5iRkBBGAgCZOi4IEBIkImv1AZQkJiv1AZaDVJFR0lPTkFMX1JBSUxgAQqMARovaXQtdHJlbml0YWxpYV9JVDo6UXVheTpyYWlsVFJFTklUQUxJQTo4MzAwMDA4MzQhLmACt+5iRkApGAgCZOi4IEAyIWl0LVBpZW1vbnRlLUJ1c19JVFJQLVNUMDA1MDgwMDAwMjkQKnEd42JGQEFxyXGndLggQEjoq6/UBlDgrK/UBloEV0FMS2ABCsQBCgIyMRJBMjAyNjA4MjRfMDc6MDBfaXQtUGllbW9udGUtQnVzX0lUUlAtVFIyMV8xXzFfMV8wMDAwMDFfMV9DT0FTX0FzdGkaIWl0LVBpZW1vbnRlLUJ1c19JVFJQLVNUMDA1MDgwMDAwMiEQKnEd42JGQClxyXGndLggQDIhaXQtUGllbW9udGUtQnVzX0lUUlAtU1QwMDUwODAwMDIwOepg/Z/DYkZAQchim1Q0tiBASOCsr9QGUISwr9QGWgNCVVNgAQp+GiFpdC1QaWVtb250ZS1CdXNfSVRSUC1TVDAwNTA4MDAwMjAh6mD9n8NiRkApyGKbVDS2IEAyIWl0LVBpZW1vbnRlLUJ1c19JVFJQLVNUMDA1MDgwMDAyMDnqYP2fw2JGQEHIYptUNLYgQEiEsK/UBlD8sK/UBloEV0FMS2ABCtcBCgI0MxJUMjAyNjA4MjRfMDc6NDBfaXQtUGllbW9udGUtQnVzX0lUUlAtVFIwYTA2YmU2Mi0zODBiLTRlMjctODI4NC0wMTAyNWQyM2M3OGJfQ09BU19Bc3RpGiFpdC1QaWVtb250ZS1CdXNfSVRSUC1TVDAwNTA4MDAwMjAh6mD9n8NiRkApyGKbVDS2IEAyIWl0LVBpZW1vbnRlLUJ1c19JVFJQLVNUMDA1MDE3MDAwMTmGrkSg+ltGQEELdy6M9JIgQEiwsq/UBlDwua/UBloDQlVTYAEKWxohaXQtUGllbW9udGUtQnVzX0lUUlAtU1QwMDUwMTcwMDAxIYauRKD6W0ZAKQt3Loz0kiBAOSSX/5B+W0ZAQfksz4O7kyBASPC5r9QGUNC9r9QGWgRXQUxLYAE=",
+        "legs": [
+          {
+            "mode": "WALK",
+            "from": {
+              "name": "START",
+              "lat": 44.89479,
+              "lon": 8.207582,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "departure": "2026-08-24T04:11:00Z",
+              "scheduledDeparture": "2026-08-24T04:11:00Z",
+              "vertexType": "NORMAL"
+            },
+            "to": {
+              "name": "ASTI",
+              "stopId": "it-trenitalia_IT::Quay:otherTRENITALIA:830000462",
+              "parentId": "it-trenitalia_IT::StopPlace:otherTRENITALIA:830000462",
+              "importance": 0.014667377807199955,
+              "lat": 44.894791,
+              "lon": 8.208123999999998,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T04:12:00Z",
+              "scheduledArrival": "2026-08-24T04:12:00Z",
+              "vertexType": "TRANSIT",
+              "modes": [
+                "HIGHSPEED_RAIL",
+                "LONG_DISTANCE",
+                "NIGHT_RAIL",
+                "REGIONAL_RAIL",
+                "BUS"
+              ]
+            },
+            "duration": 60,
+            "startTime": "2026-08-24T04:11:00Z",
+            "endTime": "2026-08-24T04:12:00Z",
+            "scheduledStartTime": "2026-08-24T04:11:00Z",
+            "scheduledEndTime": "2026-08-24T04:12:00Z",
+            "realTime": false,
+            "scheduled": false,
+            "distance": 53.0,
+            "legGeometry": {
+              "points": "u_rhwYunop{CsNodA??rLiE??vOyF??aq@oqEeEaX",
+              "precision": 7,
+              "length": 9
+            },
+            "steps": [
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 11.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "toOsmNode": 13432297936,
+                "polyline": {
+                  "points": "u_rhwYunop{CsNodA",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 3.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 1464334366,
+                "fromOsmNode": 13432297936,
+                "toOsmNode": 13432297935,
+                "polyline": {
+                  "points": "iorhwYetqp{CrLiE",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 3.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 1464334366,
+                "fromOsmNode": 13432297935,
+                "toOsmNode": 13432297937,
+                "polyline": {
+                  "points": "uarhwYozqp{CvOyF",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 36.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "fromOsmNode": 13432297937,
+                "polyline": {
+                  "points": "}pqhwYibrp{Caq@oqEeEaX",
+                  "precision": 7,
+                  "length": 3
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              }
+            ]
+          },
+          {
+            "mode": "REGIONAL_RAIL",
+            "from": {
+              "name": "ASTI",
+              "stopId": "it-trenitalia_IT::Quay:otherTRENITALIA:830000462",
+              "parentId": "it-trenitalia_IT::StopPlace:otherTRENITALIA:830000462",
+              "importance": 0.014667377807199955,
+              "lat": 44.894791,
+              "lon": 8.208123999999998,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "departure": "2026-08-24T04:12:00Z",
+              "scheduledDeparture": "2026-08-24T04:12:00Z",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "HIGHSPEED_RAIL",
+                "LONG_DISTANCE",
+                "NIGHT_RAIL",
+                "REGIONAL_RAIL",
+                "BUS"
+              ]
+            },
+            "to": {
+              "name": "NIZZA MONFERRATO",
+              "stopId": "it-trenitalia_IT::Quay:railTRENITALIA:830000834",
+              "parentId": "it-trenitalia_IT::StopPlace:railTRENITALIA:830000834",
+              "importance": 0.0013574340846389532,
+              "lat": 44.77291000000001,
+              "lon": 8.361148,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T04:44:00Z",
+              "scheduledArrival": "2026-08-24T04:44:00Z",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "REGIONAL_RAIL"
+              ]
+            },
+            "duration": 1920,
+            "startTime": "2026-08-24T04:12:00Z",
+            "endTime": "2026-08-24T04:44:00Z",
+            "scheduledStartTime": "2026-08-24T04:12:00Z",
+            "scheduledEndTime": "2026-08-24T04:44:00Z",
+            "realTime": false,
+            "scheduled": true,
+            "interlineWithPreviousLeg": false,
+            "headsign": "",
+            "tripFrom": {
+              "name": "ASTI",
+              "stopId": "it-trenitalia_IT::Quay:otherTRENITALIA:830000462",
+              "parentId": "it-trenitalia_IT::StopPlace:otherTRENITALIA:830000462",
+              "importance": 0.014667377807199955,
+              "lat": 44.894791,
+              "lon": 8.208123999999998,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "departure": "2026-08-24T04:12:00Z",
+              "scheduledDeparture": "2026-08-24T04:12:00Z",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "HIGHSPEED_RAIL",
+                "LONG_DISTANCE",
+                "NIGHT_RAIL",
+                "REGIONAL_RAIL",
+                "BUS"
+              ]
+            },
+            "tripTo": {
+              "name": "ACQUI TERME",
+              "stopId": "it-trenitalia_IT::Quay:otherTRENITALIA:830000867",
+              "parentId": "it-trenitalia_IT::StopPlace:otherTRENITALIA:830000867",
+              "importance": 0.005056323017925024,
+              "lat": 44.672301000000004,
+              "lon": 8.473452000000002,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T05:32:00Z",
+              "scheduledArrival": "2026-08-24T05:32:00Z",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "REGIONAL_RAIL",
+                "BUS"
+              ]
+            },
+            "category": {
+              "id": "",
+              "name": "",
+              "shortName": ""
+            },
+            "routeId": "it-trenitalia_IT::Line:railTRENITALIA:10083-IT::Operator:05403151003:TRENITALIA:TRENITALIA-100",
+            "routeUrl": "",
+            "directionId": "1",
+            "routeType": 106,
+            "agencyName": "TRENITALIA",
+            "agencyUrl": "https://www.trenitalia.com",
+            "agencyFareUrl": "",
+            "agencyId": "IT::Operator:05403151003:TRENITALIA:TRENITALIA",
+            "tripId": "20260824_06:12_it-trenitalia_IT::VehicleJourney:railTRENITALIA:10083_0_1-11563-25CD-0083_1-11563-25CD-0083",
+            "routeShortName": "REG 11563",
+            "routeLongName": "",
+            "tripShortName": "0",
+            "displayName": "REG 11563",
+            "cancelled": false,
+            "source": "it_trenitalia.netex.zip/trenitalia.xml:259372752:259372752",
+            "intermediateStops": [
+              {
+                "name": "MONGARDINO",
+                "stopId": "it-trenitalia_IT::Quay:railTRENITALIA:830000801",
+                "parentId": "it-trenitalia_IT::StopPlace:railTRENITALIA:830000801",
+                "importance": 0.0013574340846389532,
+                "lat": 44.841609999999996,
+                "lon": 8.207410999999999,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T04:20:00Z",
+                "departure": "2026-08-24T04:21:00Z",
+                "scheduledArrival": "2026-08-24T04:20:00Z",
+                "scheduledDeparture": "2026-08-24T04:21:00Z",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "REGIONAL_RAIL"
+                ]
+              },
+              {
+                "name": "VIGLIANO D'ASTI",
+                "stopId": "it-trenitalia_IT::Quay:railTRENITALIA:830000802",
+                "parentId": "it-trenitalia_IT::StopPlace:railTRENITALIA:830000802",
+                "importance": 0.0013574340846389532,
+                "lat": 44.827341,
+                "lon": 8.218270999999996,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T04:23:00Z",
+                "departure": "2026-08-24T04:24:00Z",
+                "scheduledArrival": "2026-08-24T04:23:00Z",
+                "scheduledDeparture": "2026-08-24T04:24:00Z",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "REGIONAL_RAIL"
+                ]
+              },
+              {
+                "name": "MONTEGROSSO",
+                "stopId": "it-trenitalia_IT::Quay:railTRENITALIA:830000803",
+                "parentId": "it-trenitalia_IT::StopPlace:railTRENITALIA:830000803",
+                "importance": 0.0013574340846389532,
+                "lat": 44.818470999999995,
+                "lon": 8.239172999999997,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T04:27:00Z",
+                "departure": "2026-08-24T04:28:00Z",
+                "scheduledArrival": "2026-08-24T04:27:00Z",
+                "scheduledDeparture": "2026-08-24T04:28:00Z",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "REGIONAL_RAIL"
+                ]
+              },
+              {
+                "name": "AGLIANO CASTELNUOVO CALCEA",
+                "stopId": "it-trenitalia_IT::Quay:railTRENITALIA:830000804",
+                "parentId": "it-trenitalia_IT::StopPlace:railTRENITALIA:830000804",
+                "importance": 0.0013574340846389532,
+                "lat": 44.78611200000001,
+                "lon": 8.267733,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T04:32:00Z",
+                "departure": "2026-08-24T04:33:00Z",
+                "scheduledArrival": "2026-08-24T04:32:00Z",
+                "scheduledDeparture": "2026-08-24T04:33:00Z",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "REGIONAL_RAIL"
+                ]
+              }
+            ],
+            "legGeometry": {
+              "points": "cpqhwYqhzp{CevAifKoU_tBkZsjD_Ws}Bog@obDq`@ahBkiAeqFaq@ynDgu@eaF_sHubj@aqB{}NupA{~Gif@suCuc@kdD_]ucDcRwiCkP}vCmJk}C{EoaDBugEnJolFzL}fFnUexDt^szD`i@edEpi@}mDho@c`D~kAwzExn@_uB~{@cnCpxCchHreB}`Dv~AqoCzgBqfCrdBinB~qBosBzcBe~Al{B}gBpvBozAdrIytE`fKurFd{Ko_GvsVwkMzhWg`Nh`KcoFpgJkpFlia@cnS~kQugJlrR{`Kbbc@yyTbrTcfLt_SuaKz`Asg@fei@mfY~{KazFruFwaC|aGa}AntDqo@l`CaQvxBsIluQ?`fPrHjrHt[lfLhdA`uf@`jFpsTb_ChxPfsCx{Hb}A~{FfgAfyEdcAtcEtmAjbH|dDxhGtoEpsHbyH|dEdrGzfEdeInkB~oF~a@rqA|yDv{Kt_DhpIdeFtvLt_NjlW|ePxwZl~S~fa@hh@`bA`|OdaZfqFveMd`Cz~HtxAfyGt`Gpx\\v{En}W`UrnAj]|lBdwBdsJjbDrdJt~BnyElpDnrGbiBd~BzjCf_DbgCn_CzcEpcDdwj@p}\\|td@pbXb~DzgCl`Fj|DfoEb_Ep~RffUlbEzrEpxDdcEreCvpB|jBdeArdFddCfzHfrChiVrgJxbXzqJ|wI`xCzeFt{AjaCrh@huBnYj|Gff@lgF_DhzE__@|bEcv@bwC_t@nwD_xArnDonBdfCiyAvvD}bDltCavCz{@ymAzzDctFviAusBpnAmzBziIejRrCsGtyFkkL|}Cy{EtrCwrDrcCq~BrrBwdBbmBajAd`CypAtmBu|@hvCebAffDuf@v|CqR`aEsLfcClEvcObsA~zDxTp~BxCb{CqGvlB}LlqOs`AzpF{_@xtG_i@zzSqhBv{e@wjEdgBcSjbBuVvoDsy@~jCox@tbC}~@~cDuaBp{@ye@z~E{nDpcDi|CroDydEdcB_bCvoAgyBn}Cu_HnQcb@j^s|@xyAqbEn`@apA`n@myBhdByiIvhH{}_@`fG}j\\nxEoxV|AeIjcCciMriAwpFjeAycEpcLao_@xhLgo`@zbD{yLhaDobMleGqjTzwCafK`dCq`IdsKquW|wc@}sgAneL{}XrcFolMbsBceGtrBgdHb}CuzKfnBqxGnz@iwCnT{u@tsMyyd@deD{oLntAgeF|EwP~|DkfNp`EevNjlCgjJlmCa|JtmG_eUv~E}hQvzEswPh}EyzPrxHyuXjaAgkD~bEgwNziC{lJzuAwcFdwBklHnlBcrFtwD{eJbqCekFvyBypDleDywEnoCqmDvrBoyBz`CazBraBwvAfrC}zBtvDshCfoD_qBbxDegBlnDiqAduDqbAd|Dou@v_Eem@~vDi]daEoZptFqd@~x@mGvoHel@jdGwe@rhOskAdrNyiAxaQyrAhhHck@h~Gsj@pyNomAprNqdAplDeQvgDmJj~CLzmDjIfaApDpmJxd@nzKvj@|lIjc@|hHta@jgDPnvCqLffDeZvbGagAz`Dg{@xlF{yA`kE_pAhvMixDzvJcxCv|D{oAhdD}|@~|CqbAnaFewAvbIu~BfbH_iCtzDubCrjDwiCdkCmeCtgB}kBncGqlJxjHceMr@oAbmQ}a[lnl@wzcAzcF}vIzyl@gteALUdy_@qaq@lsRwa]vhh@mpbAb{b@ouy@~lUsoc@v{J}kSbsBm}FbsB{{GthB{bIzvAkvHhdAwwHdl@}hH`^cjHxVcjHpl@ykRhsAagd@jdB}li@zaB_wl@l|Aodh@tlCcv_AxWieKdXyyFvh@yzHtaAoqIz`As~F`rAsqGrdBolGl}A{cF`jB{wEbjBqcE~tCwhFvmCmtEj_Nk_TpdNuaUd{M_bTnnA_tBv|EieIr_BusDtvA}lD``A{uC|dAeqDthAmuEz_AwnE`h@_zDxc@_yEtn@seKps@ejRdz@adXzs@}fSdcBadk@dmA{p^`S_bGjbD}gdApRe_GnuCit|@pK_oD~Vy`K`Q{pKQ_vEIw}CwIikIc\\_jMauGuacA_fHkkcAqaBguUwgBocRenDkgW}uEeh\\ggEcmZsz@c}Hy]oaFkTmjGgF}zG|Es{Gz_@siI|i@q{Fdv@w_G|{@knExpE}rT``P{wv@lNoq@hjDolPrFu[dzCigNtx@{}Dzp@abEduAsjNzk@eeHzKseCzEgdC`Dk|HeB_}FyDqlF{TmiGcb@{wGeh@ojFe~@uqGmj@mxCwqAi_G{wA{bFqgAa}CgvAaeDkqBaiEs_CwuDai@wz@i]oi@mkD{~DeaCqhCo~@udAscCmeCq|EekF}uDipDaiCywCkx@oy@eoBotBsyBceCud@ef@wcAsfA",
+              "precision": 7,
+              "length": 404
+            },
+            "bikesAllowed": false,
+            "wheelchairAccessible": "NOT_ACCESSIBLE",
+            "reservation": "NONE",
+            "alternatives": []
+          },
+          {
+            "mode": "WALK",
+            "from": {
+              "name": "NIZZA MONFERRATO",
+              "stopId": "it-trenitalia_IT::Quay:railTRENITALIA:830000834",
+              "parentId": "it-trenitalia_IT::StopPlace:railTRENITALIA:830000834",
+              "importance": 0.0013574340846389532,
+              "lat": 44.77291000000001,
+              "lon": 8.361148,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T04:44:00Z",
+              "departure": "2026-08-24T05:26:00Z",
+              "scheduledArrival": "2026-08-24T04:44:00Z",
+              "scheduledDeparture": "2026-08-24T05:26:00Z",
+              "vertexType": "TRANSIT",
+              "cancelled": false,
+              "modes": [
+                "REGIONAL_RAIL"
+              ]
+            },
+            "to": {
+              "name": "NIZZA MONFERRATO - STAZIONE FERROVIARIA",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050800002",
+              "importance": 1.805519104891573e-6,
+              "lat": 44.77255600000001,
+              "lon": 8.360265,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T05:28:00Z",
+              "scheduledArrival": "2026-08-24T05:28:00Z",
+              "stopCode": "0050800002",
+              "vertexType": "TRANSIT",
+              "modes": [
+                "BUS"
+              ]
+            },
+            "duration": 120,
+            "startTime": "2026-08-24T05:26:00Z",
+            "endTime": "2026-08-24T05:28:00Z",
+            "scheduledStartTime": "2026-08-24T05:26:00Z",
+            "scheduledEndTime": "2026-08-24T05:28:00Z",
+            "realTime": false,
+            "scheduled": false,
+            "distance": 108.0,
+            "legGeometry": {
+              "points": "gcf~tYiffn~C`cApfA??_HrQ??oK~X??eG~O??pm@xn@??k}@ryB??|tDrvD??nPtP??lTtT??wHvO",
+              "precision": 7,
+              "length": 20
+            },
+            "steps": [
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 17.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "toOsmNode": 11592892843,
+                "polyline": {
+                  "points": "gcf~tYiffn~C`cApfA",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 3.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 1246999153,
+                "fromOsmNode": 11592892843,
+                "toOsmNode": 11592892846,
+                "polyline": {
+                  "points": "e_d~tYw~cn~C_HrQ",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 4.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 1246999153,
+                "fromOsmNode": 11592892846,
+                "toOsmNode": 11592892845,
+                "polyline": {
+                  "points": "ehd~tYclcn~CoK~X",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 3.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 1246999153,
+                "fromOsmNode": 11592892845,
+                "toOsmNode": 11592892844,
+                "polyline": {
+                  "points": "utd~tYcrbn~CeG~O",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 10.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 236109257,
+                "fromOsmNode": 11592892844,
+                "toOsmNode": 11592892848,
+                "polyline": {
+                  "points": "{|d~tYcabn~Cpm@xn@",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "1",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 19.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 1250226194,
+                "fromOsmNode": 11592892848,
+                "toOsmNode": 11592892849,
+                "polyline": {
+                  "points": "inc~tYiq`n~Ck}@ryB",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 40.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 236102238,
+                "fromOsmNode": 11592892849,
+                "toOsmNode": 2441660410,
+                "polyline": {
+                  "points": "ule~tYuv|m~C|tDrvD",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Piazza Dante Alighieri",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 4.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 236102238,
+                "fromOsmNode": 2441660410,
+                "toOsmNode": 10974004199,
+                "polyline": {
+                  "points": "wv_~tYa_wm~CnPtP",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Piazza Dante Alighieri",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 5.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 236102238,
+                "fromOsmNode": 10974004199,
+                "toOsmNode": 2441660406,
+                "polyline": {
+                  "points": "ge_~tYkmvm~ClTtT",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Piazza Dante Alighieri",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 3.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "fromOsmNode": 2441660406,
+                "polyline": {
+                  "points": "yo~}tYuwum~CwHvO",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              }
+            ]
+          },
+          {
+            "mode": "BUS",
+            "from": {
+              "name": "NIZZA MONFERRATO - STAZIONE FERROVIARIA",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050800002",
+              "importance": 1.805519104891573e-6,
+              "lat": 44.77255600000001,
+              "lon": 8.360265,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "departure": "2026-08-24T05:28:00Z",
+              "scheduledDeparture": "2026-08-24T05:28:00Z",
+              "stopCode": "0050800002",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "to": {
+              "name": "NIZZA MONFERRATO - PIAZZA DAL POZZO - ISTITUTI SCOLASTICI",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050800020",
+              "importance": 0.00013919630146119744,
+              "lat": 44.771595000000005,
+              "lon": 8.355868000000001,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T05:35:00Z",
+              "scheduledArrival": "2026-08-24T05:35:00Z",
+              "stopCode": "0050800020",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "duration": 420,
+            "startTime": "2026-08-24T05:28:00Z",
+            "endTime": "2026-08-24T05:35:00Z",
+            "scheduledStartTime": "2026-08-24T05:28:00Z",
+            "scheduledEndTime": "2026-08-24T05:35:00Z",
+            "realTime": false,
+            "scheduled": true,
+            "interlineWithPreviousLeg": false,
+            "headsign": "NIZZA MONFERRATO - PIAZZA DAL POZZO - ISTITUTI SCOLASTICI",
+            "tripFrom": {
+              "name": "MOMBERCELLI - PAESE",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050660001",
+              "importance": 0.00005815879922010936,
+              "lat": 44.81746999999999,
+              "lon": 8.294315999999998,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "departure": "2026-08-24T05:00:00Z",
+              "scheduledDeparture": "2026-08-24T05:00:00Z",
+              "stopCode": "0050660001",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "tripTo": {
+              "name": "NIZZA MONFERRATO - PIAZZA DAL POZZO - ISTITUTI SCOLASTICI",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050800020",
+              "importance": 0.00013919630146119744,
+              "lat": 44.771595000000005,
+              "lon": 8.355868000000001,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T05:35:00Z",
+              "scheduledArrival": "2026-08-24T05:35:00Z",
+              "stopCode": "0050800020",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "routeId": "it-Piemonte-Bus_ITRP-RO21_COAS_Asti",
+            "routeUrl": "",
+            "directionId": "0",
+            "routeType": 3,
+            "agencyName": "Coas Consorzio Astigiano",
+            "agencyUrl": "http://www.consorziocoas.it",
+            "agencyFareUrl": "",
+            "agencyId": "SGA0194",
+            "tripId": "20260824_07:00_it-Piemonte-Bus_ITRP-TR21_1_1_1_000001_1_COAS_Asti",
+            "routeShortName": "21",
+            "routeLongName": "MOMBERCELLI-VINCHIO-NIZZA M.TO",
+            "tripShortName": "L21002",
+            "displayName": "21",
+            "cancelled": false,
+            "source": "it_Piemonte-Bus.gtfs.zip/stop_times.txt:91493:91497",
+            "intermediateStops": [],
+            "legGeometry": {
+              "points": "o~~}tYslum~CjMgJo}@njB{vHzwOobA~vBgwEzrJkiAn~BjhDbxCj{BzhErg@rv@neBbiCbrAvpBjzEnpIvV~a@vy@r|B~p@jjCf^vcAfbCrbJj`HgrE_DoP",
+              "precision": 7,
+              "length": 20
+            },
+            "bikesAllowed": false,
+            "wheelchairAccessible": "NOT_ACCESSIBLE",
+            "reservation": "NONE",
+            "alternatives": []
+          },
+          {
+            "mode": "WALK",
+            "from": {
+              "name": "NIZZA MONFERRATO - PIAZZA DAL POZZO - ISTITUTI SCOLASTICI",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050800020",
+              "importance": 0.00013919630146119744,
+              "lat": 44.771595000000005,
+              "lon": 8.355868000000001,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T05:35:00Z",
+              "departure": "2026-08-24T05:35:00Z",
+              "scheduledArrival": "2026-08-24T05:35:00Z",
+              "scheduledDeparture": "2026-08-24T05:35:00Z",
+              "stopCode": "0050800020",
+              "vertexType": "TRANSIT",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "to": {
+              "name": "NIZZA MONFERRATO - PIAZZA DAL POZZO - ISTITUTI SCOLASTICI",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050800020",
+              "importance": 0.00013919630146119744,
+              "lat": 44.771595000000005,
+              "lon": 8.355868000000001,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T05:37:00Z",
+              "scheduledArrival": "2026-08-24T05:37:00Z",
+              "stopCode": "0050800020",
+              "vertexType": "TRANSIT",
+              "modes": [
+                "BUS"
+              ]
+            },
+            "duration": 120,
+            "startTime": "2026-08-24T05:35:00Z",
+            "endTime": "2026-08-24T05:37:00Z",
+            "scheduledStartTime": "2026-08-24T05:35:00Z",
+            "scheduledEndTime": "2026-08-24T05:37:00Z",
+            "realTime": false,
+            "scheduled": false,
+            "distance": 0.0,
+            "legGeometry": {
+              "points": "{el}tYop_k~C??",
+              "precision": 7,
+              "length": 2
+            },
+            "steps": [
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 0.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "polyline": {
+                  "points": "{el}tYop_k~C??",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              }
+            ]
+          },
+          {
+            "mode": "BUS",
+            "from": {
+              "name": "NIZZA MONFERRATO - PIAZZA DAL POZZO - ISTITUTI SCOLASTICI",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050800020",
+              "importance": 0.00013919630146119744,
+              "lat": 44.771595000000005,
+              "lon": 8.355868000000001,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "departure": "2026-08-24T05:40:00Z",
+              "scheduledDeparture": "2026-08-24T05:40:00Z",
+              "stopCode": "0050800020",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "to": {
+              "name": "CANELLI - PAESE",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050170001",
+              "importance": 0.00011362908844603226,
+              "lat": 44.718586,
+              "lon": 8.287021999999999,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T05:56:00Z",
+              "scheduledArrival": "2026-08-24T05:56:00Z",
+              "stopCode": "0050170001",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "duration": 960,
+            "startTime": "2026-08-24T05:40:00Z",
+            "endTime": "2026-08-24T05:56:00Z",
+            "scheduledStartTime": "2026-08-24T05:40:00Z",
+            "scheduledEndTime": "2026-08-24T05:56:00Z",
+            "realTime": false,
+            "scheduled": true,
+            "interlineWithPreviousLeg": false,
+            "headsign": "CASTAGNOLE DELLE LANZE - STAZIONE FERROVIARIA",
+            "tripFrom": {
+              "name": "NIZZA MONFERRATO - PIAZZA DAL POZZO - ISTITUTI SCOLASTICI",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050800020",
+              "importance": 0.00013919630146119744,
+              "lat": 44.771595000000005,
+              "lon": 8.355868000000001,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "departure": "2026-08-24T05:40:00Z",
+              "scheduledDeparture": "2026-08-24T05:40:00Z",
+              "stopCode": "0050800020",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "tripTo": {
+              "name": "CASTAGNOLE DELLE LANZE - STAZIONE FERROVIARIA",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050220002",
+              "importance": 0.000024341559765161946,
+              "lat": 44.74922,
+              "lon": 8.151485000000001,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T06:21:00Z",
+              "scheduledArrival": "2026-08-24T06:21:00Z",
+              "stopCode": "0050220002",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "routeId": "it-Piemonte-Bus_ITRP-RO43_COAS_Asti",
+            "routeUrl": "",
+            "directionId": "1",
+            "routeType": 3,
+            "agencyName": "Coas Consorzio Astigiano",
+            "agencyUrl": "http://www.consorziocoas.it",
+            "agencyFareUrl": "",
+            "agencyId": "SGA0194",
+            "tripId": "20260824_07:40_it-Piemonte-Bus_ITRP-TR0a06be62-380b-4e27-8284-01025d23c78b_COAS_Asti",
+            "routeShortName": "43",
+            "routeLongName": "NIZZA MONFERRATO - CASTAGNOLE LANZE",
+            "tripShortName": "L43010",
+            "displayName": "43",
+            "cancelled": false,
+            "source": "it_Piemonte-Bus.gtfs.zip/stop_times.txt:103705:103710",
+            "intermediateStops": [
+              {
+                "name": "CALAMANDRANA - PIAZZA MUNICIPIO",
+                "stopId": "it-Piemonte-Bus_ITRP-ST0050130001",
+                "importance": 0.000051556136895669624,
+                "lat": 44.736668,
+                "lon": 8.335451,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T05:48:00Z",
+                "departure": "2026-08-24T05:48:00Z",
+                "scheduledArrival": "2026-08-24T05:48:00Z",
+                "scheduledDeparture": "2026-08-24T05:48:00Z",
+                "stopCode": "0050130001",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "BUS"
+                ]
+              }
+            ],
+            "legGeometry": {
+              "points": "{el}tYop_k~CcBg@_rGftD_dIoyVwtT_u\\fcJgvRvvb@fjI~kOvvIf`Nf_`@ngU~~Wv`E_|BfiBfw@nhCfrOne`@vlNfzn@vyEvqX~|InhgBfvdAvnu@v`w@fud@v_Wfdj@~cIf||@gEfm{Cfps@f}QvqXvyEnqPfuKf}j@~mDnfg@?{@nvAb{yA~di@nsbC~lV~__@vbSf}Qvk`@fxGn~`@gpAfj{@fbu@ndYnzv@faUnhgB~`M~lVfgMf|c@nnTno[n|R~|b@nlF~lVvwPnbvAfvk@~ep@fcJfmpAgiB~iAnvA~dPwgDnjj@gmw@fzUnA~C",
+              "precision": 7,
+              "length": 49
+            },
+            "bikesAllowed": false,
+            "wheelchairAccessible": "NOT_ACCESSIBLE",
+            "reservation": "NONE",
+            "alternatives": []
+          },
+          {
+            "mode": "WALK",
+            "from": {
+              "name": "CANELLI - PAESE",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050170001",
+              "importance": 0.00011362908844603226,
+              "lat": 44.718586,
+              "lon": 8.287021999999999,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T05:56:00Z",
+              "departure": "2026-08-24T05:56:00Z",
+              "scheduledArrival": "2026-08-24T05:56:00Z",
+              "scheduledDeparture": "2026-08-24T05:56:00Z",
+              "stopCode": "0050170001",
+              "vertexType": "TRANSIT",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "to": {
+              "name": "END",
+              "lat": 44.7148,
+              "lon": 8.28854,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T06:04:00Z",
+              "scheduledArrival": "2026-08-24T06:04:00Z",
+              "vertexType": "NORMAL"
+            },
+            "duration": 480,
+            "startTime": "2026-08-24T05:56:00Z",
+            "endTime": "2026-08-24T06:04:00Z",
+            "scheduledStartTime": "2026-08-24T05:56:00Z",
+            "scheduledEndTime": "2026-08-24T06:04:00Z",
+            "realTime": false,
+            "scheduled": false,
+            "distance": 456.0,
+            "legGeometry": {
+              "points": "k_a}sYqq_a}C~m@uP??tqDibAptBik@??[mLVoLhAcLxBkKfDiJnE}HrFiGlGkEbHkCnHcApHB??dKlBjJ`F`IjIfGbL??paAi^??vpFcrA??bhAu[??b{Amc@??~{TaeG??|pF}~A??`wJyuC??xEyfA",
+              "precision": 7,
+              "length": 38
+            },
+            "steps": [
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 11.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "toOsmNode": 432876312,
+                "polyline": {
+                  "points": "k_a}sYqq_a}C~m@uP",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 55.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 37192355,
+                "fromOsmNode": 432876312,
+                "toOsmNode": 3802416367,
+                "polyline": {
+                  "points": "kp_}sYgc`a}CtqDibAptBik@",
+                  "precision": 7,
+                  "length": 3
+                },
+                "streetName": "Piazza Camillo Benso Conte di Cavour",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 19.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 385180147,
+                "fromOsmNode": 3802416367,
+                "toOsmNode": 3802416364,
+                "polyline": {
+                  "points": "chv|sY{rca}C[mLVoLhAcLxBkKfDiJnE}HrFiGlGkEbHkCnHcApHB",
+                  "precision": 7,
+                  "length": 12
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 9.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 385180147,
+                "fromOsmNode": 3802416364,
+                "toOsmNode": 3802416359,
+                "polyline": {
+                  "points": "cjt|sYsqfa}CdKlBjJ`F`IjIfGbL",
+                  "precision": 7,
+                  "length": 5
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 12.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 376863898,
+                "fromOsmNode": 3802416359,
+                "toOsmNode": 1599655787,
+                "polyline": {
+                  "points": "g`s|sYsoea}CpaAi^",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Corso della Libertà",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 44.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 146706456,
+                "fromOsmNode": 1599655787,
+                "toOsmNode": 1599655781,
+                "polyline": {
+                  "points": "u}p|sY}nfa}CvpFcrA",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Corso della Libertà",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 14.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 146706458,
+                "fromOsmNode": 1599655781,
+                "toOsmNode": 4408632706,
+                "polyline": {
+                  "points": "}ki|sYabia}CbhAu[",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Corso della Libertà",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 17.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 146706458,
+                "fromOsmNode": 4408632706,
+                "toOsmNode": 2253135760,
+                "polyline": {
+                  "points": "ybg|sYw~ia}Cb{Amc@",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Corso della Libertà",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 129.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 146706458,
+                "fromOsmNode": 2253135760,
+                "toOsmNode": 536473194,
+                "polyline": {
+                  "points": "ufd|sYecka}C~{TaeG",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Corso della Libertà",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 45.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 146706458,
+                "fromOsmNode": 536473194,
+                "toOsmNode": 275974984,
+                "polyline": {
+                  "points": "uin{sYgisa}C|pF}~A",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Corso della Libertà",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 70.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 37196642,
+                "fromOsmNode": 275974984,
+                "toOsmNode": 432930723,
+                "polyline": {
+                  "points": "wwf{sYeiva}C`wJyuC",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 31.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "fromOsmNode": 432930723,
+                "polyline": {
+                  "points": "u_{zsY_`{a}CxEyfA",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "duration": 3420,
+        "startTime": "2026-08-24T05:08:00Z",
+        "endTime": "2026-08-24T06:05:00Z",
+        "transfers": 0,
+        "id": "Clsh2GSNeohyRkAp/3kaMEhqIEAyIWl0LVBpZW1vbnRlLUJ1c19JVFJQLVNUMDA1MDA1MDAwMjnJPV3dsXJGQEGIXkax3GogQEiwo6/UBlCgpa/UBloEV0FMS2ABCtcBCgI0MRJUMjAyNjA4MjRfMDc6MTJfaXQtUGllbW9udGUtQnVzX0lUUlAtVFJiNmRjOGRjNS00MzM5LTRhYzQtYTA5NS0zY2JlZmI0MzdmMjJfQ09BU19Bc3RpGiFpdC1QaWVtb250ZS1CdXNfSVRSUC1TVDAwNTAwNTAwMDIhyT1d3bFyRkApiF5GsdxqIEAyIWl0LVBpZW1vbnRlLUJ1c19JVFJQLVNUMDA1MDE3MDAwMTmGrkSg+ltGQEELdy6M9JIgQEigpa/UBlCsuq/UBloDQlVTYAEKWxohaXQtUGllbW9udGUtQnVzX0lUUlAtU1QwMDUwMTcwMDAxIYauRKD6W0ZAKQt3Loz0kiBAOSSX/5B+W0ZAQfksz4O7kyBASKy6r9QGUIy+r9QGWgRXQUxLYAE=",
+        "legs": [
+          {
+            "mode": "WALK",
+            "from": {
+              "name": "START",
+              "lat": 44.89479,
+              "lon": 8.207582,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "departure": "2026-08-24T05:08:00Z",
+              "scheduledDeparture": "2026-08-24T05:08:00Z",
+              "vertexType": "NORMAL"
+            },
+            "to": {
+              "name": "ASTI - AUTOSTAZIONE - MOVICENTRO - PIAZZALE MEDAGLIE D'ORO",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050050002",
+              "importance": 0.00047475926112383604,
+              "lat": 44.896053,
+              "lon": 8.208714999999998,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T05:12:00Z",
+              "scheduledArrival": "2026-08-24T05:12:00Z",
+              "stopCode": "0050050002",
+              "vertexType": "TRANSIT",
+              "modes": [
+                "BUS"
+              ]
+            },
+            "duration": 240,
+            "startTime": "2026-08-24T05:08:00Z",
+            "endTime": "2026-08-24T05:12:00Z",
+            "scheduledStartTime": "2026-08-24T05:08:00Z",
+            "scheduledEndTime": "2026-08-24T05:12:00Z",
+            "realTime": false,
+            "scheduled": false,
+            "distance": 256.0,
+            "legGeometry": {
+              "points": "y{xhwY_gkp{C??kFsPuJqP}QkG}NvBisAjf@??_RypA??eMiv@??{VyrB??cRk|A??ukDfhA??_s@fTeb@vNaMhE??gk@pR??jB}rCHwJ??qQsc@a@{}@??k@uqA??[kp@??w@{eB??qCufC",
+              "precision": 7,
+              "length": 37
+            },
+            "steps": [
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 68.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "toOsmNode": 3178732737,
+                "polyline": {
+                  "points": "y{xhwY_gkp{C??kFsPuJqP}QkG}NvBisAjf@",
+                  "precision": 7,
+                  "length": 7
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 11.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 133611877,
+                "fromOsmNode": 3178732737,
+                "toOsmNode": 1404063996,
+                "polyline": {
+                  "points": "af}hwYmgkp{C_RypA",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Piazza Guglielmo Marconi",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 7.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 133611877,
+                "fromOsmNode": 1404063996,
+                "toOsmNode": 1404063998,
+                "polyline": {
+                  "points": "ay}hwYgymp{CeMiv@",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Piazza Guglielmo Marconi",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 15.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 189698974,
+                "fromOsmNode": 1404063998,
+                "toOsmNode": 8983390866,
+                "polyline": {
+                  "points": "gg~hwYqpop{C{VyrB",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Piazza Guglielmo Marconi",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 12.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 970652375,
+                "fromOsmNode": 8983390866,
+                "toOsmNode": 1404064001,
+                "polyline": {
+                  "points": "c__iwYkdsp{CcRk|A",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Piazza Guglielmo Marconi",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 32.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 970652377,
+                "fromOsmNode": 1404064001,
+                "toOsmNode": 8983390865,
+                "polyline": {
+                  "points": "gr_iwYwavp{CukDfhA",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Piazza Guglielmo Marconi",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 19.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 751284430,
+                "fromOsmNode": 8983390865,
+                "toOsmNode": 8298166608,
+                "polyline": {
+                  "points": "}~diwYoxsp{C_s@fTeb@vNaMhE",
+                  "precision": 7,
+                  "length": 4
+                },
+                "streetName": "Piazza Guglielmo Marconi",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 8.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 970652376,
+                "fromOsmNode": 8298166608,
+                "toOsmNode": 925337723,
+                "polyline": {
+                  "points": "edhiwYemrp{Cgk@pR",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Piazza Guglielmo Marconi",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 20.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 678906990,
+                "fromOsmNode": 925337723,
+                "toOsmNode": 925337783,
+                "polyline": {
+                  "points": "mpiiwYsyqp{CjB}rCHwJ",
+                  "precision": 7,
+                  "length": 3
+                },
+                "streetName": "Via Alessandro Artom",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 14.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 762526130,
+                "fromOsmNode": 925337783,
+                "toOsmNode": 7124807861,
+                "polyline": {
+                  "points": "wliiwYiyvp{CqQsc@a@{}@",
+                  "precision": 7,
+                  "length": 3
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 10.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 762526130,
+                "fromOsmNode": 7124807861,
+                "toOsmNode": 7124807860,
+                "polyline": {
+                  "points": "k`jiwYy|yp{Ck@uqA",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 6.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 762526130,
+                "fromOsmNode": 7124807860,
+                "toOsmNode": 7124807859,
+                "polyline": {
+                  "points": "wajiwYoo|p{C[kp@",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 13.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 762526130,
+                "fromOsmNode": 7124807859,
+                "toOsmNode": 7124807854,
+                "polyline": {
+                  "points": "sbjiwY{`~p{Cw@{eB",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 21.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "fromOsmNode": 7124807854,
+                "polyline": {
+                  "points": "kdjiwYwgaq{CqCufC",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              }
+            ]
+          },
+          {
+            "mode": "BUS",
+            "from": {
+              "name": "ASTI - AUTOSTAZIONE - MOVICENTRO - PIAZZALE MEDAGLIE D'ORO",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050050002",
+              "importance": 0.00047475926112383604,
+              "lat": 44.896053,
+              "lon": 8.208714999999998,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "departure": "2026-08-24T05:12:00Z",
+              "scheduledDeparture": "2026-08-24T05:12:00Z",
+              "stopCode": "0050050002",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "to": {
+              "name": "CANELLI - PAESE",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050170001",
+              "importance": 0.00011362908844603226,
+              "lat": 44.718586,
+              "lon": 8.287021999999999,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T05:57:00Z",
+              "scheduledArrival": "2026-08-24T05:57:00Z",
+              "stopCode": "0050170001",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "duration": 2700,
+            "startTime": "2026-08-24T05:12:00Z",
+            "endTime": "2026-08-24T05:57:00Z",
+            "scheduledStartTime": "2026-08-24T05:12:00Z",
+            "scheduledEndTime": "2026-08-24T05:57:00Z",
+            "realTime": false,
+            "scheduled": true,
+            "interlineWithPreviousLeg": false,
+            "headsign": "CANELLI - PAESE",
+            "tripFrom": {
+              "name": "ASTI - AUTOSTAZIONE - MOVICENTRO - PIAZZALE MEDAGLIE D'ORO",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050050002",
+              "importance": 0.00047475926112383604,
+              "lat": 44.896053,
+              "lon": 8.208714999999998,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "departure": "2026-08-24T05:12:00Z",
+              "scheduledDeparture": "2026-08-24T05:12:00Z",
+              "stopCode": "0050050002",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "tripTo": {
+              "name": "CANELLI - PAESE",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050170001",
+              "importance": 0.00011362908844603226,
+              "lat": 44.718586,
+              "lon": 8.287021999999999,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T05:57:00Z",
+              "scheduledArrival": "2026-08-24T05:57:00Z",
+              "stopCode": "0050170001",
+              "vertexType": "TRANSIT",
+              "pickupType": "NORMAL",
+              "dropoffType": "NORMAL",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "routeId": "it-Piemonte-Bus_ITRP-RO41_COAS_Asti",
+            "routeUrl": "",
+            "directionId": "1",
+            "routeType": 3,
+            "agencyName": "Coas Consorzio Astigiano",
+            "agencyUrl": "http://www.consorziocoas.it",
+            "agencyFareUrl": "",
+            "agencyId": "SGA0194",
+            "tripId": "20260824_07:12_it-Piemonte-Bus_ITRP-TRb6dc8dc5-4339-4ac4-a095-3cbefb437f22_COAS_Asti",
+            "routeShortName": "41",
+            "routeLongName": "CANELLI-ASTI",
+            "tripShortName": "L41102",
+            "displayName": "41",
+            "cancelled": false,
+            "source": "it_Piemonte-Bus.gtfs.zip/stop_times.txt:45869:45881",
+            "intermediateStops": [
+              {
+                "name": "SAN MARZANOTTO - STAZIONE FERROVIARIA",
+                "stopId": "it-Piemonte-Bus_ITRP-ST0050050035",
+                "importance": 0.00009608788241166621,
+                "lat": 44.86508,
+                "lon": 8.208152999999998,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T05:18:00Z",
+                "departure": "2026-08-24T05:18:00Z",
+                "scheduledArrival": "2026-08-24T05:18:00Z",
+                "scheduledDeparture": "2026-08-24T05:18:00Z",
+                "stopCode": "0050050035",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "BUS"
+                ]
+              },
+              {
+                "name": "BIVIO MONGARDINO - STABILIMENTO M.C.M.",
+                "stopId": "it-Piemonte-Bus_ITRP-ST0050050076",
+                "importance": 0.000058778212405741215,
+                "lat": 44.84936,
+                "lon": 8.1946125,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T05:21:00Z",
+                "departure": "2026-08-24T05:21:00Z",
+                "scheduledArrival": "2026-08-24T05:21:00Z",
+                "scheduledDeparture": "2026-08-24T05:21:00Z",
+                "stopCode": "0050050076",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "BUS"
+                ]
+              },
+              {
+                "name": "MOLINI D'ISOLA",
+                "stopId": "it-Piemonte-Bus_ITRP-ST0050590004",
+                "importance": 0.000058778212405741215,
+                "lat": 44.84039,
+                "lon": 8.186912999999999,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T05:23:00Z",
+                "departure": "2026-08-24T05:23:00Z",
+                "scheduledArrival": "2026-08-24T05:23:00Z",
+                "scheduledDeparture": "2026-08-24T05:23:00Z",
+                "stopCode": "0050590004",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "BUS"
+                ]
+              },
+              {
+                "name": "ISOLA D'ASTI - PAESE",
+                "stopId": "it-Piemonte-Bus_ITRP-ST0050590001",
+                "importance": 0.00006383893924066797,
+                "lat": 44.83163,
+                "lon": 8.17942,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T05:25:00Z",
+                "departure": "2026-08-24T05:25:00Z",
+                "scheduledArrival": "2026-08-24T05:25:00Z",
+                "scheduledDeparture": "2026-08-24T05:25:00Z",
+                "stopCode": "0050590001",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "BUS"
+                ]
+              },
+              {
+                "name": "BIVIO REPERGO",
+                "stopId": "it-Piemonte-Bus_ITRP-ST0050590003",
+                "importance": 0.0000324466273013968,
+                "lat": 44.828120000000006,
+                "lon": 8.185282,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T05:27:00Z",
+                "departure": "2026-08-24T05:27:00Z",
+                "scheduledArrival": "2026-08-24T05:27:00Z",
+                "scheduledDeparture": "2026-08-24T05:27:00Z",
+                "stopCode": "0050590003",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "BUS"
+                ]
+              },
+              {
+                "name": "MONTEGROSSO D'ASTI - SP 03",
+                "stopId": "it-Piemonte-Bus_ITRP-ST0050760020",
+                "importance": 0.00006978265446377918,
+                "lat": 44.820393,
+                "lon": 8.235290999999998,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T05:33:00Z",
+                "departure": "2026-08-24T05:33:00Z",
+                "scheduledArrival": "2026-08-24T05:33:00Z",
+                "scheduledDeparture": "2026-08-24T05:33:00Z",
+                "stopCode": "0050760020",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "BUS"
+                ]
+              },
+              {
+                "name": "AGLIANO - PAESE",
+                "stopId": "it-Piemonte-Bus_ITRP-ST0050010001",
+                "importance": 0.000046930315875215456,
+                "lat": 44.790657,
+                "lon": 8.249814999999998,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T05:40:00Z",
+                "departure": "2026-08-24T05:40:00Z",
+                "scheduledArrival": "2026-08-24T05:40:00Z",
+                "scheduledDeparture": "2026-08-24T05:40:00Z",
+                "stopCode": "0050010001",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "BUS"
+                ]
+              },
+              {
+                "name": "SALERE",
+                "stopId": "it-Piemonte-Bus_ITRP-ST0050010002",
+                "importance": 0.00004375418575364165,
+                "lat": 44.775814000000004,
+                "lon": 8.258550999999999,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T05:44:00Z",
+                "departure": "2026-08-24T05:44:00Z",
+                "scheduledArrival": "2026-08-24T05:44:00Z",
+                "scheduledDeparture": "2026-08-24T05:44:00Z",
+                "stopCode": "0050010002",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "BUS"
+                ]
+              },
+              {
+                "name": "BIVIO MOASCA - LOCALITA' ANNUNZIATA - INCROCIO SP 6 - SP 41A",
+                "stopId": "it-Piemonte-Bus_ITRP-ST0050630002",
+                "importance": 0.00004375418575364165,
+                "lat": 44.760380000000005,
+                "lon": 8.274920999999997,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T05:47:00Z",
+                "departure": "2026-08-24T05:47:00Z",
+                "scheduledArrival": "2026-08-24T05:47:00Z",
+                "scheduledDeparture": "2026-08-24T05:47:00Z",
+                "stopCode": "0050630002",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "BUS"
+                ]
+              },
+              {
+                "name": "MAGAZZINO - INCROCIO SP 50 - SP 6",
+                "stopId": "it-Piemonte-Bus_ITRP-ST0051000005",
+                "importance": 0.00004375418575364165,
+                "lat": 44.756252,
+                "lon": 8.282528,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T05:48:00Z",
+                "departure": "2026-08-24T05:48:00Z",
+                "scheduledArrival": "2026-08-24T05:48:00Z",
+                "scheduledDeparture": "2026-08-24T05:48:00Z",
+                "stopCode": "0051000005",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "BUS"
+                ]
+              },
+              {
+                "name": "CANELLI - SCUOLE SALESIANI",
+                "stopId": "it-Piemonte-Bus_ITRP-ST0050170002",
+                "importance": 0.00004375418575364165,
+                "lat": 44.74184399999999,
+                "lon": 8.285767,
+                "level": 0.0,
+                "tz": "Europe/Rome",
+                "arrival": "2026-08-24T05:51:00Z",
+                "departure": "2026-08-24T05:51:00Z",
+                "scheduledArrival": "2026-08-24T05:51:00Z",
+                "scheduledDeparture": "2026-08-24T05:51:00Z",
+                "stopCode": "0050170002",
+                "vertexType": "TRANSIT",
+                "pickupType": "NORMAL",
+                "dropoffType": "NORMAL",
+                "cancelled": false,
+                "modes": [
+                  "BUS"
+                ]
+              }
+            ],
+            "legGeometry": {
+              "points": "c`kiwY{meq{Cnn@_DjC~nAnAbbD~CzuF{ObcAgYn_@sb@jMwt@s]wj@obA{TcdCkgBsaRgJ{|@zh@{pAzkAk_A~xAsXjMwBfpAkRjjCod@~jHgkAr{Egr@r~AcV~fEku@fpAoUvzLgiB~yCc`@niOggCbzBc`@~Cb[jHrXjMfTjRfJfTz@zOoFrNkMnKkR~H_X?{YzrO_fCjlBoZr`Z{aFrgc@k{GbnMs~Aj_AbLn_@j\\fE~WfJvVvLnPzOfJjRjCfT_DjRkMvL{TjHc[bBk\\be@os@ns@{c@rfCon@raMcpBzl\\guFndJstAjnFcy@nyQwlD~}A_b@z~X{lHzeb@kqL~b`@soKvhAw[feIgxB~kJcxC~bBwe@ns@cVneGcwAngA~Czm@fEryAvVn`Bbj@ffAbo@ryA~nArkCjzEjcN~tWni@zfAv`@v~@r]rjAvkBj`H~bBvwF~\\jbB~RjdAvt@zpFf|Enz]nx@jaEn{Ab{DzkAn`BjdAzaA~lBvcAnn@nUffAz^fkAvQvhAnKnx@nAfnBrDfvk@{c@vda@_]~zEjCvdCnKfqCrg@v|A~\\z}Bvy@f}BzkAj_FvqDnvFnsEbiMreKzeDvnCvkVbbSn`GbyEvlNrhLrsIfbHboO~eMnZbVzb\\f`Xfv\\rnXzvWjkTnkDjjCnuDrzCfd`@rr[nzv@n{n@ngU~`R~_FztDfEvGbGzEjyCflCv_W~mS~jHbaGnlFbjEngUraRf|h@fcc@zuZv_WjpJz{HrfMrjKrlJfvH~yMbwKnpIf}Gv`EnfDrrBfvCbjE~rIfaAvrA~_Arq@ffAjRzw@o_@~u@gJbwAnPf}VblSfjb@vg]vnf@r|`@zdQbqNzxBjgBreKfjInoB~xAfTfTfpA~z@vhAjp@vqIj|Db}CjsAf`DrtAvpL~dFb`@~Mb[~Mj\\jMvmAn_@ju@zO~z@~H~_AzEfw@{@vcAsDzkA{Jj\\_DfOgE~MgEnKoKnKsN~H_SzEs]z@g^gEc`@oKw`@wL_b@{Tce@sb@_v@_b@ku@cy@{|@_l@sg@{|EgoDsyAwmAce@gh@g^we@w`@on@cVgh@w[c~@cV_{@oPk_AwLsv@oFw~@{EsoA?stAjCwmA~Hk}AfOooBfYspC~}AwvN~_AokInUciCnd@_lEnK_rBrIovA~CksAzEwzBnA_zCjH_uRbB_sDjCo{AjHswBfJw|AvQcuBfm@_tFjmDwi\\zeDcu[b[osEnFccAbGwmAf@cdC?ocCo_@otQwwAgrh@_dD{hkAoi@opSkRkjH{T_dDc[ofDct@_}DgaAo}Ewy@clDcoEgoS{iGc`Yw|AocHovAohHk_AgbH{|@ssIoP_aCcV_jFkH_aCoForCoAwfB?omCnFkxFbe@orMni@cnMv`@{vHvVgfFjsAoo[zdB{f_@fYcdCzJ_eAz|@swGj\\czBnKgkAfEwj@z@sg@?_g@cGwo@gE{w@g^{sBwLo}@_Dwo@oAwt@~Csl@~Hc~@rSwiCzh@wmFrN_zCfYk|Iz`Dcow@fT{}GjMgw@jRwy@vVgw@vVco@bo@gpAjxAo~B~iAkqBfeIwxMfkKwfQfoD_wGn`BssDrcBsgEzcE__N~lGgmTz`Ig`XruM{pd@~xAk_FrsNglf@juJor\\vbNgde@f}Bo|HfuA_qEn{Ac}CbwA_kCvlS_{^zwEkrIfw@k}AfiB~xAftDflCju@bj@z}Bf_BfnGbyEns@_~AftD_sI~oC_wGzoDweJb{DgpKb{D{sLzm@_jAja@_q@ja@_v@n}@k{B~p@{fAfw@ccAfaA_eAnlAkz@r`A_b@z|@s]nn@wQ~p@wVzkAgOf}BkMb|A{EfnL{YjqGkMbhKkWjyRod@vlDoKfyD_IfoDkMb_CsDnvAcGv|AwLz}B{YfbCce@njBce@~bBon@bnCoqAvlDgnBflMsfHzqCc|Aj{BcmA~}Ak_Az|@ox@fuAwmAns@gm@jbGsoFz}BwuBrrBsfCnhCo_EzdBoaDbhAs|Bj\\we@be@_g@rg@_Xbo@_Izr@rIbe@bV~sA~dAvo@nd@~k@vQrl@rDb`@_I~f@gTj\\k\\b[{h@zTwj@zJkf@zE_l@?c`@kCovA_Dc~@g@{w@f@wj@jHoi@zOwo@nUgc@bV{YzY_N~WsIv`@{@~a@jH~z@fm@viC~jCnn@~k@~a@b`@fh@zTnn@rNrg@zEf^nAbe@wGni@wQve@sXvVoZvQc[~Mkk@fEwe@nAsg@?od@kCgh@cV_tA_XstAgEsv@gEgr@fEgh@vGkp@jMon@zYsv@bVwe@b`@_b@vj@g^~f@wQ~p@kCfpAzEneBnKnqAbGvcArDvcAcBfw@gEnvA_]jxA{m@ffAkp@rwBc|Aby@_q@nx@sq@b{DopDzaAwt@fkAs{@jdAsl@roAwo@zkAka@~xA_X~cDo_@npDsXnfNgaAvyEod@rqEgc@z`Dwj@b|A{c@j{Gk{BjfJsdD~fEcwAz|EcrAj_A{Ov_HchAbmFs{@znBoZjsAsXju@we@ju@g|@fYcj@~MkW~f@knAf^_{@nn@s`Aj_A_q@bxMchKvj@cQf^gEnd@~Cj\\nPz@bBfw@j_AzzArcBbkBzdBfw@bo@fw@jp@fr@nd@fc@jMfw@nPfh@bGbj@jCrrB_DzjN{|@zkZ_mBf~D{Y~f@kHvQoF~iAc[jz@{YfpAoi@fkAsv@ryAwaBjz@caB~p@soAbj@ovArb@c|AjMchAnF_cBjHsyAzOwL{aAw~EsSojBnvAce@vuBwj@fkAkRnx@kH~k@cG~yHsg@~u@z@nn@fE~a@vGnbKbuBnn@bV~f@rX~Wrb@rNzh@zJzm@zJfr@nAraCoA~_A{@ja@fO~MvVj\\nnEbyJfc@vt@v[jf@~WbQnUvGr]gEjz@od@fw@_]~\\sDr]RzYrIb`@zc@bVrl@by@fgCzOjp@nn@jeC~Mjk@vGni@vB~p@wB~k@wGju@sIn_@kMvt@c[zlCoFr`AnFrl@zJzh@fOr]f^rSv[nKvVSb`@kHv[_Nzh@{c@~p@{w@nU_Xbe@sl@zdBojBby@wo@zaA{m@ffAs]neBkWz`IknAz~Dco@nsEce@f_B_NfzA{TbrAs]jnA_g@f|@_l@fkAgr@~}A_tAfuAcaBffAw|Avt@wrAvo@syAvhAcsCf_B_gEfnGkiP~pEwfLjgB_qEfxGcrPbrA_iDby@_|Brb@shB~WgsBvQotBjf@wcKrl@{oNvQ{~Dv`@khDrg@ktCr`Ak~CnvAkcDjgBskC~tCkeC~pE{lCnmH{~DbsHceEnrC{dBfkAk_An{AkxAfpA_mB~bB_zCfaP_f\\~u@r~Arb@fr@be@~p@nn@vj@~p@b`@nx@rSfxGzr@ngArXbhAve@b}CbfB~{BvaB~bB~xAvdCrpCjWwj@fYwhAz`DkfT~p@wxCnx@k{BffAs|Bn}@{pAvcA_yAjlB{gCb`c@k|l@jwDkdFja@gm@vj@wt@vcAo{An}@_~Abt@{uArl@gzAfOwo@nUgw@bVcrArS_yAnPo{AnFka@fpAk{Lf|@gcJvLgw@zTwrAbe@shBbo@olAzw@seA~p@{c@jdAce@rg@cQb`@kMvdCcy@b|Aoi@~zc@woO~dUg{HbjEksAzEwG~CsInAsIf@_NbB_S?cL?{T?{OcBkMwB{OoA_SkCoK_DsIoFcL{EcG~fE{Tn_Eg^nkDwe@nwH_oAnxJ_tAbtJ_tAryFcy@zwEct@r~Aw[nqAoZnyBgr@vkBgr@noBg|@ryAsv@jiAgr@vcF{{Cn{F{yDnjBgzA~jCgbCv|AklBrtAwkBjdA{_Bz|@{uAvmAo~BffAk`Cz}BwaGjz@orCj_A_}DvLwt@vj@{{Cni@c`Ebj@ksFvV_pCzTsmBvQwrA~WgiBvo@_xDnn@khDnx@gwEvhAsjFfaAkrDvj@gnBfw@c_Cv|AssDv|Aw}CnoBkwDnaD_~F~hDscGveEcsHn{K_dSfmEsdI~qBwqDflCg|EzvCoqFneBorCb|AoyBvrAojB~iA_tAcVk\\bVj\\nd@sb@nlA{pAf}B_rBfuAolA~eCkbBjrD_rBjvBgaA~vBwy@vgDgkAzmJ{`DvbX{hJffFcfBf}B_v@jqBon@rkC_l@bsCw`@faA_NnlA_IzlCcL~Hg@bvDz@v}CzJfvC~WffKvwAzhObzBvhKr~Ab{Djk@jqBrX~gBrSrfCfOz}BvG~}AbB~gBsDr~A{ErtAsI~}AwLfuA{ObfB{^rwBkf@ruHoeBjpE{fArxSk_FblS_{EfdQkfEzJwBj{Bwj@ffAoZz|@k\\fuA{c@~}Agr@rcBs{@jlBgkAbrA{|@zkAcy@~}A_tAr~AkxArxIgvHjqGkxFbuVwtTnzN_kMvgSgnQ~eMo`Lbj@_g@~kE{cErpCspCfm@co@vt@ku@jdA_oAbvDghE~mDghEzqC{oDzwEgxGjzEskHzlC{hE~{Bc{DrbEo|HbjEwvIvqDorHvcF_oKb`@wy@v{DcbI~bBs_Dj_A_~AfdBwdCvkBggCn`BsmBnoB{nBfsB{dBjiAw~@roAwcAb`EszCns@_b@~p@gc@by@{h@~p@gc@~p@ce@ju@_b@zr@o_@bt@_]rg@_S~f@_NnUgErSSfTvBzJrDvGf@nK?zOjCjRrNve@ni@~f@~u@r]zw@j\\rq@vcAfyDj_AfhEzOju@vvIvp`@n{AbdHzJjf@zYjsAvQns@nn@vdCzEzO~CrIja@~iAngA~jCnlAv_CfiBbvD~kEf`Iv[vj@v_CrgEfiBjjCf_BrcBfpAvhAfzAju@~{BzaA~mDbrAnwHvsCnoBf|@n~BroAjvBryArNnK~p@fm@vt@bt@z`DrzCbfBfuAb_CbwAbj@~RbrAbe@jWnF~_A~RnKrD~dAfTzjDfYz}BrDbdCcQjlBwQrb@oFbmAkC~iAoAfaAz@jRz@fOnAnKrDvQ~HnAbBjHzEjHrDzJz@nK{@zJRvLRjMvBjMjHjRnKfYzOnZbVvo@jf@rb@ve@vVni@zJj\\fc@rtArb@zzAvlDr|Lf^~nAvcA~mDjwD~tMjgBbpGrSzw@~Mn_@~Hv`@jCbe@?ve@?j\\kCrv@oAzm@?~k@zJvkBbBfYnZblDbe@rdDfYzzAf^jqBjHbo@nAnn@wBfr@sIzc@~p@jHb~E_tAnkDk_A~CrS",
+              "precision": 7,
+              "length": 949
+            },
+            "bikesAllowed": false,
+            "wheelchairAccessible": "NOT_ACCESSIBLE",
+            "reservation": "NONE",
+            "alternatives": []
+          },
+          {
+            "mode": "WALK",
+            "from": {
+              "name": "CANELLI - PAESE",
+              "stopId": "it-Piemonte-Bus_ITRP-ST0050170001",
+              "importance": 0.00011362908844603226,
+              "lat": 44.718586,
+              "lon": 8.287021999999999,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T05:57:00Z",
+              "departure": "2026-08-24T05:57:00Z",
+              "scheduledArrival": "2026-08-24T05:57:00Z",
+              "scheduledDeparture": "2026-08-24T05:57:00Z",
+              "stopCode": "0050170001",
+              "vertexType": "TRANSIT",
+              "cancelled": false,
+              "modes": [
+                "BUS"
+              ]
+            },
+            "to": {
+              "name": "END",
+              "lat": 44.7148,
+              "lon": 8.28854,
+              "level": 0.0,
+              "tz": "Europe/Rome",
+              "arrival": "2026-08-24T06:05:00Z",
+              "scheduledArrival": "2026-08-24T06:05:00Z",
+              "vertexType": "NORMAL"
+            },
+            "duration": 480,
+            "startTime": "2026-08-24T05:57:00Z",
+            "endTime": "2026-08-24T06:05:00Z",
+            "scheduledStartTime": "2026-08-24T05:57:00Z",
+            "scheduledEndTime": "2026-08-24T06:05:00Z",
+            "realTime": false,
+            "scheduled": false,
+            "distance": 456.0,
+            "legGeometry": {
+              "points": "k_a}sYqq_a}C~m@uP??tqDibAptBik@??[mLVoLhAcLxBkKfDiJnE}HrFiGlGkEbHkCnHcApHB??dKlBjJ`F`IjIfGbL??paAi^??vpFcrA??bhAu[??b{Amc@??~{TaeG??|pF}~A??`wJyuC??xEyfA",
+              "precision": 7,
+              "length": 38
+            },
+            "steps": [
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 11.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "toOsmNode": 432876312,
+                "polyline": {
+                  "points": "k_a}sYqq_a}C~m@uP",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 55.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 37192355,
+                "fromOsmNode": 432876312,
+                "toOsmNode": 3802416367,
+                "polyline": {
+                  "points": "kp_}sYgc`a}CtqDibAptBik@",
+                  "precision": 7,
+                  "length": 3
+                },
+                "streetName": "Piazza Camillo Benso Conte di Cavour",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 19.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 385180147,
+                "fromOsmNode": 3802416367,
+                "toOsmNode": 3802416364,
+                "polyline": {
+                  "points": "chv|sY{rca}C[mLVoLhAcLxBkKfDiJnE}HrFiGlGkEbHkCnHcApHB",
+                  "precision": 7,
+                  "length": 12
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 9.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 385180147,
+                "fromOsmNode": 3802416364,
+                "toOsmNode": 3802416359,
+                "polyline": {
+                  "points": "cjt|sYsqfa}CdKlBjJ`F`IjIfGbL",
+                  "precision": 7,
+                  "length": 5
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 12.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 376863898,
+                "fromOsmNode": 3802416359,
+                "toOsmNode": 1599655787,
+                "polyline": {
+                  "points": "g`s|sYsoea}CpaAi^",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Corso della Libertà",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 44.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 146706456,
+                "fromOsmNode": 1599655787,
+                "toOsmNode": 1599655781,
+                "polyline": {
+                  "points": "u}p|sY}nfa}CvpFcrA",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Corso della Libertà",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 14.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 146706458,
+                "fromOsmNode": 1599655781,
+                "toOsmNode": 4408632706,
+                "polyline": {
+                  "points": "}ki|sYabia}CbhAu[",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Corso della Libertà",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 17.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 146706458,
+                "fromOsmNode": 4408632706,
+                "toOsmNode": 2253135760,
+                "polyline": {
+                  "points": "ybg|sYw~ia}Cb{Amc@",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Corso della Libertà",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 129.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 146706458,
+                "fromOsmNode": 2253135760,
+                "toOsmNode": 536473194,
+                "polyline": {
+                  "points": "ufd|sYecka}C~{TaeG",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Corso della Libertà",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 45.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 146706458,
+                "fromOsmNode": 536473194,
+                "toOsmNode": 275974984,
+                "polyline": {
+                  "points": "uin{sYgisa}C|pF}~A",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "Corso della Libertà",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 70.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "osmWay": 37196642,
+                "fromOsmNode": 275974984,
+                "toOsmNode": 432930723,
+                "polyline": {
+                  "points": "wwf{sYeiva}C`wJyuC",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              },
+              {
+                "relativeDirection": "CONTINUE",
+                "distance": 31.0,
+                "fromLevel": 0.0,
+                "toLevel": 0.0,
+                "fromOsmNode": 432930723,
+                "polyline": {
+                  "points": "u_{zsY_`{a}CxEyfA",
+                  "precision": 7,
+                  "length": 2
+                },
+                "streetName": "",
+                "exit": "",
+                "stayOn": false,
+                "area": false,
+                "toll": false,
+                "elevationUp": 0,
+                "elevationDown": 0
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "previousPageCursor": "EARLIER|1787522460",
+    "nextPageCursor": "LATER|1787548140"
+  }
+}

@@ -84,6 +84,14 @@ MAX_CONCURRENT_PER_HOST = 4
 HOST_RATE_OVERRIDES: dict[str, float] = {
     "services-api.ryanair.com": 6.0,
     "www.ryanair.com": 6.0,
+    # Questo va nella direzione opposta a tutti gli altri, ed e' voluto.
+    # Ryanair e Lefrecce sono endpoint commerciali dimensionati per il
+    # traffico; api.transitous.org e' un servizio di volontari che dichiara il
+    # routing "resource-intensive" e chiede di essere avvisato prima che
+    # qualcuno cominci a fare molte richieste. Una ogni due secondi non e' una
+    # limitazione tecnica: e' l'unica cosa corretta da fare con un servizio
+    # gratuito che si sta scegliendo di usare.
+    "api.transitous.org": 0.5,
 }
 
 #: Richieste contemporanee concesse a un host specifico, quando il limite
@@ -108,6 +116,8 @@ HOST_RATE_OVERRIDES: dict[str, float] = {
 #: una raffica, e' la coda che scorre.
 HOST_CONCURRENCY_OVERRIDES: dict[str, int] = {
     "www.lefrecce.it": 8,
+    # Mai due in volo insieme, per la stessa ragione della riga qui sopra.
+    "api.transitous.org": 1,
 }
 
 
