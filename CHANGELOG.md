@@ -4,6 +4,20 @@ Le versioni seguono [semver](https://semver.org/lang/it/). Il testo di ogni
 sezione finisce nelle note della release: si scrive per chi usa il programma,
 non per chi lo scrive.
 
+## [7.0.1]
+
+**«Interpreta» chiede invece di indovinare.** Scrivendo «da Torino a Matera»
+senza dire quando, il modello riempiva il buco da solo — quasi sempre con la
+data di oggi — e la ricerca partiva su un giorno che nessuno aveva chiesto. Una
+supposizione sbagliata non si vede da nessuna parte: sembra una risposta.
+
+Adesso, se manca uno dei tre dati senza cui non si puo' cercare — da dove, dove,
+quando — te lo chiede, una domanda per volta, e la risposta la scrivi nello
+stesso campo: «Per quando?» → «venerdi 28». Quello che avevi gia' detto resta
+valido, quindi non devi riscrivere la frase intera. Sui dati facoltativi non
+chiede niente: budget, cambi e valigia hanno un default, e domandarli
+rallenterebbe chi aveva gia' scritto tutto.
+
 ## [7.0.0]
 
 **Una ricerca poteva rispondere con il viaggio sbagliato, e sembrava giusto.**

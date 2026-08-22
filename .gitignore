@@ -39,3 +39,4 @@ docs/PRODUCT.md
 # ...tranne le immagini del README, che servono a chi guarda il repo.
 !docs/img/*.png
 APPUNTI.md
+VINCOLI.md
