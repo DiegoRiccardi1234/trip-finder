@@ -51,7 +51,8 @@ Rispondi SOLO con JSON, senza commenti, con queste chiavi:
   "with_checked_bag": false,
   "max_budget": null,
   "max_changes": null,
-  "allow_night": true
+  "allow_night": true,
+  "data_detta": true
 }
 Regole:
 - "stages" ha almeno una tappa. La partenza di una tappa e' l'arrivo della
@@ -68,24 +69,67 @@ Regole:
 - "max_budget" e' un numero in euro per persona, oppure null.
 - "max_changes" e' quanti cambi si accettano al massimo ("massimo due cambi" = 2,
   "diretto" o "senza cambi" = 0), oppure null se non lo dice.
-- Se un dato non c'e', usa il valore di default: non inventare."""
+- Se un dato non c'e', usa il valore di default: non inventare.
+- La richiesta puo' contenere piu' frasi in fila, aggiunte una dopo l'altra: e'
+  una conversazione cucita insieme. Se due si contraddicono vale l'ULTIMA.
+- "data_detta" dice se nella richiesta c'e' davvero un riferimento al tempo: una
+  data, un giorno della settimana, "domani", "fra tre giorni", "il 28". Mettilo
+  a false quando il quando non c'e', e in "date" lascia comunque la data di
+  oggi: cosa farne lo decide chi ti legge. Guarda solo quello che c'e' scritto,
+  non quello che sembra ragionevole. Tutto il resto della risposta non cambia:
+  le tappe si compilano sempre."""
 
 
 class ParseFailed(ValueError):
-    """La frase non contiene abbastanza informazioni per una ricerca."""
+    """L'interpretazione non e' riuscita: un guasto, non un buco nella frase.
+
+    Il confine con `ServeAltro` e' quello che tiene in piedi la conversazione,
+    e va guardato prima di spostare qualunque `raise`: qui stanno le cose su
+    cui l'utente non puo' fare niente rispondendo — l'IA non configurata, il
+    modello che non risponde. Una frase incompleta non e' un guasto: e' un
+    turno, e un guasto travestito da domanda manderebbe la pagina a chiedere
+    all'infinito una cosa che non arrivera' mai."""
 
 
-async def parse(text: str, today: date | None = None) -> TripPlan:
+class ServeAltro(ValueError):
+    """Manca un dato indispensabile, e il codice sa quale chiedere.
+
+    Non e' un errore, e' un turno di conversazione. Prima "da Torino a Matera"
+    senza data veniva completato con una data **inventata** dal modello, di
+    solito oggi, e la ricerca partiva su un giorno che nessuno aveva chiesto.
+    Una domanda vale piu' di una supposizione, perche' la supposizione non si
+    vede.
+
+    Le domande sono due, e nessuna delle due la scrive il modello: manca il
+    quando (lo dice il booleano `data_detta`) o mancano le tappe (lo vede
+    `_stages`, senza chiedere niente a nessuno)."""
+
+    def __init__(self, domanda: str) -> None:
+        super().__init__(domanda)
+        self.domanda = domanda
+
+
+async def parse(
+    text: str,
+    today: date | None = None,
+    history: list[dict[str, str]] | None = None,
+) -> TripPlan:
     """Da una frase al viaggio, di una tappa o di quattro.
 
     Il caso a una tappa non e' un caso speciale: e' un viaggio con una tappa
     sola, e tenerlo sulla stessa strada evita il ramo che si aggiorna solo
-    per meta'."""
+    per meta'.
+
+    Con `history` la stessa interpretazione diventa una conversazione: se manca
+    un dato indispensabile lo si **chiede** invece di inventarlo (`ServeAltro`),
+    e la risposta arriva qui come turno successivo, cucita alla frase di prima.
+    Chi non passa la storia vede esattamente il comportamento di prima."""
     if not client.is_configured():
         raise ParseFailed("interpretazione del linguaggio naturale non configurata")
 
     today = today or date.today()
-    prompt = f"Oggi e' {today.isoformat()} ({today.strftime('%A')}).\nRichiesta: {text}"
+    richiesta = _richiesta(text, history)
+    prompt = f"Oggi e' {today.isoformat()} ({today.strftime('%A')}).\nRichiesta: {richiesta}"
     answer = await client.complete_json("json", SYSTEM, prompt, max_tokens=600)
     parsed = answer.data
     if not parsed:
@@ -95,8 +139,40 @@ async def parse(text: str, today: date | None = None) -> TripPlan:
 
     partenza = _date(parsed.get("date"), today)
     stages = _stages(parsed, partenza)
+
+    # La domanda si guarda **solo** se davvero non si puo' cercare. Un modello
+    # che chiedesse l'orario preferito avendo gia' partenza, meta e data farebbe
+    # perdere un giro a chi aveva scritto tutto: se il viaggio sta in piedi si
+    # cerca, e il resto si aggiusta nei campi.
+    # **La domanda si guarda per prima, e la formula il codice.** Al modello si
+    # chiede solo un si' o un no. Provato il 2026-08-22 a fargliela scrivere,
+    # chiedendogli di cambiare la forma della risposta quando manca un dato —
+    # tappe vuote piu' una domanda: obbediva a meta', svuotava le tappe e
+    # lasciava la domanda a null, cioe' buttava via anche quello che aveva
+    # capito. Un booleano accanto al dato a cui si riferisce e' la cosa piu'
+    # facile che si possa chiedere a un modello piccolo, e la decisione resta
+    # dove si puo' verificare.
+    #
+    # Sta **prima** del controllo sulle tappe perche' i due sintomi arrivano
+    # insieme: quando il quando non c'e', il modello svuota anche le tappe. Con
+    # l'ordine inverso la ricerca moriva con "non ho capito da dove a dove",
+    # che e' un messaggio falso — da dove a dove lo aveva capito benissimo.
+    if parsed.get("data_detta") is False:
+        raise ServeAltro("Per quando?")
+
     if not stages:
-        raise ParseFailed("non ho capito da dove a dove vuoi andare")
+        # Quando non si capisce, la cosa piu' utile da avere e' **cosa ha detto
+        # il modello**: senza questa riga l'unico segnale e' il messaggio di
+        # errore, identico sia che il modello abbia risposto male sia che abbia
+        # risposto bene a una frase incompleta.
+        logger.info("interpretazione senza tappe, il modello ha detto: %s", parsed)
+        # Anche questa e' una domanda, non un guasto, e per la stessa ragione
+        # dell'altra: "voglio andare a Matera venerdi'" e' una frase a cui
+        # manca un pezzo, non una frase sbagliata. Prima moriva con un 422 e
+        # bisognava riscriverla intera, buttando via anche la meta' capita.
+        # Al modello non si chiede niente di nuovo — che le tappe manchino lo
+        # sa gia' `_stages`, e lo sa in Python, dove si verifica senza rete.
+        raise ServeAltro("Da dove parti e dove vai?")
 
     return TripPlan(
         stages=chain_dates(stages),
@@ -112,8 +188,33 @@ async def parse(text: str, today: date | None = None) -> TripPlan:
             else _int(parsed.get("max_changes"), default=3, low=0, high=5)
         ),
         allow_night=parsed.get("allow_night") is not False,
-        raw_text=text,
+        raw_text=richiesta,
     )
+
+
+def _richiesta(text: str, history: list[dict[str, str]] | None) -> str:
+    """Tutto quello che l'utente ha detto, in una frase sola.
+
+    **La conversazione e' per chi legge, non per il modello.** Provato il
+    2026-08-22 in tutti e due i modi: passando i turni come messaggi separati —
+    anche rendendoli coerenti, con la domanda riscritta in JSON e un esempio a
+    due turni dentro il prompt — il modello rispondeva all'**aggiunta** invece
+    che al totale: a «venerdi 28» dava la data giusta e `stages` vuoto,
+    perdendo Torino e Matera. Non e' come e' scritto il prompt: i modelli
+    piccoli, quelli che il piano gratuito rende disponibili, non riportano
+    avanti il contesto in modo affidabile.
+
+    Cucire le frasi invece funziona, perche' riporta il compito esattamente
+    dov'era: «da Torino a Matera. venerdi 28» e' la richiesta completa che
+    questo modulo sa interpretare da sempre. La memoria la tiene la pagina, che
+    puo' farlo con certezza, e al modello si chiede solo cio' in cui e' bravo."""
+    dette = [
+        str(turno.get("content") or "").strip()
+        for turno in history or []
+        if turno.get("role") == "user"
+    ]
+    dette.append(text.strip())
+    return ". ".join(pezzo for pezzo in dette if pezzo)
 
 
 def _stages(parsed: dict, partenza: date) -> list[TripStage]:

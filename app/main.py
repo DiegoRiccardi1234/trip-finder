@@ -30,6 +30,7 @@ from app.models import (
     BOOKABLE_MODES,
     AdviceRequest,
     ChatRequest,
+    ParseRequest,
     CompareRequest,
     Discount,
     Mode,
@@ -232,15 +233,28 @@ async def search(
 
 
 @app.post("/api/parse")
-async def parse_natural_language(text: str = Query(min_length=4)) -> dict:
+async def parse_natural_language(request: ParseRequest) -> dict:
     """Da "devo essere a Matera venerdi' sera" ai parametri della ricerca.
 
     Risponde sempre con un viaggio, che di tappe puo' averne una o quattro:
-    "da Matera a Roma per tre giorni, poi a Torino" e' una frase sola."""
-    from app.ai.nl_query import ParseFailed, parse
+    "da Matera a Roma per tre giorni, poi a Torino" e' una frase sola.
 
+    **Oppure con una domanda.** Se manca uno dei tre dati senza cui non si puo'
+    cercare — da dove, dove, quando — la risposta e' `{"domanda": "..."}` con
+    stato 200, perche' non e' un fallimento: e' un turno. Prima quel buco lo
+    riempiva il modello di sua iniziativa, quasi sempre con la data di oggi, e
+    la ricerca partiva su un giorno che nessuno aveva chiesto. Una supposizione
+    sbagliata non si vede; una domanda si'."""
+    from app.ai.nl_query import ParseFailed, ServeAltro, parse
+
+    storia = [
+        {"role": messaggio.role, "content": messaggio.content}
+        for messaggio in request.messages
+    ]
     try:
-        plan = await parse(text)
+        plan = await parse(request.text, history=storia or None)
+    except ServeAltro as exc:
+        return {"domanda": exc.domanda}
     except ParseFailed as exc:
         raise HTTPException(422, str(exc)) from exc
     return plan.model_dump(mode="json")

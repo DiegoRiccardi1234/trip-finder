@@ -644,6 +644,18 @@ class ChatMessage(BaseModel):
     content: str = Field(max_length=4000)
 
 
+class ParseRequest(BaseModel):
+    """Una frase da interpretare, con i turni che l'hanno preceduta.
+
+    I turni servono a una cosa sola, ed e' quella che mancava: quando un dato
+    indispensabile non c'e', il modello lo **chiede** invece di inventarlo, e la
+    risposta e' il turno dopo. Senza `messages` il comportamento e' identico a
+    prima, che e' il motivo per cui il campo ha un default."""
+
+    text: str = Field(min_length=1, max_length=1000)
+    messages: list[ChatMessage] = Field(default_factory=list, max_length=10)
+
+
 class ChatRequest(AdviceRequest):
     """Il consiglio, ma continuabile.
 

@@ -435,11 +435,29 @@ async def complete(
 
 
 async def complete_json(
-    task: str, system: str, user: str, *, max_tokens: int = 700
+    task: str,
+    system: str,
+    user: str,
+    *,
+    max_tokens: int = 700,
 ) -> Answer:
-    """Come `complete`, ma con l'oggetto gia' interpretato in `Answer.data`."""
+    """Come `complete`, ma con l'oggetto gia' interpretato in `Answer.data`.
+
+    **Niente `history` qui**, ed e' una scelta con due motivi. Il primo e'
+    misurato: i modelli piccoli del piano gratuito, davanti a piu' turni,
+    rispondono all'ultimo invece che al totale — chi ha bisogno del contesto
+    lo cuce nella richiesta, come fa `nl_query._richiesta`. Il secondo e' una
+    trappola: `complete` non mette la storia nella `cache_key`, quindi due
+    conversazioni diverse con la stessa chiave si servirebbero a vicenda una
+    risposta pensata per l'altra. Chi ha davvero bisogno dei turni separati usa
+    `complete`, dove la cache si passa a mano e si sa cosa si sta facendo."""
     answer = await complete(
-        task, system, user, max_tokens=max_tokens, temperature=0.0, json_mode=True
+        task,
+        system,
+        user,
+        max_tokens=max_tokens,
+        temperature=0.0,
+        json_mode=True,
     )
     if not answer.ok:
         return answer

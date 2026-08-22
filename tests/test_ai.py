@@ -1084,3 +1084,189 @@ def test_il_testo_di_anthropic_sta_nei_blocchi_di_tipo_testo() -> None:
     )
     assert anthropic_client._text(message) == "Prendi il pullman."
     assert anthropic_client._text(SimpleNamespace(content=[])) == ""
+
+
+# ------------------------------- la ricerca che chiede invece di indovinare
+
+
+def _risposta_finta(payload: dict, ricevuti: list | None = None):
+    """Un modello finto che restituisce quel JSON e registra cosa gli e' arrivato.
+
+    Il finto dichiara **solo** i parametri che `complete_json` ha davvero, e
+    raccoglie il resto in `extra`: cosi' il giorno in cui qualcuno riaprisse un
+    canale laterale verso il modello — una storia, un esempio, un pezzo di
+    stato — questi test lo vedono invece di lasciarlo passare. E' la stessa
+    tesi di `_richiesta`: al modello arriva una richiesta e basta."""
+
+    async def complete_json(task, system, user, *, max_tokens=700, **extra):
+        if ricevuti is not None:
+            ricevuti.append(extra)
+        return client.Answer(
+            completion=client.Completion(text="", model="finto", finish_reason="stop",
+                                         provider="finto"),
+            data=payload,
+        )
+
+    return complete_json
+
+
+@pytest.mark.asyncio
+async def test_senza_la_data_la_chiede_invece_di_inventarla(monkeypatch) -> None:
+    """Il difetto che questa funzione viene a chiudere.
+
+    «da Torino a Matera» senza quando veniva completato con una data decisa dal
+    modello — quasi sempre oggi — e la ricerca partiva su un giorno che nessuno
+    aveva chiesto. Una supposizione sbagliata non si vede da nessuna parte;
+    una domanda si'."""
+    monkeypatch.setattr(client, "is_configured", lambda: True)
+    monkeypatch.setattr(client, "complete_json", _risposta_finta({
+        "stages": [{"origin": "Torino", "destination": "Matera"}],
+        "date": "2026-08-22",
+        "data_detta": False,
+    }))
+
+    with pytest.raises(nl_query.ServeAltro) as errore:
+        await nl_query.parse("da Torino a Matera", today=date(2026, 8, 22))
+    assert errore.value.domanda == "Per quando?"
+
+
+@pytest.mark.asyncio
+async def test_senza_le_tappe_chiede_anche_quelle(monkeypatch) -> None:
+    """L'altra meta' della stessa idea, e nessuna delle due la scrive il modello.
+
+    «voglio andare a Matera venerdi'» e' una frase a cui manca un pezzo, non una
+    frase sbagliata: prima moriva con un 422 e bisognava riscriverla intera,
+    buttando via anche la meta' capita. Che le tappe manchino lo sa `_stages`,
+    in Python, senza chiedere niente a nessuno."""
+    monkeypatch.setattr(client, "is_configured", lambda: True)
+    monkeypatch.setattr(client, "complete_json", _risposta_finta({
+        "stages": [{"origin": None, "destination": "Matera"}],
+        "date": "2026-08-28",
+        "data_detta": True,
+    }))
+
+    with pytest.raises(nl_query.ServeAltro) as errore:
+        await nl_query.parse("voglio andare a Matera venerdi", today=date(2026, 8, 22))
+    assert errore.value.domanda == "Da dove parti e dove vai?"
+
+
+@pytest.mark.asyncio
+async def test_quando_manca_tutto_si_chiede_prima_il_quando(monkeypatch) -> None:
+    """L'ordine dei due controlli non e' arbitrario, ed e' facile invertirlo.
+
+    Quando il quando non c'e', il modello svuota **anche** le tappe: i due
+    sintomi arrivano insieme. Chiedendo prima le tappe si chiederebbe «da dove
+    parti?» a chi l'aveva scritto benissimo, che e' il modo peggiore di fare una
+    domanda."""
+    monkeypatch.setattr(client, "is_configured", lambda: True)
+    monkeypatch.setattr(client, "complete_json", _risposta_finta({
+        "stages": [],
+        "date": "2026-08-22",
+        "data_detta": False,
+    }))
+
+    with pytest.raises(nl_query.ServeAltro) as errore:
+        await nl_query.parse("da Torino a Matera", today=date(2026, 8, 22))
+    assert errore.value.domanda == "Per quando?"
+
+
+@pytest.mark.asyncio
+async def test_un_guasto_resta_un_guasto_non_una_domanda(monkeypatch) -> None:
+    """Il confine che tiene in piedi la conversazione.
+
+    Se il modello non risponde, chiedere all'utente non serve a niente: non c'e'
+    risposta che possa sbloccare la cosa, e la pagina continuerebbe a chiedere
+    in eterno. Quello resta un errore con un motivo leggibile."""
+    monkeypatch.setattr(client, "is_configured", lambda: True)
+
+    async def muto(task, system, user, *, max_tokens=700, **extra):
+        return client.Answer(reason=client.FAILED, detail="nessun modello")
+
+    monkeypatch.setattr(client, "complete_json", muto)
+
+    with pytest.raises(nl_query.ParseFailed):
+        await nl_query.parse("da Torino a Matera venerdi", today=date(2026, 8, 22))
+
+
+@pytest.mark.asyncio
+async def test_con_i_dati_che_bastano_non_chiede_niente(monkeypatch) -> None:
+    """Il rovescio, ed e' quello che rende la funzione sopportabile: un modello
+    che chiedesse il budget avendo gia' partenza, meta e data farebbe perdere un
+    giro a chi aveva scritto tutto. Se il viaggio sta in piedi si cerca."""
+    monkeypatch.setattr(client, "is_configured", lambda: True)
+    monkeypatch.setattr(client, "complete_json", _risposta_finta({
+        "stages": [{"origin": "Torino", "destination": "Matera"}],
+        "date": "2026-08-28",
+        "data_detta": True,
+    }))
+
+    plan = await nl_query.parse("da Torino a Matera venerdi", today=date(2026, 8, 22))
+    assert plan.stages[0].origin == "Torino"
+    assert plan.stages[0].destination == "Matera"
+
+
+@pytest.mark.asyncio
+async def test_i_turni_precedenti_arrivano_cuciti_in_una_frase(monkeypatch) -> None:
+    """Senza il contesto la risposta «venerdi 28» non vuol dire niente.
+
+    Arriva al modello cucita alla frase di prima, e non come messaggi separati.
+    Misurato il 2026-08-22: con i turni separati — anche resi coerenti, con la
+    domanda riscritta in JSON e un esempio a due turni nel prompt — il modello
+    rispondeva all'aggiunta invece che al totale, dava la data giusta e
+    `stages` vuoto, e Torino e Matera sparivano. La memoria la tiene la pagina,
+    che puo' farlo con certezza."""
+    visti: list = []
+
+    async def complete_json(task, system, user, *, max_tokens=700, **extra):
+        visti.append((user, extra))
+        return client.Answer(
+            completion=client.Completion(text="", model="finto", finish_reason="stop",
+                                         provider="finto"),
+            data={"stages": [{"origin": "Torino", "destination": "Matera"}],
+                  "date": "2026-08-28"},
+        )
+
+    monkeypatch.setattr(client, "is_configured", lambda: True)
+    monkeypatch.setattr(client, "complete_json", complete_json)
+
+    storia = [
+        {"role": "user", "content": "da Torino a Matera"},
+        {"role": "assistant", "content": "Per quando?"},
+    ]
+    plan = await nl_query.parse("venerdi 28", today=date(2026, 8, 22), history=storia)
+
+    (prompt, extra), = visti
+    assert "da Torino a Matera. venerdi 28" in prompt
+    assert not extra, "i turni non si mandano separati: non reggono"
+    assert plan.raw_text == "da Torino a Matera. venerdi 28"
+
+
+@pytest.mark.asyncio
+async def test_senza_storia_il_comportamento_e_quello_di_prima(monkeypatch) -> None:
+    """La conversazione e' un di piu': chi non la usa non deve accorgersene."""
+    visti: list = []
+    monkeypatch.setattr(client, "is_configured", lambda: True)
+    monkeypatch.setattr(client, "complete_json", _risposta_finta({
+        "stages": [{"origin": "Torino", "destination": "Matera"}],
+        "date": "2026-08-28",
+    }, visti))
+
+    await nl_query.parse("da Torino a Matera venerdi", today=date(2026, 8, 22))
+    assert visti == [{}]  # niente oltre la richiesta, come prima
+
+
+@pytest.mark.asyncio
+async def test_un_modello_che_dimentica_il_booleano_non_blocca_la_ricerca(monkeypatch) -> None:
+    """Il difetto piu' probabile e' l'omissione, non la bugia.
+
+    Un modello che non mette `data_detta` deve comportarsi come prima, non
+    fermare una ricerca che si poteva fare: si chiede solo quando la risposta
+    e' un `false` esplicito."""
+    monkeypatch.setattr(client, "is_configured", lambda: True)
+    monkeypatch.setattr(client, "complete_json", _risposta_finta({
+        "stages": [{"origin": "Torino", "destination": "Matera"}],
+        "date": "2026-08-28",
+    }))
+
+    plan = await nl_query.parse("da Torino a Matera venerdi", today=date(2026, 8, 22))
+    assert plan.stages[0].destination == "Matera"

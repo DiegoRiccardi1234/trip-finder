@@ -28,16 +28,61 @@ from app.config import get_settings
 #: i cataloghi cambiano e gli slug muoiono. Chi ha un endpoint per elencare i
 #: modelli viene interrogato a runtime (`model_selector.discover`), e questi
 #: valgono da rete di sicurezza.
+#:
+#: **Quanti, e perche' non tre.** Il 2026-08-22 la catena si e' spenta con un
+#: pool di quattro: `ling-3.0-flash` ritirato (zero endpoint), i due gemma —
+#: gli unici davvero capaci — sotto `429` per ore, e in fondo un solo modello
+#: che tronca. Il throttle di un piano gratuito e' **per modello e condiviso**
+#: con tutti quelli che lo usano: non e' un evento raro da cui ripararsi, e'
+#: la condizione normale di certe ore. La scoperta a runtime non salva da sola,
+#: perche' scatta solo quando *nessuno* del pool e' sano, e un modello
+#: throttlato per noi resta sanissimo per `/endpoints`. L'unica difesa e' avere
+#: dove cadere, quindi la coda tiene modelli di **famiglie diverse**: quando a
+#: throttlare e' un host, i suoi li throttla tutti insieme.
+#:
+#: Quelli in coda non sono stati provati sul compito: ci arrivano solo se i
+#: primi non rispondono, e se sbagliano se ne accorge il runtime — troncamento,
+#: JSON non valido e 429 diventano penalita' sulla coppia (fornitore, modello).
+#: E' la stessa regola scritta in `model_selector`: empirico batte per-nome.
 _OPENROUTER_JSON = [
     "google/gemma-4-31b-it:free",
     "google/gemma-4-26b-a4b-it:free",
-    "nvidia/nemotron-3-nano-30b-a3b:free",
-    "inclusionai/ling-3.0-flash:free",
+    "z-ai/glm-5.2:free",
 ]
+#: **Tre esclusi il 2026-08-22, e tutti e tre per misura, non per nome.** Sono
+#: qui perche' il difetto che li accomuna non si vede dallo slug e il prossimo
+#: che allarga il pool rischia di ripescarli:
+#:
+#: - `inclusionai/ling-3.0-flash:free` — ritirato, `endpoints: []`. Restava in
+#:   lista a occupare un posto e a non rispondere mai.
+#: - `nvidia/nemotron-3-nano-30b-a3b:free` — il punteggio dal nome lo premiava
+#:   (30B, nessun indizio di ragionamento nello slug). Provato due volte sullo
+#:   stesso prompt: con i 600 token veri **tronca**; con 2000 arriva in fondo e
+#:   risponde `{"stages": [], "date": "", "data_detta": false}` a «da Torino a
+#:   Matera. venerdi 28», cioe' butta via una tratta e una data che c'erano
+#:   entrambe. Trenta miliardi di parametri con tre attivi restano un modello
+#:   da tre.
+#: - `nvidia/nemotron-3.5-lightning:free` e `dots-studio/dots-3-note-preview:free`
+#:   — aggiunti a questo pool e tolti nella stessa ora: **troncano tutt'e due**
+#:   su una risposta che sta in centosessanta caratteri. Il catalogo gratuito
+#:   e' ormai fatto quasi solo di modelli che ragionano di default, e il
+#:   ragionamento si mangia il budget prima che il JSON cominci. Sul free
+#:   resta poco altro che i vecchi `instruct`.
+#:
+#: E' anche il motivo per cui `max_tokens` **non** si alza per farceli stare: a
+#: 600 il troncamento e' un difetto **rumoroso**, che si prende la penalita' e
+#: fa scendere il modello in classifica; con piu' spazio diventa una risposta
+#: sbagliata e silenziosa, cioe' precisamente cio' che «Interpreta» esiste per
+#: evitare. Il numero da alzare non e' il budget: e' il numero di modelli che
+#: sanno rispondere senza ragionare ad alta voce.
+#: Il consiglio e' testo, non JSON, e la differenza cambia il pool: un modello
+#: che ragiona prima di rispondere qui non fa danni, perche' non c'e' nessuna
+#: parentesi da chiudere entro il budget.
 _OPENROUTER_ADVICE = [
     "nvidia/nemotron-3-super-120b-a12b:free",
     "google/gemma-4-31b-it:free",
-    "inclusionai/ling-3.0-flash:free",
+    "z-ai/glm-5.2:free",
+    "nvidia/nemotron-3-ultra-550b-a55b:free",
     "google/gemma-4-26b-a4b-it:free",
 ]
 

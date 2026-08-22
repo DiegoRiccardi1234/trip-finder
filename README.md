@@ -260,6 +260,15 @@ Due controlli prima che il testo compaia: se cita una soluzione che non esiste,
 o se non ne cita nessuna, la risposta si scarta e tocca a un altro modello.
 Quando invece non arriva niente, la pagina dice il motivo e offre «Riprova».
 
+«Interpreta» fa la stessa cosa dall'altro capo: se nella frase manca uno dei
+tre dati senza cui non si può cercare — da dove, dove, quando — lo **chiede**
+invece di inventarlo. Prima quel buco lo riempiva il modello di sua iniziativa,
+quasi sempre con la data di oggi, e la ricerca partiva su un giorno che nessuno
+aveva chiesto: una supposizione sbagliata non si vede, sembra una risposta. La
+risposta si scrive nello stesso campo e quello che hai già detto resta valido.
+Sui dati facoltativi non chiede niente, perché hanno un default e domandarli
+farebbe perdere un giro a chi aveva scritto tutto.
+
 Sotto il consiglio si può rispondere. «Perché non la 2? io i cambi li evito»,
 «e a che ora arriva quella che mi hai consigliato?»: la conversazione vede la
 stessa classifica del consiglio, più le preferenze del Profilo, e i riferimenti

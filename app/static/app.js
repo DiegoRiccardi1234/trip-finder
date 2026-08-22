@@ -376,28 +376,100 @@ form.elements.date2.addEventListener('change', syncReturnMin);
 const nlFeedback = document.getElementById('nl-feedback');
 const interpretBtn = document.getElementById('interpret');
 
+// I turni di questa interpretazione. Servono a una cosa sola: quando manca un
+// dato senza cui non si può cercare, il modello lo **chiede** invece di
+// inventarlo — prima ci metteva quasi sempre la data di oggi, e la ricerca
+// partiva su un giorno che nessuno aveva chiesto. Si azzera appena il viaggio
+// è completo: la frase dopo è una richiesta nuova, non la continuazione.
+let conversazioneRicerca = [];
+
+// Il segnaposto originale si prende dall'HTML invece di ricopiarlo qui: due
+// copie della stessa frase divergono alla prima modifica, e questa e' la
+// frase che spiega a cosa serve il campo.
+const CHIEDI_VIAGGIO = form.elements.nl.placeholder;
+
+// Quante volte si può chiedere prima di arrendersi. Tre sono già più di quante
+// ne servano — le domande possibili sono due — e il tetto serve contro il caso
+// in cui il modello risponde «manca il quando» qualunque cosa gli si scriva:
+// senza, la pagina chiederebbe all'infinito. C'è anche un muro più in là, e
+// meno gentile: `ParseRequest.messages` ne accetta dieci, e superarli non dà
+// una risposta ma un errore di validazione.
+const MAX_DOMANDE = 3;
+
+function fineConversazione() {
+  conversazioneRicerca = [];
+  form.elements.nl.placeholder = CHIEDI_VIAGGIO;
+}
+
+// Il motivo leggibile di una risposta andata male, o stringa vuota.
+//
+// `detail` non è sempre una stringa: quando a rifiutare è la validazione, e non
+// il nostro codice, FastAPI manda una **lista di oggetti**. Scriverla com'è
+// mette «[object Object]» a schermo, cioè un messaggio che non dice niente
+// proprio nel momento in cui serviva dire qualcosa.
+function motivo(problem) {
+  if (typeof problem?.detail === 'string') return problem.detail;
+  if (Array.isArray(problem?.detail)) return problem.detail[0]?.msg || '';
+  return '';
+}
+
 async function interpret() {
   const text = form.elements.nl.value.trim();
-  if (text.length < 4) return;
+  // Con una conversazione aperta anche una risposta corta è valida: «venerdì»
+  // sono sette caratteri, «Asti» quattro, «ieri» pure. Il minimo di quattro
+  // serviva a non interrogare il modello su mezza parola, e resta solo dove
+  // non c'è un contesto che dia senso a una risposta breve.
+  const minimo = conversazioneRicerca.length ? 1 : 4;
+  if (text.length < minimo) return;
 
   interpretBtn.disabled = true;
   nlFeedback.hidden = false;
   nlFeedback.className = 'nl-feedback';
   nlFeedback.textContent = 'Sto interpretando…';
+  const inviato = [...conversazioneRicerca, { role: 'user', content: text }];
   try {
-    const response = await fetch(`/api/parse?text=${encodeURIComponent(text)}`, { method: 'POST' });
+    const response = await fetch('/api/parse', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, messages: conversazioneRicerca }),
+    });
     if (!response.ok) {
       const problem = await response.json().catch(() => ({}));
+      // La conversazione si chiude anche qui. Lasciandola aperta, la frase
+      // successiva resterebbe cucita a una conversazione già fallita — e
+      // l'utente non ha modo di saperlo: vede solo un campo vuoto.
+      fineConversazione();
       nlFeedback.className = 'nl-feedback bad';
-      nlFeedback.textContent = problem.detail
+      nlFeedback.textContent = motivo(problem)
         || 'Non sono riuscito a interpretarla. Compila i campi a mano.';
       return;
     }
     const q = await response.json();
+
+    // Una domanda non è un fallimento: è un turno. Il campo si svuota e resta
+    // acceso, così la risposta si scrive dove si stava già scrivendo.
+    if (q.domanda) {
+      if (conversazioneRicerca.length >= MAX_DOMANDE * 2) {
+        fineConversazione();
+        nlFeedback.className = 'nl-feedback bad';
+        nlFeedback.textContent = 'Non riesco a capirla: compila i campi a mano.';
+        return;
+      }
+      conversazioneRicerca = [...inviato, { role: 'assistant', content: q.domanda }];
+      nlFeedback.className = 'nl-feedback';
+      nlFeedback.textContent = q.domanda;
+      form.elements.nl.value = '';
+      form.elements.nl.placeholder = q.domanda;
+      form.elements.nl.focus();
+      return;
+    }
+
     applyParsed(q);
+    fineConversazione();
     nlFeedback.className = 'nl-feedback ok';
     nlFeedback.textContent = describeParsed(q) + ' — controlla e premi Cerca.';
   } catch {
+    fineConversazione();
     nlFeedback.className = 'nl-feedback bad';
     nlFeedback.textContent = 'Interpretazione non riuscita.';
   } finally {
@@ -1805,6 +1877,7 @@ function resetSearch() {
   confirmBox.hidden = true;
   say('');
   nlFeedback.hidden = true;
+  fineConversazione();
   // Senza questa riga «Azzera la ricerca» lascerebbe un modulo pulito nascosto
   // dietro una barra che riassume una ricerca che non esiste piu'.
   espandiModulo();
