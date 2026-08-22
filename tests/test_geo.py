@@ -53,6 +53,42 @@ def test_un_codice_iata_come_ancora_porta_la_citta_giusta(resolver) -> None:
     assert _cities(place) == {"Torino"}
 
 
+def test_una_fermata_resta_del_paese_che_la_ospita(resolver) -> None:
+    """Canelli si dichiarava «Acqui Terme», a quindici chilometri.
+
+    Non era la formula a sbagliare: il gazetteer e' `cities15000` e Canelli ha
+    diecimilacinquecento abitanti, quindi **non era fra i candidati**. Misurato
+    il 2026-08-22: entro venticinque chilometri correvano solo Acqui Terme
+    (14,9 km, peso 1,25), Asti (21,7) e Alba (20,1), e vinceva la prima. Nessuna
+    modifica al punteggio avrebbe potuto far vincere una citta' che non c'era:
+    l'unica strada era metterla in `overrides.json`.
+
+    Il peso li' e' 1,2 e non 3,0 come le isole, e il numero e' la meta' della
+    correzione: con 3,0 Canelli avrebbe **rubato Acqui Terme**, perche' a
+    quindici chilometri avrebbe ancora segnato piu' di lei in casa sua."""
+    canelli = resolver.resolve("Canelli", modes={Mode.RAIL, Mode.BUS})
+    assert _cities(canelli) == {"Canelli"}
+
+    # L'altra meta': la vicina non si sposta. Una toppa che ne rompe un'altra
+    # non e' una correzione, e questo e' il modo in cui se ne accorge qualcuno.
+    acqui = resolver.resolve("Acqui Terme", modes={Mode.RAIL, Mode.BUS})
+    assert _cities(acqui) == {"Acqui Terme"}
+
+
+def test_un_quartiere_non_si_prende_la_stazione(resolver) -> None:
+    """La regola che si sarebbe rotta aggiustando Canelli dal lato sbagliato.
+
+    «Il piu' vicino» sembra la regola ovvia, e non lo e': entro un chilometro e
+    mezzo da Porta Nuova ci sono tre Circoscrizioni e San Salvario, e nessun
+    operatore vende biglietti per un quartiere. Vince Torino perche' pesa
+    quattro contro due, non perche' sia il piu' vicino."""
+    stazione = resolver.resolve("Torino Porta Nuova", modes={Mode.RAIL, Mode.BUS})
+    citta = _cities(stazione)
+
+    assert citta == {"Torino"}
+    assert not any(nome and "circo" in nome.lower() for nome in citta)
+
+
 def _iata(place) -> set[str]:
     return {node.iata for node in place.nodes if node.iata}
 

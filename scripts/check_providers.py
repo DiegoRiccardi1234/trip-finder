@@ -4,6 +4,13 @@ Ogni adapter dichiara una `sample_route`: una tratta che quell'operatore serve
 di sicuro. Se non torna nulla li', non e' una giornata senza corse, e' il parser
 che si e' rotto. E' l'unico modo per accorgersene prima dell'utente.
 
+Quella conclusione vale pero' **solo nel giorno che l'adapter ha pinnato** con
+`sample_date`. Passata quella data si prova in un giorno qualunque, e per un
+operatore stagionale o con una corsa al giorno `VUOTO` torna a essere ambiguo:
+per questo la riga lo dice («pin scaduto»), e per questo, quando non esce
+nessuna gamba, il dettaglio riporta **quanto pesava la risposta grezza**. Zero
+elementi e' l'operatore che tace; dodici elementi e nessuna gamba e' il parser.
+
     python scripts/check_providers.py
     python scripts/check_providers.py --only itabus --verbose
     python scripts/check_providers.py --save        # rigenera tutte le fixture
@@ -113,8 +120,32 @@ async def check_one(
             )
 
     if not legs:
-        return "vuoto", 0, elapsed, "nessuna corsa su una tratta che dovrebbe averne"
+        # **Quanto pesava la risposta grezza**, che e' l'unica cosa capace di
+        # separare i due guasti che oggi si chiamano tutti e due `VUOTO`:
+        # l'operatore che non ha corse quel giorno, e il parser che non legge
+        # piu' quello che l'operatore manda. Senza questo numero il rapporto
+        # afferma una causa che non ha misurato, e quella riga e' esattamente
+        # il posto in cui si guarda quando qualcosa si e' rotto in silenzio.
+        return "vuoto", 0, elapsed, f"nessuna corsa: {_dimensione(raw)}"
     return "ok", len(legs), elapsed, ""
+
+
+def _dimensione(raw: object) -> str:
+    """Quanto materiale ha risposto l'operatore, in una frase.
+
+    Volutamente generica: ogni adapter ha la sua forma grezza — chi una lista,
+    chi un dict, chi HTML — e qui non si vuole sapere cosa contiene, solo se
+    c'era qualcosa da leggere."""
+    if raw is None:
+        return "risposta assente"
+    if isinstance(raw, list):
+        return f"la risposta portava {len(raw)} elementi"
+    if isinstance(raw, dict):
+        pieni = [chiave for chiave, valore in raw.items() if valore]
+        return f"la risposta portava {len(raw)} chiavi, {len(pieni)} non vuote"
+    if isinstance(raw, (str, bytes)):
+        return f"la risposta portava {len(raw)} caratteri"
+    return f"la risposta era un {type(raw).__name__}"
 
 
 def _ms(started: datetime) -> int:
@@ -136,6 +167,21 @@ def _sample_day(provider: Provider, requested: date) -> date:
     except ValueError:
         return requested
     return pinned if pinned >= date.today() else requested
+
+
+def _pin_scaduto(provider: Provider) -> bool:
+    """Se questo adapter dichiara una data di prova che e' gia' passata.
+
+    Serve a dire ad alta voce quello che `_sample_day` fa in silenzio: da quel
+    momento l'adapter viene provato in un giorno qualunque, che e' esattamente
+    la condizione in cui il commento della sua tabella avverte che sembrerebbe
+    rotto senza esserlo."""
+    if not provider.sample_date:
+        return False
+    try:
+        return date.fromisoformat(provider.sample_date) < date.today()
+    except ValueError:
+        return False
 
 
 async def main() -> int:
@@ -172,7 +218,15 @@ async def main() -> int:
         tally[status] = tally.get(status, 0) + 1
         route = " -> ".join(provider.sample_route) if provider.sample_route else "-"
         used = _sample_day(provider, args.date)
+        # Tre righe di codice per una bugia per omissione. La data si stampava
+        # solo quando **differiva** da quella chiesta, cioe' solo finche' il pin
+        # era valido: appena scade, `_sample_day` torna la data richiesta, la
+        # colonna resta vuota e l'unico segnale e' un `VUOTO` indistinguibile da
+        # un parser rotto. Il codice diceva in tre punti che il controllo
+        # avrebbe segnalato la scadenza, e non lo faceva.
         when = "" if used == args.date else f" [{used}]"
+        if _pin_scaduto(provider):
+            when += f" [pin scaduto il {provider.sample_date}]"
         print(
             f"{STATUS_ICON.get(status, status):9} {provider.id:16} {provider.mode.value:6} "
             f"{provider.tier:<2} {legs:>6} {elapsed:>7}  {route}{when}"

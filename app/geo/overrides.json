@@ -1,10 +1,16 @@
 {
   "_comment": [
     "Nodi e citta' che i dataset aperti non coprono, curati a mano.",
-    "Tre categorie: (1) ferrovie locali fuori dal circuito Trainline, tipo FAL",
-    "Bari-Matera, che e' l'unico treno che arriva a Matera; (2) capolinea di bus",
-    "a lunga percorrenza di operatori italiani non presenti in Trainline;",
-    "(3) porti, perche' nessun dataset aperto di porti passeggeri e' utilizzabile.",
+    "Quattro categorie: (1) ferrovie locali fuori dal circuito Trainline, tipo",
+    "FAL Bari-Matera, che e' l'unico treno che arriva a Matera; (2) capolinea di",
+    "bus a lunga percorrenza di operatori italiani non presenti in Trainline;",
+    "(3) porti, perche' nessun dataset aperto di porti passeggeri e' utilizzabile;",
+    "(4) comuni sotto i 15.000 abitanti, che il gazetteer non contiene affatto:",
+    "e' `cities15000`, e sotto quella soglia una citta' non e' nemmeno in gara.",
+    "Il peso della categoria (4) va tenuto vicino a quello che il gazetteer",
+    "calcolerebbe (log10(abitanti) - 3), NON al 3.0 usato per le isole: quelle",
+    "non hanno concorrenti entro venticinque chilometri, un comune di collina",
+    "si', e un peso gonfiato gli farebbe rubare i nodi della citta' accanto.",
     "Se un id coincide con un nodo gia' esistente, i provider_ids vengono uniti",
     "invece di creare un doppione."
   ],
@@ -16,6 +22,7 @@
     { "name": "Policoro", "lat": 40.2120, "lon": 16.6780, "country": "IT", "weight": 3.0 },
     { "name": "Potenza", "lat": 40.6420, "lon": 15.8050, "country": "IT", "weight": 3.0 },
     { "name": "Torino", "lat": 45.0703, "lon": 7.6869, "country": "IT", "weight": 4.0, "aliases": ["turin"] },
+    { "name": "Canelli", "lat": 44.7192, "lon": 8.2871, "country": "IT", "weight": 1.2 },
 
     { "name": "Wien", "lat": 48.2082, "lon": 16.3738, "country": "AT", "weight": 4.0, "aliases": ["vienna"] },
     { "name": "Salzburg", "lat": 47.8095, "lon": 13.0550, "country": "AT", "weight": 3.0, "aliases": ["salisburgo"] },

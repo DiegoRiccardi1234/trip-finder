@@ -16,10 +16,38 @@ citta' invece di dire di no.
 
 Gli undici vuoti sono tutti della piattaforma Albatross: acierno, consorzio,
 dimaio, federico, giuntabus, giuntatrasporti, intersaj, marinourbano, onebus,
-satam, tiemme. Nella stessa giornata `federico` e `intersaj` hanno restituito
-corse dentro una ricerca Torino-Matera vera, quindi i loro parser funzionano: e'
-la tratta di prova a non avere corse quel giorno. Da guardare comunque, perche'
-un `VUOTO` che dura e' il modo in cui questi adapter si rompono in silenzio.
+satam, tiemme. **Tutti e undici rispondono `la risposta portava 0 elementi`**:
+l'operatore ha risposto, e ha risposto che quel giorno non ha corse. Non e' un
+parser rotto — un parser rotto riceve materiale e non lo legge, e si vedrebbe
+proprio da quel numero.
+
+**Perche' sono undici, misurato il 22 agosto.** Non e' un guasto: e' un allarme
+che era diventato muto. I 34 adapter Albatross condividono **un solo parser**, e
+sulle sei fixture salvate estrae 33 soluzioni su 33 senza scartarne nessuna —
+undici rotti su trentaquattro con lo stesso codice non e' un guasto di parsing,
+lo sarebbero tutti. La causa e' che `SAMPLE_DATE` era ferma al 14 agosto:
+scaduta quella, `_sample_day` ricade sulla data richiesta, cioe' il 5 settembre,
+un sabato di bassa stagione. Gli undici sono esattamente i marginali — linee
+balneari (`satam`, `federico`, `marinourbano`), interregionali a corsa unica
+(`intersaj`, `consorzio`, `dimaio`), locali extraurbani. Da allora il rapporto
+scrive «pin scaduto» accanto alla riga e, quando non esce nessuna gamba, dice
+quanto pesava la risposta grezza: zero elementi e' l'operatore che tace, dodici
+elementi e nessuna gamba e' il parser. **Il criterio non e' «zero vuoti»: e' che
+ogni vuoto dica di quale dei due si tratta.**
+
+Le date pinnate vanno rinnovate quando si trova un giorno in cui quelle tratte
+hanno servizio. Per i balneari non esiste in bassa stagione, e va detto invece
+che corretto: `marinourbano` porta gia' una data propria per questo motivo.
+
+Da sistemare quando si rigenerano le fixture: tre di quelle salvate non
+corrispondono piu' alla `sample_route` dichiarata — `federico`
+(`roma-cosenza` contro Serravalle Scrivia -> Marina di Gioiosa Ionica),
+`marozzi` (`roma-napoli` contro Sorrento -> Roma) e `prontobus`
+(`roma-pescara` contro Torre de' Passeri -> Pratola Peligna). La suite offline e
+il controllo dal vivo provano quindi tratte diverse, e possono darsi ragione a
+vicenda mentre nessuna delle due guarda quella giusta. `--save` **aggiunge** un
+file col nome della tratta nuova senza togliere il vecchio: le tre stale vanno
+cancellate a mano.
 
 I nove autonomi:
 

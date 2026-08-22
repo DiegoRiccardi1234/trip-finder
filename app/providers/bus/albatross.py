@@ -408,7 +408,13 @@ SAMPLE_DATE = "2026-08-14"
 #: La tratta di prova non e' decorativa: `scripts/check_providers.py` la usa per
 #: accorgersi che un parser si e' rotto, quindi deve essere una coppia che
 #: quell'operatore serve davvero. Tutte quelle qui sotto sono state verificate
-#: con una ricerca reale: zero corse li' significa guasto, non giornata vuota.
+#: con una ricerca reale: zero corse li' significa guasto, non giornata vuota —
+#: **ma solo nel giorno pinnato**. Scaduto quello, l'adapter viene provato in
+#: una data qualunque, e per un operatore stagionale o con una corsa al giorno
+#: un `VUOTO` torna a voler dire tutt'e due le cose. E' successo: il 2026-08-22,
+#: con `SAMPLE_DATE` scaduta da otto giorni, il controllo cadeva su un sabato di
+#: bassa stagione e dava undici adapter vuoti, tutti sani. Da allora il rapporto
+#: dice «pin scaduto» accanto alla riga, invece di lasciar credere questa frase.
 #:
 #: Per trovare altri operatori della piattaforma c'e'
 #: `scripts/probe_albatross.py`: parte dai `/Carriers` degli host gia' noti,
