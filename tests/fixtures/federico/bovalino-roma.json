@@ -1,0 +1,115 @@
+{
+  "captured_for": {
+    "origin_query": "Bovalino",
+    "destination_query": "Roma",
+    "date": "2026-10-16",
+    "pax": 1
+  },
+  "origin_node": {
+    "id": "alb:e4eaf59c-079e-4891-83ad-0b430109e467",
+    "name": "Bovalino - piazza Marino",
+    "kind": "bus_stop",
+    "lat": 38.15077818,
+    "lon": 16.1792962,
+    "country": "IT",
+    "city": "Bovalino",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {},
+    "is_main": false
+  },
+  "destination_node": {
+    "id": "alb:4b95f618-d3a5-4b4d-97f9-069e52b85eeb",
+    "name": "Roma",
+    "kind": "bus_stop",
+    "lat": 41.90931,
+    "lon": 12.52841,
+    "country": "IT",
+    "city": "Roma",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {},
+    "is_main": false
+  },
+  "raw": [
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T01:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c3893c91-a539-4825-a33c-109800f208f7",
+            "lineId": "ee398031-0413-4079-b898-0965010de920",
+            "routeId": "a9089a51-5e65-436c-a38d-0d800091bcd7",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 20.0
+              }
+            ],
+            "carrierId": "interbus",
+            "canSelectSeat": true,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "ddef0ce8-dee2-4e9f-82f2-93fa272230db",
+          "departureDateTime": "2026-10-16T02:00:00+00:00",
+          "arrivalStopId": "a43a9697-bcbd-41c3-b5ef-c13209a97ee0",
+          "arrivalDateTime": "2026-10-16T11:40:00+00:00",
+          "departureLocality": "411ed860-aed9-40ab-9c17-7f7e40d8d573",
+          "arrivalLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f"
+        }
+      ],
+      "calculatedPrice": 41.0,
+      "returnPrice": 39.0,
+      "fullPrice": 46.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "Rc- Roma corsa  Serale",
+          "tripDepartureDateTime": "2026-10-16T17:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "d91f4270-534a-477d-8c14-109900a1aaa5",
+            "lineId": "8e692db3-6187-47a6-8524-0f8ff4b25c62",
+            "routeId": "aad2b39a-0485-4325-b556-0dd300e06d54",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 15.0
+              }
+            ],
+            "carrierId": "interbus",
+            "canSelectSeat": true,
+            "travelMode": 0,
+            "lineType": 1
+          },
+          "departureStopId": "ddef0ce8-dee2-4e9f-82f2-93fa272230db",
+          "departureDateTime": "2026-10-16T18:05:00+00:00",
+          "arrivalStopId": "48e0ec75-e159-41b8-9e5d-36ddd9ae58cf",
+          "arrivalDateTime": "2026-10-17T03:25:00+00:00",
+          "departureLocality": "411ed860-aed9-40ab-9c17-7f7e40d8d573",
+          "arrivalLocality": "7b7d70b1-e1aa-4a47-bcea-d769c71eb39f"
+        }
+      ],
+      "calculatedPrice": 40.5,
+      "returnPrice": 42.0,
+      "fullPrice": 46.0,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "timezone": "Europe/Rome"
+    }
+  ]
+}

@@ -111,10 +111,12 @@ CURATE: list[dict[str, Any]] = [
         "tipo": "percent",
         "valore": 40.0,
         "eta_min": 14, "eta_max": 29,
-        "fonte": "https://www.italotreno.com/it/offerte-treno/italo-young",
+        "fonte": "https://www.italotreno.com/it/offerte-treno/italo-giovani",
+        "verificato_il": "2026-10-02",
         "note": "Non e' una tessera ma una tariffa: si compra in anticipo e i posti "
                 "sono contingentati, quindi la riduzione vera cambia da corsa a corsa. "
-                "Qui si usa un valore prudente.",
+                "Sconto dal 40% al 70% sulla Flex, in ambiente Smart: il 40% "
+                "non va sottratto a una tariffa gia' promozionale.",
     },
     {
         "id": "italo-senior",
@@ -124,7 +126,10 @@ CURATE: list[dict[str, Any]] = [
         "valore": 40.0,
         "eta_min": 60,
         "fonte": "https://www.italotreno.com/it/offerte-treno/italo-senior",
-        "note": "Come la Young: tariffa contingentata, non tessera.",
+        "verificato_il": "2026-10-02",
+        "note": "Tariffa contingentata per over 60, in Smart e Prima Business. "
+                "Sconto dal 40% al 60% sulla Flex, non su una tariffa gia' promozionale. "
+                "La pagina riporta termini di anticipo discordanti: verifica nell'acquisto.",
     },
     {
         "id": "isic-flixbus",
@@ -134,8 +139,11 @@ CURATE: list[dict[str, Any]] = [
         "valore": 10.0,
         "richiede": "Carta ISIC",
         "valido_a": "2026-12-15",
-        "fonte": "https://isic.de/en/benefits/flixbus/8154/",
-        "note": "Codice sconto legato alla carta studenti internazionale.",
+        "fonte": "https://isic.de/en/discounts/germany/flixbus/8154",
+        "verificato_il": "2026-10-02",
+        "note": "Codice per ISIC/ITIC/IYTC, valido fino al 15 dicembre 2026. "
+                "Non include supplementi e servizi, non cumulabile con altri codici. "
+                "In Turchia la riduzione puo' essere inferiore al 10%.",
     },
     {
         "id": "esncard-flixbus",
@@ -145,13 +153,15 @@ CURATE: list[dict[str, Any]] = [
         "valore": 10.0,
         "richiede": "ESNcard (studenti Erasmus)",
         "fonte": "https://www.esncard.org/flixbus",
+        "note": "Fonte non accessibile senza autenticazione nella verifica del "
+                "2 ottobre 2026: condizioni e validita' da controllare prima dell'uso.",
     },
     {
         "id": "continuita-sardegna-aereo",
         "nome": "Continuita' territoriale Sardegna (voli)",
         "ambito": "mode:air",
         "tipo": "percent",
-        "valore": 50.0,
+        "valore": 0.0,
         "richiede": "residenza in Sardegna, oppure studente fino a 27 anni, "
                     "under 21, over 70, lavoratore, disabile o accompagnatore",
         "valido_da": "2026-03-29",
@@ -162,44 +172,53 @@ CURATE: list[dict[str, Any]] = [
         ],
         "fonte": "https://www.regione.sardegna.it/argomenti/argomenti-speciali/"
                  "continuita-territoriale-2026/domande-e-risposte-continuita-territoriale",
+        "verificato_il": "2026-10-02",
         "note": "Non e' una tessera ma una tariffa regolata dalla Regione: il prezzo e' "
-                "imposto, non scontato, e cambia la classifica piu' di qualunque sconto. "
-                "Operata da Aeroitalia e ITA Airways su Fiumicino e Linate.",
+                "imposto e dipende da rotta e categoria: nessuna percentuale universale. "
+                "Voce informativa, con riduzione automatica zero. Il nuovo regime "
+                "non copre Alghero-Linate fino al 24 ottobre 2026; verificare "
+                "requisiti e prezzo sul sito della compagnia.",
     },
     {
         "id": "residenti-isole-traghetti",
         "nome": "Tariffa residenti isole (traghetti)",
         "ambito": "mode:ferry",
         "tipo": "percent",
-        "valore": 30.0,
+        "valore": 0.0,
         "richiede": "residenza o nascita in Sardegna o Sicilia",
-        "fonte": "https://www.traghetti.com/blog/tariffe-residenti-nativi-traghetti-sicilia-sardegna/",
-        "note": "Ogni compagnia la applica a modo suo: Grimaldi la estende a tutti i "
-                "passeggeri della prenotazione, Tirrenia in Sicilia ai soli residenti e "
-                "familiari al seguito. Il valore qui e' prudente.",
+        "fonte": "https://www.grimaldi-lines.com/en/offers-for-ferries/"
+                 "offers-for-residents-and-native-inhabitants-from-sardinia-and-sicily/",
+        "note": "Agevolazioni con requisiti, rotte e prezzi diversi per compagnia. "
+                "La fonte Grimaldi indica Sardi Doc e Siciliani Doc, senza "
+                "una percentuale universale. Fonte completa non accessibile nella "
+                "verifica del 2 ottobre 2026. Voce informativa, riduzione automatica zero.",
     },
     {
         "id": "interrail-youth",
         "nome": "Interrail Youth (under 28)",
         "ambito": "mode:rail",
         "tipo": "percent",
-        "valore": 25.0,
+        "valore": 0.0,
         "eta_max": 27,
         "fonte": "https://www.interrail.eu/en/interrail-passes/deals",
-        "note": "Sconto sul prezzo del pass, non sul singolo biglietto: vale se viaggi "
-                "gia' con un Interrail, non si somma a una tariffa a corsa.",
+        "verificato_il": "2026-10-02",
+        "note": "Fino al 25% sul prezzo del pass per chi ha al massimo 27 anni. "
+                "Non riduce il singolo biglietto: voce informativa, "
+                "riduzione automatica zero.",
     },
     {
         "id": "io-studio",
         "nome": "Carta dello Studente «IoStudio»",
-        "ambito": "mode:rail",
+        "ambito": "provider:trenitalia",
         "tipo": "percent",
-        "valore": 10.0,
+        "valore": 0.0,
         "eta_min": 14, "eta_max": 26,
         "fonte": "https://www.trenitalia.com/it/informazioni/la-guida-del-viaggiatore/"
                  "altre-riduzioni-e-carte-sconto-a-tua-disposizione.html",
-        "note": "Riduzioni sui regionali per studenti delle superiori. Le condizioni "
-                "cambiano per regione.",
+        "note": "Il 10% sui regionali non e' confermato dalla fonte attuale. "
+                "Il portale IoStudio cita un 20% su Frecce e Intercity, ma il dettaglio "
+                "della convenzione non e' disponibile: validita' non verificata. "
+                "Voce informativa, riduzione automatica zero.",
     },
     {
         "id": "trenitalia-x-go",
@@ -208,9 +227,10 @@ CURATE: list[dict[str, Any]] = [
         "tipo": "percent",
         "valore": 0.0,
         "fonte": "https://www.trenitalia.com/it/x-go/il-programma.html",
-        "note": "Non sconta il biglietto: accumula 2 punti per euro su Regionale e "
-                "Intercity, e 150 punti valgono 3 euro sul viaggio dopo. Serve pero' "
-                "per avere le promo Young e Senior, ed e' gratuita.",
+        "verificato_il": "2026-10-02",
+        "note": "Programma gratuito per Regionale e Intercity: 150 punti valgono "
+                "3 euro di cashback. Raccolta fino al 31 dicembre 2026, utilizzo "
+                "cashback fino al 28 febbraio 2027. Serve per le promo Young e Senior.",
     },
 ]
 

@@ -255,3 +255,69 @@ def test_il_filtro_non_rinumera_le_schede(pagina) -> None:
         ".itinerary[data-ref]", "nodi => nodi.map(n => n.dataset.ref)"
     )
     assert tornate == ["1", "2", "3", "4", "5"]
+
+
+def test_ricerca_conversazionale_conserva_tappe_e_azzera_storia(pagina, sito) -> None:
+    from patchright.sync_api import expect
+
+    pagina.goto(sito)
+    richieste = []
+
+    def rispondi(route):
+        richieste.append(route.request.post_data_json)
+        if len(richieste) == 1:
+            route.fulfill(json={"domanda": "Per quando?"})
+        else:
+            route.fulfill(json={"stages": [{"origin": "Torino", "destination": "Matera", "date": "2026-10-16", "stay_days": 0}], "modes": ["rail", "bus"]})
+
+    pagina.route("**/api/parse", rispondi)
+    try:
+        pagina.locator("input[name=nl]").fill("da Torino a Matera")
+        pagina.locator("#interpret").click()
+        expect(pagina.locator("#nl-feedback")).to_have_text("Per quando?")
+        expect(pagina.locator("input[name=nl]")).to_have_value("")
+        pagina.locator("input[name=nl]").fill("il 16 ottobre 2026")
+        pagina.locator("#interpret").click()
+        expect(pagina.locator("#nl-feedback")).to_have_class("nl-feedback ok")
+        expect(pagina.locator("input[name=origin]")).to_have_value("Torino")
+        expect(pagina.locator("input[name=destination]")).to_have_value("Matera")
+        assert richieste[1]["messages"] == [
+            {"role": "user", "content": "da Torino a Matera"},
+            {"role": "assistant", "content": "Per quando?"},
+        ]
+        pagina.locator("input[name=nl]").fill("da Roma a Milano domani")
+        pagina.locator("#interpret").click()
+        expect(pagina.locator("#interpret")).to_be_enabled()
+        assert len(richieste) == 3 and richieste[2]["messages"] == []
+    finally:
+        pagina.unroute("**/api/parse", rispondi)
+
+
+def test_errore_ia_visibile_e_conversazione_chiusa(pagina, sito) -> None:
+    from patchright.sync_api import expect
+
+    pagina.goto(sito)
+    richieste = []
+
+    def rispondi(route):
+        richieste.append(route.request.post_data_json)
+        if len(richieste) == 1:
+            route.fulfill(json={"domanda": "Per quando?"})
+        else:
+            route.fulfill(status=422, json={"detail": "Il fornitore limita le richieste: riprova fra poco."})
+
+    pagina.route("**/api/parse", rispondi)
+    try:
+        pagina.locator("input[name=nl]").fill("da Torino a Matera")
+        pagina.locator("#interpret").click()
+        expect(pagina.locator("#nl-feedback")).to_have_text("Per quando?")
+        pagina.locator("input[name=nl]").fill("domani")
+        pagina.locator("#interpret").click()
+        expect(pagina.locator("#nl-feedback")).to_have_class("nl-feedback bad")
+        expect(pagina.locator("#nl-feedback")).to_contain_text("riprova fra poco")
+        pagina.locator("input[name=nl]").fill("da Roma a Milano domani")
+        pagina.locator("#interpret").click()
+        expect(pagina.locator("#interpret")).to_be_enabled()
+        assert len(richieste) == 3 and richieste[2]["messages"] == []
+    finally:
+        pagina.unroute("**/api/parse", rispondi)

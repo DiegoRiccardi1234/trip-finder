@@ -10,7 +10,18 @@ from __future__ import annotations
 
 from datetime import date
 
+import pytest
+
 from app.routing import tessere
+
+
+@pytest.fixture(autouse=True)
+def catalogo_del_programma(tmp_path, monkeypatch):
+    """Le prove del catalogo versionato non dipendono da una copia utente vecchia."""
+    monkeypatch.setattr(tessere, "SCARICATO", tmp_path / "tessere-scaricate.json")
+    tessere.tutte.cache_clear()
+    yield
+    tessere.tutte.cache_clear()
 
 
 def test_il_catalogo_si_legge_e_ha_dentro_quello_che_serve() -> None:
@@ -49,6 +60,28 @@ def test_una_tessera_ritirata_resta_in_catalogo() -> None:
     assert verde.acquistabile is False
     assert verde.ritirata_dal == "2026-04-04"
     assert verde.valore == 10.0
+
+
+def test_voci_informative_non_inventano_uno_sconto_sul_biglietto() -> None:
+    from app.models import Discount
+
+    by_id = {v.id: v for v in tessere.tutte()}
+    for key in ("continuita-sardegna-aereo", "residenti-isole-traghetti", "interrail-youth", "io-studio"):
+        voce = by_id[key]
+        # Il catalogo alimenta il modulo di sconti: i valori devono essere
+        # zero anche quando la nota parla di sconto sul pass o tariffe fisse.
+        discount = Discount(name=voce.nome, scope=voce.ambito, value=voce.valore)
+        assert discount.saving(100) == 0, key
+        assert "zero" in voce.note
+
+
+def test_fonti_non_verificabili_non_prendono_una_data_nuova() -> None:
+    by_id = {v.id: v for v in tessere.tutte()}
+    assert by_id["esncard-flixbus"].verificato_il == "2026-08-01"
+    assert by_id["io-studio"].verificato_il == "2026-08-01"
+    assert by_id["residenti-isole-traghetti"].verificato_il == "2026-08-01"
+    assert by_id["isic-flixbus"].verificato_il == "2026-10-02"
+    assert by_id["isic-flixbus"].valido_a == "2026-12-15"
 
 
 def test_scaduta_e_stantia_sono_due_cose_diverse() -> None:
@@ -123,6 +156,111 @@ def test_uno_scaricato_rotto_non_manda_giu_il_catalogo(tmp_path, monkeypatch) ->
 
     assert len(tessere.tutte()) == 6  # torna quello che viaggia col programma
     tessere.tutte.cache_clear()
+
+
+@pytest.mark.parametrize("generato", ["2026-08-01", None, "2026-12-01 metadato rotto"])
+def test_cache_precedente_o_non_databile_non_supera_il_bundle(tmp_path, monkeypatch, generato) -> None:
+    dentro, fuori = tmp_path / "dentro.json", tmp_path / "fuori.json"
+    _scrivi(dentro, _voci(), generato="2026-10-02")
+    _scrivi(fuori, _voci(7), generato=generato)
+    monkeypatch.setattr(tessere, "CATALOGO", dentro)
+    monkeypatch.setattr(tessere, "SCARICATO", fuori)
+
+    assert len(tessere.tutte()) == 6
+    assert tessere.aggiornato_il() == "2026-10-02"
+
+
+def test_timestamp_iso_si_confronta_con_ora_e_fuso(tmp_path, monkeypatch) -> None:
+    dentro, fuori = tmp_path / "dentro.json", tmp_path / "fuori.json"
+    _scrivi(dentro, _voci(), generato="2026-10-02T12:00:00+02:00")
+    _scrivi(fuori, _voci(7), generato="2026-10-02T10:30:00Z")
+    monkeypatch.setattr(tessere, "CATALOGO", dentro)
+    monkeypatch.setattr(tessere, "SCARICATO", fuori)
+
+    assert len(tessere.tutte()) == 7
+    assert tessere.aggiornato_il() == "2026-10-02T10:30:00Z"
+
+
+def test_parita_o_date_assenti_mantengono_il_bundle(tmp_path, monkeypatch) -> None:
+    dentro, fuori = tmp_path / "dentro.json", tmp_path / "fuori.json"
+    monkeypatch.setattr(tessere, "CATALOGO", dentro)
+    monkeypatch.setattr(tessere, "SCARICATO", fuori)
+    for generato in ("2026-10-02", None):
+        _scrivi(dentro, _voci(), generato=generato)
+        _scrivi(fuori, _voci(7), generato=generato)
+        tessere.tutte.cache_clear()
+        assert len(tessere.tutte()) == 6
+
+
+def test_cache_incompleta_non_supera_il_bundle_anche_se_piu_recente(tmp_path, monkeypatch) -> None:
+    dentro, fuori = tmp_path / "dentro.json", tmp_path / "fuori.json"
+    _scrivi(dentro, _voci(), generato="2026-10-02")
+    _scrivi(fuori, _voci(2), generato="2026-12-01")
+    monkeypatch.setattr(tessere, "CATALOGO", dentro)
+    monkeypatch.setattr(tessere, "SCARICATO", fuori)
+
+    assert len(tessere.tutte()) == 6
+    assert tessere.aggiornato_il() == "2026-10-02"
+
+
+@pytest.mark.parametrize("generato", ["2026-08-01", "2026-10-02", None, "2026-12-01 metadato rotto"])
+async def test_download_retrogrado_o_non_databile_non_sostituisce_niente(tmp_path, monkeypatch, generato) -> None:
+    from app.providers import http_client
+
+    dentro, fuori = tmp_path / "dentro.json", tmp_path / "fuori.json"
+    _scrivi(dentro, _voci(), generato="2026-10-02")
+    _scrivi(fuori, _voci(7), generato="2026-08-01")
+    prima = fuori.read_bytes()
+    monkeypatch.setattr(tessere, "CATALOGO", dentro)
+    monkeypatch.setattr(tessere, "SCARICATO", fuori)
+    monkeypatch.setattr(tessere, "da_riscaricare", lambda: True)
+
+    async def remoto(*args, **kwargs):
+        return {"generato_il": generato, "tessere": _voci(8)}
+
+    monkeypatch.setattr(http_client, "get_http_client", lambda: type("F", (), {"get_json": remoto})())
+
+    assert await tessere.aggiorna() is False
+    assert fuori.read_bytes() == prima
+    assert len(tessere.tutte()) == 6
+    assert tessere.aggiornato_il() == "2026-10-02"
+
+
+async def test_download_piu_recente_diventa_il_catalogo_attivo(tmp_path, monkeypatch) -> None:
+    from app.providers import http_client
+
+    dentro, fuori = tmp_path / "dentro.json", tmp_path / "fuori.json"
+    _scrivi(dentro, _voci(), generato="2026-10-02")
+    monkeypatch.setattr(tessere, "CATALOGO", dentro)
+    monkeypatch.setattr(tessere, "SCARICATO", fuori)
+    assert len(tessere.tutte()) == 6  # anche la cache in memoria va aggiornata
+
+    async def remoto(*args, **kwargs):
+        return {"generato_il": "2026-10-03", "tessere": _voci(7)}
+
+    monkeypatch.setattr(http_client, "get_http_client", lambda: type("F", (), {"get_json": remoto})())
+
+    assert await tessere.aggiorna() is True
+    assert len(tessere.tutte()) == 7
+    assert tessere.aggiornato_il() == "2026-10-03"
+
+
+async def test_catalogo_incompleto_non_impedisce_un_download_valido(tmp_path, monkeypatch) -> None:
+    from app.providers import http_client
+
+    dentro, fuori = tmp_path / "dentro.json", tmp_path / "fuori.json"
+    _scrivi(dentro, _voci(2), generato="2027-01-01")
+    monkeypatch.setattr(tessere, "CATALOGO", dentro)
+    monkeypatch.setattr(tessere, "SCARICATO", fuori)
+    assert tessere.tutte() == ()
+
+    async def remoto(*args, **kwargs):
+        return {"generato_il": "2026-10-03", "tessere": _voci(7)}
+
+    monkeypatch.setattr(http_client, "get_http_client", lambda: type("F", (), {"get_json": remoto})())
+
+    assert await tessere.aggiorna() is True
+    assert len(tessere.tutte()) == 7
 
 
 def test_si_controlla_prima_di_sostituire() -> None:

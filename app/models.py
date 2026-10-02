@@ -8,7 +8,7 @@ da gestire a valle: due gambe in fusi diversi non sono confrontabili senza tz.
 from __future__ import annotations
 
 import math
-from datetime import date, datetime, time, timedelta
+from datetime import date, datetime, time, timedelta, timezone
 from enum import Enum
 from typing import Any, Literal
 
@@ -186,7 +186,8 @@ class Leg(BaseModel):
     @computed_field  # type: ignore[prop-decorator]
     @property
     def duration_min(self) -> int:
-        return max(0, int((self.arrive - self.depart).total_seconds() // 60))
+        elapsed = self.arrive.astimezone(timezone.utc) - self.depart.astimezone(timezone.utc)
+        return max(0, int(elapsed.total_seconds() // 60))
 
     @property
     def price(self) -> float:
@@ -285,7 +286,8 @@ class Itinerary(BaseModel):
     @computed_field  # type: ignore[prop-decorator]
     @property
     def duration_min(self) -> int:
-        return max(0, int((self.arrive - self.depart).total_seconds() // 60))
+        elapsed = self.arrive.astimezone(timezone.utc) - self.depart.astimezone(timezone.utc)
+        return max(0, int(elapsed.total_seconds() // 60))
 
     @computed_field  # type: ignore[prop-decorator]
     @property
@@ -326,12 +328,14 @@ class Itinerary(BaseModel):
         margins: list[int] = []
         bookable = [leg for leg in self.legs if not leg.is_transfer]
         for prev, nxt in zip(bookable, bookable[1:]):
+            arrive = prev.arrive.astimezone(timezone.utc)
+            depart = nxt.depart.astimezone(timezone.utc)
             transfer_min = sum(
                 leg.duration_min
                 for leg in self.legs
-                if leg.is_transfer and prev.arrive <= leg.depart < nxt.depart
+                if leg.is_transfer and arrive <= leg.depart.astimezone(timezone.utc) < depart
             )
-            gap = int((nxt.depart - prev.arrive).total_seconds() // 60)
+            gap = int((depart - arrive).total_seconds() // 60)
             margins.append(gap - transfer_min)
         return min(margins) if margins else None
 

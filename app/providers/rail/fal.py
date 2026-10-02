@@ -8,9 +8,8 @@ dichiarato come tale.
 Le condizioni contano quanto gli orari, e sono scritte nel manifesto:
 
   - il servizio ferroviario e' sospeso la domenica e nei festivi;
-  - i treni marcati `(1)` sono soppressi dal 27 luglio al 29 agosto, cioe' in
-    pieno agosto, che e' proprio quando serve andare a Matera;
-  - la tratta Bari-Gravina e' interrotta e coperta da autobus sostitutivi.
+  - i treni marcati `(1)` sono soppressi nella finestra estiva del manifesto;
+  - alcuni collegamenti Gravina-Potenza sono coperti da autobus sostitutivi.
 
 Proporre un treno che quel giorno non parte e' peggio che non proporlo, quindi
 questi filtri si applicano prima di produrre qualunque gamba.
@@ -51,11 +50,10 @@ STATION_KEYS: tuple[tuple[str, str], ...] = (
 
 #: "(1) - Treni soppressi dal 27 luglio al 29 agosto 2026", dal manifesto.
 SUPPRESSED_FLAG = "1"
-SUPPRESSED_FROM = (7, 27)
-SUPPRESSED_TO = (8, 29)
+SUPPRESSED_FROM = date(2026, 7, 27)
+SUPPRESSED_TO = date(2026, 8, 29)
 
-#: Festivi italiani a data fissa. La Pasqua non c'e': cade sempre di domenica,
-#: e la domenica e' gia' esclusa.
+#: Festivi italiani a data fissa. Pasquetta si calcola separatamente.
 FIXED_HOLIDAYS = {
     (1, 1), (1, 6), (4, 25), (5, 1), (6, 2),
     (8, 15), (11, 1), (12, 8), (12, 25), (12, 26),
@@ -90,11 +88,17 @@ def runs_on(day: date) -> tuple[list[dict], list[str]]:
         return [], ["il servizio ferroviario FAL non circola la domenica"]
     if (day.month, day.day) in FIXED_HOLIDAYS:
         return [], ["il servizio ferroviario FAL non circola nei giorni festivi"]
+    if day == _easter_sunday(day.year) + timedelta(days=1):
+        return [], ["il servizio ferroviario FAL non circola a Pasquetta"]
 
-    summer = _in_summer_window(day)
+    valid_from = schedule.get("valid_from")
+    if valid_from and day < date.fromisoformat(valid_from):
+        return [], [f"il manifesto FAL e' valido dal {valid_from}: data precedente non verificata"]
+
+    summer = _in_summer_window(day, schedule)
     if summer:
         reasons.append(
-            "alcuni treni sono soppressi dal 27 luglio al 29 agosto e non compaiono"
+            "alcuni treni sono soppressi nella finestra estiva del manifesto e non compaiono"
         )
 
     valid = [
@@ -105,10 +109,31 @@ def runs_on(day: date) -> tuple[list[dict], list[str]]:
     return valid, reasons
 
 
-def _in_summer_window(day: date) -> bool:
-    start = date(day.year, *SUPPRESSED_FROM)
-    end = date(day.year, *SUPPRESSED_TO)
+def _in_summer_window(day: date, schedule: dict | None = None) -> bool:
+    window = (schedule or {}).get("suppressed_window")
+    if window is not None:
+        start = date.fromisoformat(window["from"])
+        end = date.fromisoformat(window["to"])
+    else:
+        # Compatibilita' con il manifesto di giugno 2026: una soppressione
+        # datata non deve ricomparire automaticamente ogni anno.
+        start, end = SUPPRESSED_FROM, SUPPRESSED_TO
     return start <= day <= end
+
+
+def _easter_sunday(year: int) -> date:
+    """Computus gregoriano: Pasqua, da cui ricavare il lunedi' festivo."""
+    a = year % 19
+    b, c = divmod(year, 100)
+    d, e = divmod(b, 4)
+    f = (b + 8) // 25
+    g = (b - f + 1) // 3
+    h = (19 * a + b - d - g + 15) % 30
+    i, k = divmod(c, 4)
+    l = (32 + 2 * e + 2 * i - h - k) % 7
+    m = (a + 11 * h + 22 * l) // 451
+    month, day = divmod(h + l - 7 * m + 114, 31)
+    return date(year, month, day + 1)
 
 
 # -------------------------------------------------------------------- prezzi

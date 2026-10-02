@@ -232,9 +232,10 @@ async def rank_models(task: str, candidates: list[str] | None = None) -> list[st
         logger.info("pool %s ricostruito dal catalogo: %s", task, order[:3])
         return order
 
-    # Ultima risorsa: si prova comunque la lista originale. Meglio un tentativo
-    # che rinunciare in silenzio.
-    return pool
+    # I fetch falliti restano UNKNOWN e passano gia' _rank_pool. Arrivare qui
+    # significa che tutti i modelli sono stati bocciati con evidenza: non
+    # rimettere in gioco slug ritirati o endpoint non operativi.
+    return []
 
 
 async def _rank_pool(pool: list[str], task: str, provider: str = "openrouter") -> list[str]:
@@ -415,7 +416,16 @@ async def rank_candidates(task: str) -> list[tuple[providers.Provider, str]]:
             if index < len(column):
                 candidates.append(column[index])
 
-    return _pin_first(candidates, task)
+    ordered = _pin_first(candidates, task)
+    pinned = config.pinned_model(task)
+    if pinned and pinned[0] == "openrouter" and any(
+        provider.name == pinned[0] and model == pinned[1] for provider, model in ordered
+    ):
+        health = await endpoint_health.check(pinned[1])
+        if not health.alive:
+            ordered = [(provider, model) for provider, model in ordered
+                       if (provider.name, model) != pinned]
+    return ordered
 
 
 def _pin_first(
@@ -426,9 +436,9 @@ def _pin_first(
     In testa e non da solo: se il modello scelto rifiuta la richiesta, restare
     senza risposta per rispetto della scelta sarebbe un modo curioso di
     rispettarla. La fila esiste per questo. Se il modello scelto non e' fra i
-    candidati — perche' il controllo di salute lo aveva scartato, o perche' non
-    e' nel pool — si aggiunge lo stesso: e' una scelta esplicita, e vale piu' di
-    un'euristica."""
+    candidati perche' non e' nel pool, si aggiunge lo stesso. Per OpenRouter
+    `rank_candidates` verifica anche il pin: una preferenza non riattiva un
+    endpoint morto, mentre una salute non verificabile conserva il fallback."""
     scelto = config.pinned_model(task)
     if not scelto:
         return candidates
@@ -437,6 +447,12 @@ def _pin_first(
     provider = providers.BY_NAME.get(nome_fornitore)
     if provider is None or not providers.is_configured(provider):
         logger.info("modello scelto su %s ma il fornitore non e' configurato", nome_fornitore)
+        return candidates
+
+    if not get_settings().allow_paid_providers and (
+        not provider.free or (provider.name == "openrouter" and not modello.endswith(":free"))
+    ):
+        logger.info("modello scelto a pagamento ignorato: fornitori a pagamento disattivati")
         return candidates
 
     resto = [

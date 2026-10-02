@@ -76,6 +76,18 @@ CREATE TABLE IF NOT EXISTS discounts (
 _connection: aiosqlite.Connection | None = None
 _loop: asyncio.AbstractEventLoop | None = None
 _lock: asyncio.Lock | None = None
+_lock_loop: asyncio.AbstractEventLoop | None = None
+
+
+def _initialization_lock() -> asyncio.Lock:
+    global _lock, _lock_loop
+    current = asyncio.get_running_loop()
+    if _lock is None or _lock_loop is not current:
+        _lock = asyncio.Lock()
+        # Si registra PRIMA del primo await: _loop viene assegnato solo dopo
+        # l'apertura, e usarlo qui creava un lock diverso per ogni chiamante.
+        _lock_loop = current
+    return _lock
 
 
 async def get_db() -> aiosqlite.Connection:
@@ -85,7 +97,7 @@ async def get_db() -> aiosqlite.Connection:
     attraverso l'event loop che l'ha creata. Riusarla da un loop diverso non da'
     errore: si blocca e basta. Succede a ogni test asincrono, perche' pytest ne
     crea uno nuovo per ciascuno. Qui la si riapre quando il loop cambia, e la
-    vecchia viene abbandonata.
+    vecchia viene chiusa prima di aprirne un'altra.
 
     Chi apre deve chiudere, e qui non e' una formalita': dalla versione 0.20
     aiosqlite serve la connessione con un thread interno **non** demone
@@ -94,7 +106,7 @@ async def get_db() -> aiosqlite.Connection:
     inspiegabile: tutti i test passavano e poi pytest non usciva piu'. Gli
     script chiamano `close_db()` in chiusura; per i test ci pensa un hook in
     `tests/conftest.py`."""
-    global _connection, _loop, _lock
+    global _connection, _loop
 
     current = asyncio.get_running_loop()
     if _connection is not None and _loop is current:
@@ -103,21 +115,23 @@ async def get_db() -> aiosqlite.Connection:
     # Anche il lock appartiene a un loop: quello in cui viene atteso la prima
     # volta. Riusarlo da un loop diverso e' l'errore che stiamo evitando con la
     # connessione, quindi quando il loop cambia si rifa' anche lui.
-    if _lock is None or _loop is not current:
-        _lock = asyncio.Lock()
-
-    async with _lock:
+    async with _initialization_lock():
         if _connection is not None and _loop is not current:
             logger.debug("event loop cambiato: riapro la connessione a SQLite")
+            await _connection.close()
             _connection = None
         if _connection is None:
             settings = get_settings()
             settings.db_path.parent.mkdir(parents=True, exist_ok=True)
             connection = await aiosqlite.connect(settings.db_path)
-            await connection.execute("PRAGMA journal_mode=WAL")
-            await connection.execute("PRAGMA synchronous=NORMAL")
-            await connection.executescript(SCHEMA)
-            await connection.commit()
+            try:
+                await connection.execute("PRAGMA journal_mode=WAL")
+                await connection.execute("PRAGMA synchronous=NORMAL")
+                await connection.executescript(SCHEMA)
+                await connection.commit()
+            except BaseException:
+                await connection.close()
+                raise
             _connection = connection
             _loop = current
             logger.debug("SQLite pronto: %s", settings.db_path)
@@ -126,10 +140,11 @@ async def get_db() -> aiosqlite.Connection:
 
 async def close_db() -> None:
     global _connection, _loop
-    if _connection is not None:
-        try:
-            await _connection.close()
-        except Exception:  # noqa: BLE001 - in chiusura non c'e' nulla da salvare
-            pass
-        _connection = None
-        _loop = None
+    async with _initialization_lock():
+        if _connection is not None:
+            try:
+                await _connection.close()
+            except Exception:  # noqa: BLE001 - in chiusura non c'e' nulla da salvare
+                pass
+            _connection = None
+            _loop = None

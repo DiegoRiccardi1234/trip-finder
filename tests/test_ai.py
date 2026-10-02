@@ -90,6 +90,43 @@ def test_disponibilita_troppo_bassa_e_bocciata() -> None:
     assert "40" in health.detail
 
 
+@pytest.mark.parametrize("uptime, alive", [(0, False), (79.9, False), (80, True), (100, True)])
+def test_salute_soglia_compreso_zero(uptime, alive) -> None:
+    payload = {"data": {"endpoints": [{"status": 0, "uptime_last_5m": uptime}]}}
+    assert endpoint_health._parse("x/y", payload).alive is alive
+
+
+@pytest.mark.parametrize("endpoint", [
+    {"uptime_last_5m": 100}, {"status": None, "uptime_last_5m": 100},
+    {"status": 0}, {"status": 0, "uptime_last_5m": None},
+    {"status": 0, "uptime_last_5m": "100"},
+    {"status": 0, "uptime_last_5m": float("nan")},
+    {"status": False, "uptime_last_5m": 100},
+    {"status": "0", "uptime_last_5m": 100},
+])
+def test_salute_dati_mancanti_non_sono_morte_ne_salute_confermata(endpoint) -> None:
+    health = endpoint_health._parse("x/y", {"data": {"endpoints": [endpoint]}})
+    assert health.alive  # resta candidato per il failover, senza promozione
+    assert health.uptime_5m == 0
+    assert "non verificato" in health.detail
+
+
+@pytest.mark.parametrize("payload", [None, {}, {"data": {}}, {"data": {"endpoints": {}}}])
+def test_salute_payload_malformato_non_ritira_un_modello(payload) -> None:
+    health = endpoint_health._parse("x/y", payload)
+    assert health.alive
+    assert "non verificato" in health.detail
+
+
+def test_salute_provider_in_errore_non_alza_uptime() -> None:
+    health = endpoint_health._parse("x/y", {"data": {"endpoints": [
+        {"status": -1, "uptime_last_5m": 100},
+        {"status": 0, "uptime_last_5m": 0},
+    ]}})
+    assert not health.alive
+    assert health.uptime_5m == 0
+
+
 def test_modello_sano_promosso_col_provider_migliore() -> None:
     payload = {
         "data": {
@@ -520,9 +557,8 @@ def test_il_modello_scelto_va_in_testa_ma_gli_altri_restano(solo, monkeypatch) -
     ]
 
 
-def test_un_modello_scelto_ma_scartato_dalla_salute_torna_in_gioco(solo, monkeypatch) -> None:
-    """Il controllo di salute lo aveva tolto dai candidati. Sceglierlo a mano e'
-    una decisione esplicita e vale piu' di un'euristica."""
+def test_un_modello_scelto_fuori_pool_torna_in_gioco(solo, monkeypatch) -> None:
+    """La preferenza puo' aggiungere un modello fuori pool su un altro host."""
     solo(GROQ_API_KEY="k")
     monkeypatch.setattr(config, "pinned_model", lambda task: ("groq", "modello-raro"))
     groq = providers.BY_NAME["groq"]
@@ -533,6 +569,26 @@ def test_un_modello_scelto_ma_scartato_dalla_salute_torna_in_gioco(solo, monkeyp
     assert len(ordine) == 2
 
 
+@pytest.mark.asyncio
+@pytest.mark.parametrize("alive", [False, True])
+async def test_pin_openrouter_rispetta_salute(solo, monkeypatch, alive):
+    solo(OPENROUTER_API_KEY="k")
+    monkeypatch.setattr(config, "pinned_model", lambda task: ("openrouter", "pinned/model:free"))
+
+    async def models(provider, task):
+        return ["good/model:free"]
+
+    async def health(slug):
+        assert slug == "pinned/model:free"
+        return endpoint_health.Health(slug, alive, 0, 0)
+
+    monkeypatch.setattr(model_selector, "_models_for", models)
+    monkeypatch.setattr(endpoint_health, "check", health)
+    ordered = await model_selector.rank_candidates("json")
+    assert ("pinned/model:free" in [model for _, model in ordered]) is alive
+    assert "good/model:free" in [model for _, model in ordered]
+
+
 def test_un_modello_scelto_su_un_fornitore_spento_viene_ignorato(solo, monkeypatch) -> None:
     solo(GROQ_API_KEY="k")
     monkeypatch.setattr(config, "pinned_model", lambda task: ("openai", "gpt-4.1"))
@@ -540,6 +596,35 @@ def test_un_modello_scelto_su_un_fornitore_spento_viene_ignorato(solo, monkeypat
     candidati = [(groq, "llama-3.3-70b-versatile")]
 
     assert model_selector._pin_first(candidati, "json") == candidati
+
+
+@pytest.mark.parametrize("provider, model, key", [
+    ("openai", "gpt-4.1", "OPENAI_API_KEY"),
+    ("openrouter", "google/gemma-4-31b-it", "OPENROUTER_API_KEY"),
+])
+def test_pin_non_aggira_interruttore_pagamento(solo, monkeypatch, provider, model, key):
+    solo(**{key: "k", "ALLOW_PAID_PROVIDERS": "false"})
+    monkeypatch.setattr(config, "pinned_model", lambda task: (provider, model))
+    assert model_selector._pin_first([], "json") == []
+
+
+@pytest.mark.asyncio
+async def test_pool_tutto_morto_non_viene_riprovato(solo, monkeypatch):
+    solo(OPENROUTER_API_KEY="k")
+
+    async def health(slugs):
+        return {slug: endpoint_health.Health(slug, False, 0, 0) for slug in slugs}
+
+    async def discovered(**kwargs):
+        return []
+
+    async def penalties(provider):
+        return {}
+
+    monkeypatch.setattr(endpoint_health, "check_many", health)
+    monkeypatch.setattr(model_selector, "discover_free_models", discovered)
+    monkeypatch.setattr(model_selector, "current_penalties", penalties)
+    assert await model_selector.rank_models("json", ["retired/model:free"]) == []
 
 
 def test_l_interruttore_dei_pagamento_si_salva_come_booleano(segreti) -> None:

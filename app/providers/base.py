@@ -276,6 +276,9 @@ class Provider(ABC):
         Volutamente sincrona e senza rete: e' la parte che si rompe quando il
         sito cambia, e deve poter girare su una fixture salvata."""
 
+    async def prepare_parse(self, ctx: SearchContext) -> None:
+        """Prepara le anagrafiche richieste dal parser, anche fuori da search()."""
+
     #: Per quanto tenere valida una risposta. I prezzi si muovono, ma non fra
     #: un percorso candidato e l'altro della stessa ricerca: senza cache la
     #: stessa tratta verrebbe chiesta piu' volte nello stesso minuto.
@@ -294,6 +297,7 @@ class Provider(ABC):
         self, origin: Node, destination: Node, ctx: SearchContext
     ) -> list[Leg]:
         """Cerca le corse dirette fra due fermate in una data."""
+        await self.prepare_parse(ctx)
         key = self.cache_key(origin, destination, ctx)
         raw = await cache.get(key)
         if raw is None:

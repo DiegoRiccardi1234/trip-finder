@@ -3,7 +3,44 @@
 Verifiche fatte sugli endpoint reali. Serve a non rifare le stesse ricerche fra
 sei mesi, e a sapere dove riprendere.
 
-Ultimo aggiornamento: **22 agosto 2026**: aggiunto Transitous per il trasporto
+Ultimo aggiornamento: **2 ottobre 2026**, ripristino e verifica Albatross.
+
+## Verifica del 2 ottobre 2026
+
+I 34 adapter Albatross sono stati interrogati sulle tratte campione esistenti
+nella finestra **16-24 ottobre 2026**. Per i cinque vuoti sono state provate
+fino a 14 coppie ricavate dalle linee, soltanto sugli host gia' registrati.
+Risultato: **31 verificati**, **3 inconclusivi**, senza aggiungere operatori.
+
+- Il pin comune e' **16 ottobre 2026**; OneBus e' verificato il **19 ottobre**.
+- Le tratte campione di Federico e Giuntabus Trasporti diventano rispettivamente
+  **Bovalino-Roma** e **Milazzo-Messina**, entrambe con corse realmente lette.
+  Le risposte sono salvate in fixture nuove; quelle storiche restano regressioni
+  utili, senza essere spacciate per verifica della tratta campione corrente.
+- **Tiemme, Alta Badia Bus e MarinoBus Urbano** conservano i pin scaduti di
+  agosto. Nessuna corsa nella finestra sondata non dimostra un guasto ne' una
+  stagionalita': l'esito resta non verificato.
+
+`check_providers.py` e `try_provider.py` preparano l'anagrafica Albatross prima
+del parsing e applicano lo stesso filtro di coerenza delle ricerche vere.
+Questo evita il fallback silenzioso alle coordinate del nodo campione.
+I segmenti mostrano gli stessi orari locali della gamba; le fermate dei
+traghetti Albatross sono nodi porto, anziche' fermate autobus.
+
+La diagnostica ora distingue: **exit 0** per adapter verificati, **exit 1** per
+errori, **exit 2** per prova inconclusiva (vuoto, blocco, tratta non servita o
+sample mancante). Una risposta non vuota puo' contenere corse cancellate o di
+altra data: la sola dimensione del grezzo non basta a diagnosticare un parser.
+`--date AAAA-MM-GG` prevale sui pin; `--exclude id` e' ripetibile. Questi codici
+valgono per `check_providers.py`, non cambiano quelli di `try_provider.py`.
+
+## Verifica storica del 22 agosto 2026
+
+Le conclusioni e i conteggi seguenti descrivono il controllo di agosto, non
+la disponibilita' attuale. La distinzione basata soltanto sul grezzo e' stata
+sostituita dalla diagnostica descritta sopra.
+
+Il 22 agosto 2026: aggiunto Transitous per il trasporto
 pubblico locale, e chiuso il difetto per cui FlixBus rispondeva su un'altra
 citta' invece di dire di no.
 

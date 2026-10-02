@@ -9,7 +9,7 @@ terra senza rimborso. Qui si decide cosa e' proponibile e cosa no.
 
 from __future__ import annotations
 
-from datetime import timedelta
+from datetime import timedelta, timezone
 
 from app.models import Leg, Mode, Node, NodeKind, Place, node_distance_km
 from app.routing import transfers
@@ -46,7 +46,8 @@ def required_margin(prev: Leg, nxt: Leg) -> int:
 
 
 def gap_minutes(prev: Leg, nxt: Leg) -> int:
-    return int((nxt.depart - prev.arrive).total_seconds() // 60)
+    elapsed = nxt.depart.astimezone(timezone.utc) - prev.arrive.astimezone(timezone.utc)
+    return int(elapsed.total_seconds() // 60)
 
 
 def connection_ok(prev: Leg, nxt: Leg) -> bool:

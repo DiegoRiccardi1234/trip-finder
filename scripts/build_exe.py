@@ -47,7 +47,7 @@ def _assicura_datasets() -> bool:
         [sys.executable, str(ROOT / "scripts" / "fetch_datasets.py")], cwd=ROOT, check=False
     )
     if esito.returncode != 0:
-        print("ATTENZIONE: download fallito, il bundle partira' senza fermate", file=sys.stderr)
+        print("download cataloghi fallito: build interrotta", file=sys.stderr)
         return False
     return all((ROOT / "data" / nome).is_file() for nome in DATASETS)
 
@@ -57,9 +57,10 @@ def _porta_i_datasets() -> None:
     destinazione.mkdir(parents=True, exist_ok=True)
     for nome in DATASETS:
         sorgente = ROOT / "data" / nome
-        if sorgente.is_file():
-            shutil.copy2(sorgente, destinazione / nome)
-            print(f"  {nome}: {sorgente.stat().st_size // (1024 * 1024)} MB")
+        # Se un catalogo sparisce dopo il preflight, non pubblicare uno zip
+        # incompleto: copy2 solleva l'errore prima della creazione dell'archivio.
+        shutil.copy2(sorgente, destinazione / nome)
+        print(f"  {nome}: {sorgente.stat().st_size // (1024 * 1024)} MB")
 
 
 def main() -> int:
@@ -67,7 +68,23 @@ def main() -> int:
         print(f"manca lo spec: {SPEC}", file=sys.stderr)
         return 1
 
-    _assicura_datasets()
+    # Controllare tutte le destinazioni prima di cancellarne anche solo una.
+    # resolve segue anche symlink/junction: una dist che punta fuori dal repo
+    # non deve autorizzare la cancellazione della directory di destinazione.
+    try:
+        root = ROOT.resolve()
+        for cartella in (DIST, BUILD):
+            resolved = cartella.resolve()
+            if resolved == root or not resolved.is_relative_to(root):
+                print(f"directory di build fuori progetto: {cartella}", file=sys.stderr)
+                return 1
+    except (OSError, RuntimeError) as exc:
+        print(f"directory di build non verificabile: {exc}", file=sys.stderr)
+        return 1
+
+    if not _assicura_datasets():
+        print("cataloghi obbligatori mancanti: build interrotta", file=sys.stderr)
+        return 1
 
     for cartella in (DIST, BUILD):
         if cartella.exists():

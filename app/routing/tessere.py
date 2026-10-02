@@ -23,7 +23,7 @@ from __future__ import annotations
 import json
 import logging
 import time
-from datetime import date
+from datetime import date, datetime, timezone
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -36,7 +36,7 @@ logger = logging.getLogger(__name__)
 #: momento della build, e senza di essa non ci sarebbe niente al primo avvio.
 CATALOGO = Path(__file__).with_name("data") / "tessere.json"
 
-#: Quello scaricato, che vince quando c'e'. Sta accanto al database perche' e'
+#: Quello scaricato, usato se e' valido e piu' recente. Sta accanto al database perche' e'
 #: un dato che cambia, non un pezzo del programma.
 SCARICATO = DATA_DIR / "tessere.json"
 
@@ -132,9 +132,38 @@ def _valido(contenuto: object) -> bool:
     )
 
 
+def _generato_il(contenuto: dict[str, Any] | None) -> datetime | None:
+    """Timestamp ISO completo, senza accettare il prefisso di metadati rotti.
+
+    Il builder scrive una data: si considera mezzanotte UTC. Un catalogo che
+    include l'ora si confronta con il suo fuso; un'ora senza fuso usa UTC.
+    """
+    valore = (contenuto or {}).get("generato_il")
+    if not isinstance(valore, str):
+        return None
+    try:
+        generato = datetime.fromisoformat(valore.strip())
+    except ValueError:
+        return None
+    if generato.tzinfo is None:
+        generato = generato.replace(tzinfo=timezone.utc)
+    try:
+        return generato.astimezone(timezone.utc)
+    except OverflowError:
+        return None
+
+
 def _sorgente() -> Path:
-    """Quale dei due file vale adesso: lo scaricato se c'e', altrimenti il nostro."""
-    return SCARICATO if SCARICATO.exists() else CATALOGO
+    """Il catalogo valido piu' recente; nel dubbio resta quello del programma."""
+    incluso, scaricato = _leggi(CATALOGO), _leggi(SCARICATO)
+    if not _valido(scaricato):
+        return CATALOGO
+    if not _valido(incluso):
+        return SCARICATO
+    data_incluso, data_scaricato = _generato_il(incluso), _generato_il(scaricato)
+    if data_scaricato is not None and (data_incluso is None or data_scaricato > data_incluso):
+        return SCARICATO
+    return CATALOGO
 
 
 @lru_cache
@@ -144,10 +173,8 @@ def tutte() -> tuple[Tessera, ...]:
     Un catalogo illeggibile non deve impedire l'avvio: le tessere restano una
     comodita', e chi le scrive a mano nel profilo puo' farlo comunque."""
     contenuto = _leggi(_sorgente())
-    if contenuto is None and _sorgente() is SCARICATO:
-        contenuto = _leggi(CATALOGO)  # lo scaricato e' rotto: torna il nostro
-    if contenuto is None:
-        logger.warning("nessun catalogo tessere leggibile")
+    if not _valido(contenuto):
+        logger.warning("nessun catalogo tessere valido")
         return ()
     voci = contenuto.get("tessere")
     return tuple(Tessera(v) for v in voci or [] if isinstance(v, dict))
@@ -187,6 +214,13 @@ async def aggiorna() -> bool:
 
     if not _valido(contenuto):
         logger.warning("catalogo tessere scaricato ma non utilizzabile: tengo quello che ho")
+        return False
+
+    attuale = _leggi(_sorgente())
+    data_attuale = _generato_il(attuale) if _valido(attuale) else None
+    data_nuova = _generato_il(contenuto)
+    if data_nuova is None or (data_attuale is not None and data_nuova <= data_attuale):
+        logger.info("catalogo tessere senza una data piu' recente: tengo quello che ho")
         return False
 
     vecchio = aggiornato_il()

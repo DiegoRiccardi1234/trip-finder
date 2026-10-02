@@ -33,8 +33,8 @@ from app.config import DATA_DIR, ROOT  # noqa: E402
 from app.providers.rail.fal import price_for  # noqa: E402
 
 PDF_URL = (
-    "https://ferrovieappulolucane.it/wp-content/uploads/2026/07/"
-    "MANIFESTO-ORARIO-TRENI-DA-E-PER-BARI-22-GIU-2026.pdf"
+    "https://ferrovieappulolucane.it/wp-content/uploads/2026/08/"
+    "ORARIO-TRENI-DA-E-PER-BA-DAL-31-AGO-2026-1.pdf"
 )
 TIMETABLE_PAGE = "https://ferrovieappulolucane.it/tratta/orari/"
 OUTPUT = ROOT / "app" / "providers" / "rail" / "data" / "fal_schedule.json"
@@ -219,6 +219,45 @@ def _is_note(text: str) -> bool:
         return False
     words = [w for w in text.split() if len(w) > 2 and any(c.isalpha() for c in w)]
     return len(words) >= 4
+
+
+def extract_calendar(data: bytes) -> dict:
+    """Date del manifesto: mai replicare una sospensione datata ogni anno."""
+    import io
+
+    import pdfplumber
+
+    with pdfplumber.open(io.BytesIO(data)) as pdf:
+        text = " ".join(p.extract_text() or "" for p in pdf.pages)
+    return calendar_from_text(text)
+
+
+def calendar_from_text(text: str) -> dict:
+    from datetime import date
+
+    months = {
+        "gennaio": 1, "febbraio": 2, "marzo": 3, "aprile": 4,
+        "maggio": 5, "giugno": 6, "luglio": 7, "agosto": 8,
+        "settembre": 9, "ottobre": 10, "novembre": 11, "dicembre": 12,
+    }
+    text = " ".join(text.split()).lower()
+    validity = re.search(r"in vigore dal (\d{1,2}) (\w+) (\d{4})", text)
+    if not validity or validity[2] not in months:
+        raise ValueError("data di entrata in vigore del manifesto non riconosciuta")
+    year = int(validity[3])
+    result = {"valid_from": date(year, months[validity[2]], int(validity[1])).isoformat()}
+    window = re.search(
+        r"treni soppressi dal (\d{1,2}) (\w+) al (\d{1,2}) (\w+) (\d{4})", text
+    )
+    if window:
+        start = date(int(window[5]), months[window[2]], int(window[1]))
+        end = date(int(window[5]), months[window[4]], int(window[3]))
+    elif "treni soppressi nel mese di agosto" in text:
+        start, end = date(year, 8, 1), date(year, 8, 31)
+    else:
+        raise ValueError("finestra estiva dei treni marcati (1) non riconosciuta")
+    result["suppressed_window"] = {"from": start.isoformat(), "to": end.isoformat()}
+    return result
 
 
 def parse_pdf(data: bytes, dump: bool = False) -> list[Run]:
@@ -604,6 +643,7 @@ def main() -> int:
         (DATA_DIR / "fal_treni.pdf").write_bytes(data)
         print(f"   {len(data):,} byte")
 
+    calendar = extract_calendar(data)
     runs = parse_pdf(data, dump=args.dump)
     print(f"corse riconosciute: {len(runs)}")
 
@@ -628,6 +668,8 @@ def main() -> int:
 
     # --- listino a fasce, dal PDF delle tariffe -----------------------------
     fares: dict = {}
+    if args.skip_tariffs and OUTPUT.exists():
+        fares = orjson.loads(OUTPUT.read_bytes()).get("fares") or {}
     if not args.skip_tariffs:
         if args.tariff_pdf:
             tariff_url = args.tariff_pdf
@@ -665,6 +707,7 @@ def main() -> int:
     payload = {
         "source": PDF_URL,
         "source_page": TIMETABLE_PAGE,
+        **calendar,
         "note": (
             "Estratto dai documenti ufficiali FAL: orari dal manifesto, prezzi "
             "dal listino a fasce chilometriche. Il servizio ferroviario e' "

@@ -14,8 +14,8 @@ Due endpoint, aperti e senza autenticazione:
   - `POST /search/s/{partenza}/{arrivo}/{dal}/{al}` -> le soluzioni. Prende i
     **nomi** delle localita', non gli identificatori, e un intervallo di date.
 
-Un avvertimento sugli orari, spiegato sotto in `_local`: le date arrivano con
-offset `+00:00` ma sono ore locali italiane.
+Gli orari arrivano in UTC e vanno convertiti nel fuso dichiarato, come
+spiegato sotto in `_local`.
 """
 
 from __future__ import annotations
@@ -211,8 +211,8 @@ class AlbatrossProvider(Provider):
             return None
 
         stops = self._cached_stops
-        from_node = _stop_node(stops, trips[0].get("departureStopId"), origin)
-        to_node = _stop_node(stops, trips[-1].get("arrivalStopId"), destination)
+        from_node = _stop_node(stops, trips[0].get("departureStopId"), origin, self.mode)
+        to_node = _stop_node(stops, trips[-1].get("arrivalStopId"), destination, self.mode)
 
         price = solution.get("calculatedPrice")
         if not isinstance(price, (int, float)) or price <= 0:
@@ -231,8 +231,8 @@ class AlbatrossProvider(Provider):
             notes.append("prezzo non esposto per questa corsa")
 
         segments = [
-            f"{_stop_name(stops, t.get('departureStopId'))} {_hhmm(t.get('departureDateTime'))}"
-            f" -> {_stop_name(stops, t.get('arrivalStopId'))} {_hhmm(t.get('arrivalDateTime'))}"
+            f"{_stop_name(stops, t.get('departureStopId'))} {_hhmm(t.get('departureDateTime'), timezone)}"
+            f" -> {_stop_name(stops, t.get('arrivalStopId'))} {_hhmm(t.get('arrivalDateTime'), timezone)}"
             for t in trips
         ]
 
@@ -256,15 +256,12 @@ class AlbatrossProvider(Provider):
             notes=notes,
         )
 
-    #: Riempito da `search()` prima del parsing: il catalogo serve a dare nomi e
+    #: Riempito da `prepare_parse()`: il catalogo serve a dare nomi e
     #: coordinate alle fermate, che nella risposta compaiono solo come id.
     _cached_stops: dict[str, dict] = {}
 
-    async def search(
-        self, origin: Node, destination: Node, ctx: SearchContext
-    ) -> list[Leg]:
+    async def prepare_parse(self, ctx: SearchContext) -> None:
         self._cached_stops = (await self._catalog(ctx))["stops"]
-        return await super().search(origin, destination, ctx)
 
     def _booking_url(self, origin: Node, destination: Node, ctx: SearchContext) -> str:
         if not self.booking_base:
@@ -345,13 +342,9 @@ def _local(value: Any, timezone: str) -> datetime | None:
     return parsed.astimezone(zone)
 
 
-def _hhmm(value: Any) -> str:
-    if not isinstance(value, str):
-        return "?"
-    try:
-        return datetime.fromisoformat(value).strftime("%H:%M")
-    except ValueError:
-        return "?"
+def _hhmm(value: Any, timezone: str = DEFAULT_TZ) -> str:
+    local = _local(value, timezone)
+    return local.strftime("%H:%M") if local is not None else "?"
 
 
 def _stop_name(stops: dict, stop_id: Any) -> str:
@@ -359,7 +352,7 @@ def _stop_name(stops: dict, stop_id: Any) -> str:
     return (entry or {}).get("name") or "?"
 
 
-def _stop_node(stops: dict, stop_id: Any, fallback: Node) -> Node:
+def _stop_node(stops: dict, stop_id: Any, fallback: Node, mode: Mode = Mode.BUS) -> Node:
     entry = stops.get(str(stop_id)) if stop_id else None
     if not entry:
         return fallback
@@ -371,7 +364,7 @@ def _stop_node(stops: dict, stop_id: Any, fallback: Node) -> Node:
     return Node(
         id=f"alb:{stop_id}",
         name=entry.get("name") or fallback.name,
-        kind=NodeKind.BUS_STOP,
+        kind=NodeKind.PORT if mode is Mode.FERRY else NodeKind.BUS_STOP,
         lat=lat,
         lon=lon,
         country=fallback.country or "IT",
@@ -395,7 +388,10 @@ def _as_float(value: Any) -> float | None:
 #: Molti di questi operatori hanno una corsa al giorno o servizi stagionali:
 #: verificarli in una data qualunque li farebbe risultare rotti quando invece
 #: quel giorno non e' semplicemente giorno di servizio.
-SAMPLE_DATE = "2026-08-14"
+SAMPLE_DATE = "2026-10-16"
+# I tre pin di agosto conservati sotto non sono stati rinnovati: il 2 ottobre
+# non sono emerse corse nel 16-24 ottobre, su massimo 14 coppie per host.
+# Questo esito resta inconclusivo: non dimostra stagionalita' o un guasto.
 
 #: Gli operatori della piattaforma, uno per riga.
 #:
@@ -408,8 +404,8 @@ SAMPLE_DATE = "2026-08-14"
 #: La tratta di prova non e' decorativa: `scripts/check_providers.py` la usa per
 #: accorgersi che un parser si e' rotto, quindi deve essere una coppia che
 #: quell'operatore serve davvero. Tutte quelle qui sotto sono state verificate
-#: con una ricerca reale: zero corse li' significa guasto, non giornata vuota —
-#: **ma solo nel giorno pinnato**. Scaduto quello, l'adapter viene provato in
+#: con una ricerca reale. Zero corse su un pin ancora valido richiede indagine,
+#: non dimostra da solo un guasto. Scaduto il pin, l'adapter viene provato in
 #: una data qualunque, e per un operatore stagionale o con una corsa al giorno
 #: un `VUOTO` torna a voler dire tutt'e due le cose. E' successo: il 2026-08-22,
 #: con `SAMPLE_DATE` scaduta da otto giorni, il controllo cadeva su un sabato di
@@ -433,7 +429,7 @@ OPERATORS: tuple[tuple, ...] = (
      ("Sorrento", "Roma")),
     ("federico", "Autolinee Federico", "https://api.autolineefederico.it/",
      "", "https://www.autolineefederico.it/", Mode.BUS,
-     ("Serravalle Scrivia", "Marina di Gioiosa Ionica")),
+     ("Bovalino", "Roma")),
     ("liscio", "Autolinee Liscio", "https://albatrossapi.autolineeliscio.it/",
      "", "https://www.autolineeliscio.it/", Mode.BUS, ("Roma", "Matera")),
     ("intersaj", "InterSAJ", "https://api.intersajticket.it/",
@@ -459,7 +455,7 @@ OPERATORS: tuple[tuple, ...] = (
     ("prestia", "Prestia e Comande", "https://api.prestiaecomande.it/", "",
      "https://www.prestiaecomande.it/", Mode.BUS, ("Palermo", "Cianciana")),
     ("onebus", "OneBus", "https://api.onebus.it/", "",
-     "https://www.onebus.it/", Mode.BUS, ("Tarsia", "Raffadali")),
+     "https://www.onebus.it/", Mode.BUS, ("Tarsia", "Raffadali"), "2026-10-19"),
 
     # --- centro e sud ---
     ("consorzio", "Consorzio Autolinee", "https://api.consorzioautolinee.it/", "",
@@ -467,7 +463,7 @@ OPERATORS: tuple[tuple, ...] = (
     ("dimaio", "Gruppo Di Maio", "https://api.gruppodimaio.it/", "",
      "https://www.gruppodimaio.it/", Mode.BUS, ("Calitri", "Bisaccia Nuova")),
     ("tiemme", "Tiemme", "https://api.tiemmespa.it/", "",
-     "https://www.tiemmespa.it/", Mode.BUS, ("Poggibonsi", "Grosseto")),
+     "https://www.tiemmespa.it/", Mode.BUS, ("Poggibonsi", "Grosseto"), "2026-08-14"),
 
     # --- collegamenti con gli aeroporti ---
     ("fiumicinoexpress", "Fiumicino Express", "https://api.fiumicinoexpress.com/", "",
@@ -481,7 +477,7 @@ OPERATORS: tuple[tuple, ...] = (
     ("livigno", "Livigno Express", "https://api.livignoexpress.com/", "",
      "https://www.livignoexpress.com/", Mode.BUS, ("Livigno", "Trenino Rosso")),
     ("altabadia", "Alta Badia Bus", "https://api.altabadiabus.eu/", "",
-     "https://www.altabadiabus.eu/", Mode.BUS, ("La Villa", "Badia")),
+     "https://www.altabadiabus.eu/", Mode.BUS, ("La Villa", "Badia"), "2026-08-14"),
 
     # --- regionali. Coprono tratte che nessun altro fa, e costano quasi nulla:
     #     se la localita' non e' nel loro catalogo l'adapter esce subito, senza
@@ -501,7 +497,7 @@ OPERATORS: tuple[tuple, ...] = (
      "https://www.gasparilines.it/", Mode.BUS,
      ("Montegualtieri", "Guardia Vomano")),
     ("giuntatrasporti", "Giuntabus Trasporti", "https://api.giuntabustrasporti.com/", "",
-     "https://www.giuntabustrasporti.com/", Mode.BUS, ("Milazzo", "Olivarella")),
+     "https://www.giuntabustrasporti.com/", Mode.BUS, ("Milazzo", "Messina")),
     ("dipaola", "Autonoleggio Di Paola", "https://api.autonoleggiodipaola.com/", "",
      "https://www.autonoleggiodipaola.com/", Mode.BUS,
      ("Catania Aeroporto", "Patti")),

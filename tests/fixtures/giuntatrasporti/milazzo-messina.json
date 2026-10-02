@@ -1,0 +1,5612 @@
+{
+  "captured_for": {
+    "origin_query": "Milazzo",
+    "destination_query": "Messina",
+    "date": "2026-10-16",
+    "pax": 1
+  },
+  "origin_node": {
+    "id": "alb:795e6326-2a78-43b8-b773-0d8a00f6a450",
+    "name": "Milazzo",
+    "kind": "bus_stop",
+    "lat": 38.2209947,
+    "lon": 15.2415039,
+    "country": "IT",
+    "city": "Milazzo",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {},
+    "is_main": false
+  },
+  "destination_node": {
+    "id": "alb:63737c06-b847-4673-85d1-0d8a00f941ea",
+    "name": "Messina",
+    "kind": "bus_stop",
+    "lat": 38.18515712,
+    "lon": 15.56024673,
+    "country": "IT",
+    "city": "Messina",
+    "timezone": "Europe/Rome",
+    "iata": null,
+    "provider_ids": {},
+    "is_main": false
+  },
+  "raw": [
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T11:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "a1c14ea6-fb40-44fa-96f1-10af007dbe98",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "26d7b187-87d1-4907-b4d0-0d8f00f2a6f1",
+          "departureDateTime": "2026-10-16T11:53:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T12:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T12:30:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "01d19b7f-1ade-4fcf-b0d7-10af007dbe99",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "26d7b187-87d1-4907-b4d0-0d8f00f2a6f1",
+          "departureDateTime": "2026-10-16T12:38:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T13:20:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T13:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "70b6fced-fa52-4a0f-aeaa-10af007dbe9b",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "26d7b187-87d1-4907-b4d0-0d8f00f2a6f1",
+          "departureDateTime": "2026-10-16T13:23:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T14:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T14:50:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "3bc0993e-5e7a-4a50-9b40-10af007dbeb0",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "26d7b187-87d1-4907-b4d0-0d8f00f2a6f1",
+          "departureDateTime": "2026-10-16T14:58:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T15:40:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T16:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "58c176ca-ce7c-4b6c-8bb7-10af007dbea0",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "26d7b187-87d1-4907-b4d0-0d8f00f2a6f1",
+          "departureDateTime": "2026-10-16T16:18:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T17:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T17:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "1e0927d4-7f60-4f72-a7a8-10af007dbeb1",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "26d7b187-87d1-4907-b4d0-0d8f00f2a6f1",
+          "departureDateTime": "2026-10-16T17:18:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T18:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T18:20:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "3fceddc5-2998-4c30-9176-10af007dbe9d",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "26d7b187-87d1-4907-b4d0-0d8f00f2a6f1",
+          "departureDateTime": "2026-10-16T18:28:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T19:10:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T04:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "cfbe78b6-cab3-476d-9b7d-10af007dbe8e",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "26d7b187-87d1-4907-b4d0-0d8f00f2a6f1",
+          "departureDateTime": "2026-10-16T04:08:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T04:50:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T04:40:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "fb507eae-f7ea-4dcf-93d8-10af007dbe90",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "26d7b187-87d1-4907-b4d0-0d8f00f2a6f1",
+          "departureDateTime": "2026-10-16T04:48:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T05:30:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "b0389d5a-add8-4a11-9511-10af007dbe91",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "26d7b187-87d1-4907-b4d0-0d8f00f2a6f1",
+          "departureDateTime": "2026-10-16T05:18:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T06:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "ff0c6867-0e77-4c86-be5f-10af007dbeb2",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "08aadda0-581e-49b9-9781-0de300fa0c0f",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "26d7b187-87d1-4907-b4d0-0d8f00f2a6f1",
+          "departureDateTime": "2026-10-16T05:18:00+00:00",
+          "arrivalStopId": "7f2ca1a5-24bf-41e5-adaf-0de300fa82e0",
+          "arrivalDateTime": "2026-10-16T06:25:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "1968714e-a646-4d1e-97eb-10af007dbeb7",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "26d7b187-87d1-4907-b4d0-0d8f00f2a6f1",
+          "departureDateTime": "2026-10-16T05:53:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T06:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T06:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c23d0a2f-eaaa-4ac7-b926-10af007dbe91",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "26d7b187-87d1-4907-b4d0-0d8f00f2a6f1",
+          "departureDateTime": "2026-10-16T06:23:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T07:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T07:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "af917ea9-b472-4d2d-b943-10af007dbe93",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "26d7b187-87d1-4907-b4d0-0d8f00f2a6f1",
+          "departureDateTime": "2026-10-16T07:53:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T08:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T08:50:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "ac0f6a2e-ced2-4933-b2bd-10af007dbe92",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "26d7b187-87d1-4907-b4d0-0d8f00f2a6f1",
+          "departureDateTime": "2026-10-16T08:58:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T09:40:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T10:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c4ea16ea-5f37-4258-8aba-10af007dbe94",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "26d7b187-87d1-4907-b4d0-0d8f00f2a6f1",
+          "departureDateTime": "2026-10-16T10:23:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T11:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T11:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "7653ad7f-d241-4f71-ba19-10c200a72cb6",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "26d7b187-87d1-4907-b4d0-0d8f00f2a6f1",
+          "departureDateTime": "2026-10-16T11:18:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T12:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T11:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "a1c14ea6-fb40-44fa-96f1-10af007dbe98",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "541f801c-91dd-4fe7-b981-0d8f00e6599f",
+          "departureDateTime": "2026-10-16T11:48:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T12:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T12:30:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "01d19b7f-1ade-4fcf-b0d7-10af007dbe99",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "541f801c-91dd-4fe7-b981-0d8f00e6599f",
+          "departureDateTime": "2026-10-16T12:33:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T13:20:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T13:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "70b6fced-fa52-4a0f-aeaa-10af007dbe9b",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "541f801c-91dd-4fe7-b981-0d8f00e6599f",
+          "departureDateTime": "2026-10-16T13:18:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T14:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T14:50:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "3bc0993e-5e7a-4a50-9b40-10af007dbeb0",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "541f801c-91dd-4fe7-b981-0d8f00e6599f",
+          "departureDateTime": "2026-10-16T14:53:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T15:40:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T16:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "58c176ca-ce7c-4b6c-8bb7-10af007dbea0",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "541f801c-91dd-4fe7-b981-0d8f00e6599f",
+          "departureDateTime": "2026-10-16T16:13:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T17:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T17:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "1e0927d4-7f60-4f72-a7a8-10af007dbeb1",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "541f801c-91dd-4fe7-b981-0d8f00e6599f",
+          "departureDateTime": "2026-10-16T17:13:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T18:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T18:20:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "3fceddc5-2998-4c30-9176-10af007dbe9d",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "541f801c-91dd-4fe7-b981-0d8f00e6599f",
+          "departureDateTime": "2026-10-16T18:23:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T19:10:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T04:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "cfbe78b6-cab3-476d-9b7d-10af007dbe8e",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "541f801c-91dd-4fe7-b981-0d8f00e6599f",
+          "departureDateTime": "2026-10-16T04:03:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T04:50:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T04:40:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "fb507eae-f7ea-4dcf-93d8-10af007dbe90",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "541f801c-91dd-4fe7-b981-0d8f00e6599f",
+          "departureDateTime": "2026-10-16T04:43:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T05:30:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "b0389d5a-add8-4a11-9511-10af007dbe91",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "541f801c-91dd-4fe7-b981-0d8f00e6599f",
+          "departureDateTime": "2026-10-16T05:13:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T06:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "ff0c6867-0e77-4c86-be5f-10af007dbeb2",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "08aadda0-581e-49b9-9781-0de300fa0c0f",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "541f801c-91dd-4fe7-b981-0d8f00e6599f",
+          "departureDateTime": "2026-10-16T05:13:00+00:00",
+          "arrivalStopId": "7f2ca1a5-24bf-41e5-adaf-0de300fa82e0",
+          "arrivalDateTime": "2026-10-16T06:25:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "1968714e-a646-4d1e-97eb-10af007dbeb7",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "541f801c-91dd-4fe7-b981-0d8f00e6599f",
+          "departureDateTime": "2026-10-16T05:48:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T06:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T06:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c23d0a2f-eaaa-4ac7-b926-10af007dbe91",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "541f801c-91dd-4fe7-b981-0d8f00e6599f",
+          "departureDateTime": "2026-10-16T06:18:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T07:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T07:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "af917ea9-b472-4d2d-b943-10af007dbe93",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "541f801c-91dd-4fe7-b981-0d8f00e6599f",
+          "departureDateTime": "2026-10-16T07:48:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T08:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T08:50:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "ac0f6a2e-ced2-4933-b2bd-10af007dbe92",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "541f801c-91dd-4fe7-b981-0d8f00e6599f",
+          "departureDateTime": "2026-10-16T08:53:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T09:40:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T10:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c4ea16ea-5f37-4258-8aba-10af007dbe94",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "541f801c-91dd-4fe7-b981-0d8f00e6599f",
+          "departureDateTime": "2026-10-16T10:18:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T11:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T11:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "7653ad7f-d241-4f71-ba19-10c200a72cb6",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "541f801c-91dd-4fe7-b981-0d8f00e6599f",
+          "departureDateTime": "2026-10-16T11:13:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T12:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T11:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "a1c14ea6-fb40-44fa-96f1-10af007dbe98",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "053b14aa-3115-4843-85c9-0d8f00e49c05",
+          "departureDateTime": "2026-10-16T11:47:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T12:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T12:30:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "01d19b7f-1ade-4fcf-b0d7-10af007dbe99",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "053b14aa-3115-4843-85c9-0d8f00e49c05",
+          "departureDateTime": "2026-10-16T12:32:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T13:20:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T13:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "70b6fced-fa52-4a0f-aeaa-10af007dbe9b",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "053b14aa-3115-4843-85c9-0d8f00e49c05",
+          "departureDateTime": "2026-10-16T13:17:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T14:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T14:50:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "3bc0993e-5e7a-4a50-9b40-10af007dbeb0",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "053b14aa-3115-4843-85c9-0d8f00e49c05",
+          "departureDateTime": "2026-10-16T14:52:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T15:40:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T16:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "58c176ca-ce7c-4b6c-8bb7-10af007dbea0",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "053b14aa-3115-4843-85c9-0d8f00e49c05",
+          "departureDateTime": "2026-10-16T16:12:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T17:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T17:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "1e0927d4-7f60-4f72-a7a8-10af007dbeb1",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "053b14aa-3115-4843-85c9-0d8f00e49c05",
+          "departureDateTime": "2026-10-16T17:12:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T18:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T18:20:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "3fceddc5-2998-4c30-9176-10af007dbe9d",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "053b14aa-3115-4843-85c9-0d8f00e49c05",
+          "departureDateTime": "2026-10-16T18:22:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T19:10:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T04:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "cfbe78b6-cab3-476d-9b7d-10af007dbe8e",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "053b14aa-3115-4843-85c9-0d8f00e49c05",
+          "departureDateTime": "2026-10-16T04:02:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T04:50:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T04:40:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "fb507eae-f7ea-4dcf-93d8-10af007dbe90",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "053b14aa-3115-4843-85c9-0d8f00e49c05",
+          "departureDateTime": "2026-10-16T04:42:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T05:30:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "b0389d5a-add8-4a11-9511-10af007dbe91",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "053b14aa-3115-4843-85c9-0d8f00e49c05",
+          "departureDateTime": "2026-10-16T05:12:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T06:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "ff0c6867-0e77-4c86-be5f-10af007dbeb2",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "08aadda0-581e-49b9-9781-0de300fa0c0f",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "053b14aa-3115-4843-85c9-0d8f00e49c05",
+          "departureDateTime": "2026-10-16T05:12:00+00:00",
+          "arrivalStopId": "7f2ca1a5-24bf-41e5-adaf-0de300fa82e0",
+          "arrivalDateTime": "2026-10-16T06:25:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "1968714e-a646-4d1e-97eb-10af007dbeb7",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "053b14aa-3115-4843-85c9-0d8f00e49c05",
+          "departureDateTime": "2026-10-16T05:47:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T06:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T06:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c23d0a2f-eaaa-4ac7-b926-10af007dbe91",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "053b14aa-3115-4843-85c9-0d8f00e49c05",
+          "departureDateTime": "2026-10-16T06:17:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T07:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T07:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "af917ea9-b472-4d2d-b943-10af007dbe93",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "053b14aa-3115-4843-85c9-0d8f00e49c05",
+          "departureDateTime": "2026-10-16T07:47:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T08:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T08:50:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "ac0f6a2e-ced2-4933-b2bd-10af007dbe92",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "053b14aa-3115-4843-85c9-0d8f00e49c05",
+          "departureDateTime": "2026-10-16T08:52:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T09:40:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T10:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c4ea16ea-5f37-4258-8aba-10af007dbe94",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "053b14aa-3115-4843-85c9-0d8f00e49c05",
+          "departureDateTime": "2026-10-16T10:17:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T11:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T11:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "7653ad7f-d241-4f71-ba19-10c200a72cb6",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "053b14aa-3115-4843-85c9-0d8f00e49c05",
+          "departureDateTime": "2026-10-16T11:12:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T12:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T11:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "a1c14ea6-fb40-44fa-96f1-10af007dbe98",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "1ceba55c-9db4-4b59-8d3a-0d8f00f21162",
+          "departureDateTime": "2026-10-16T11:52:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T12:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T12:30:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "01d19b7f-1ade-4fcf-b0d7-10af007dbe99",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "1ceba55c-9db4-4b59-8d3a-0d8f00f21162",
+          "departureDateTime": "2026-10-16T12:37:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T13:20:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T13:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "70b6fced-fa52-4a0f-aeaa-10af007dbe9b",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "1ceba55c-9db4-4b59-8d3a-0d8f00f21162",
+          "departureDateTime": "2026-10-16T13:22:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T14:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T14:50:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "3bc0993e-5e7a-4a50-9b40-10af007dbeb0",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "1ceba55c-9db4-4b59-8d3a-0d8f00f21162",
+          "departureDateTime": "2026-10-16T14:57:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T15:40:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T16:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "58c176ca-ce7c-4b6c-8bb7-10af007dbea0",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "1ceba55c-9db4-4b59-8d3a-0d8f00f21162",
+          "departureDateTime": "2026-10-16T16:17:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T17:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T17:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "1e0927d4-7f60-4f72-a7a8-10af007dbeb1",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "1ceba55c-9db4-4b59-8d3a-0d8f00f21162",
+          "departureDateTime": "2026-10-16T17:17:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T18:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T18:20:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "3fceddc5-2998-4c30-9176-10af007dbe9d",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "1ceba55c-9db4-4b59-8d3a-0d8f00f21162",
+          "departureDateTime": "2026-10-16T18:27:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T19:10:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T04:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "cfbe78b6-cab3-476d-9b7d-10af007dbe8e",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "1ceba55c-9db4-4b59-8d3a-0d8f00f21162",
+          "departureDateTime": "2026-10-16T04:07:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T04:50:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T04:40:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "fb507eae-f7ea-4dcf-93d8-10af007dbe90",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "1ceba55c-9db4-4b59-8d3a-0d8f00f21162",
+          "departureDateTime": "2026-10-16T04:47:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T05:30:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "b0389d5a-add8-4a11-9511-10af007dbe91",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "1ceba55c-9db4-4b59-8d3a-0d8f00f21162",
+          "departureDateTime": "2026-10-16T05:17:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T06:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "ff0c6867-0e77-4c86-be5f-10af007dbeb2",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "08aadda0-581e-49b9-9781-0de300fa0c0f",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "1ceba55c-9db4-4b59-8d3a-0d8f00f21162",
+          "departureDateTime": "2026-10-16T05:17:00+00:00",
+          "arrivalStopId": "7f2ca1a5-24bf-41e5-adaf-0de300fa82e0",
+          "arrivalDateTime": "2026-10-16T06:25:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "1968714e-a646-4d1e-97eb-10af007dbeb7",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "1ceba55c-9db4-4b59-8d3a-0d8f00f21162",
+          "departureDateTime": "2026-10-16T05:52:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T06:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T06:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c23d0a2f-eaaa-4ac7-b926-10af007dbe91",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "1ceba55c-9db4-4b59-8d3a-0d8f00f21162",
+          "departureDateTime": "2026-10-16T06:22:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T07:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T07:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "af917ea9-b472-4d2d-b943-10af007dbe93",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "1ceba55c-9db4-4b59-8d3a-0d8f00f21162",
+          "departureDateTime": "2026-10-16T07:52:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T08:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T08:50:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "ac0f6a2e-ced2-4933-b2bd-10af007dbe92",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "1ceba55c-9db4-4b59-8d3a-0d8f00f21162",
+          "departureDateTime": "2026-10-16T08:57:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T09:40:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T10:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c4ea16ea-5f37-4258-8aba-10af007dbe94",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "1ceba55c-9db4-4b59-8d3a-0d8f00f21162",
+          "departureDateTime": "2026-10-16T10:22:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T11:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T11:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "7653ad7f-d241-4f71-ba19-10c200a72cb6",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "1ceba55c-9db4-4b59-8d3a-0d8f00f21162",
+          "departureDateTime": "2026-10-16T11:17:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T12:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T11:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "a1c14ea6-fb40-44fa-96f1-10af007dbe98",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "80480c09-def9-40bb-879f-0d8f00e7a050",
+          "departureDateTime": "2026-10-16T11:50:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T12:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T12:30:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "01d19b7f-1ade-4fcf-b0d7-10af007dbe99",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "80480c09-def9-40bb-879f-0d8f00e7a050",
+          "departureDateTime": "2026-10-16T12:35:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T13:20:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T13:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "70b6fced-fa52-4a0f-aeaa-10af007dbe9b",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "80480c09-def9-40bb-879f-0d8f00e7a050",
+          "departureDateTime": "2026-10-16T13:20:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T14:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T14:50:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "3bc0993e-5e7a-4a50-9b40-10af007dbeb0",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "80480c09-def9-40bb-879f-0d8f00e7a050",
+          "departureDateTime": "2026-10-16T14:55:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T15:40:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T16:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "58c176ca-ce7c-4b6c-8bb7-10af007dbea0",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "80480c09-def9-40bb-879f-0d8f00e7a050",
+          "departureDateTime": "2026-10-16T16:15:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T17:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T17:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "1e0927d4-7f60-4f72-a7a8-10af007dbeb1",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "80480c09-def9-40bb-879f-0d8f00e7a050",
+          "departureDateTime": "2026-10-16T17:15:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T18:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T18:20:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "3fceddc5-2998-4c30-9176-10af007dbe9d",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "80480c09-def9-40bb-879f-0d8f00e7a050",
+          "departureDateTime": "2026-10-16T18:25:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T19:10:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T04:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "cfbe78b6-cab3-476d-9b7d-10af007dbe8e",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "80480c09-def9-40bb-879f-0d8f00e7a050",
+          "departureDateTime": "2026-10-16T04:05:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T04:50:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T04:40:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "fb507eae-f7ea-4dcf-93d8-10af007dbe90",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "80480c09-def9-40bb-879f-0d8f00e7a050",
+          "departureDateTime": "2026-10-16T04:45:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T05:30:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "b0389d5a-add8-4a11-9511-10af007dbe91",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "80480c09-def9-40bb-879f-0d8f00e7a050",
+          "departureDateTime": "2026-10-16T05:15:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T06:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "ff0c6867-0e77-4c86-be5f-10af007dbeb2",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "08aadda0-581e-49b9-9781-0de300fa0c0f",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "80480c09-def9-40bb-879f-0d8f00e7a050",
+          "departureDateTime": "2026-10-16T05:15:00+00:00",
+          "arrivalStopId": "7f2ca1a5-24bf-41e5-adaf-0de300fa82e0",
+          "arrivalDateTime": "2026-10-16T06:25:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "1968714e-a646-4d1e-97eb-10af007dbeb7",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "80480c09-def9-40bb-879f-0d8f00e7a050",
+          "departureDateTime": "2026-10-16T05:50:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T06:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T06:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c23d0a2f-eaaa-4ac7-b926-10af007dbe91",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "80480c09-def9-40bb-879f-0d8f00e7a050",
+          "departureDateTime": "2026-10-16T06:20:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T07:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T07:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "af917ea9-b472-4d2d-b943-10af007dbe93",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "80480c09-def9-40bb-879f-0d8f00e7a050",
+          "departureDateTime": "2026-10-16T07:50:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T08:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T08:50:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "ac0f6a2e-ced2-4933-b2bd-10af007dbe92",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "80480c09-def9-40bb-879f-0d8f00e7a050",
+          "departureDateTime": "2026-10-16T08:55:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T09:40:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T10:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c4ea16ea-5f37-4258-8aba-10af007dbe94",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "80480c09-def9-40bb-879f-0d8f00e7a050",
+          "departureDateTime": "2026-10-16T10:20:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T11:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T11:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "7653ad7f-d241-4f71-ba19-10c200a72cb6",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "80480c09-def9-40bb-879f-0d8f00e7a050",
+          "departureDateTime": "2026-10-16T11:15:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T12:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T11:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "a1c14ea6-fb40-44fa-96f1-10af007dbe98",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a395fdcc-0028-4689-a2c5-0d8f00e7679e",
+          "departureDateTime": "2026-10-16T11:49:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T12:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T12:30:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "01d19b7f-1ade-4fcf-b0d7-10af007dbe99",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a395fdcc-0028-4689-a2c5-0d8f00e7679e",
+          "departureDateTime": "2026-10-16T12:34:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T13:20:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T13:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "70b6fced-fa52-4a0f-aeaa-10af007dbe9b",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a395fdcc-0028-4689-a2c5-0d8f00e7679e",
+          "departureDateTime": "2026-10-16T13:19:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T14:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T14:50:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "3bc0993e-5e7a-4a50-9b40-10af007dbeb0",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a395fdcc-0028-4689-a2c5-0d8f00e7679e",
+          "departureDateTime": "2026-10-16T14:54:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T15:40:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T16:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "58c176ca-ce7c-4b6c-8bb7-10af007dbea0",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a395fdcc-0028-4689-a2c5-0d8f00e7679e",
+          "departureDateTime": "2026-10-16T16:14:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T17:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T17:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "1e0927d4-7f60-4f72-a7a8-10af007dbeb1",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a395fdcc-0028-4689-a2c5-0d8f00e7679e",
+          "departureDateTime": "2026-10-16T17:14:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T18:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T18:20:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "3fceddc5-2998-4c30-9176-10af007dbe9d",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a395fdcc-0028-4689-a2c5-0d8f00e7679e",
+          "departureDateTime": "2026-10-16T18:24:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T19:10:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T04:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "cfbe78b6-cab3-476d-9b7d-10af007dbe8e",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a395fdcc-0028-4689-a2c5-0d8f00e7679e",
+          "departureDateTime": "2026-10-16T04:04:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T04:50:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T04:40:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "fb507eae-f7ea-4dcf-93d8-10af007dbe90",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a395fdcc-0028-4689-a2c5-0d8f00e7679e",
+          "departureDateTime": "2026-10-16T04:44:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T05:30:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "b0389d5a-add8-4a11-9511-10af007dbe91",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a395fdcc-0028-4689-a2c5-0d8f00e7679e",
+          "departureDateTime": "2026-10-16T05:14:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T06:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "ff0c6867-0e77-4c86-be5f-10af007dbeb2",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "08aadda0-581e-49b9-9781-0de300fa0c0f",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a395fdcc-0028-4689-a2c5-0d8f00e7679e",
+          "departureDateTime": "2026-10-16T05:14:00+00:00",
+          "arrivalStopId": "7f2ca1a5-24bf-41e5-adaf-0de300fa82e0",
+          "arrivalDateTime": "2026-10-16T06:25:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "1968714e-a646-4d1e-97eb-10af007dbeb7",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a395fdcc-0028-4689-a2c5-0d8f00e7679e",
+          "departureDateTime": "2026-10-16T05:49:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T06:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T06:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c23d0a2f-eaaa-4ac7-b926-10af007dbe91",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a395fdcc-0028-4689-a2c5-0d8f00e7679e",
+          "departureDateTime": "2026-10-16T06:19:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T07:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T07:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "af917ea9-b472-4d2d-b943-10af007dbe93",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a395fdcc-0028-4689-a2c5-0d8f00e7679e",
+          "departureDateTime": "2026-10-16T07:49:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T08:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T08:50:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "ac0f6a2e-ced2-4933-b2bd-10af007dbe92",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a395fdcc-0028-4689-a2c5-0d8f00e7679e",
+          "departureDateTime": "2026-10-16T08:54:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T09:40:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T10:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c4ea16ea-5f37-4258-8aba-10af007dbe94",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a395fdcc-0028-4689-a2c5-0d8f00e7679e",
+          "departureDateTime": "2026-10-16T10:19:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T11:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T11:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "7653ad7f-d241-4f71-ba19-10c200a72cb6",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a395fdcc-0028-4689-a2c5-0d8f00e7679e",
+          "departureDateTime": "2026-10-16T11:14:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T12:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T11:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "a1c14ea6-fb40-44fa-96f1-10af007dbe98",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "795e6326-2a78-43b8-b773-0d8a00f6a450",
+          "departureDateTime": "2026-10-16T11:45:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T12:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T12:30:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "01d19b7f-1ade-4fcf-b0d7-10af007dbe99",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "795e6326-2a78-43b8-b773-0d8a00f6a450",
+          "departureDateTime": "2026-10-16T12:30:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T13:20:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T13:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "70b6fced-fa52-4a0f-aeaa-10af007dbe9b",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "795e6326-2a78-43b8-b773-0d8a00f6a450",
+          "departureDateTime": "2026-10-16T13:15:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T14:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T14:50:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "3bc0993e-5e7a-4a50-9b40-10af007dbeb0",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "795e6326-2a78-43b8-b773-0d8a00f6a450",
+          "departureDateTime": "2026-10-16T14:50:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T15:40:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T16:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "58c176ca-ce7c-4b6c-8bb7-10af007dbea0",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "795e6326-2a78-43b8-b773-0d8a00f6a450",
+          "departureDateTime": "2026-10-16T16:10:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T17:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T17:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "1e0927d4-7f60-4f72-a7a8-10af007dbeb1",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "795e6326-2a78-43b8-b773-0d8a00f6a450",
+          "departureDateTime": "2026-10-16T17:10:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T18:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T18:20:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "3fceddc5-2998-4c30-9176-10af007dbe9d",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "795e6326-2a78-43b8-b773-0d8a00f6a450",
+          "departureDateTime": "2026-10-16T18:20:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T19:10:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T04:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "cfbe78b6-cab3-476d-9b7d-10af007dbe8e",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "795e6326-2a78-43b8-b773-0d8a00f6a450",
+          "departureDateTime": "2026-10-16T04:00:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T04:50:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T04:40:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "fb507eae-f7ea-4dcf-93d8-10af007dbe90",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "795e6326-2a78-43b8-b773-0d8a00f6a450",
+          "departureDateTime": "2026-10-16T04:40:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T05:30:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "b0389d5a-add8-4a11-9511-10af007dbe91",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "795e6326-2a78-43b8-b773-0d8a00f6a450",
+          "departureDateTime": "2026-10-16T05:10:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T06:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "ff0c6867-0e77-4c86-be5f-10af007dbeb2",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "08aadda0-581e-49b9-9781-0de300fa0c0f",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "795e6326-2a78-43b8-b773-0d8a00f6a450",
+          "departureDateTime": "2026-10-16T05:10:00+00:00",
+          "arrivalStopId": "7f2ca1a5-24bf-41e5-adaf-0de300fa82e0",
+          "arrivalDateTime": "2026-10-16T06:25:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "1968714e-a646-4d1e-97eb-10af007dbeb7",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "795e6326-2a78-43b8-b773-0d8a00f6a450",
+          "departureDateTime": "2026-10-16T05:45:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T06:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T06:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c23d0a2f-eaaa-4ac7-b926-10af007dbe91",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "795e6326-2a78-43b8-b773-0d8a00f6a450",
+          "departureDateTime": "2026-10-16T06:15:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T07:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T07:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "af917ea9-b472-4d2d-b943-10af007dbe93",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "795e6326-2a78-43b8-b773-0d8a00f6a450",
+          "departureDateTime": "2026-10-16T07:45:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T08:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T08:50:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "ac0f6a2e-ced2-4933-b2bd-10af007dbe92",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "795e6326-2a78-43b8-b773-0d8a00f6a450",
+          "departureDateTime": "2026-10-16T08:50:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T09:40:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T10:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c4ea16ea-5f37-4258-8aba-10af007dbe94",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "795e6326-2a78-43b8-b773-0d8a00f6a450",
+          "departureDateTime": "2026-10-16T10:15:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T11:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T11:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "7653ad7f-d241-4f71-ba19-10c200a72cb6",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "795e6326-2a78-43b8-b773-0d8a00f6a450",
+          "departureDateTime": "2026-10-16T11:10:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T12:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T11:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "a1c14ea6-fb40-44fa-96f1-10af007dbe98",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a20de3e1-60ad-4bfb-a28b-0d8f00f2ffa4",
+          "departureDateTime": "2026-10-16T11:54:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T12:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T12:30:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "01d19b7f-1ade-4fcf-b0d7-10af007dbe99",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a20de3e1-60ad-4bfb-a28b-0d8f00f2ffa4",
+          "departureDateTime": "2026-10-16T12:39:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T13:20:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T13:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "70b6fced-fa52-4a0f-aeaa-10af007dbe9b",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a20de3e1-60ad-4bfb-a28b-0d8f00f2ffa4",
+          "departureDateTime": "2026-10-16T13:24:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T14:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T14:50:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "3bc0993e-5e7a-4a50-9b40-10af007dbeb0",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a20de3e1-60ad-4bfb-a28b-0d8f00f2ffa4",
+          "departureDateTime": "2026-10-16T14:59:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T15:40:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T16:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "58c176ca-ce7c-4b6c-8bb7-10af007dbea0",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a20de3e1-60ad-4bfb-a28b-0d8f00f2ffa4",
+          "departureDateTime": "2026-10-16T16:19:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T17:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T17:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "1e0927d4-7f60-4f72-a7a8-10af007dbeb1",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a20de3e1-60ad-4bfb-a28b-0d8f00f2ffa4",
+          "departureDateTime": "2026-10-16T17:19:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T18:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T18:20:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "3fceddc5-2998-4c30-9176-10af007dbe9d",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a20de3e1-60ad-4bfb-a28b-0d8f00f2ffa4",
+          "departureDateTime": "2026-10-16T18:29:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T19:10:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T04:00:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "cfbe78b6-cab3-476d-9b7d-10af007dbe8e",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a20de3e1-60ad-4bfb-a28b-0d8f00f2ffa4",
+          "departureDateTime": "2026-10-16T04:09:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T04:50:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T04:40:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "fb507eae-f7ea-4dcf-93d8-10af007dbe90",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a20de3e1-60ad-4bfb-a28b-0d8f00f2ffa4",
+          "departureDateTime": "2026-10-16T04:49:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T05:30:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "b0389d5a-add8-4a11-9511-10af007dbe91",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a20de3e1-60ad-4bfb-a28b-0d8f00f2ffa4",
+          "departureDateTime": "2026-10-16T05:19:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T06:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "ff0c6867-0e77-4c86-be5f-10af007dbeb2",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "08aadda0-581e-49b9-9781-0de300fa0c0f",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a20de3e1-60ad-4bfb-a28b-0d8f00f2ffa4",
+          "departureDateTime": "2026-10-16T05:19:00+00:00",
+          "arrivalStopId": "7f2ca1a5-24bf-41e5-adaf-0de300fa82e0",
+          "arrivalDateTime": "2026-10-16T06:25:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T05:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "1968714e-a646-4d1e-97eb-10af007dbeb7",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a20de3e1-60ad-4bfb-a28b-0d8f00f2ffa4",
+          "departureDateTime": "2026-10-16T05:54:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T06:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T06:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c23d0a2f-eaaa-4ac7-b926-10af007dbe91",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a20de3e1-60ad-4bfb-a28b-0d8f00f2ffa4",
+          "departureDateTime": "2026-10-16T06:24:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T07:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T07:45:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "af917ea9-b472-4d2d-b943-10af007dbe93",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a20de3e1-60ad-4bfb-a28b-0d8f00f2ffa4",
+          "departureDateTime": "2026-10-16T07:54:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T08:35:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T08:50:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "ac0f6a2e-ced2-4933-b2bd-10af007dbe92",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a20de3e1-60ad-4bfb-a28b-0d8f00f2ffa4",
+          "departureDateTime": "2026-10-16T08:59:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T09:40:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T10:15:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "c4ea16ea-5f37-4258-8aba-10af007dbe94",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a20de3e1-60ad-4bfb-a28b-0d8f00f2ffa4",
+          "departureDateTime": "2026-10-16T10:24:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T11:05:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    },
+    {
+      "trips": [
+        {
+          "routeCustomersDescription": "",
+          "tripDepartureDateTime": "2026-10-16T11:10:00+00:00",
+          "excludedRoute": false,
+          "excludedTrip": false,
+          "trip": {
+            "tripId": "7653ad7f-d241-4f71-ba19-10c200a72cb6",
+            "lineId": "b3f1bd53-e8a7-4ce3-a6c1-0d8a00f4a428",
+            "routeId": "7d16f12b-52a4-43f1-af11-0d8a01004359",
+            "blocked": false,
+            "canceled": false,
+            "luggagesSlots": [
+              {
+                "Units": 61.0
+              }
+            ],
+            "carrierId": "giunta",
+            "canSelectSeat": false,
+            "vehicleDescription": "",
+            "travelMode": 0,
+            "lineType": 2
+          },
+          "departureStopId": "a20de3e1-60ad-4bfb-a28b-0d8f00f2ffa4",
+          "departureDateTime": "2026-10-16T11:19:00+00:00",
+          "arrivalStopId": "63737c06-b847-4673-85d1-0d8a00f941ea",
+          "arrivalDateTime": "2026-10-16T12:00:00+00:00",
+          "departureLocality": "235b5b90-c256-4bd0-b0b8-3bed970d2417",
+          "arrivalLocality": "94393218-6067-4adf-a8f6-fda6ad592bb6"
+        }
+      ],
+      "calculatedPrice": 4.2,
+      "returnPrice": 3.2,
+      "fullPrice": 4.2,
+      "returnPriceAvailable": false,
+      "limitations": [],
+      "customMessageIds": [],
+      "returnPriceDaysConfigured": 0,
+      "timezone": "Europe/Rome"
+    }
+  ]
+}

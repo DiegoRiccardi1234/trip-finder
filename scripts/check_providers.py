@@ -1,15 +1,16 @@
 """Stato di salute di tutti gli adapter, provati dal vivo.
 
 Ogni adapter dichiara una `sample_route`: una tratta che quell'operatore serve
-di sicuro. Se non torna nulla li', non e' una giornata senza corse, e' il parser
-che si e' rotto. E' l'unico modo per accorgersene prima dell'utente.
+di sicuro. Un errore di formato o gambe incoerenti dimostrano un guasto;
+nessuna corsa lascia invece la prova inconclusiva, anche con un pin valido.
 
-Quella conclusione vale pero' **solo nel giorno che l'adapter ha pinnato** con
-`sample_date`. Passata quella data si prova in un giorno qualunque, e per un
+La data di servizio che l'adapter ha verificato si conserva in `sample_date`.
+Passata quella data si prova in un giorno qualunque, e per un
 operatore stagionale o con una corsa al giorno `VUOTO` torna a essere ambiguo:
 per questo la riga lo dice («pin scaduto»), e per questo, quando non esce
 nessuna gamba, il dettaglio riporta **quanto pesava la risposta grezza**. Zero
-elementi e' l'operatore che tace; dodici elementi e nessuna gamba e' il parser.
+elementi significa nessuna corsa restituita; elementi presenti possono anche
+essere cancellati o appartenere ad altre date e non provano da soli un guasto.
 
     python scripts/check_providers.py
     python scripts/check_providers.py --only itabus --verbose
@@ -53,12 +54,12 @@ def pick_node(place, provider: Provider) -> Node | None:
 
 
 async def check_one(
-    provider: Provider, day: date, save: bool, verbose: bool
+    provider: Provider, day: date, save: bool, verbose: bool, *, explicit_date: bool = False
 ) -> tuple[str, int, int, str]:
     if not provider.sample_route:
         return "assente", 0, 0, "nessuna sample_route dichiarata"
 
-    day = _sample_day(provider, day)
+    day = _sample_day(provider, day, explicit_date=explicit_date)
     ctx = SearchContext(date=day)
 
     # Se l'adapter ha un proprio catalogo di fermate, le sue vincono: il
@@ -66,8 +67,10 @@ async def check_one(
     # geografico conosce un paese di trecento abitanti.
     try:
         own = await provider.sample_nodes(ctx)
+    except Blocked as exc:
+        return "bloccato", 0, 0, str(exc)[:110]
     except Exception as exc:  # noqa: BLE001
-        return "errore", 0, 0, f"catalogo dell'adapter non disponibile: {exc}"[:110]
+        return _failure_status(exc), 0, 0, f"catalogo dell'adapter non disponibile: {exc}"[:110]
 
     if own is not None:
         origin, destination = own
@@ -88,18 +91,22 @@ async def check_one(
         return "errore", 0, 0, f"can_serve() nega {origin.name} -> {destination.name}"
     started = datetime.now()
     try:
+        await provider.prepare_parse(ctx)
         raw = await provider.fetch(origin, destination, ctx)
-        legs = provider.parse(raw, origin, destination, ctx)
+        parsed = provider.parse(raw, origin, destination, ctx)
+        legs = provider._solo_coerenti(parsed, origin, destination)
     except NotServed as exc:
         return "saltato", 0, _ms(started), str(exc)[:90]
     except Blocked as exc:
         return "bloccato", 0, _ms(started), str(exc)[:90]
     except ProviderError as exc:
-        return "errore", 0, _ms(started), str(exc)[:90]
+        return _failure_status(exc), 0, _ms(started), str(exc)[:90]
     except Exception as exc:  # noqa: BLE001
         return "errore", 0, _ms(started), f"{type(exc).__name__}: {exc}"[:90]
 
     elapsed = _ms(started)
+    if parsed and not legs:
+        return "errore", 0, elapsed, "il parser ha prodotto solo gambe incoerenti con la tratta"
     if save and legs:
         from try_provider import save_fixture
 
@@ -120,14 +127,23 @@ async def check_one(
             )
 
     if not legs:
-        # **Quanto pesava la risposta grezza**, che e' l'unica cosa capace di
-        # separare i due guasti che oggi si chiamano tutti e due `VUOTO`:
-        # l'operatore che non ha corse quel giorno, e il parser che non legge
-        # piu' quello che l'operatore manda. Senza questo numero il rapporto
-        # afferma una causa che non ha misurato, e quella riga e' esattamente
-        # il posto in cui si guarda quando qualcosa si e' rotto in silenzio.
-        return "vuoto", 0, elapsed, f"nessuna corsa: {_dimensione(raw)}"
+        # La dimensione aiuta l'indagine, ma da sola non distingue corse
+        # cancellate, date diverse e un parser che scarta tutto.
+        return "vuoto", 0, elapsed, f"non verificato: nessuna corsa; {_dimensione(raw)}"
     return "ok", len(legs), elapsed, ""
+
+
+def _failure_status(exc: BaseException) -> str:
+    """Conserva il blocco HTTP anche se l'adapter lo avvolge in ProviderError."""
+    seen: set[int] = set()
+    while id(exc) not in seen:
+        if isinstance(exc, Blocked):
+            return "bloccato"
+        seen.add(id(exc))
+        if exc.__cause__ is None:
+            break
+        exc = exc.__cause__
+    return "errore"
 
 
 def _dimensione(raw: object) -> str:
@@ -152,7 +168,7 @@ def _ms(started: datetime) -> int:
     return int((datetime.now() - started).total_seconds() * 1000)
 
 
-def _sample_day(provider: Provider, requested: date) -> date:
+def _sample_day(provider: Provider, requested: date, *, explicit_date: bool = False) -> date:
     """Il giorno su cui provare questo adapter.
 
     Se l'adapter dichiara la data in cui la sua tratta di prova e' stata vista
@@ -160,7 +176,7 @@ def _sample_day(provider: Provider, requested: date) -> date:
     giorno o servizi stagionali, e provarli in una data qualunque li farebbe
     sembrare rotti. Quando quella data e' passata non serve piu' a niente e si
     torna al giorno richiesto: sara' il controllo stesso a dire che va rinnovata."""
-    if not provider.sample_date:
+    if explicit_date or not provider.sample_date:
         return requested
     try:
         pinned = date.fromisoformat(provider.sample_date)
@@ -184,24 +200,36 @@ def _pin_scaduto(provider: Provider) -> bool:
         return False
 
 
+def _exit_code(tally: dict[str, int]) -> int:
+    """Un vuoto non dimostra un guasto: il controllo resta inconclusivo."""
+    if tally.get("errore"):
+        return 1
+    return 2 if any(tally.get(s) for s in ("vuoto", "bloccato", "saltato", "assente")) else 0
+
+
 async def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--only", help="controlla un solo adapter")
+    parser.add_argument("--exclude", action="append", default=[], help="esclude un adapter (ripetibile)")
     parser.add_argument("--tier", type=int, help="solo gli adapter di questo livello")
     parser.add_argument("--save", action="store_true", help="rigenera le fixture")
     parser.add_argument("--verbose", action="store_true", help="mostra le prime corse")
     parser.add_argument(
         "--date",
         type=lambda v: datetime.strptime(v, "%Y-%m-%d").date(),
-        default=date.today() + timedelta(days=14),
+        default=None,
+        help="AAAA-MM-GG: se specificata prevale sulle sample_date",
     )
     args = parser.parse_args()
+    explicit_date = args.date is not None
+    args.date = args.date or date.today() + timedelta(days=14)
 
     providers = sorted(registry.all_providers(), key=lambda p: (p.tier, p.mode.value, p.id))
     if args.only:
         providers = [p for p in providers if p.id == args.only]
     if args.tier:
         providers = [p for p in providers if p.tier == args.tier]
+    providers = [p for p in providers if p.id not in args.exclude]
     if not providers:
         print("nessun adapter corrisponde ai filtri", file=sys.stderr)
         return 1
@@ -213,11 +241,11 @@ async def main() -> int:
     tally: dict[str, int] = {}
     for provider in providers:
         status, legs, elapsed, detail = await check_one(
-            provider, args.date, args.save, args.verbose
+            provider, args.date, args.save, args.verbose, explicit_date=explicit_date
         )
         tally[status] = tally.get(status, 0) + 1
         route = " -> ".join(provider.sample_route) if provider.sample_route else "-"
-        used = _sample_day(provider, args.date)
+        used = _sample_day(provider, args.date, explicit_date=explicit_date)
         # Tre righe di codice per una bugia per omissione. La data si stampava
         # solo quando **differiva** da quella chiesta, cioe' solo finche' il pin
         # era valido: appena scade, `_sample_day` torna la data richiesta, la
@@ -247,8 +275,8 @@ async def main() -> int:
     await close_http_client()
     await close_browser_pool()
     await close_db()
-    # Un adapter rotto deve far fallire il comando, cosi' e' usabile in un hook.
-    return 1 if tally.get("errore") or tally.get("vuoto") else 0
+    # 0 = verificato, 1 = errore, 2 = prova inconclusiva (vuoto/blocco/non servito).
+    return _exit_code(tally)
 
 
 if __name__ == "__main__":

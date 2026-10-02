@@ -511,6 +511,34 @@ prezzi, ci pensa `routing/cost.py` in modo uniforme; una lista vuota significa
 .\.venv\Scripts\python.exe -m pytest tests -q
 ```
 
+Per verificare gli operatori senza confondere un giorno senza corse con un
+parser guasto:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\check_providers.py
+.\.venv\Scripts\python.exe scripts\check_providers.py --only onebus --date 2026-10-19
+```
+
+Il comando termina con `0` se le prove sono concluse senza anomalie, `1` se
+trova un guasto e `2` se restano casi inconclusivi. `--date` prevale sulle date
+campione degli adapter. Le date campione documentano una corsa vista davvero;
+quando scadono vanno ricontrollate, senza spostarle automaticamente.
+
+Le prove della conversazione richiedono un server reale sulla porta 8099 e
+possono consumare la quota del fornitore IA configurato. Quelle del pacchetto
+Windows usano un'installazione temporanea senza chiavi reali; prima di
+lanciarle bisogna fermare il server sulla stessa porta:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\verify_live.py --output data\logs\verification\parse-live.json
+.\.venv\Scripts\python.exe scripts\verify_bundle.py --output data\logs\verification\bundle.json
+```
+
+Google usa Flash Lite per l'interpretazione e Flash per i consigli. I modelli
+2.5 possono ancora essere elencati dal catalogo, ma le nuove chiavi ricevono
+404: i predefiniti sono aggiornati ai successori verificati. Le verifiche e i
+limiti delle fonti statiche sono in [questo report](docs/verification-static-data.md).
+
 `try_provider.py` è lo strumento principale quando qualcosa si rompe. Con
 `--save` la risposta grezza finisce in `tests/fixtures/` e il test del parser
 gira su quella: quando un operatore cambia formato, il test dice esattamente

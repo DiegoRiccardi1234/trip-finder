@@ -47,7 +47,6 @@ from app.config import get_settings
 _OPENROUTER_JSON = [
     "google/gemma-4-31b-it:free",
     "google/gemma-4-26b-a4b-it:free",
-    "z-ai/glm-5.2:free",
 ]
 #: **Tre esclusi il 2026-08-22, e tutti e tre per misura, non per nome.** Sono
 #: qui perche' il difetto che li accomuna non si vede dallo slug e il prossimo
@@ -81,7 +80,6 @@ _OPENROUTER_JSON = [
 _OPENROUTER_ADVICE = [
     "nvidia/nemotron-3-super-120b-a12b:free",
     "google/gemma-4-31b-it:free",
-    "z-ai/glm-5.2:free",
     "nvidia/nemotron-3-ultra-550b-a55b:free",
     "google/gemma-4-26b-a4b-it:free",
 ]
@@ -161,8 +159,11 @@ PROVIDERS: tuple[Provider, ...] = (
         key_field="google_api_key",
         free=True,
         pools={
-            "json": ["gemini-2.5-flash-lite", "gemini-2.5-flash"],
-            "advice": ["gemini-2.5-flash"],
+            # Misurati sul prompt reale il 2026-10-02: JSON completo entro
+            # 600 token, ~1.5s Lite / ~2s Flash. I 2.5 restano nel catalogo
+            # ma l'API li rifiuta con 404 per le nuove chiavi.
+            "json": ["gemini-3.5-flash-lite", "gemini-3.8-flash"],
+            "advice": ["gemini-3.8-flash"],
         },
         label="quota gratuita",
     ),

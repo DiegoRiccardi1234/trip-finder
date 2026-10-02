@@ -4,6 +4,27 @@ Le versioni seguono [semver](https://semver.org/lang/it/). Il testo di ogni
 sezione finisce nelle note della release: si scrive per chi usa il programma,
 non per chi lo scrive.
 
+## [7.0.2]
+
+**Le preferenze valgono per tutto il viaggio.** «Niente notturni» considera
+anche i trasferimenti verso l'aeroporto e le tratte brevi, compreso il cambio
+dell'ora di ottobre. Prima poteva restare una partenza alle 02:49 pur avendo
+soluzioni diurne disponibili.
+
+- Aggiornati gli orari FAL dal manifesto del 31 agosto, con Pasquetta e
+  limitazioni estive riferite al documento giusto.
+- Ricontrollate le agevolazioni: tariffe residenti, pass Interrail e convenzioni
+  non confermate restano informazioni, senza percentuali inventate nel totale.
+  Un catalogo scaricato vecchio non sostituisce piu' quello aggiornato nell'app.
+- Migliorata l'attribuzione delle fermate alle citta', mantenendo le correzioni
+  per Canelli e Torino.
+- Corrette le fermate e gli orari locali Albatross; rinnovate le tratte di prova
+  effettivamente verificate. La diagnostica distingue guasti e prove inconclusive.
+- Il controllo salute IA distingue misure mancanti da disponibilita' zero;
+  un modello scelto manualmente rispetta i limiti dei fornitori a pagamento.
+- Corretto l'avvio concorrente del database. Il pacchetto Windows viene
+  costruito soltanto con tutti i cataloghi geografici obbligatori.
+
 ## [7.0.1]
 
 **«Interpreta» chiede invece di indovinare.** Scrivendo «da Torino a Matera»

@@ -10,6 +10,8 @@ una soluzione ha vinto.
 
 from __future__ import annotations
 
+from datetime import datetime, time, timedelta, timezone
+
 from app.models import Itinerary, RiskFlag, SearchQuery
 from app.routing import feasibility
 
@@ -240,6 +242,40 @@ def _departs_too_early(itinerary: Itinerary, query: SearchQuery) -> bool:
     return itinerary.depart.date() == query.date and itinerary.depart.time() < query.depart_after
 
 
+def _travels_at_night(itinerary: Itinerary) -> bool:
+    """Movimento fra 01:00 e 05:00, anche breve o di avvicinamento.
+
+    `overnight` identifica le tratte lunghe che sostituiscono un pernottamento:
+    esclude trasferimenti e gambe sotto quattro ore. Il vincolo dell'utente
+    vale invece per tutto il viaggio porta a porta. Filtro e rendiconto devono
+    condividere questa regola, senza modificare il bonus dei notturni lunghi.
+    """
+    for leg in itinerary.legs:
+        depart = leg.depart
+        arrive = leg.arrive
+        if leg.depart.tzinfo is not None:
+            depart = depart.astimezone(timezone.utc)
+            arrive = arrive.astimezone(timezone.utc)
+        if arrive <= depart:
+            continue
+        # Il calendario resta locale, i confronti usano gli istanti reali:
+        # nel cambio autunnale 02:45 fold=0 precede 02:15 fold=1.
+        local_arrive = leg.arrive
+        if leg.depart.tzinfo is not None:
+            local_arrive = local_arrive.astimezone(leg.depart.tzinfo)
+        day = leg.depart.date()
+        while day <= local_arrive.date():
+            night_start = datetime.combine(day, time(1), tzinfo=leg.depart.tzinfo)
+            night_end = datetime.combine(day, time(5), tzinfo=leg.depart.tzinfo)
+            if leg.depart.tzinfo is not None:
+                night_start = night_start.astimezone(timezone.utc)
+                night_end = night_end.astimezone(timezone.utc)
+            if depart < night_end and arrive > night_start:
+                return True
+            day += timedelta(days=1)
+    return False
+
+
 def filter_by_query(itineraries: list[Itinerary], query: SearchQuery) -> list[Itinerary]:
     """Applica i vincoli espliciti dell'utente. Restano fuori solo le violazioni."""
     kept: list[Itinerary] = []
@@ -248,7 +284,7 @@ def filter_by_query(itineraries: list[Itinerary], query: SearchQuery) -> list[It
             continue
         if query.max_changes is not None and itinerary.n_changes > query.max_changes:
             continue
-        if not query.allow_night and itinerary.overnight:
+        if not query.allow_night and _travels_at_night(itinerary):
             continue
         if _departs_too_early(itinerary, query):
             continue
@@ -284,7 +320,7 @@ def unmet_constraints(
         item.n_changes > query.max_changes for item in itineraries
     ):
         unmet.append({"kind": "max_changes", "value": query.max_changes})
-    if not query.allow_night and any(item.overnight for item in itineraries):
+    if not query.allow_night and any(_travels_at_night(item) for item in itineraries):
         unmet.append({"kind": "allow_night", "value": False})
     if query.depart_after and any(
         _departs_too_early(item, query) for item in itineraries

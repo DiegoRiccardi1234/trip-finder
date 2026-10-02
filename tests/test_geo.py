@@ -13,9 +13,6 @@ import pytest
 from app.models import Mode
 from tests._datasets import needs_datasets
 
-pytestmark = needs_datasets
-
-
 @pytest.fixture(scope="module")
 def resolver():
     from app.geo.resolver import get_resolver
@@ -27,6 +24,7 @@ def _cities(place) -> set[str]:
     return {node.city for node in place.nodes if node.kind.value in ("station", "bus_stop")}
 
 
+@needs_datasets
 def test_una_fermata_come_ancora_non_diventa_una_citta(resolver) -> None:
     """Cercare "Torino Porta Nuova" non deve far sparire mezzi operatori.
 
@@ -47,12 +45,14 @@ def test_una_fermata_come_ancora_non_diventa_una_citta(resolver) -> None:
     assert stazione.label == "Torino Porta Nuova"
 
 
+@needs_datasets
 def test_un_codice_iata_come_ancora_porta_la_citta_giusta(resolver) -> None:
     """Stesso problema per "TRN": l'ancora e' l'aeroporto, la citta' e' Torino."""
     place = resolver.resolve("TRN", modes={Mode.RAIL, Mode.BUS})
     assert _cities(place) == {"Torino"}
 
 
+@needs_datasets
 def test_una_fermata_resta_del_paese_che_la_ospita(resolver) -> None:
     """Canelli si dichiarava «Acqui Terme», a quindici chilometri.
 
@@ -75,6 +75,7 @@ def test_una_fermata_resta_del_paese_che_la_ospita(resolver) -> None:
     assert _cities(acqui) == {"Acqui Terme"}
 
 
+@needs_datasets
 def test_un_quartiere_non_si_prende_la_stazione(resolver) -> None:
     """La regola che si sarebbe rotta aggiustando Canelli dal lato sbagliato.
 
@@ -93,6 +94,7 @@ def _iata(place) -> set[str]:
     return {node.iata for node in place.nodes if node.iata}
 
 
+@needs_datasets
 def test_lo_scalo_sotto_casa_non_perde_contro_uno_grande_e_lontano(resolver) -> None:
     """La distanza pesa nel punteggio, non e' piu' un semplice spareggio.
 
@@ -114,6 +116,7 @@ def test_lo_scalo_sotto_casa_non_perde_contro_uno_grande_e_lontano(resolver) -> 
     assert primo("Venezia") == "VCE"
 
 
+@needs_datasets
 def test_nessuno_scalo_nel_raggio_viene_escluso(resolver) -> None:
     """Gli aeroporti nel raggio entrano tutti, anche i piccoli.
 
@@ -129,6 +132,7 @@ def test_nessuno_scalo_nel_raggio_viene_escluso(resolver) -> None:
     assert {"LIN", "MXP", "BGY"} <= milano
 
 
+@needs_datasets
 def test_le_fermate_scelte_restringono_la_ricerca() -> None:
     """Il filtro sulle fermate tiene solo quelle chieste, e ignora gli id ignoti.
 
@@ -159,6 +163,7 @@ def test_le_fermate_scelte_restringono_la_ricerca() -> None:
 # partiva su una citta' che nessuno aveva chiesto.
 
 
+@needs_datasets
 @pytest.mark.parametrize(
     ("query", "atteso"),
     [
@@ -177,6 +182,7 @@ def test_le_citta_del_mondo_si_trovano(resolver, query, atteso) -> None:
     assert place.nodes, "trovata la citta' ma nessuna fermata"
 
 
+@needs_datasets
 @pytest.mark.parametrize(
     ("italiano", "paese", "contiene"),
     [
@@ -198,6 +204,7 @@ def test_gli_esonimi_italiani_portano_alla_citta_giusta(
     assert contiene.lower() in place.label.lower()
 
 
+@needs_datasets
 def test_gli_orari_fuori_europa_non_sono_ora_italiana() -> None:
     """Il fuso mancante ripiegava su `Europe/Rome`: un volo giapponese sarebbe
     stato mostrato con sette ore di scarto, senza che niente lo dicesse."""
@@ -213,6 +220,7 @@ def test_gli_orari_fuori_europa_non_sono_ora_italiana() -> None:
     assert fusi["DXB"] == "Asia/Dubai"
 
 
+@needs_datasets
 @pytest.mark.parametrize(
     ("query", "paese", "etichetta"),
     [
@@ -238,6 +246,7 @@ def test_le_omonime_del_mondo_non_scavalcano_casa(resolver, query, paese, etiche
 # ------------------------------------- l'ordine con cui le fermate si mostrano
 
 
+@needs_datasets
 def test_l_ordine_dei_gruppi_non_dipende_piu_dall_avvio(resolver) -> None:
     """Era l'ordine di iterazione di un `set` di Enum.
 
@@ -261,6 +270,7 @@ def test_l_ordine_dei_gruppi_non_dipende_piu_dall_avvio(resolver) -> None:
     )
 
 
+@needs_datasets
 def test_le_fermate_mostrate_vanno_per_gruppo_e_per_distanza(resolver) -> None:
     """Il caso Canelli, che e' quello da cui e' nato tutto.
 
@@ -284,6 +294,7 @@ def test_le_fermate_mostrate_vanno_per_gruppo_e_per_distanza(resolver) -> None:
     assert max(indici_terra) < min(indici_aria), "la terra prima dell'aria"
 
 
+@needs_datasets
 def test_l_ordine_del_motore_resta_quello_del_punteggio(resolver) -> None:
     """La separazione ha senso solo se le due liste restano diverse.
 
@@ -296,3 +307,79 @@ def test_l_ordine_del_motore_resta_quello_del_punteggio(resolver) -> None:
 
     assert sorted(motore) == sorted(schermo), "le stesse fermate, in ordine diverso"
     assert motore != schermo, "su Canelli i due ordini devono differire"
+
+
+# Queste regressioni usano cataloghi minimi: devono girare anche senza data/.
+@pytest.fixture
+def cataloghi_minimi(tmp_path, monkeypatch):
+    from app.geo import datasets
+
+    stations = tmp_path / "stations.csv"
+    stations.write_text(
+        "id;name;latitude;longitude;country;is_city\n"
+        "1;Gallarate;45.06565;8;IT;true\n"
+        "2;Bellinzago Novarese;45.07195;8;IT;true\n",
+        encoding="utf-8",
+    )
+    world = [
+        datasets.CityEntry(
+            "Gallarate", "gallarate", 45.07, 8.01, "IT", 1.7,
+            aliases=["galarat"],
+        ),
+        # Stesso nome in un altro paese: non deve contribuire al peso italiano.
+        datasets.CityEntry("Gallarate", "gallarate", 48, 2, "FR", 4.0),
+        datasets.CityEntry("Torino", "torino", 45.07, 7.69, "IT", 2.9),
+    ]
+    override = datasets.CityEntry(
+        "Torino", "torino", 45.07, 7.69, "IT", 4.0, transport=True,
+    )
+    monkeypatch.setattr(datasets, "STATIONS_CSV", stations)
+    monkeypatch.setattr(datasets, "_load_world_cities", lambda: (world, {}))
+    monkeypatch.setattr(datasets, "_load_airports", lambda: ([], {}))
+    monkeypatch.setattr(datasets, "_load_overrides", lambda: ([], [override]))
+    return datasets
+
+
+def test_trainline_usa_il_peso_demografico_senza_premiare_i_paesi(cataloghi_minimi):
+    # __wrapped__ evita di leggere o cambiare la cache del resolver reale.
+    index = cataloghi_minimi.load_index.__wrapped__()
+    cities = {(city.normalized, city.country): city for city in index.cities}
+    gallarate = cities[("gallarate", "IT")]
+
+    assert gallarate.weight == 1.7
+    assert gallarate.lat == 45.06565, "restano le coordinate Trainline"
+    assert gallarate.aliases == ["galarat"]
+    assert gallarate.transport
+    assert cities[("gallarate", "FR")].weight == 4.0
+    assert cities[("bellinzago novarese", "IT")].weight == 1.0
+    assert cities[("bellinzago novarese", "IT")].transport
+    assert cities[("torino", "IT")].weight == 4.0, "resta il peso curato"
+
+
+def test_malpensa_non_viene_attribuito_a_un_paese_con_peso_artificiale(cataloghi_minimi):
+    """Distanze storiche: Gallarate a 7,3 km, Bellinzago a 8 km.
+
+    Il catalogo reale puo' spostare le coordinate e nascondere il difetto:
+    questa geometria mostra sia la correzione sia la causa precedente.
+    """
+    from app.geo.resolver import Resolver
+
+    resolver = Resolver.__new__(Resolver)
+    resolver._index = cataloghi_minimi.load_index.__wrapped__()
+    assert resolver._nearest_city(45, 8) == "Gallarate"
+
+    bellinzago = next(
+        city for city in resolver._index.cities if city.name == "Bellinzago Novarese"
+    )
+    bellinzago.weight = 2.0
+    assert resolver._nearest_city(45, 8) == "Bellinzago Novarese"
+
+
+def test_trainline_resta_neutro_senza_geonames(cataloghi_minimi, monkeypatch):
+    monkeypatch.setattr(cataloghi_minimi, "_load_world_cities", lambda: ([], {}))
+    index = cataloghi_minimi.load_index.__wrapped__()
+    cities = {city.name: city for city in index.cities}
+
+    assert cities["Gallarate"].weight == 1.0
+    assert cities["Bellinzago Novarese"].weight == 1.0
+    assert cities["Torino"].weight == 4.0

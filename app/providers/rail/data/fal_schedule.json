@@ -1,20 +1,12 @@
 {
-  "source": "https://ferrovieappulolucane.it/wp-content/uploads/2026/07/MANIFESTO-ORARIO-TRENI-DA-E-PER-BARI-22-GIU-2026.pdf",
+  "source": "https://ferrovieappulolucane.it/wp-content/uploads/2026/08/ORARIO-TRENI-DA-E-PER-BA-DAL-31-AGO-2026-1.pdf",
   "source_page": "https://ferrovieappulolucane.it/tratta/orari/",
   "note": "Estratto dai documenti ufficiali FAL: orari dal manifesto, prezzi dal listino a fasce chilometriche. Il servizio ferroviario e' sospeso la domenica e nei giorni festivi.",
   "notes": [
-    "(corso V. Emanuele 67) - Palo del Colle. piazza Diaz - Binetto piazza Umberto - Grumo Appula via Rella - Toritto via Pugliese - Altamura",
-    "- I treni n. 12 e 47 effettuati con bus intera tratta (2) - Treni garantiti in caso di sciopero",
-    "- Treno n. 22 effettuato con bus da Matera sud ad Altamura",
-    "- È consentito il trasporto delle bici a bordo dei treni FAL da Altamura a Matera e viceversa",
+    "- È consentito il trasporto delle bici a bordo dei treni FAL",
     "- Treni 153 e 158 tratta Potenza - Genzano - Gravina garantiti in caso di sciopero",
-    "- Treni 158 e 163 tratta Potenza - Genzano - Gravina soppressi nel periodo estivo Ferrovie Appulo Lucane",
-    "- Il Servizio Ferroviario è sospeso nei giorni di domenica e festivi",
-    "- Servizio effettuato con bus da Bari C.le a Gravina e viceversa",
-    "- I treni n. 12 e 47 effettuati con bus intera tratta",
-    "(1) - Treni soppressi dal 27 luglio al 29 agosto 2026",
-    "(2) - Treni garantiti in caso di sciopero",
-    "- Treni 158 e 163 tratta Potenza - Genzano - Gravina soppressi nel periodo estivo"
+    "- Treni 158 e 163 tratta Potenza - Genzano - Gravina soppressi nel periodo estivo",
+    "- Il Servizio Ferroviario è sospeso nei giorni di domenica e festivi"
   ],
   "fares": {
     "bands": [
@@ -91,7 +83,7 @@
       "ov:fal-gravina|ov:fal-matera-centrale": 40,
       "ov:fal-matera-centrale|ov:fal-matera-villa-longo": 10
     },
-    "source": "data/fal_tariffe.pdf"
+    "source": "https://ferrovieappulolucane.it/wp-content/uploads/2026/03/TARIFFE-PUGLIA-E-BASILICATA-09-MAR-2026-1.pdf"
   },
   "runs": [
     {
@@ -100,48 +92,52 @@
       "flag": null,
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
+          "station": "Bari C.le",
           "minutes": 254
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 258
+          "station": "Bari Scalo",
+          "minutes": 261
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 263
+          "station": "Bari Policlinico",
+          "minutes": 264
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 279
+          "station": "Modugno",
+          "minutes": 274
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 289
+          "station": "Palo del Colle",
+          "minutes": 283
         },
         {
-          "station": "Binetto (pizza Umberto Municipio)",
-          "minutes": 294
+          "station": "Binetto",
+          "minutes": 288
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 299
+          "station": "Grumo Appula",
+          "minutes": 293
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
-          "minutes": 304
+          "station": "Toritto",
+          "minutes": 298
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
-          "minutes": 336
+          "station": "Mellitto",
+          "minutes": 310
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (arrivo)",
+          "minutes": 326
+        },
+        {
+          "station": "Altamura (partenza)",
+          "minutes": 327
+        },
+        {
+          "station": "Gravina (arrivo)",
           "minutes": 337
-        },
-        {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 357
         }
       ]
     },
@@ -151,48 +147,52 @@
       "flag": null,
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 296
+          "station": "Bari C.le",
+          "minutes": 306
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 300
+          "station": "Bari Scalo",
+          "minutes": 313
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 305
+          "station": "Bari Policlinico",
+          "minutes": 316
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 321
+          "station": "Modugno",
+          "minutes": 326
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 331
-        },
-        {
-          "station": "Binetto (pizza Umberto Municipio)",
+          "station": "Palo del Colle",
           "minutes": 336
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 341
+          "station": "Binetto",
+          "minutes": 342
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
-          "minutes": 346
+          "station": "Grumo Appula",
+          "minutes": 347
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
-          "minutes": 378
+          "station": "Toritto",
+          "minutes": 352
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 383
+          "station": "Pescariello",
+          "minutes": 371
         },
         {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 403
+          "station": "Altamura (arrivo)",
+          "minutes": 379
+        },
+        {
+          "station": "Altamura (partenza)",
+          "minutes": 380
+        },
+        {
+          "station": "Gravina (arrivo)",
+          "minutes": 390
         }
       ]
     },
@@ -202,7 +202,7 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 381
         },
         {
@@ -233,7 +233,7 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 422
         },
         {
@@ -264,52 +264,56 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 367
+          "station": "Bari C.le",
+          "minutes": 377
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 371
+          "station": "Bari Scalo",
+          "minutes": 384
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 376
+          "station": "Bari Policlinico",
+          "minutes": 387
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 392
+          "station": "Modugno",
+          "minutes": 397
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 402
+          "station": "Palo del Colle",
+          "minutes": 406
         },
         {
-          "station": "Binetto (pizza Umberto Municipio)",
-          "minutes": 407
+          "station": "Binetto",
+          "minutes": 411
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 412
+          "station": "Grumo Appula",
+          "minutes": 416
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
-          "minutes": 417
+          "station": "Toritto",
+          "minutes": 421
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Mellitto",
+          "minutes": 433
+        },
+        {
+          "station": "Altamura (arrivo)",
           "minutes": 449
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 450
+          "station": "Altamura (partenza)",
+          "minutes": 455
         },
         {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 470
+          "station": "Gravina (arrivo)",
+          "minutes": 465
         },
         {
           "station": "Gravina (partenza per PZ)",
-          "minutes": 471
+          "minutes": 468
         },
         {
           "station": "Potenza Inferiore Sc.",
@@ -323,7 +327,7 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 462
         },
         {
@@ -354,48 +358,52 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 459
+          "station": "Bari C.le",
+          "minutes": 469
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 463
+          "station": "Bari Scalo",
+          "minutes": 478
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 468
+          "station": "Bari Policlinico",
+          "minutes": 481
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 484
+          "station": "Modugno",
+          "minutes": 491
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 494
+          "station": "Palo del Colle",
+          "minutes": 500
         },
         {
-          "station": "Binetto (pizza Umberto Municipio)",
-          "minutes": 499
+          "station": "Binetto",
+          "minutes": 505
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 504
+          "station": "Grumo Appula",
+          "minutes": 510
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
-          "minutes": 509
+          "station": "Toritto",
+          "minutes": 518
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
-          "minutes": 541
+          "station": "Mellitto",
+          "minutes": 527
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 542
+          "station": "Altamura (arrivo)",
+          "minutes": 543
         },
         {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 562
+          "station": "Altamura (partenza)",
+          "minutes": 546
+        },
+        {
+          "station": "Gravina (arrivo)",
+          "minutes": 556
         }
       ]
     },
@@ -405,7 +413,7 @@
       "flag": null,
       "stops": [
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 549
         },
         {
@@ -432,7 +440,7 @@
       "flag": "(1)",
       "stops": [
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 629
         },
         {
@@ -459,56 +467,60 @@
       "flag": null,
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
+          "station": "Bari C.le",
           "minutes": 599
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 603
-        },
-        {
-          "station": "Bari Scalo (via Pasteur)",
+          "station": "Bari Scalo",
           "minutes": 608
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 624
+          "station": "Bari Policlinico",
+          "minutes": 611
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 634
+          "station": "Modugno",
+          "minutes": 621
         },
         {
-          "station": "Binetto (pizza Umberto Municipio)",
-          "minutes": 639
+          "station": "Palo del Colle",
+          "minutes": 630
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 644
+          "station": "Binetto",
+          "minutes": 635
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
-          "minutes": 649
+          "station": "Grumo Appula",
+          "minutes": 640
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
-          "minutes": 671
+          "station": "Toritto",
+          "minutes": 645
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Mellitto",
+          "minutes": 654
+        },
+        {
+          "station": "Altamura (arrivo)",
+          "minutes": 670
+        },
+        {
+          "station": "Altamura (partenza)",
           "minutes": 672
         },
         {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 692
+          "station": "Gravina (arrivo)",
+          "minutes": 682
         },
         {
           "station": "Gravina (partenza per PZ)",
-          "minutes": 693
+          "minutes": 685
         },
         {
           "station": "Potenza Inferiore Sc.",
-          "minutes": 838
+          "minutes": 830
         }
       ]
     },
@@ -518,7 +530,7 @@
       "flag": null,
       "stops": [
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 677
         },
         {
@@ -545,48 +557,52 @@
       "flag": null,
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 638
+          "station": "Bari C.le",
+          "minutes": 648
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 642
+          "station": "Bari Scalo",
+          "minutes": 656
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 647
+          "station": "Bari Policlinico",
+          "minutes": 659
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 663
+          "station": "Modugno",
+          "minutes": 669
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 673
+          "station": "Palo del Colle",
+          "minutes": 681
         },
         {
-          "station": "Binetto (pizza Umberto Municipio)",
-          "minutes": 678
+          "station": "Binetto",
+          "minutes": 687
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 683
+          "station": "Grumo Appula",
+          "minutes": 692
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
-          "minutes": 688
+          "station": "Toritto",
+          "minutes": 697
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
-          "minutes": 720
+          "station": "Pescariello",
+          "minutes": 716
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 721
+          "station": "Altamura (arrivo)",
+          "minutes": 724
         },
         {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 741
+          "station": "Altamura (partenza)",
+          "minutes": 726
+        },
+        {
+          "station": "Gravina (arrivo)",
+          "minutes": 736
         }
       ]
     },
@@ -596,7 +612,7 @@
       "flag": null,
       "stops": [
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 727
         },
         {
@@ -627,48 +643,52 @@
       "flag": null,
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 689
+          "station": "Bari C.le",
+          "minutes": 699
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 693
+          "station": "Bari Scalo",
+          "minutes": 707
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 698
+          "station": "Bari Policlinico",
+          "minutes": 710
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 714
+          "station": "Modugno",
+          "minutes": 721
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 724
+          "station": "Palo del Colle",
+          "minutes": 731
         },
         {
-          "station": "Binetto (pizza Umberto Municipio)",
-          "minutes": 729
+          "station": "Binetto",
+          "minutes": 736
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 734
+          "station": "Grumo Appula",
+          "minutes": 743
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
-          "minutes": 739
+          "station": "Toritto",
+          "minutes": 749
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
-          "minutes": 771
+          "station": "Pescariello",
+          "minutes": 768
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 772
+          "station": "Altamura (arrivo)",
+          "minutes": 776
         },
         {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 792
+          "station": "Altamura (partenza)",
+          "minutes": 778
+        },
+        {
+          "station": "Gravina (arrivo)",
+          "minutes": 788
         }
       ]
     },
@@ -678,7 +698,7 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 783
         },
         {
@@ -705,48 +725,48 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 754
+          "station": "Bari C.le",
+          "minutes": 764
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 758
+          "station": "Bari Scalo",
+          "minutes": 773
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 763
+          "station": "Bari Policlinico",
+          "minutes": 776
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 779
+          "station": "Modugno",
+          "minutes": 786
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 789
+          "station": "Palo del Colle",
+          "minutes": 795
         },
         {
-          "station": "Binetto (pizza Umberto Municipio)",
-          "minutes": 794
+          "station": "Binetto",
+          "minutes": 800
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 799
+          "station": "Grumo Appula",
+          "minutes": 805
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
-          "minutes": 804
+          "station": "Toritto",
+          "minutes": 810
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
+          "minutes": 834
+        },
+        {
+          "station": "Altamura (partenza)",
           "minutes": 836
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 837
-        },
-        {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 857
+          "station": "Gravina (arrivo)",
+          "minutes": 846
         }
       ]
     },
@@ -756,7 +776,7 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 842
         },
         {
@@ -783,48 +803,48 @@
       "flag": "(1-2)",
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 809
+          "station": "Bari C.le",
+          "minutes": 819
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 813
+          "station": "Bari Scalo",
+          "minutes": 828
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 818
+          "station": "Bari Policlinico",
+          "minutes": 831
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 834
+          "station": "Modugno",
+          "minutes": 841
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 844
+          "station": "Palo del Colle",
+          "minutes": 850
         },
         {
-          "station": "Binetto (pizza Umberto Municipio)",
-          "minutes": 849
+          "station": "Binetto",
+          "minutes": 855
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 854
+          "station": "Grumo Appula",
+          "minutes": 860
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
-          "minutes": 859
+          "station": "Toritto",
+          "minutes": 867
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 891
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 892
+          "station": "Altamura (partenza)",
+          "minutes": 895
         },
         {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 912
+          "station": "Gravina (arrivo)",
+          "minutes": 905
         }
       ]
     },
@@ -834,52 +854,56 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 839
+          "station": "Bari C.le",
+          "minutes": 849
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 843
+          "station": "Bari Scalo",
+          "minutes": 856
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 848
+          "station": "Bari Policlinico",
+          "minutes": 859
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 864
+          "station": "Modugno",
+          "minutes": 869
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 874
+          "station": "Palo del Colle",
+          "minutes": 881
         },
         {
-          "station": "Binetto (pizza Umberto Municipio)",
-          "minutes": 879
+          "station": "Binetto",
+          "minutes": 886
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 884
+          "station": "Grumo Appula",
+          "minutes": 891
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
-          "minutes": 889
+          "station": "Toritto",
+          "minutes": 896
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
-          "minutes": 921
+          "station": "Pescariello",
+          "minutes": 914
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 922
         },
         {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 942
+          "station": "Altamura (partenza)",
+          "minutes": 925
+        },
+        {
+          "station": "Gravina (arrivo)",
+          "minutes": 935
         },
         {
           "station": "Gravina (partenza per PZ)",
-          "minutes": 943
+          "minutes": 938
         },
         {
           "station": "Potenza Inferiore Sc.",
@@ -893,7 +917,7 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 923
         },
         {
@@ -905,15 +929,15 @@
           "minutes": 945
         },
         {
-          "station": "Villa Longo (stazione FAL)",
+          "station": "Villa Longo",
           "minutes": 947
         },
         {
-          "station": "Matera C.le (via A. Moro)",
+          "station": "Matera C.le",
           "minutes": 952
         },
         {
-          "station": "Matera Sud (via della Quercia)",
+          "station": "Matera Sud",
           "minutes": 954
         }
       ]
@@ -924,48 +948,52 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 908
+          "station": "Bari C.le",
+          "minutes": 918
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 912
+          "station": "Bari Scalo",
+          "minutes": 925
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 917
+          "station": "Bari Policlinico",
+          "minutes": 928
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 933
+          "station": "Modugno",
+          "minutes": 938
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 943
+          "station": "Palo del Colle",
+          "minutes": 949
         },
         {
-          "station": "Binetto (pizza Umberto Municipio)",
-          "minutes": 948
+          "station": "Binetto",
+          "minutes": 954
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 953
+          "station": "Grumo Appula",
+          "minutes": 959
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
-          "minutes": 958
+          "station": "Toritto",
+          "minutes": 964
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
-          "minutes": 990
+          "station": "Mellitto",
+          "minutes": 976
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 991
+          "station": "Altamura (arrivo)",
+          "minutes": 992
         },
         {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 1011
+          "station": "Altamura (partenza)",
+          "minutes": 996
+        },
+        {
+          "station": "Gravina (arrivo)",
+          "minutes": 1006
         }
       ]
     },
@@ -975,7 +1003,7 @@
       "flag": null,
       "stops": [
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 995
         },
         {
@@ -983,15 +1011,15 @@
           "minutes": 1016
         },
         {
-          "station": "Villa Longo (stazione FAL)",
+          "station": "Villa Longo",
           "minutes": 1018
         },
         {
-          "station": "Matera C.le (via A. Moro)",
+          "station": "Matera C.le",
           "minutes": 1023
         },
         {
-          "station": "Matera Sud (via della Quercia)",
+          "station": "Matera Sud",
           "minutes": 1025
         }
       ]
@@ -1002,48 +1030,52 @@
       "flag": null,
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 950
+          "station": "Bari C.le",
+          "minutes": 960
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 954
+          "station": "Bari Scalo",
+          "minutes": 969
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 959
+          "station": "Bari Policlinico",
+          "minutes": 972
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 975
+          "station": "Modugno",
+          "minutes": 982
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 985
+          "station": "Palo del Colle",
+          "minutes": 991
         },
         {
-          "station": "Binetto (pizza Umberto Municipio)",
-          "minutes": 990
+          "station": "Binetto",
+          "minutes": 997
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 995
+          "station": "Grumo Appula",
+          "minutes": 1002
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
-          "minutes": 1000
+          "station": "Toritto",
+          "minutes": 1007
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Mellitto",
+          "minutes": 1016
+        },
+        {
+          "station": "Altamura (arrivo)",
           "minutes": 1032
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 1033
+          "station": "Altamura (partenza)",
+          "minutes": 1034
         },
         {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 1053
+          "station": "Gravina (arrivo)",
+          "minutes": 1044
         }
       ]
     },
@@ -1053,7 +1085,7 @@
       "flag": null,
       "stops": [
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 1036
         },
         {
@@ -1065,15 +1097,15 @@
           "minutes": 1061
         },
         {
-          "station": "Villa Longo (stazione FAL)",
+          "station": "Villa Longo",
           "minutes": 1065
         },
         {
-          "station": "Matera C.le (via A. Moro)",
+          "station": "Matera C.le",
           "minutes": 1070
         },
         {
-          "station": "Matera Sud (via della Quercia)",
+          "station": "Matera Sud",
           "minutes": 1072
         }
       ]
@@ -1084,48 +1116,52 @@
       "flag": null,
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 1005
+          "station": "Bari C.le",
+          "minutes": 1015
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 1009
+          "station": "Bari Scalo",
+          "minutes": 1024
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 1014
+          "station": "Bari Policlinico",
+          "minutes": 1027
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 1030
+          "station": "Modugno",
+          "minutes": 1037
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 1040
+          "station": "Palo del Colle",
+          "minutes": 1048
         },
         {
-          "station": "Binetto (pizza Umberto Municipio)",
-          "minutes": 1045
+          "station": "Binetto",
+          "minutes": 1053
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 1050
+          "station": "Grumo Appula",
+          "minutes": 1058
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
-          "minutes": 1055
+          "station": "Toritto",
+          "minutes": 1063
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
-          "minutes": 1087
+          "station": "Pescariello",
+          "minutes": 1082
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 1088
+          "station": "Altamura (arrivo)",
+          "minutes": 1090
         },
         {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 1108
+          "station": "Altamura (partenza)",
+          "minutes": 1093
+        },
+        {
+          "station": "Gravina (arrivo)",
+          "minutes": 1103
         }
       ]
     },
@@ -1135,7 +1171,7 @@
       "flag": null,
       "stops": [
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 1092
         },
         {
@@ -1143,15 +1179,15 @@
           "minutes": 1113
         },
         {
-          "station": "Villa Longo (stazione FAL)",
+          "station": "Villa Longo",
           "minutes": 1116
         },
         {
-          "station": "Matera C.le (via A. Moro)",
+          "station": "Matera C.le",
           "minutes": 1121
         },
         {
-          "station": "Matera Sud (via della Quercia)",
+          "station": "Matera Sud",
           "minutes": 1123
         }
       ]
@@ -1162,48 +1198,48 @@
       "flag": "(1)",
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 1053
+          "station": "Bari C.le",
+          "minutes": 1063
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 1057
+          "station": "Bari Scalo",
+          "minutes": 1071
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 1062
+          "station": "Bari Policlinico",
+          "minutes": 1074
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 1078
+          "station": "Modugno",
+          "minutes": 1084
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 1088
-        },
-        {
-          "station": "Binetto (pizza Umberto Municipio)",
+          "station": "Palo del Colle",
           "minutes": 1093
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 1098
+          "station": "Binetto",
+          "minutes": 1099
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
-          "minutes": 1103
+          "station": "Grumo Appula",
+          "minutes": 1104
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
-          "minutes": 1135
+          "station": "Toritto",
+          "minutes": 1109
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 1136
+          "station": "Altamura (arrivo)",
+          "minutes": 1133
         },
         {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 1156
+          "station": "Altamura (partenza)",
+          "minutes": 1138
+        },
+        {
+          "station": "Gravina (arrivo)",
+          "minutes": 1148
         }
       ]
     },
@@ -1213,52 +1249,56 @@
       "flag": null,
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 1079
+          "station": "Bari C.le",
+          "minutes": 1089
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 1083
+          "station": "Bari Scalo",
+          "minutes": 1096
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 1088
+          "station": "Bari Policlinico",
+          "minutes": 1099
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 1104
+          "station": "Modugno",
+          "minutes": 1109
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 1114
-        },
-        {
-          "station": "Binetto (pizza Umberto Municipio)",
+          "station": "Palo del Colle",
           "minutes": 1119
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
+          "station": "Binetto",
           "minutes": 1124
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
+          "station": "Grumo Appula",
           "minutes": 1129
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
-          "minutes": 1161
+          "station": "Toritto",
+          "minutes": 1134
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Pescariello",
+          "minutes": 1152
+        },
+        {
+          "station": "Altamura (arrivo)",
+          "minutes": 1160
+        },
+        {
+          "station": "Altamura (partenza)",
           "minutes": 1162
         },
         {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 1182
+          "station": "Gravina (arrivo)",
+          "minutes": 1172
         },
         {
           "station": "Gravina (partenza per PZ)",
-          "minutes": 1183
+          "minutes": 1175
         },
         {
           "station": "Potenza Inferiore Sc.",
@@ -1272,7 +1312,7 @@
       "flag": null,
       "stops": [
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 1163
         },
         {
@@ -1284,15 +1324,15 @@
           "minutes": 1186
         },
         {
-          "station": "Villa Longo (stazione FAL)",
+          "station": "Villa Longo",
           "minutes": 1188
         },
         {
-          "station": "Matera C.le (via A. Moro)",
+          "station": "Matera C.le",
           "minutes": 1193
         },
         {
-          "station": "Matera Sud (via della Quercia)",
+          "station": "Matera Sud",
           "minutes": 1195
         }
       ]
@@ -1303,40 +1343,40 @@
       "flag": null,
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
+          "station": "Bari C.le",
           "minutes": 1135
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 1139
+          "station": "Bari Scalo",
+          "minutes": 1142
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 1144
+          "station": "Bari Policlinico",
+          "minutes": 1145
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
-          "minutes": 1175
+          "station": "Toritto",
+          "minutes": 1169
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
-          "minutes": 1199
+          "station": "Altamura (arrivo)",
+          "minutes": 1189
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 1200
+          "station": "Altamura (partenza)",
+          "minutes": 1192
         },
         {
-          "station": "Villa Longo (stazione FAL)",
+          "station": "Villa Longo",
+          "minutes": 1213
+        },
+        {
+          "station": "Matera C.le",
+          "minutes": 1218
+        },
+        {
+          "station": "Matera Sud",
           "minutes": 1220
-        },
-        {
-          "station": "Matera C.le (via A. Moro)",
-          "minutes": 1225
-        },
-        {
-          "station": "Matera Sud (via della Quercia)",
-          "minutes": 1230
         }
       ]
     },
@@ -1346,48 +1386,52 @@
       "flag": null,
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 1147
+          "station": "Bari C.le",
+          "minutes": 1157
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 1151
+          "station": "Bari Scalo",
+          "minutes": 1164
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 1156
+          "station": "Bari Policlinico",
+          "minutes": 1167
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 1172
+          "station": "Modugno",
+          "minutes": 1177
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 1182
-        },
-        {
-          "station": "Binetto (pizza Umberto Municipio)",
+          "station": "Palo del Colle",
           "minutes": 1187
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 1192
+          "station": "Binetto",
+          "minutes": 1193
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
-          "minutes": 1197
+          "station": "Grumo Appula",
+          "minutes": 1198
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
-          "minutes": 1229
+          "station": "Toritto",
+          "minutes": 1203
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Mellitto",
+          "minutes": 1214
+        },
+        {
+          "station": "Altamura (arrivo)",
           "minutes": 1230
         },
         {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 1250
+          "station": "Altamura (partenza)",
+          "minutes": 1232
+        },
+        {
+          "station": "Gravina (arrivo)",
+          "minutes": 1242
         }
       ]
     },
@@ -1397,7 +1441,7 @@
       "flag": null,
       "stops": [
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 1235
         },
         {
@@ -1409,15 +1453,15 @@
           "minutes": 1259
         },
         {
-          "station": "Villa Longo (stazione FAL)",
+          "station": "Villa Longo",
           "minutes": 1261
         },
         {
-          "station": "Matera C.le (via A. Moro)",
+          "station": "Matera C.le",
           "minutes": 1266
         },
         {
-          "station": "Matera Sud (via della Quercia)",
+          "station": "Matera Sud",
           "minutes": 1268
         }
       ]
@@ -1428,48 +1472,48 @@
       "flag": null,
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 1193
+          "station": "Bari C.le",
+          "minutes": 1203
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 1197
+          "station": "Bari Scalo",
+          "minutes": 1210
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 1202
+          "station": "Bari Policlinico",
+          "minutes": 1213
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 1218
+          "station": "Modugno",
+          "minutes": 1223
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 1228
+          "station": "Palo del Colle",
+          "minutes": 1232
         },
         {
-          "station": "Binetto (pizza Umberto Municipio)",
-          "minutes": 1233
-        },
-        {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
+          "station": "Binetto",
           "minutes": 1238
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
+          "station": "Grumo Appula",
           "minutes": 1243
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
-          "minutes": 1275
+          "station": "Toritto",
+          "minutes": 1248
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 1276
+          "station": "Altamura (arrivo)",
+          "minutes": 1272
         },
         {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 1296
+          "station": "Altamura (partenza)",
+          "minutes": 1274
+        },
+        {
+          "station": "Gravina (arrivo)",
+          "minutes": 1284
         }
       ]
     },
@@ -1479,7 +1523,7 @@
       "flag": null,
       "stops": [
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 1279
         },
         {
@@ -1491,15 +1535,15 @@
           "minutes": 1303
         },
         {
-          "station": "Villa Longo (stazione FAL)",
+          "station": "Villa Longo",
           "minutes": 1305
         },
         {
-          "station": "Matera C.le (via A. Moro)",
+          "station": "Matera C.le",
           "minutes": 1310
         },
         {
-          "station": "Matera Sud (via della Quercia)",
+          "station": "Matera Sud",
           "minutes": 1312
         }
       ]
@@ -1510,48 +1554,52 @@
       "flag": null,
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 1249
+          "station": "Bari C.le",
+          "minutes": 1259
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 1253
+          "station": "Bari Scalo",
+          "minutes": 1267
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 1258
+          "station": "Bari Policlinico",
+          "minutes": 1270
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 1274
+          "station": "Modugno",
+          "minutes": 1280
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 1284
+          "station": "Palo del Colle",
+          "minutes": 1290
         },
         {
-          "station": "Binetto (pizza Umberto Municipio)",
-          "minutes": 1289
+          "station": "Binetto",
+          "minutes": 1296
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 1294
+          "station": "Grumo Appula",
+          "minutes": 1304
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
-          "minutes": 1299
+          "station": "Toritto",
+          "minutes": 1309
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
-          "minutes": 1331
+          "station": "Pescariello",
+          "minutes": 1327
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 1332
+          "station": "Altamura (arrivo)",
+          "minutes": 1335
         },
         {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 1352
+          "station": "Altamura (partenza)",
+          "minutes": 1337
+        },
+        {
+          "station": "Gravina (arrivo)",
+          "minutes": 1347
         }
       ]
     },
@@ -1561,48 +1609,52 @@
       "flag": null,
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 1272
+          "station": "Bari C.le",
+          "minutes": 1282
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 1276
+          "station": "Bari Scalo",
+          "minutes": 1289
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 1281
+          "station": "Bari Policlinico",
+          "minutes": 1292
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 1297
+          "station": "Modugno",
+          "minutes": 1302
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 1307
+          "station": "Palo del Colle",
+          "minutes": 1313
         },
         {
-          "station": "Binetto (pizza Umberto Municipio)",
-          "minutes": 1312
+          "station": "Binetto",
+          "minutes": 1318
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 1317
+          "station": "Grumo Appula",
+          "minutes": 1323
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
-          "minutes": 1322
+          "station": "Toritto",
+          "minutes": 1328
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Mellitto",
+          "minutes": 1338
+        },
+        {
+          "station": "Altamura (arrivo)",
           "minutes": 1354
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 1355
         },
         {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 1375
+          "station": "Gravina (arrivo)",
+          "minutes": 1365
         }
       ]
     },
@@ -1612,7 +1664,7 @@
       "flag": null,
       "stops": [
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 1360
         },
         {
@@ -1620,15 +1672,15 @@
           "minutes": 1381
         },
         {
-          "station": "Villa Longo (stazione FAL)",
+          "station": "Villa Longo",
           "minutes": 1383
         },
         {
-          "station": "Matera C.le (via A. Moro)",
+          "station": "Matera C.le",
           "minutes": 1388
         },
         {
-          "station": "Matera Sud (via della Quercia)",
+          "station": "Matera Sud",
           "minutes": 1390
         }
       ]
@@ -1639,48 +1691,48 @@
       "flag": null,
       "stops": [
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 1320
+          "station": "Bari C.le",
+          "minutes": 1330
         },
         {
-          "station": "Bari Policlinico (via Ennio civ. 78)",
-          "minutes": 1324
+          "station": "Bari Scalo",
+          "minutes": 1337
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 1329
+          "station": "Bari Policlinico",
+          "minutes": 1340
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 1345
+          "station": "Modugno",
+          "minutes": 1350
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 1355
+          "station": "Palo del Colle",
+          "minutes": 1361
         },
         {
-          "station": "Binetto (pizza Umberto Municipio)",
-          "minutes": 1360
+          "station": "Binetto",
+          "minutes": 1366
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 1365
+          "station": "Grumo Appula",
+          "minutes": 1371
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 314)",
-          "minutes": 1370
+          "station": "Toritto",
+          "minutes": 1376
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
+          "minutes": 1400
+        },
+        {
+          "station": "Altamura (partenza)",
           "minutes": 1402
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 1403
-        },
-        {
-          "station": "Gravina (arrivo stazione FAL)",
-          "minutes": 1423
+          "station": "Gravina (arrivo)",
+          "minutes": 1412
         }
       ]
     },
@@ -1690,48 +1742,52 @@
       "flag": null,
       "stops": [
         {
-          "station": "Gravina (partenza stazione FAL)",
+          "station": "Gravina (partenza)",
           "minutes": 281
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
-          "minutes": 301
+          "station": "Altamura (arrivo)",
+          "minutes": 291
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 302
+          "station": "Altamura (partenza)",
+          "minutes": 292
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
-          "minutes": 334
+          "station": "Mellitto",
+          "minutes": 309
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 339
+          "station": "Toritto",
+          "minutes": 318
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
+          "station": "Grumo Appula",
+          "minutes": 323
+        },
+        {
+          "station": "Binetto",
+          "minutes": 328
+        },
+        {
+          "station": "Palo del Colle",
+          "minutes": 335
+        },
+        {
+          "station": "Modugno",
           "minutes": 344
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 349
+          "station": "Bari Policlinico",
+          "minutes": 354
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 359
+          "station": "Bari Scalo",
+          "minutes": 357
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 375
-        },
-        {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 380
-        },
-        {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 383
+          "station": "Bari C.le",
+          "minutes": 363
         }
       ]
     },
@@ -1741,48 +1797,52 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Gravina (partenza stazione FAL)",
+          "station": "Gravina (partenza)",
           "minutes": 351
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
-          "minutes": 371
+          "station": "Altamura (arrivo)",
+          "minutes": 361
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
+          "minutes": 362
+        },
+        {
+          "station": "Pescariello",
           "minutes": 372
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
-          "minutes": 404
+          "station": "Toritto",
+          "minutes": 389
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 409
+          "station": "Grumo Appula",
+          "minutes": 394
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
-          "minutes": 414
+          "station": "Binetto",
+          "minutes": 399
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 419
+          "station": "Palo del Colle",
+          "minutes": 407
         },
         {
-          "station": "Modugno (stazione FAL)",
+          "station": "Modugno",
+          "minutes": 416
+        },
+        {
+          "station": "Bari Policlinico",
+          "minutes": 426
+        },
+        {
+          "station": "Bari Scalo",
           "minutes": 429
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 445
-        },
-        {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 450
-        },
-        {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 454
+          "station": "Bari C.le",
+          "minutes": 435
         }
       ]
     },
@@ -1792,15 +1852,15 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Matera Sud (via della Quercia)",
+          "station": "Matera Sud",
           "minutes": 342
         },
         {
-          "station": "Matera C.le (via A. Moro)",
+          "station": "Matera C.le",
           "minutes": 345
         },
         {
-          "station": "Villa Longo (stazione FAL)",
+          "station": "Villa Longo",
           "minutes": 350
         },
         {
@@ -1808,7 +1868,7 @@
           "minutes": 352
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 371
         }
       ]
@@ -1819,48 +1879,48 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Gravina (partenza stazione FAL)",
-          "minutes": 358
+          "station": "Gravina (partenza)",
+          "minutes": 368
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 378
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 379
+          "station": "Altamura (partenza)",
+          "minutes": 384
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
-          "minutes": 411
+          "station": "Toritto",
+          "minutes": 409
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 416
+          "station": "Grumo Appula",
+          "minutes": 417
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
-          "minutes": 421
+          "station": "Binetto",
+          "minutes": 422
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 426
+          "station": "Palo del Colle",
+          "minutes": 427
         },
         {
-          "station": "Modugno (stazione FAL)",
+          "station": "Modugno",
           "minutes": 436
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 452
+          "station": "Bari Policlinico",
+          "minutes": 446
         },
         {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 457
+          "station": "Bari Scalo",
+          "minutes": 449
         },
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 461
+          "station": "Bari C.le",
+          "minutes": 455
         }
       ]
     },
@@ -1870,15 +1930,15 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Matera Sud (via della Quercia)",
+          "station": "Matera Sud",
           "minutes": 378
         },
         {
-          "station": "Matera C.le (via A. Moro)",
+          "station": "Matera C.le",
           "minutes": 381
         },
         {
-          "station": "Villa Longo (stazione FAL)",
+          "station": "Villa Longo",
           "minutes": 386
         },
         {
@@ -1890,8 +1950,8 @@
           "minutes": 398
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
-          "minutes": 414
+          "station": "Altamura (arrivo)",
+          "minutes": 411
         }
       ]
     },
@@ -1901,48 +1961,52 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Gravina (partenza stazione FAL)",
-          "minutes": 393
+          "station": "Gravina (partenza)",
+          "minutes": 403
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 413
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 415
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
-          "minutes": 447
+          "station": "Mellitto",
+          "minutes": 432
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 452
+          "station": "Toritto",
+          "minutes": 441
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
-          "minutes": 457
+          "station": "Grumo Appula",
+          "minutes": 446
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 462
+          "station": "Binetto",
+          "minutes": 451
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 472
+          "station": "Palo del Colle",
+          "minutes": 456
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 488
+          "station": "Modugno",
+          "minutes": 465
         },
         {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 493
+          "station": "Bari Policlinico",
+          "minutes": 475
         },
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 497
+          "station": "Bari Scalo",
+          "minutes": 479
+        },
+        {
+          "station": "Bari C.le",
+          "minutes": 485
         }
       ]
     },
@@ -1952,15 +2016,15 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Matera Sud (via della Quercia)",
+          "station": "Matera Sud",
           "minutes": 422
         },
         {
-          "station": "Matera C.le (via A. Moro)",
+          "station": "Matera C.le",
           "minutes": 425
         },
         {
-          "station": "Villa Longo (stazione FAL)",
+          "station": "Villa Longo",
           "minutes": 430
         },
         {
@@ -1972,7 +2036,7 @@
           "minutes": 440
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 453
         }
       ]
@@ -1988,51 +2052,51 @@
         },
         {
           "station": "Gravina (arrivo da PZ)",
-          "minutes": 429
+          "minutes": 435
         },
         {
-          "station": "Gravina (partenza stazione FAL)",
-          "minutes": 430
+          "station": "Gravina (partenza)",
+          "minutes": 440
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 450
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 455
+          "station": "Altamura (partenza)",
+          "minutes": 458
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
-          "minutes": 482
+          "station": "Toritto",
+          "minutes": 483
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 487
+          "station": "Grumo Appula",
+          "minutes": 488
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
-          "minutes": 492
+          "station": "Binetto",
+          "minutes": 493
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 497
+          "station": "Palo del Colle",
+          "minutes": 501
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 507
+          "station": "Modugno",
+          "minutes": 510
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
+          "station": "Bari Policlinico",
+          "minutes": 520
+        },
+        {
+          "station": "Bari Scalo",
           "minutes": 523
         },
         {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 528
-        },
-        {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 532
+          "station": "Bari C.le",
+          "minutes": 529
         }
       ]
     },
@@ -2042,40 +2106,40 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Matera Sud (via della Quercia)",
+          "station": "Matera Sud",
           "minutes": 465
         },
         {
-          "station": "Matera C.le (via A. Moro)",
-          "minutes": 470
+          "station": "Matera C.le",
+          "minutes": 468
         },
         {
-          "station": "Villa Longo (stazione FAL)",
-          "minutes": 479
+          "station": "Villa Longo",
+          "minutes": 473
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
-          "minutes": 510
+          "station": "Altamura (arrivo)",
+          "minutes": 494
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 511
+          "station": "Altamura (partenza)",
+          "minutes": 496
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
-          "minutes": 543
+          "station": "Toritto",
+          "minutes": 517
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 584
+          "station": "Bari Policlinico",
+          "minutes": 542
         },
         {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 589
+          "station": "Bari Scalo",
+          "minutes": 545
         },
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 593
+          "station": "Bari C.le",
+          "minutes": 551
         }
       ]
     },
@@ -2085,48 +2149,52 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Gravina (partenza stazione FAL)",
-          "minutes": 485
+          "station": "Gravina (partenza)",
+          "minutes": 495
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 505
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 506
+          "station": "Altamura (partenza)",
+          "minutes": 508
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
-          "minutes": 538
+          "station": "Mellitto",
+          "minutes": 528
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 543
+          "station": "Toritto",
+          "minutes": 537
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
-          "minutes": 548
+          "station": "Grumo Appula",
+          "minutes": 542
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 553
+          "station": "Binetto",
+          "minutes": 547
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 563
+          "station": "Palo del Colle",
+          "minutes": 552
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 579
+          "station": "Modugno",
+          "minutes": 561
         },
         {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 584
+          "station": "Bari Policlinico",
+          "minutes": 571
         },
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 588
+          "station": "Bari Scalo",
+          "minutes": 574
+        },
+        {
+          "station": "Bari C.le",
+          "minutes": 580
         }
       ]
     },
@@ -2136,15 +2204,15 @@
       "flag": null,
       "stops": [
         {
-          "station": "Matera Sud (via della Quercia)",
+          "station": "Matera Sud",
           "minutes": 511
         },
         {
-          "station": "Matera C.le (via A. Moro)",
+          "station": "Matera C.le",
           "minutes": 514
         },
         {
-          "station": "Villa Longo (stazione FAL)",
+          "station": "Villa Longo",
           "minutes": 519
         },
         {
@@ -2152,7 +2220,7 @@
           "minutes": 521
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 540
         }
       ]
@@ -2163,48 +2231,48 @@
       "flag": null,
       "stops": [
         {
-          "station": "Gravina (partenza stazione FAL)",
-          "minutes": 525
+          "station": "Gravina (partenza)",
+          "minutes": 535
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 545
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 547
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
-          "minutes": 579
+          "station": "Toritto",
+          "minutes": 572
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 584
+          "station": "Grumo Appula",
+          "minutes": 577
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
-          "minutes": 589
+          "station": "Binetto",
+          "minutes": 582
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 594
+          "station": "Palo del Colle",
+          "minutes": 587
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 604
+          "station": "Modugno",
+          "minutes": 595
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 620
+          "station": "Bari Policlinico",
+          "minutes": 605
         },
         {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 625
+          "station": "Bari Scalo",
+          "minutes": 609
         },
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 629
+          "station": "Bari C.le",
+          "minutes": 615
         }
       ]
     },
@@ -2214,48 +2282,48 @@
       "flag": null,
       "stops": [
         {
-          "station": "Gravina (partenza stazione FAL)",
-          "minutes": 566
+          "station": "Gravina (partenza)",
+          "minutes": 576
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 586
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 589
+          "station": "Altamura (partenza)",
+          "minutes": 588
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
-          "minutes": 621
+          "station": "Toritto",
+          "minutes": 613
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 626
+          "station": "Grumo Appula",
+          "minutes": 618
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
+          "station": "Binetto",
+          "minutes": 623
+        },
+        {
+          "station": "Palo del Colle",
           "minutes": 631
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 636
+          "station": "Modugno",
+          "minutes": 640
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 646
+          "station": "Bari Policlinico",
+          "minutes": 650
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 662
+          "station": "Bari Scalo",
+          "minutes": 655
         },
         {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 667
-        },
-        {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 671
+          "station": "Bari C.le",
+          "minutes": 661
         }
       ]
     },
@@ -2265,15 +2333,15 @@
       "flag": "(1)",
       "stops": [
         {
-          "station": "Matera Sud (via della Quercia)",
+          "station": "Matera Sud",
           "minutes": 597
         },
         {
-          "station": "Matera C.le (via A. Moro)",
+          "station": "Matera C.le",
           "minutes": 600
         },
         {
-          "station": "Villa Longo (stazione FAL)",
+          "station": "Villa Longo",
           "minutes": 605
         },
         {
@@ -2281,7 +2349,7 @@
           "minutes": 607
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 626
         }
       ]
@@ -2292,48 +2360,52 @@
       "flag": "(1)",
       "stops": [
         {
-          "station": "Gravina (partenza stazione FAL)",
-          "minutes": 603
+          "station": "Gravina (partenza)",
+          "minutes": 613
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 623
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 635
+          "station": "Altamura (partenza)",
+          "minutes": 633
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
-          "minutes": 667
+          "station": "Mellitto",
+          "minutes": 655
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 672
+          "station": "Toritto",
+          "minutes": 664
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
-          "minutes": 677
+          "station": "Grumo Appula",
+          "minutes": 669
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
+          "station": "Binetto",
+          "minutes": 675
+        },
+        {
+          "station": "Palo del Colle",
           "minutes": 682
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 692
+          "station": "Modugno",
+          "minutes": 691
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 708
+          "station": "Bari Policlinico",
+          "minutes": 701
         },
         {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 713
+          "station": "Bari Scalo",
+          "minutes": 706
         },
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 717
+          "station": "Bari C.le",
+          "minutes": 712
         }
       ]
     },
@@ -2343,19 +2415,23 @@
       "flag": null,
       "stops": [
         {
-          "station": "Matera Sud (via della Quercia)",
-          "minutes": 656
+          "station": "Matera Sud",
+          "minutes": 671
         },
         {
-          "station": "Matera C.le (via A. Moro)",
-          "minutes": 661
+          "station": "Matera C.le",
+          "minutes": 674
         },
         {
-          "station": "Villa Longo (stazione FAL)",
-          "minutes": 670
+          "station": "Villa Longo",
+          "minutes": 679
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Matera Serra Rifusa",
+          "minutes": 681
+        },
+        {
+          "station": "Altamura (arrivo)",
           "minutes": 702
         }
       ]
@@ -2374,48 +2450,52 @@
           "minutes": 681
         },
         {
-          "station": "Gravina (partenza stazione FAL)",
-          "minutes": 685
+          "station": "Gravina (partenza)",
+          "minutes": 695
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 705
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 707
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
-          "minutes": 739
+          "station": "Pescariello",
+          "minutes": 717
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 744
+          "station": "Toritto",
+          "minutes": 734
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
-          "minutes": 749
+          "station": "Grumo Appula",
+          "minutes": 741
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 754
+          "station": "Binetto",
+          "minutes": 746
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 764
+          "station": "Palo del Colle",
+          "minutes": 751
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
+          "station": "Modugno",
+          "minutes": 760
+        },
+        {
+          "station": "Bari Policlinico",
+          "minutes": 770
+        },
+        {
+          "station": "Bari Scalo",
+          "minutes": 774
+        },
+        {
+          "station": "Bari C.le",
           "minutes": 780
-        },
-        {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 785
-        },
-        {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 789
         }
       ]
     },
@@ -2425,15 +2505,15 @@
       "flag": null,
       "stops": [
         {
-          "station": "Matera Sud (via della Quercia)",
+          "station": "Matera Sud",
           "minutes": 723
         },
         {
-          "station": "Matera C.le (via A. Moro)",
+          "station": "Matera C.le",
           "minutes": 726
         },
         {
-          "station": "Villa Longo (stazione FAL)",
+          "station": "Villa Longo",
           "minutes": 731
         },
         {
@@ -2445,7 +2525,7 @@
           "minutes": 742
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 755
         }
       ]
@@ -2456,48 +2536,52 @@
       "flag": null,
       "stops": [
         {
-          "station": "Gravina (partenza stazione FAL)",
-          "minutes": 737
+          "station": "Gravina (partenza)",
+          "minutes": 747
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 757
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 759
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
-          "minutes": 791
+          "station": "Pescariello",
+          "minutes": 770
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 796
+          "station": "Toritto",
+          "minutes": 787
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
+          "station": "Grumo Appula",
+          "minutes": 793
+        },
+        {
+          "station": "Binetto",
           "minutes": 801
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
+          "station": "Palo del Colle",
           "minutes": 806
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 816
+          "station": "Modugno",
+          "minutes": 815
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 832
+          "station": "Bari Policlinico",
+          "minutes": 825
         },
         {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 837
+          "station": "Bari Scalo",
+          "minutes": 829
         },
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 841
+          "station": "Bari C.le",
+          "minutes": 835
         }
       ]
     },
@@ -2523,7 +2607,7 @@
           "minutes": 811
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 830
         }
       ]
@@ -2534,48 +2618,48 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Gravina (partenza stazione FAL)",
-          "minutes": 812
+          "station": "Gravina (partenza)",
+          "minutes": 822
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 832
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 833
+          "station": "Altamura (partenza)",
+          "minutes": 838
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
+          "station": "Toritto",
           "minutes": 865
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
+          "station": "Grumo Appula",
           "minutes": 870
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
+          "station": "Binetto",
           "minutes": 875
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
+          "station": "Palo del Colle",
           "minutes": 880
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 890
+          "station": "Modugno",
+          "minutes": 889
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 906
+          "station": "Bari Policlinico",
+          "minutes": 899
         },
         {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 911
+          "station": "Bari Scalo",
+          "minutes": 902
         },
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 915
+          "station": "Bari C.le",
+          "minutes": 908
         }
       ]
     },
@@ -2601,7 +2685,7 @@
           "minutes": 870
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 889
         }
       ]
@@ -2612,48 +2696,52 @@
       "flag": "(2)",
       "stops": [
         {
-          "station": "Gravina (partenza stazione FAL)",
-          "minutes": 873
+          "station": "Gravina (partenza)",
+          "minutes": 883
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 893
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 895
+          "station": "Altamura (partenza)",
+          "minutes": 901
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
-          "minutes": 927
+          "station": "Pescariello",
+          "minutes": 913
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 932
+          "station": "Toritto",
+          "minutes": 930
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
-          "minutes": 937
+          "station": "Grumo Appula",
+          "minutes": 935
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 942
+          "station": "Binetto",
+          "minutes": 940
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 952
+          "station": "Palo del Colle",
+          "minutes": 947
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 968
+          "station": "Modugno",
+          "minutes": 956
         },
         {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 973
+          "station": "Bari Policlinico",
+          "minutes": 966
         },
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 977
+          "station": "Bari Scalo",
+          "minutes": 970
+        },
+        {
+          "station": "Bari C.le",
+          "minutes": 976
         }
       ]
     },
@@ -2683,7 +2771,7 @@
           "minutes": 939
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 952
         }
       ]
@@ -2702,48 +2790,52 @@
           "minutes": 928
         },
         {
-          "station": "Gravina (partenza stazione FAL)",
-          "minutes": 936
+          "station": "Gravina (partenza)",
+          "minutes": 946
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 956
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 958
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
-          "minutes": 990
+          "station": "Mellitto",
+          "minutes": 975
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 995
+          "station": "Toritto",
+          "minutes": 984
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
-          "minutes": 1000
+          "station": "Grumo Appula",
+          "minutes": 989
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 1005
+          "station": "Binetto",
+          "minutes": 996
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 1015
+          "station": "Palo del Colle",
+          "minutes": 1002
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
+          "station": "Modugno",
+          "minutes": 1011
+        },
+        {
+          "station": "Bari Policlinico",
+          "minutes": 1021
+        },
+        {
+          "station": "Bari Scalo",
+          "minutes": 1025
+        },
+        {
+          "station": "Bari C.le",
           "minutes": 1031
-        },
-        {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 1036
-        },
-        {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 1040
         }
       ]
     },
@@ -2769,7 +2861,7 @@
           "minutes": 974
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 993
         }
       ]
@@ -2780,48 +2872,52 @@
       "flag": null,
       "stops": [
         {
-          "station": "Gravina (partenza stazione FAL)",
-          "minutes": 969
+          "station": "Gravina (partenza)",
+          "minutes": 979
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 989
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 995
+          "station": "Altamura (partenza)",
+          "minutes": 997
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
+          "station": "Mellitto",
+          "minutes": 1017
+        },
+        {
+          "station": "Toritto",
           "minutes": 1027
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 1032
+          "station": "Grumo Appula",
+          "minutes": 1033
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
-          "minutes": 1037
+          "station": "Binetto",
+          "minutes": 1039
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 1042
+          "station": "Palo del Colle",
+          "minutes": 1046
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 1052
+          "station": "Modugno",
+          "minutes": 1055
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 1068
+          "station": "Bari Policlinico",
+          "minutes": 1065
         },
         {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 1073
+          "station": "Bari Scalo",
+          "minutes": 1070
         },
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 1077
+          "station": "Bari C.le",
+          "minutes": 1076
         }
       ]
     },
@@ -2851,7 +2947,7 @@
           "minutes": 1052
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 1065
         }
       ]
@@ -2862,48 +2958,52 @@
       "flag": null,
       "stops": [
         {
-          "station": "Gravina (partenza stazione FAL)",
-          "minutes": 1047
+          "station": "Gravina (partenza)",
+          "minutes": 1057
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 1067
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 1069
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
-          "minutes": 1101
+          "station": "Pescariello",
+          "minutes": 1080
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 1106
+          "station": "Toritto",
+          "minutes": 1097
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
+          "station": "Grumo Appula",
+          "minutes": 1105
+        },
+        {
+          "station": "Binetto",
           "minutes": 1111
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 1116
+          "station": "Palo del Colle",
+          "minutes": 1118
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 1126
+          "station": "Modugno",
+          "minutes": 1127
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 1142
+          "station": "Bari Policlinico",
+          "minutes": 1137
         },
         {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 1147
+          "station": "Bari Scalo",
+          "minutes": 1143
         },
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 1151
+          "station": "Bari C.le",
+          "minutes": 1149
         }
       ]
     },
@@ -2929,7 +3029,7 @@
           "minutes": 1117
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 1136
         }
       ]
@@ -2940,48 +3040,52 @@
       "flag": null,
       "stops": [
         {
-          "station": "Gravina (partenza stazione FAL)",
-          "minutes": 1114
+          "station": "Gravina (partenza)",
+          "minutes": 1124
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 1134
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 1138
+          "station": "Altamura (partenza)",
+          "minutes": 1140
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
+          "station": "Pescariello",
+          "minutes": 1151
+        },
+        {
+          "station": "Toritto",
           "minutes": 1170
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
+          "station": "Grumo Appula",
           "minutes": 1175
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
+          "station": "Binetto",
           "minutes": 1180
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 1185
+          "station": "Palo del Colle",
+          "minutes": 1186
         },
         {
-          "station": "Modugno (stazione FAL)",
+          "station": "Modugno",
           "minutes": 1195
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
+          "station": "Bari Policlinico",
+          "minutes": 1205
+        },
+        {
+          "station": "Bari Scalo",
           "minutes": 1211
         },
         {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 1216
-        },
-        {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 1220
+          "station": "Bari C.le",
+          "minutes": 1217
         }
       ]
     },
@@ -3011,7 +3115,7 @@
           "minutes": 1178
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 1191
         }
       ]
@@ -3027,51 +3131,55 @@
         },
         {
           "station": "Gravina (arrivo da PZ)",
-          "minutes": 1169
-        },
-        {
-          "station": "Gravina (partenza stazione FAL)",
           "minutes": 1170
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Gravina (partenza)",
+          "minutes": 1180
+        },
+        {
+          "station": "Altamura (arrivo)",
           "minutes": 1190
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 1193
+          "station": "Altamura (partenza)",
+          "minutes": 1197
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
-          "minutes": 1225
+          "station": "Mellitto",
+          "minutes": 1215
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 1230
+          "station": "Toritto",
+          "minutes": 1224
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
-          "minutes": 1235
+          "station": "Grumo Appula",
+          "minutes": 1229
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 1240
+          "station": "Binetto",
+          "minutes": 1237
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 1250
+          "station": "Palo del Colle",
+          "minutes": 1242
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
+          "station": "Modugno",
+          "minutes": 1251
+        },
+        {
+          "station": "Bari Policlinico",
+          "minutes": 1261
+        },
+        {
+          "station": "Bari Scalo",
           "minutes": 1266
         },
         {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 1271
-        },
-        {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 1275
+          "station": "Bari C.le",
+          "minutes": 1272
         }
       ]
     },
@@ -3101,7 +3209,7 @@
           "minutes": 1253
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 1266
         }
       ]
@@ -3112,48 +3220,48 @@
       "flag": null,
       "stops": [
         {
-          "station": "Gravina (partenza stazione FAL)",
-          "minutes": 1250
+          "station": "Gravina (partenza)",
+          "minutes": 1260
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 1270
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
+          "station": "Altamura (partenza)",
           "minutes": 1273
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
-          "minutes": 1305
+          "station": "Toritto",
+          "minutes": 1298
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 1310
+          "station": "Grumo Appula",
+          "minutes": 1303
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
-          "minutes": 1315
+          "station": "Binetto",
+          "minutes": 1308
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 1320
+          "station": "Palo del Colle",
+          "minutes": 1314
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 1330
+          "station": "Modugno",
+          "minutes": 1323
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 1346
+          "station": "Bari Policlinico",
+          "minutes": 1333
         },
         {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
-          "minutes": 1351
+          "station": "Bari Scalo",
+          "minutes": 1338
         },
         {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 1355
+          "station": "Bari C.le",
+          "minutes": 1344
         }
       ]
     },
@@ -3183,7 +3291,7 @@
           "minutes": 1297
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 1310
         }
       ]
@@ -3194,48 +3302,56 @@
       "flag": null,
       "stops": [
         {
-          "station": "Gravina (partenza stazione FAL)",
-          "minutes": 1289
+          "station": "Gravina (partenza)",
+          "minutes": 1299
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 1309
         },
         {
-          "station": "Altamura (partenza stazione FAL)",
-          "minutes": 1312
+          "station": "Altamura (partenza)",
+          "minutes": 1315
         },
         {
-          "station": "Toritto (via G. Pugliese civ. 267)",
-          "minutes": 1344
+          "station": "Pescariello",
+          "minutes": 1326
         },
         {
-          "station": "Grumo Appula (presso il Campo Sportivo)",
-          "minutes": 1349
+          "station": "Mellitto",
+          "minutes": 1337
         },
         {
-          "station": "Binetto (piazza Umberto Municipio)",
-          "minutes": 1354
+          "station": "Toritto",
+          "minutes": 1346
         },
         {
-          "station": "Palo del Colle (stazione FAL)",
-          "minutes": 1359
+          "station": "Grumo Appula",
+          "minutes": 1351
         },
         {
-          "station": "Modugno (stazione FAL)",
-          "minutes": 1369
+          "station": "Binetto",
+          "minutes": 1356
         },
         {
-          "station": "Bari Scalo (via Pasteur)",
-          "minutes": 1385
+          "station": "Palo del Colle",
+          "minutes": 1362
         },
         {
-          "station": "Bari Policlinico (viale O. Flacco civ. 6)",
+          "station": "Modugno",
+          "minutes": 1371
+        },
+        {
+          "station": "Bari Policlinico",
+          "minutes": 1381
+        },
+        {
+          "station": "Bari Scalo",
+          "minutes": 1384
+        },
+        {
+          "station": "Bari C.le",
           "minutes": 1390
-        },
-        {
-          "station": "Bari C.le (Terminal BUS FS via Capruzzi)",
-          "minutes": 1394
         }
       ]
     },
@@ -3261,10 +3377,15 @@
           "minutes": 1334
         },
         {
-          "station": "Altamura (arrivo stazione FAL)",
+          "station": "Altamura (arrivo)",
           "minutes": 1353
         }
       ]
     }
-  ]
+  ],
+  "valid_from": "2026-08-31",
+  "suppressed_window": {
+    "from": "2026-08-01",
+    "to": "2026-08-31"
+  }
 }

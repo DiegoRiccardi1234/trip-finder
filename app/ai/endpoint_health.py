@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import math
 from dataclasses import dataclass
 
 from app.orchestrator import cache
@@ -72,31 +73,44 @@ def _parse(slug: str, payload: object) -> Health:
     data = payload.get("data") if isinstance(payload, dict) else None
     endpoints = data.get("endpoints") if isinstance(data, dict) else None
 
-    if not isinstance(endpoints, list) or not endpoints:
+    if not isinstance(endpoints, list):
+        return Health(slug, True, 0.0, 0.0, detail="non verificato: risposta incompleta")
+    if not endpoints:
         return Health(slug, False, 0.0, 0.0, detail="nessun provider serve piu' il modello")
 
     healthy = [
         endpoint
         for endpoint in endpoints
-        if isinstance(endpoint, dict) and endpoint.get("status") in (0, None)
+        if isinstance(endpoint, dict) and type(endpoint.get("status")) is int and endpoint["status"] == 0
     ]
     if not healthy:
+        if any(not isinstance(e, dict) or type(e.get("status")) is not int for e in endpoints):
+            return Health(slug, True, 0.0, 0.0, detail="non verificato: stato endpoint assente")
         return Health(slug, False, 0.0, 0.0, detail="tutti gli endpoint sono in errore")
 
-    def uptime(endpoint: dict, key: str) -> float:
+    def uptime(endpoint: dict, key: str) -> float | None:
         value = endpoint.get(key)
-        return float(value) if isinstance(value, (int, float)) else 0.0
+        if isinstance(value, (int, float)) and not isinstance(value, bool):
+            if math.isfinite(value) and 0 <= value <= 100:
+                return float(value)
+        return None
 
     # Conta il provider migliore: OpenRouter instrada li' per primo.
-    best_5m = max(uptime(endpoint, "uptime_last_5m") for endpoint in healthy)
-    best_1d = max(uptime(endpoint, "uptime_last_1d") for endpoint in healthy)
+    measurements = [uptime(endpoint, "uptime_last_5m") for endpoint in healthy]
+    best_5m = max((v for v in measurements if v is not None), default=0.0)
+    best_1d = max((uptime(e, "uptime_last_1d") or 0.0 for e in healthy), default=0.0)
     providers = tuple(
         str(endpoint.get("provider_name"))
         for endpoint in healthy
         if endpoint.get("provider_name")
     )
 
-    if best_5m and best_5m < MIN_UPTIME_5M:
+    if best_5m < MIN_UPTIME_5M:
+        if None in measurements or any(
+            not isinstance(e, dict) or type(e.get("status")) is not int for e in endpoints
+        ):
+            return Health(slug, True, 0.0, best_1d, providers,
+                          detail="non verificato: disponibilita' endpoint assente")
         return Health(
             slug, False, best_5m, best_1d, providers,
             detail=f"disponibilita' al {best_5m:.0f}% negli ultimi 5 minuti",

@@ -34,12 +34,18 @@ def test_niente_servizio_a_ferragosto() -> None:
     assert any("festiv" in r for r in reasons)
 
 
-def test_treni_estivi_soppressi_spariscono() -> None:
+def test_treni_estivi_soppressi_spariscono(monkeypatch) -> None:
     """Dal manifesto: "(1) - Treni soppressi dal 27 luglio al 29 agosto 2026".
 
     Cade in pieno agosto, cioe' esattamente quando si scende al Sud: proporre
     un treno marcato (1) in quel periodo sarebbe l'errore piu' costoso che
     questo adapter possa fare."""
+    # Il manifesto attuale parte il 31 agosto: il calendario del vecchio
+    # documento si verifica con corse sintetiche, senza retrodatare il nuovo.
+    monkeypatch.setattr(fal, "load_schedule", lambda: {
+        "runs": [{"flag": "1"}, {"flag": "2"}],
+        "suppressed_window": {"from": "2026-07-27", "to": "2026-08-29"},
+    })
     agosto, settembre = date(2026, 8, 14), date(2026, 9, 15)
 
     estate, motivi = fal.runs_on(agosto)
@@ -52,11 +58,66 @@ def test_treni_estivi_soppressi_spariscono() -> None:
     assert any("soppress" in m for m in motivi)
 
 
+@pytest.mark.parametrize("day", [date(2026, 4, 6), date(2027, 3, 29), date(2028, 4, 17)])
+def test_niente_servizio_a_pasquetta(day, monkeypatch) -> None:
+    monkeypatch.setattr(fal, "load_schedule", lambda: {"runs": [{"flag": None}]})
+    runs, reasons = fal.runs_on(day)
+    assert runs == []
+    assert any("Pasquetta" in reason for reason in reasons)
+
+
+def test_soppressione_datata_non_si_ripete_ogni_anno(monkeypatch) -> None:
+    monkeypatch.setattr(fal, "load_schedule", lambda: {
+        "runs": [{"flag": "1"}, {"flag": None}],
+        "suppressed_window": {"from": "2026-07-27", "to": "2026-08-29"},
+    })
+    runs, reasons = fal.runs_on(date(2027, 8, 13))
+    assert len(runs) == 2
+    assert reasons == []
+    assert fal._in_summer_window(date(2026, 7, 27))
+    assert fal._in_summer_window(date(2026, 8, 29))
+    assert not fal._in_summer_window(date(2027, 8, 13))
+
+
+def test_non_si_usa_un_manifesto_per_date_precedenti(monkeypatch) -> None:
+    monkeypatch.setattr(fal, "load_schedule", lambda: {
+        "valid_from": "2026-08-31", "runs": [{"flag": None}],
+    })
+    runs, reasons = fal.runs_on(date(2026, 8, 28))
+    assert runs == []
+    assert "2026-08-31" in reasons[0]
+
+
+@pytest.mark.parametrize("text,expected", [
+    ("IN VIGORE DAL 22 GIUGNO 2026 (1) - Treni soppressi dal 27 luglio al 29 agosto 2026",
+     {"valid_from": "2026-06-22", "suppressed_window": {"from": "2026-07-27", "to": "2026-08-29"}}),
+    ("IN VIGORE DAL 31 AGOSTO 2026 (1) - Treni soppressi nel mese di agosto",
+     {"valid_from": "2026-08-31", "suppressed_window": {"from": "2026-08-01", "to": "2026-08-31"}}),
+])
+def test_calendario_si_estrae_dal_manifesto(text, expected, monkeypatch) -> None:
+    from pathlib import Path
+
+    monkeypatch.syspath_prepend(str(Path(__file__).resolve().parents[1] / "scripts"))
+    from build_fal_schedule import calendar_from_text
+
+    assert calendar_from_text(text) == expected
+
+
+def test_un_calendario_non_riconosciuto_blocca_la_generazione(monkeypatch) -> None:
+    from pathlib import Path
+
+    monkeypatch.syspath_prepend(str(Path(__file__).resolve().parents[1] / "scripts"))
+    from build_fal_schedule import calendar_from_text
+
+    with pytest.raises(ValueError, match="finestra estiva"):
+        calendar_from_text("IN VIGORE DAL 31 AGOSTO 2026 (1) - Condizioni nuove non riconosciute")
+
+
 @pytest.mark.skipif(not fal.load_schedule().get("runs"), reason="orario FAL non generato")
 @needs_datasets
 def test_bari_matera_come_sul_manifesto() -> None:
     """Confronto diretto con il PDF: il bus 101 parte da Bari alle 4.14, arriva
-    ad Altamura alle 5.36; il treno 1 riparte alle 5.37 e arriva a Matera
+    ad Altamura alle 5.26; il treno 1 riparte alle 6.21 e arriva a Matera
     Centrale alle 6.50. Il motore deve ricostruire quella coincidenza."""
     from app.geo.datasets import load_index
     from app.providers.base import SearchContext

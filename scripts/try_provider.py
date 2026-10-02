@@ -64,8 +64,9 @@ async def run(args: argparse.Namespace) -> int:
     ctx = SearchContext(date=args.date, pax=args.pax)
     started = datetime.now()
     try:
+        await provider.prepare_parse(ctx)
         raw = await provider.fetch(origin, destination, ctx)
-        legs = provider.parse(raw, origin, destination, ctx)
+        legs = provider._solo_coerenti(provider.parse(raw, origin, destination, ctx), origin, destination)
     except NotServed as exc:
         print(f"non servita: {exc}")
         return 0

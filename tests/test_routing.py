@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
-from datetime import time
+from datetime import datetime, time, timedelta, timezone
+from zoneinfo import ZoneInfo
+
+import pytest
 
 from app.models import Itinerary, Mode, NodeKind, RiskFlag, SearchQuery
 from app.routing import composer, cost, feasibility, ranker, transfers
@@ -366,6 +369,108 @@ def test_filtri_espliciti_rispettati(query: SearchQuery) -> None:
     )
     con_budget = query.model_copy(update={"max_budget": 100.0})
     assert ranker.filter_by_query([caro, economico], con_budget) == [economico]
+
+
+def test_senza_notte_esclude_anche_avvicinamento_al_volo(query: SearchQuery) -> None:
+    presto = _itinerary(
+        [
+            make_leg("transfer", Mode.TRANSFER, TORINO_PN, TORINO_AIR, at(2, 49), at(4, 10)),
+            make_leg("ryanair", Mode.AIR, TORINO_AIR, BARI_AIR, at(5, 40), at(7, 20), 90.0),
+        ],
+        query,
+    )
+    diurno = _itinerary(
+        [make_leg("ryanair", Mode.AIR, TORINO_AIR, BARI_AIR, at(8), at(9, 40), 100.0)],
+        query,
+    )
+    senza_notte = query.model_copy(update={"allow_night": False})
+
+    assert not presto.overnight, "non e' una tratta lunga che sostituisce un albergo"
+    assert ranker.night_bonus(presto) == 0.0
+    assert ranker.filter_by_query([presto, diurno], senza_notte) == [diurno]
+    # Se non resta nessuna soluzione valida, il fallback deve spiegare il vincolo.
+    assert ranker.filter_by_query([presto], senza_notte) == []
+    assert ranker.unmet_constraints([presto], senza_notte) == [
+        {"kind": "allow_night", "value": False}
+    ]
+    con_notte = query.model_copy(update={"allow_night": True})
+    assert ranker.filter_by_query([presto], con_notte) == [presto]
+    assert ranker.unmet_constraints([presto], con_notte) == []
+
+
+def test_senza_notte_esclude_anche_gamba_breve_e_ultimo_miglio(query: SearchQuery) -> None:
+    breve = _itinerary(
+        [make_leg("bus", Mode.BUS, BARI_C, MATERA_BUS, at(1, 30), at(2, 10), 10.0)],
+        query,
+    )
+    ultimo_miglio = _itinerary(
+        [
+            make_leg("ryanair", Mode.AIR, TORINO_AIR, BARI_AIR, at(22, 30), at(0, 30, 1), 80.0),
+            make_leg("transfer", Mode.TRANSFER, BARI_AIR, MATERA_BUS, at(0, 50, 1), at(1, 20, 1)),
+        ],
+        query,
+    )
+    senza_notte = query.model_copy(update={"allow_night": False})
+
+    assert not breve.overnight and not ultimo_miglio.overnight
+    assert ranker.filter_by_query([breve, ultimo_miglio], senza_notte) == []
+    assert ranker.unmet_constraints([breve, ultimo_miglio], senza_notte) == [
+        {"kind": "allow_night", "value": False}
+    ]
+
+
+@pytest.mark.parametrize(
+    ("depart", "arrive", "night"),
+    [
+        (at(0, 50), at(1), False),
+        (at(0, 59), at(1, 1), True),
+        (at(4, 59), at(5, 1), True),
+        (at(5), at(5, 30), False),
+        (at(1), at(1), False),
+        (at(23, 50), at(5, 10, 1), True),
+    ],
+)
+def test_fascia_notturna_usa_sovrapposizione_esatta(query, depart, arrive, night) -> None:
+    itinerary = _itinerary(
+        [make_leg("transfer", Mode.TRANSFER, TORINO_PN, TORINO_AIR, depart, arrive)],
+        query,
+    )
+    senza_notte = query.model_copy(update={"allow_night": False})
+
+    assert bool(ranker.unmet_constraints([itinerary], senza_notte)) is night
+    assert (ranker.filter_by_query([itinerary], senza_notte) == []) is night
+
+
+def test_notte_durante_ora_ripetuta_autunnale(query: SearchQuery) -> None:
+    rome = ZoneInfo("Europe/Rome")
+    depart = datetime(2026, 10, 25, 2, 45, tzinfo=rome, fold=0)
+    arrive = datetime(2026, 10, 25, 2, 15, tzinfo=rome, fold=1)
+    assert arrive.astimezone(timezone.utc) - depart.astimezone(timezone.utc) == timedelta(minutes=30)
+    itinerary = _itinerary(
+        [make_leg("transfer", Mode.TRANSFER, TORINO_PN, TORINO_AIR, depart, arrive)],
+        query,
+    )
+    senza_notte = query.model_copy(update={"allow_night": False})
+
+    assert ranker.filter_by_query([itinerary], senza_notte) == []
+    assert ranker.unmet_constraints([itinerary], senza_notte) == [
+        {"kind": "allow_night", "value": False}
+    ]
+
+
+@pytest.mark.parametrize(("start", "end", "night"), [(1, 3, True), (5, 6, False)])
+def test_fascia_notturna_resta_locale_durante_cambio_primaverile(query, start, end, night):
+    rome = ZoneInfo("Europe/Rome")
+    depart = datetime(2026, 3, 29, start, 50 if start == 1 else 0, tzinfo=rome)
+    arrive = datetime(2026, 3, 29, end, 10 if end == 3 else 0, tzinfo=rome)
+    itinerary = _itinerary(
+        [make_leg("transfer", Mode.TRANSFER, TORINO_PN, TORINO_AIR, depart, arrive)],
+        query,
+    )
+    senza_notte = query.model_copy(update={"allow_night": False})
+
+    assert (ranker.filter_by_query([itinerary], senza_notte) == []) is night
+    assert bool(ranker.unmet_constraints([itinerary], senza_notte)) is night
 
 
 def test_arrivare_il_giorno_dopo_sfora_l_ora_di_arrivo(query: SearchQuery) -> None:

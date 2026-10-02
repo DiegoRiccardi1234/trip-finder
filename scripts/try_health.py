@@ -54,7 +54,8 @@ async def main() -> int:
             health = await endpoint_health.check_many(pool)
             for slug in pool:
                 status = health.get(slug, endpoint_health.UNKNOWN)
-                mark = "ok  " if status.alive else "MORTO"
+                mark = ("?   " if "non verificato" in status.detail or "verifica non riuscita" in status.detail
+                        else "ok  " if status.alive else "MORTO")
                 quality = model_selector.score_model_name(slug, task)
                 hosts = ", ".join(status.providers[:2]) or "-"
                 print(

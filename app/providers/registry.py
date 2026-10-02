@@ -47,7 +47,8 @@ def _discover() -> None:
     for package_name in PACKAGES:
         try:
             package = importlib.import_module(package_name)
-        except ModuleNotFoundError:
+        except Exception:  # noqa: BLE001 - un pacchetto rotto non blocca gli altri
+            logger.exception("pacchetto adapter non caricato: %s", package_name)
             continue
         trovati = 0
         for module in pkgutil.iter_modules(package.__path__):
@@ -60,11 +61,10 @@ def _discover() -> None:
             except Exception:  # noqa: BLE001 - un adapter rotto non blocca gli altri
                 logger.exception("adapter non caricato: %s", full_name)
         if not trovati:
-            # Un pacchetto che non contiene niente non e' un caso normale: da
-            # sorgente vuol dire cartella sbagliata, nel bundle vuol dire che i
-            # moduli non ci sono entrati. E' successo, e il programma partiva
-            # senza un solo operatore senza dire niente a nessuno.
-            logger.error("nessun adapter in %s: la ricerca non trovera' niente", package_name)
+            # Alcune categorie, come aggregator, sono ancora volutamente vuote.
+            logger.debug("nessun adapter in %s", package_name)
+    if not _registry:
+        logger.error("nessun provider registrato: la ricerca non trovera' niente")
     logger.info("provider registrati: %s", ", ".join(sorted(_registry)) or "NESSUNO")
 
 

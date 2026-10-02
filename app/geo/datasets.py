@@ -423,7 +423,10 @@ def _load_stations(by_iata: dict[str, Node]) -> tuple[list[Node], list[CityEntry
                         lat=lat,
                         lon=lon,
                         country=country,
-                        weight=2.0,
+                        # Trainline non dichiara la popolazione: un peso alto
+                        # farebbe scavalcare le citta' vicine da paesi piccoli.
+                        # GeoNames integra il peso demografico in load_index.
+                        weight=1.0,
                         transport=True,
                     )
                 )
@@ -553,9 +556,8 @@ def load_index() -> GeoIndex:
         if chiave in gia_note:
             esistente = per_chiave[chiave]
             esistente.aliases = list(dict.fromkeys([*esistente.aliases, *city.aliases]))
-            # E il peso migliore dei due. Senza, «Madrid» finiva in **Colombia**:
-            # la voce Trainline ne portava uno fisso (2.0) e l'omonima
-            # sudamericana, che ha il suo dalla popolazione, la scavalcava.
+            # Integra il peso demografico nel neutro Trainline, mantenendo
+            # eventuali pesi piu' alti curati negli override.
             esistente.weight = max(esistente.weight, city.weight)
             continue
         all_cities.append(city)
