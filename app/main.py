@@ -13,17 +13,24 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import os
 from contextlib import asynccontextmanager
 from datetime import date, time as time_type
 from pathlib import Path
 from typing import Any, AsyncIterator
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.responses import HTMLResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from sse_starlette.sse import EventSourceResponse
 
 from app import config
+from app.ai import connections
+from app.agent_router import build_router
+from app.agent_service import AgentService
+from app import agent_security
+from app.install_layout import state_ownership
+from app.mcp_server import create_mcp_http_app
 from app.config import get_settings
 from app.geo.resolver import PlaceNotFound, get_resolver
 from app.models import (
@@ -56,6 +63,8 @@ logging.basicConfig(
     datefmt="%H:%M:%S",
 )
 logger = logging.getLogger(__name__)
+agent_service = AgentService()
+_mcp_server, _mcp_http_app = create_mcp_http_app(agent_service)
 
 
 @asynccontextmanager
@@ -84,17 +93,64 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         except Exception:  # noqa: BLE001 - senza cambi si continua a non convertire
             logger.debug("cambi non aggiornati", exc_info=True)
 
-    compito = asyncio.create_task(_tessere())
-    try:
-        yield
-    finally:
-        compito.cancel()
-        await close_http_client()
-        await close_browser_pool()
-        await close_db()
+    with state_ownership(config.DATA_DIR):
+        compito = None
+        try:
+            await connections.initialize()
+            await agent_service.initialize()
+            app.state.runtime_started = True
+            app.state.runtime_url = None
+            port = os.environ.get("TRIPFINDER_PORT")
+            if port:
+                app.state.runtime_url = f"http://127.0.0.1:{int(port)}"
+                agent_security.register_runtime(app.state.runtime_url)
+            compito = asyncio.create_task(_tessere())
+            async with _mcp_server.session_manager.run():
+                yield
+        finally:
+            app.state.runtime_started = False
+            if compito is not None:
+                compito.cancel()
+                await asyncio.gather(compito, return_exceptions=True)
+            await agent_service.close()
+            await connections.shutdown()
+            agent_security.unregister_runtime()
+            await close_http_client()
+            await close_browser_pool()
+            await close_db()
 
 
 app = FastAPI(title="Trip Finder", version=VERSION, lifespan=lifespan)
+app.include_router(build_router(agent_service))
+app.mount("/mcp", _mcp_http_app)
+
+
+@app.middleware("http")
+async def runtime_identity(request: Request, call_next: Any) -> Response:
+    # La porta viene dal socket ASGI, mai dall'header Host di un client.
+    # Copre anche uvicorn avviato direttamente senza il launcher Windows.
+    server = request.scope.get("server")
+    if getattr(app.state, "runtime_started", False) and server and server[0] in agent_security.LOCAL_HOSTS:
+        actual_url = f"http://127.0.0.1:{server[1]}"
+        if actual_url != getattr(app.state, "runtime_url", None):
+            agent_security.register_runtime(actual_url)
+            app.state.runtime_url = actual_url
+    if request.method not in {"GET", "HEAD", "OPTIONS"} and request.url.path.startswith("/api/"):
+        origin = request.headers.get("origin")
+        if request.headers.get("sec-fetch-site") == "cross-site":
+            return JSONResponse({"detail": "origine non consentita"}, status_code=403)
+        if origin:
+            from urllib.parse import urlsplit
+
+            parsed = urlsplit(origin)
+            if (parsed.scheme not in {"http", "https"} or parsed.netloc != request.url.netloc):
+                return JSONResponse({"detail": "origine non consentita"}, status_code=403)
+    return await call_next(request)
+
+
+@app.get("/api/runtime")
+async def runtime_info() -> dict:
+    return {"instance_id": agent_security.instance_id(), "version": VERSION}
 
 
 def _asset_token() -> str:
@@ -108,7 +164,7 @@ def _asset_token() -> str:
     browser di prova appena avviato: e' un difetto che le prove automatiche non
     possono vedere, e infatti non l'hanno visto."""
     ultimo = 0
-    for nome in ("style.css", "app.js"):
+    for nome in ("style.css", "app.js", "assistants.css", "assistants.js"):
         try:
             ultimo = max(ultimo, (STATIC_DIR / nome).stat().st_mtime_ns)
         except OSError:
@@ -362,12 +418,22 @@ async def ai_models() -> dict:
     quali hanno appena sbagliato, e quale userebbe se non scegliessi tu."""
     from app.ai import client, model_selector
 
-    if not client.is_configured():
+    await connections.initialize()
+    routing = (await connections.snapshot())["routing"]
+    if not client.is_configured() and not connections.has_route():
         return {"configured": False, "tasks": {}}
 
     settings = get_settings()
     tasks: dict[str, object] = {}
     for compito, etichetta in COMPITI_IA.items():
+        domain = "parse" if compito == "json" else "advice"
+        if connections.has_route(domain):
+            route = routing[domain]
+            order = [route["primary"], *route["fallbacks"]]
+            tasks[compito] = {"label": etichetta, "pinned": route["primary"],
+                             "auto": route["primary"], "order": order,
+                             "candidates": [], "routing": route}
+            continue
         ordine = [
             f"{provider.name}/{model}"
             for provider, model in await model_selector.rank_candidates(compito)
@@ -389,8 +455,10 @@ async def ai_status() -> dict:
     """Diagnostica: quali fornitori e modelli sono utilizzabili adesso."""
     from app.ai import client, model_selector, providers
 
+    await connections.initialize()
+    snapshot = await connections.snapshot()
     usable = providers.configured()
-    if not client.is_configured():
+    if not client.is_configured() and not connections.has_route():
         return {
             "configured": False,
             "detail": "nessuna chiave impostata: vedi .env.example",
@@ -398,6 +466,10 @@ async def ai_status() -> dict:
         }
 
     async def order(task: str) -> list[str]:
+        domain = "parse" if task == "json" else "advice"
+        if connections.has_route(domain):
+            route = snapshot["routing"][domain]
+            return [route["primary"], *route["fallbacks"]]
         return [
             f"{provider.name}/{model}"
             for provider, model in await model_selector.rank_candidates(task)
@@ -405,6 +477,7 @@ async def ai_status() -> dict:
 
     return {
         "configured": True,
+        "routing": snapshot["routing"],
         "providers": [
             {"name": provider.name, "free": provider.free, "note": provider.label}
             for provider in usable

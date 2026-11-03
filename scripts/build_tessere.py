@@ -302,6 +302,14 @@ VALIDITA = re.compile(
     r"valid[ao]\s+per\s+viaggi\s+dal\s+(\d{1,2})\s+(\w+)(?:\s+(\d{4}))?\s+al\s+(\d{1,2})\s+(\w+)\s+(\d{4})",
     re.IGNORECASE,
 )
+VALIDITA_FINO = re.compile(
+    r"valid[ao]\s+per\s+viaggi\s+fino\s+al\s+(\d{1,2})\s+(\w+)\s+(\d{4})",
+    re.IGNORECASE,
+)
+DECORRENZA_DOCUMENTO = re.compile(
+    r"\bvalid[ao]\s+dal\s+(\d{1,2})\.(\d{1,2})\.(\d{4})\b",
+    re.IGNORECASE,
+)
 RITIRO = re.compile(
     r"non\s+(?:e['’]|è)\s+pi(?:u['’]|ù)\s+acquistabile\s+dal\s+(\d{1,2})\s+(\w+)\s+(\d{4})",
     re.IGNORECASE,
@@ -324,6 +332,22 @@ def leggi(testo: str, base: dict[str, Any]) -> dict[str, Any]:
         fine = _giorno(m.group(4), m.group(5), anno_fine)
         if inizio and fine:
             voce["valido_da"], voce["valido_a"] = inizio, fine
+    elif (m := VALIDITA_FINO.search(testo)) is not None:
+        # Dal documento efficace il 20/10/2026 la promo indica solo la fine
+        # dei viaggi. La decorrenza sta nel footer, ripetuto su ogni pagina.
+        # Non ereditiamo la vecchia finestra: una data assente/ambigua deve
+        # bloccare la rigenerazione, non trasformarsi in validita' illimitata.
+        fine = _giorno(m.group(1), m.group(2), m.group(3))
+        if fine:
+            voce["valido_a"] = fine
+        decorrenze = set()
+        for footer in DECORRENZA_DOCUMENTO.finditer(testo):
+            try:
+                decorrenze.add(date(int(footer.group(3)), int(footer.group(2)), int(footer.group(1))).isoformat())
+            except ValueError:
+                decorrenze.add(None)
+        if len(decorrenze) == 1 and None not in decorrenze:
+            voce["valido_da"] = decorrenze.pop()
 
     if (m := RITIRO.search(testo)) is not None:
         ritirata = _giorno(m.group(1), m.group(2), m.group(3))
@@ -360,6 +384,14 @@ def controlla(voce: dict[str, Any]) -> list[str]:
         problemi.append(f"{voce.get('id')}: percentuale non trovata nel documento")
     elif voce.get("tipo") == "percent" and not 0 <= float(valore) <= 100:
         problemi.append(f"{voce.get('id')}: percentuale fuori scala ({valore})")
+    if voce.get("id") in {"trenitalia-promo-young", "trenitalia-promo-senior"}:
+        try:
+            inizio = date.fromisoformat(voce["valido_da"])
+            fine = date.fromisoformat(voce["valido_a"])
+            if fine < inizio:
+                raise ValueError
+        except (KeyError, ValueError, TypeError):
+            problemi.append(f"{voce.get('id')}: validita' della promo non trovata o incoerente nel documento")
     return problemi
 
 

@@ -124,13 +124,13 @@ async def parse(
     un dato indispensabile lo si **chiede** invece di inventarlo (`ServeAltro`),
     e la risposta arriva qui come turno successivo, cucita alla frase di prima.
     Chi non passa la storia vede esattamente il comportamento di prima."""
-    if not client.is_configured():
+    if not await client.configured_for("parse"):
         raise ParseFailed("interpretazione del linguaggio naturale non configurata")
 
     today = today or date.today()
     richiesta = _richiesta(text, history)
     prompt = f"Oggi e' {today.isoformat()} ({today.strftime('%A')}).\nRichiesta: {richiesta}"
-    answer = await client.complete_json("json", SYSTEM, prompt, max_tokens=600)
+    answer = await client.complete_json("parse", SYSTEM, prompt, max_tokens=600)
     parsed = answer.data
     if not parsed:
         # Il motivo arriva fino al messaggio: "riprova fra poco" e "metti una

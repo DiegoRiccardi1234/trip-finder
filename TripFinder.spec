@@ -107,12 +107,34 @@ analisi_agg = Analysis(
     noarchive=False,
 )
 
+# PyInstaller windowed bootloaders deliberately remove Python stdin/stdout.
+# MCP therefore uses its own console subsystem executable, with real pipes;
+# it never imports the windowless UI launcher or starts another state owner.
+analisi_mcp = Analysis(
+    ["app/mcp_server.py"],
+    pathex=["."],
+    binaries=[],
+    datas=[],
+    # L'extra CLI dell'SDK richiede Typer e non serve al server STDIO. Non
+    # importarlo durante la scansione: il suo __init__ termina il processo
+    # quando l'extra facoltativo non e' installato.
+    hiddenimports=collect_submodules("mcp", filter=lambda name: not name.startswith("mcp.cli")),
+    hookspath=[],
+    hooksconfig={},
+    runtime_hooks=[],
+    excludes=excludes,
+    cipher=block_cipher,
+    noarchive=False,
+)
+
 # Le dipendenze in comune si scrivono una volta sola: senza, l'aggiornatore
 # raddoppierebbe la dimensione dello zip per rifare quello che c'e' gia'.
-MERGE((analisi_app, "TripFinder", "TripFinder"), (analisi_agg, "Aggiorna", "Aggiorna"))
+MERGE((analisi_app, "TripFinder", "TripFinder"), (analisi_agg, "Aggiorna", "Aggiorna"),
+      (analisi_mcp, "TripFinderMCP", "TripFinderMCP"))
 
 pyz_app = PYZ(analisi_app.pure, analisi_app.zipped_data, cipher=block_cipher)
 pyz_agg = PYZ(analisi_agg.pure, analisi_agg.zipped_data, cipher=block_cipher)
+pyz_mcp = PYZ(analisi_mcp.pure, analisi_mcp.zipped_data, cipher=block_cipher)
 
 exe_app = EXE(
     pyz_app,
@@ -129,7 +151,7 @@ exe_app = EXE(
     # `data/logs/trip-finder.log`, che e' dove si va a guardare quando qualcosa
     # non parte.
     console=False,
-    icon=None,
+    icon="app/static/tripfinder.ico",
 )
 
 exe_agg = EXE(
@@ -143,18 +165,36 @@ exe_agg = EXE(
     strip=False,
     upx=True,
     console=False,
-    icon=None,
+    icon="app/static/tripfinder.ico",
+)
+
+exe_mcp = EXE(
+    pyz_mcp,
+    analisi_mcp.scripts,
+    [],
+    exclude_binaries=True,
+    name="TripFinderMCP",
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    upx=True,
+    console=True,
+    icon="app/static/tripfinder.ico",
 )
 
 COLLECT(
     exe_app,
     exe_agg,
+    exe_mcp,
     analisi_app.binaries,
     analisi_app.zipfiles,
     analisi_app.datas,
     analisi_agg.binaries,
     analisi_agg.zipfiles,
     analisi_agg.datas,
+    analisi_mcp.binaries,
+    analisi_mcp.zipfiles,
+    analisi_mcp.datas,
     strip=False,
     upx=True,
     upx_exclude=[],

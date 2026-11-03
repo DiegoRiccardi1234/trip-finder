@@ -34,10 +34,11 @@ Usa i nomi delle citta' nella lingua locale, senza specificare la stazione."""
 async def suggest_hubs(
     origin: Place, destination: Place, query: SearchQuery
 ) -> list[str]:
-    if not client.is_configured():
+    if not await client.configured_for("planning"):
         return []
 
-    key = cache.make_key("ai:hubs", origin.label, destination.label, sorted(m.value for m in query.modes))
+    from app.ai.connections import cache_identity
+    key = cache.make_key("ai:hubs", origin.label, destination.label, sorted(m.value for m in query.modes), cache_identity("planning"))
     cached = await cache.get(key)
     if cached is not None:
         return list(cached)[:MAX_SUGGESTIONS]
@@ -52,7 +53,7 @@ async def suggest_hubs(
 
     # Qui il motivo non serve: gli scali sono additivi e la loro assenza non e'
     # un fatto da riportare a schermo, a differenza del consiglio finale.
-    parsed = (await client.complete_json("json", SYSTEM, prompt, max_tokens=200)).data
+    parsed = (await client.complete_json("planning", SYSTEM, prompt, max_tokens=200)).data
     if not parsed:
         return []
 

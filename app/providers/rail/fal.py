@@ -253,9 +253,9 @@ class FerrovieAppuloLucane(Provider):
     ) -> list[tuple[int, int, str, int]]:
         """Viaggi con un cambio, tipicamente ad Altamura.
 
-        La linea Bari-Matera e' spezzata: la prima parte e' servita da autobus
-        sostitutivi, la seconda dai treni. Sono due corse diverse ma un solo
-        biglietto, quindi il risultato e' una gamba sola con un cambio."""
+        Sono due corse diverse ma un solo biglietto, quindi il risultato e'
+        una gamba sola con un cambio. Le sostituzioni con bus dipendono dal
+        manifesto: non si presume che tutta una tratta sia sempre ferroviaria."""
         found: list[tuple[int, int, str, int]] = []
         interchange_ids = [node_id for _, node_id in STATION_KEYS]
 
@@ -315,6 +315,11 @@ class FerrovieAppuloLucane(Provider):
             "orario da manifesto ufficiale FAL: verifica prima di partire",
             *reasons,
         ]
+        # These are document-wide conditions. Do not label every rail service
+        # a bus merely because the timetable also contains replacement buses.
+        for condition in load_schedule().get("notes") or []:
+            if "bus" in condition.lower():
+                notes.append("il manifesto segnala: " + condition.lstrip("- "))
         if changes:
             notes.append("biglietto unico, ma con un cambio lungo il percorso")
 

@@ -130,7 +130,21 @@ Per rifare il bundle: `pip install -r requirements-dev.txt` e poi
 `python scripts\build_exe.py`. In CI lo fa `.github/workflows/release.yml` a ogni
 tag `v*`, e allega lo zip alla release.
 
-### Facoltativo: l'intelligenza artificiale
+### Assistenti locali, Chat viaggi e MCP
+
+Puoi usare **Codex**, **Claude Code** oppure un endpoint OpenAI-compatible,
+compreso un gateway **Hermes Agent** già configurato. Le connessioni sono
+facoltative e separate per attività: ogni utente sceglie i propri account e
+fallback nelle Impostazioni. I provider precedenti rimangono disponibili.
+
+La nuova **Chat viaggi** parte da zero o continua dai risultati. Salvataggi e
+modifiche richiedono una conferma nel Profilo. Un assistente esterno può anche
+usare gli strumenti MCP dell'app aperta, senza avviare un altro archivio.
+
+Setup, differenze fra integrazione e attivazione, limiti e pacchetti Windows:
+[guida assistenti e MCP](docs/assistants-and-mcp.md).
+
+### Facoltativo: l'intelligenza artificiale tramite API
 
 Il posto normale è la scheda **Impostazioni** del sito: una scheda per
 fornitore, il link dove procurarsi la chiave e cosa dà il piano gratuito. Ne

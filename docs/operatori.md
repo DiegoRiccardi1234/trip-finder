@@ -3,7 +3,19 @@
 Verifiche fatte sugli endpoint reali. Serve a non rifare le stesse ricerche fra
 sei mesi, e a sapere dove riprendere.
 
-Ultimo aggiornamento: **2 ottobre 2026**, ripristino e verifica Albatross.
+Ultimo aggiornamento: **3 novembre 2026**, ricontrollo dei tre esiti inconclusivi.
+
+## Ricontrollo del 3 novembre 2026
+
+Alta Badia Bus (La Villa–Badia), Tiemme (Poggibonsi–Grosseto) e MarinoBus
+Urbano (Altamura–Castellaneta Marina), interrogati per il **17 novembre 2026**,
+restituiscono ancora zero elementi grezzi. `check_providers.py` termina con
+codice **2**, prova inconclusiva. I pin storici restano conservati: nessuna
+nuova corsa dimostrata, nessuna causa di guasto o stagionalita' presunta.
+
+L'orario statico FAL e' stato invece aggiornato al manifesto ufficiale del
+**12 ottobre 2026**; variazioni e verifiche sono nel
+[report dati statici](verification-static-data.md).
 
 ## Verifica del 2 ottobre 2026
 

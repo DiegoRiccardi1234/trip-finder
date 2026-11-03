@@ -22,6 +22,8 @@ import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 SPEC = ROOT / "TripFinder.spec"
 DIST = ROOT / "dist"
 BUILD = ROOT / "build"
@@ -86,6 +88,9 @@ def main() -> int:
         print("cataloghi obbligatori mancanti: build interrotta", file=sys.stderr)
         return 1
 
+    from scripts.build_windows_icon import build as build_icon
+    build_icon(ROOT / "app" / "static" / "tripfinder.ico")
+
     for cartella in (DIST, BUILD):
         if cartella.exists():
             shutil.rmtree(cartella)
@@ -98,7 +103,8 @@ def main() -> int:
     # specificato`, che non nomina PyInstaller e sembra un problema dello spec.
     # Due righe piu' su `_assicura_datasets` gia' usava `sys.executable`.
     subprocess.check_call(
-        [sys.executable, "-m", "PyInstaller", str(SPEC), "--noconfirm"], cwd=ROOT
+        [sys.executable, "-m", "PyInstaller", str(SPEC), "--noconfirm"], cwd=ROOT,
+        stderr=subprocess.STDOUT,
     )
     if not BUNDLE.exists():
         print("PyInstaller non ha prodotto dist/TripFinder/", file=sys.stderr)
@@ -111,12 +117,10 @@ def main() -> int:
     if guida.exists():
         shutil.copy2(guida, BUNDLE / "LEGGIMI.txt")
 
-    zip_path = DIST / "TripFinder-windows.zip"
-    print(f"creo {zip_path.name}...")
-    with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as archivio:
-        for file in BUNDLE.rglob("*"):
-            if file.is_file():
-                archivio.write(file, file.relative_to(BUNDLE.parent))
+    from scripts.package_windows import organize_bundle, write_archive
+    zip_path = write_archive(BUNDLE, DIST / "TripFinder-windows.zip")
+    portable = organize_bundle(BUNDLE, DIST / "TripFinder-portable")
+    write_archive(portable, DIST / "TripFinder-portable.zip", organized=True)
     print(f"fatto: {zip_path} ({zip_path.stat().st_size // (1024 * 1024)} MB)")
     return 0
 

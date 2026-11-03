@@ -1,5 +1,22 @@
 # Verifica dati statici — 2 ottobre 2026
 
+## Ricontrollo tessere del 3 novembre 2026
+
+Riletti integralmente i quattro PDF Trenitalia. Le percentuali e i requisiti
+restano invariati, ma [Promo Young](https://www.trenitalia.com/content/dam/trenitalia/allegati/info/condizioni-generali-di-trasporto/parte-iii-trasporto-regionale/promo/Promo_YOUNG.pdf)
+e [Promo Senior](https://www.trenitalia.com/content/dam/trenitalia/allegati/info/condizioni-generali-di-trasporto/parte-iii-trasporto-regionale/promo/Promo_SENIOR.pdf)
+riportano ora validita' del documento dal 20 ottobre 2026 e viaggi fino al
+31 dicembre 2027. Il confronto settimanale segnalava correttamente una differenza:
+il parser riconosceva soltanto la formulazione dal/al e perdeva la nuova
+scadenza fino al. Parser e catalogo includono entrambe le formulazioni e
+bloccano la rigenerazione delle promo se le date non sono leggibili. Verde e
+Argento sono invariate; rinnovate le relative date di verifica. Le altre
+voci conservano i propri timestamp: ESNcard restituisce ancora HTTP 403 e la
+pagina Grimaldi non ha completato la risposta. Il dettaglio convenzione
+IoStudio continua a dire che la convenzione non e' stata trovata; l'annuncio
+MIM citato nel report riguarda Frecce/Intercity e non comprova il 10% sui
+regionali. Rimangono riduzioni informative senza percentuali inventate.
+
 ## FAL
 
 La [pagina ufficiale degli orari](https://ferrovieappulolucane.it/tratta/orari/) collega il [manifesto in vigore dal 31 agosto 2026](https://ferrovieappulolucane.it/wp-content/uploads/2026/08/ORARIO-TRENI-DA-E-PER-BA-DAL-31-AGO-2026-1.pdf). Il parser riconosce 76 corse e supera i controlli di plausibilita'. Il documento precedente era quello del 22 giugno. Il collegamento Bari 04:14 → Matera 06:50 resta ricostruibile: arrivo ad Altamura 05:26, ripartenza 06:21.
@@ -33,3 +50,13 @@ I valori zero mantengono le agevolazioni nell'elenco senza inventare un risparmi
 `tests/test_fal.py` e `tests/test_tessere.py`: 27 test superati, inclusa la ricostruzione Bari–Matera sui dataset geografici presenti (sola lettura). Nel workspace isolato privo di dataset: 26 superati, un test geografico saltato. I test verificano Pasquetta 2026/2027/2028, finestre del vecchio e nuovo manifesto, assenza di ricorrenza annuale, decorrenza e sconti informativi a zero. Le prove del catalogo versionato ignorano la copia eventualmente scaricata nel workspace dell'utente. `build_tessere.py --check` termina con codice zero sulle quattro fonti PDF; i limiti delle voci curate restano quelli della tabella.
 
 Nessuna chiave o database personale e' stato letto o modificato per queste verifiche. Nessun contatto con Transitous.
+
+## Aggiornamento FAL - 3 novembre 2026
+
+La [pagina ufficiale degli orari](https://ferrovieappulolucane.it/tratta/orari/) collega ora il [manifesto in vigore dal 12 ottobre 2026](https://ferrovieappulolucane.it/wp-content/uploads/2026/10/ORARIO-TRENI-DA-E-PER-BA-DAL-12-OTT-2026-1.pdf). Entrambe le pagine sono state estratte e controllate anche come immagini. Il dataset e' stato rigenerato con lo script del progetto: 76 corse, 74 identiche alle precedenti. La corsa 1 non riporta piu' la fermata di Venusio; la corsa 6 anticipa di cinque minuti (Matera Centrale 05:40, Altamura 06:06). Bari 04:14 - Matera Centrale 06:50 rimane ricostruibile su una data feriale successiva alla nuova decorrenza.
+
+Il nuovo manifesto segnala il bus sostitutivo tra Matera Sud e Altamura e viceversa e ammette sui bus soltanto le biciclette pieghevoli. Le note affiancate della legenda vengono conservate separatamente; anche la nota sui collegamenti Gravina-Potenza con bus sostitutivo rimane esplicita. Le gambe FAL mostrano queste condizioni come avvertenze del manifesto: non attribuiscono il mezzo bus a tutte le corse. La sospensione indicata per agosto resta datata al 2026 e non viene ripetuta automaticamente nel 2027.
+
+Il [listino ufficiale del 9 marzo 2026](https://ferrovieappulolucane.it/wp-content/uploads/2026/03/TARIFFE-PUGLIA-E-BASILICATA-09-MAR-2026-1.pdf) e' ancora collegato dalla pagina FAL. Riscaricato e interpretato: 15 fasce e 10 coppie di stazioni riconosciute, identiche al dataset precedente; Bari-Matera resta 70 km tassabili e 6,20 euro. Il confronto non e' basato soltanto sul nome del file.
+
+Verifica mirata: 105 test superati fra FAL, fusi orari e parser. I nuovi casi proteggono la decorrenza del 12 ottobre, l'anticipo della corsa 6, le condizioni bus e la separazione delle note affiancate. PDF e immagini di controllo restano fra i file locali ignorati, fuori da Git e dai bundle. Nessuna nuova inferenza o accesso a dati personali per questo aggiornamento.

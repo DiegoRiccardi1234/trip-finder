@@ -156,7 +156,7 @@ applyTheme(readTheme());
 // La vista attiva sta nell'hash e non nella querystring, che qui è già occupata
 // dai parametri di ricerca: una ricerca salvata è un link `?origin=…`, e
 // aggiungerci uno stato di navigazione lo renderebbe ambiguo.
-const VISTE = ['ricerca', 'profilo', 'impostazioni', 'info'];
+const VISTE = ['ricerca', 'assistente', 'profilo', 'impostazioni', 'info'];
 
 function mostraVista(nome) {
   const scelta = VISTE.includes(nome) ? nome : 'ricerca';
@@ -171,6 +171,7 @@ function mostraVista(nome) {
   // Le impostazioni si leggono dal server: caricarle all'avvio significherebbe
   // interrogare i fornitori per una scheda che magari nessuno apre.
   if (scelta === 'impostazioni') caricaImpostazioni();
+  window.dispatchEvent(new CustomEvent('tripfinder:view', { detail: scelta }));
   return scelta;
 }
 
@@ -1154,6 +1155,12 @@ function gruppo(etichetta, elenco, scelto) {
 }
 
 function testaCompito(chiave, t) {
+  if (t.routing) {
+    return `<div class="compito-head"><h4>${escapeHtml(t.label)}</h4>`
+      + `<p class="hint">Connessione: <strong>${escapeHtml(t.routing.primary)}</strong>`
+      + `${t.routing.fallbacks.length ? ` · fallback: ${escapeHtml(t.routing.fallbacks.join(', '))}` : ' · senza fallback'}`
+      + '. Si modifica nella sezione attività qui sopra.</p></div>';
+  }
   const scelto = t.pinned || '';
   const consigliati = t.candidates.filter((m) => m.consigliato);
   const gratuiti = t.candidates.filter((m) => !m.consigliato && m.gratuito);
@@ -1180,6 +1187,8 @@ function testaCompito(chiave, t) {
  * modelli morti restano tutti — si toglie la ripetizione, e chi usa cosa lo
  * dicono le etichette accanto alla riga. */
 function elencoModelliUnico(compiti) {
+  compiti = compiti.filter(([, t]) => !t.routing);
+  if (!compiti.length) return '';
   const attivi = new Map();          // id del modello -> compiti che lo usano
   const fissati = new Set();
   for (const [, t] of compiti) {
@@ -2444,6 +2453,7 @@ class SearchPanel {
     this.combo = combo;
     this.options = options;
     this.streams = { out: null, back: null };
+    this.queries = { out: null, back: null };
     this.endLabel = '';
     this.outbound = [];
     this.inbound = [];
@@ -2492,6 +2502,25 @@ class SearchPanel {
     this.cardsEl = node.querySelector('.cards');
 
     this.routeEl.textContent = this.title;
+    const chatButton = document.createElement('button');
+    chatButton.type = 'button';
+    chatButton.className = 'link';
+    chatButton.textContent = 'Continua in Chat viaggi';
+    chatButton.disabled = true;
+    this.chatButton = chatButton;
+    chatButton.addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent('tripfinder:chat-context', { detail: {
+        title: this.title,
+        context: {
+          query: this.queries.out,
+          itineraries: this.outbound.slice(0, 25),
+          ...(this.options.roundtrip ? {
+            return_query: this.queries.back, return_itineraries: this.inbound.slice(0, 25),
+          } : {}),
+        },
+      } }));
+    });
+    node.querySelector('.panel-head').appendChild(chatButton);
     this.sortEl.value = this.sort;
     this.sortEl.title = 'Riordina le soluzioni già trovate (le prime 25 per punteggio).';
     this.sortEl.addEventListener('change', () => {
@@ -2609,6 +2638,10 @@ class SearchPanel {
   open(url, which) {
     const stream = new EventSource(url);
     const parse = (handler) => (event) => handler.call(this, JSON.parse(event.data), which);
+    stream.addEventListener('started', (event) => {
+      this.queries[which] = JSON.parse(event.data).query;
+      this.updateChatAvailability();
+    });
     stream.addEventListener('resolved', parse(this.onResolved));
     stream.addEventListener('plan', parse(this.onPlan));
     stream.addEventListener('phase', parse(this.onPhase));
@@ -2785,6 +2818,7 @@ class SearchPanel {
   onItineraries(data, which) {
     if (which === 'back') this.inbound = data.items || [];
     else this.outbound = data.items || [];
+    this.updateChatAvailability();
 
     this.trips = this.options.roundtrip
       ? buildTrips(this.outbound, this.inbound)
@@ -2794,6 +2828,11 @@ class SearchPanel {
     this.syncMeta();
     this.render();
     refreshSummary();
+  }
+
+  updateChatAvailability() {
+    this.chatButton.disabled = !(this.queries.out && this.outbound.length
+      && (!this.options.roundtrip || (this.queries.back && this.inbound.length)));
   }
 
   /** I vincoli che il motore ha messo da parte perche' nessuna soluzione li

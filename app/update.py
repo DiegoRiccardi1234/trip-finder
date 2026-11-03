@@ -23,6 +23,8 @@ from pathlib import Path
 from typing import Any, Callable
 
 from app.config import DATA_DIR
+from app.install_layout import installation_root, runtime_dir
+from app.update_sync import claim_update_lock, release_update_lock, transfer_update_lock
 from app.providers.http_client import HttpError, get_http_client
 from app.version import VERSION
 
@@ -108,6 +110,23 @@ async def install() -> dict[str, Any]:
         return {"started": False, "detail": "l'aggiornamento automatico vale solo per il bundle"}
 
     try:
+        owner = claim_update_lock(DATA_DIR / "aggiornamento.lock", VERSION)
+    except (OSError, RuntimeError) as exc:
+        return {"started": False, "detail": str(exc)}
+    result: dict[str, Any] = {"started": False}
+    try:
+        result = await _install_locked(owner)
+        return result
+    except OSError:
+        return {"started": False, "detail": "Non riesco ad avviare l'aggiornatore; installazione invariata"}
+    finally:
+        if not result.get("started"):
+            release_update_lock(DATA_DIR / "aggiornamento.lock", owner)
+
+
+async def _install_locked(owner: str) -> dict[str, Any]:
+
+    try:
         dati = await get_http_client().get_json(
             RELEASES_URL, headers={"Accept": "application/vnd.github+json"}, retries=1
         )
@@ -128,24 +147,13 @@ async def install() -> dict[str, Any]:
     except (HttpError, OSError) as exc:
         return {"started": False, "detail": f"scaricamento fallito: {exc}"}
 
-    dest = Path(sys.executable).resolve().parent
-    aggiornatore = dest / "Aggiorna.exe"
+    dest = installation_root()
+    aggiornatore = runtime_dir(dest) / "Aggiorna.exe"
     if not aggiornatore.exists():
         return {"started": False, "detail": "Aggiorna.exe non c'e': reinstalla il bundle"}
 
     # Un aggiornamento gia' in corso non se ne fa partire un secondo: due
     # aggiornatori che copiano sugli stessi file si bloccano a vicenda.
-    lucchetto = DATA_DIR / "aggiornamento.lock"
-    if lucchetto.exists():
-        try:
-            eta = time.time() - lucchetto.stat().st_mtime
-        except OSError:
-            eta = DURATA_LUCCHETTO + 1
-        if eta < DURATA_LUCCHETTO:
-            return {
-                "started": False,
-                "detail": f"un aggiornamento e' gia' in corso da {int(eta)} secondi",
-            }
 
     # L'aggiornatore va lanciato da **una copia**, non da dove sta installato:
     # fra i file da sostituire c'e' anche lui, e su Windows un eseguibile in
@@ -170,21 +178,23 @@ async def install() -> dict[str, Any]:
     # Il lucchetto dice al programma «non partire, sto lavorando»: senza, un
     # doppio click durante l'aggiornamento riaprirebbe l'eseguibile vecchio e
     # ne bloccherebbe la sostituzione a meta'.
-    lucchetto.write_text(str(os.getpid()), encoding="utf-8")
 
-    subprocess.Popen(
+    updater_process = subprocess.Popen(
         [
             str(copia),
             "--zip", str(archivio),
             "--dest", str(dest),
-            "--exe", str(Path(sys.executable).resolve()),
+            "--exe", str(dest / "TripFinder.exe"),
             "--pid", str(os.getpid()),
             "--temporaneo", str(temporaneo),
+            "--lock-owner", owner,
+            "--port", os.environ.get("TRIPFINDER_PORT", "8010"),
         ],
         cwd=str(temporaneo),
         close_fds=True,
         creationflags=getattr(subprocess, "DETACHED_PROCESS", 0),
     )
+    transfer_update_lock(DATA_DIR / "aggiornamento.lock", owner, updater_process.pid)
     logger.info("aggiornatore avviato, mi spengo")
     # Un istante di respiro perche' la risposta HTTP arrivi al browser prima che
     # il server chiuda: altrimenti la pagina vede una connessione caduta e

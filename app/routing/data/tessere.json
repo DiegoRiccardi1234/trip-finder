@@ -1,5 +1,5 @@
 {
-  "generato_il": "2026-10-02",
+  "generato_il": "2026-11-03",
   "nota": "Generato da scripts/build_tessere.py. Le voci con estratto=true vengono dai documenti degli operatori, le altre sono curate a mano e portano la data in cui qualcuno le ha guardate.",
   "tessere": [
     {
@@ -13,7 +13,7 @@
       "acquistabile": false,
       "valore": 15.0,
       "estratto": true,
-      "verificato_il": "2026-10-02"
+      "verificato_il": "2026-11-03"
     },
     {
       "id": "trenitalia-carta-verde",
@@ -28,7 +28,7 @@
       "eta_min": 12,
       "eta_max": 25,
       "estratto": true,
-      "verificato_il": "2026-10-02"
+      "verificato_il": "2026-11-03"
     },
     {
       "id": "trenitalia-promo-senior",
@@ -42,12 +42,12 @@
         "FrecciaSENIOR"
       ],
       "note": "Come la Young, ma dai 60 anni in su.",
-      "valido_da": "2026-04-05",
-      "valido_a": "2026-11-30",
+      "valido_da": "2026-10-20",
+      "valido_a": "2027-12-31",
       "valore": 20.0,
       "eta_min": 60,
       "estratto": true,
-      "verificato_il": "2026-10-02"
+      "verificato_il": "2026-11-03"
     },
     {
       "id": "trenitalia-promo-young",
@@ -61,12 +61,12 @@
         "FrecciaYOUNG"
       ],
       "note": "Solo su alcuni regionali, regionali veloci e metropolitani, e solo su un numero limitato di treni.",
-      "valido_da": "2026-04-05",
-      "valido_a": "2026-11-30",
+      "valido_da": "2026-10-20",
+      "valido_a": "2027-12-31",
       "valore": 20.0,
       "eta_max": 29,
       "estratto": true,
-      "verificato_il": "2026-10-02"
+      "verificato_il": "2026-11-03"
     },
     {
       "id": "continuita-sardegna-aereo",

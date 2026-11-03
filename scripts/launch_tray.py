@@ -64,11 +64,14 @@ def _declare_workspace() -> str:
     Va fatto qui e non in `app.config`, che lo legge: quando `app.config` viene
     importato la variabile deve esserci gia'."""
     from pathlib import Path as _Path
+    if not getattr(sys, "frozen", False):
+        sys.path.insert(0, str(_Path(__file__).resolve().parent.parent))
+    from app.install_layout import installation_root
 
     if os.environ.get("TRIPFINDER_WORKSPACE"):
         return os.environ["TRIPFINDER_WORKSPACE"]
     if getattr(sys, "frozen", False):
-        workspace = _Path(sys.executable).resolve().parent
+        workspace = installation_root()
     else:
         workspace = _Path(__file__).resolve().parent.parent
     os.environ["TRIPFINDER_WORKSPACE"] = str(workspace)
@@ -95,7 +98,8 @@ import webbrowser  # noqa: E402
 from pathlib import Path  # noqa: E402
 
 ROOT = Path(os.environ["TRIPFINDER_WORKSPACE"])
-LOG_FILE = ROOT / "data" / "logs" / "trip-finder.log"
+from app.install_layout import state_dir, seed_datasets  # noqa: E402
+LOG_FILE = state_dir(ROOT) / "logs" / "trip-finder.log"
 
 #: Porta di partenza, la stessa di `start.ps1`.
 DEFAULT_PORT = 8010
@@ -241,11 +245,20 @@ def run_tray(url: str, server, thread: threading.Thread) -> None:
 
 
 def main() -> int:
+    if "--mcp-stdio" in sys.argv[1:]:
+        from app.mcp_server import main as mcp_main
+        mcp_main(["--stdio", *[arg for arg in sys.argv[1:] if arg != "--mcp-stdio"]])
+        return 0
+    if "--migrate-from" in sys.argv[1:]:
+        return _migration_cli(sys.argv[1:])
     parser = argparse.ArgumentParser(description="Trip Finder con icona nell'area di notifica")
-    parser.add_argument("--port", type=int, default=None, help=f"porta fissa (default: prima libera da {DEFAULT_PORT})")
-    parser.add_argument("--no-browser", action="store_true", help="non aprire il browser all'avvio")
+    parser.add_argument("--port", type=int, default=int(os.environ["TRIPFINDER_PORT"]) if os.environ.get("TRIPFINDER_PORT") else None, help=f"porta fissa (default: prima libera da {DEFAULT_PORT})")
+    parser.add_argument("--no-browser", action="store_true", default=os.environ.get("TRIPFINDER_NO_BROWSER") == "1", help="non aprire il browser all'avvio")
     args = parser.parse_args()
+    if args.port is not None and not 1 <= args.port <= 65535:
+        parser.error("la porta deve essere tra 1 e 65535")
 
+    seed_datasets(ROOT)
     _setup_logging()
     log = logging.getLogger(__name__)
 
@@ -253,7 +266,7 @@ def main() -> int:
     # riblocca i file che l'aggiornatore sta sostituendo e la copia muore a
     # meta'. Il lucchetto vecchio non conta: vorrebbe dire che l'aggiornatore
     # e' morto, e restare chiusi per sempre sarebbe peggio.
-    lucchetto = ROOT / "data" / "aggiornamento.lock"
+    lucchetto = state_dir(ROOT) / "aggiornamento.lock"
     if not os.environ.get("TRIPFINDER_AGGIORNATO"):
         try:
             eta = time.time() - lucchetto.stat().st_mtime
@@ -266,17 +279,15 @@ def main() -> int:
     # Se Trip Finder gira gia', non se ne avvia un secondo: si apre quello.
     # E' anche la guardia contro il doppio click ripetuto sull'icona di avvio.
     # Chi chiede una porta esplicita guarda solo quella.
-    da_controllare = ([args.port] if args.port
-                      else range(DEFAULT_PORT, DEFAULT_PORT + PORT_SPAN + 1))
-    for port in da_controllare:
-        if is_free(port):
-            continue
-        if trip_finder_at(port):
-            log.info("Trip Finder e' gia' in ascolto sulla %d: apro il browser", port)
-            webbrowser.open(f"http://127.0.0.1:{port}/")
-            return 0
+    existing = _same_installation_url()
+    if existing:
+        log.info("Questa installazione è già in ascolto: %s", existing)
+        if not args.no_browser:
+            webbrowser.open(existing)
+        return 0
 
     port = args.port if args.port else pick_port()
+    os.environ["TRIPFINDER_PORT"] = str(port)
     url = f"http://127.0.0.1:{port}/"
 
     import uvicorn
@@ -318,6 +329,54 @@ def main() -> int:
 
     run_tray(url, server, thread)
     return 0
+
+
+def _migration_message(text: str, *, failed: bool = False) -> None:
+    if getattr(sys, "frozen", False) and sys.platform == "win32":
+        import ctypes
+        ctypes.windll.user32.MessageBoxW(0, text, "Migrazione Trip Finder", 0x10 if failed else 0x40)
+    else:
+        print(text, file=sys.stderr if failed else sys.stdout)
+
+
+def _migration_cli(argv: list[str]) -> int:
+    """An explicit portable-user action, before logging, state or app startup."""
+    from datetime import datetime
+    from app.install_layout import installation_root
+    from app.install_migration import migrate_installation
+    parser = argparse.ArgumentParser(description="Migra un'installazione Trip Finder chiusa mantenendo il backup")
+    parser.add_argument("--migrate-from", type=Path, required=True, help="Cartella dell'installazione legacy chiusa")
+    parser.add_argument("--migration-backup", type=Path, help="Nuova cartella backup esterna; default: cartella sorella datata")
+    args = parser.parse_args(argv)
+    target = args.migrate_from.resolve()
+    backup = args.migration_backup or target.with_name(target.name + ".backup-" + datetime.now().strftime("%Y%m%d-%H%M%S"))
+    source = installation_root() if getattr(sys, "frozen", False) else ROOT
+    try:
+        checkpoint = migrate_installation(source=source, target=target, backup=backup)
+    except (OSError, ValueError, RuntimeError) as error:
+        _migration_message("Migrazione non completata. I dati originali sono conservati.\n\n" + str(error), failed=True)
+        return 1
+    _migration_message("Migrazione completata.\n\nApri: " + str(target / "TripFinder.exe")
+                       + "\nBackup originale: " + str(checkpoint)
+                       + "\n\nDopo la verifica puoi rigenerare la configurazione MCP dalle Impostazioni.")
+    return 0
+
+
+def _same_installation_url() -> str | None:
+    import json
+    from urllib.parse import urlparse
+    try:
+        descriptor = json.loads((state_dir(ROOT) / "runtime.json").read_text(encoding="utf-8"))
+        expected = descriptor["instance_id"]
+        url = str(descriptor["base_url"]).rstrip("/")
+        parsed = urlparse(url)
+        if parsed.scheme != "http" or parsed.hostname != "127.0.0.1" or parsed.username or parsed.path:
+            return None
+        with urllib.request.urlopen(url + "/api/runtime", timeout=1.5) as response:
+            actual = json.load(response)
+        return url + "/" if actual.get("instance_id") == expected else None
+    except (OSError, ValueError, KeyError, TypeError, urllib.error.URLError):
+        return None
 
 
 if __name__ == "__main__":

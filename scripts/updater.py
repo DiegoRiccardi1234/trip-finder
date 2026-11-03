@@ -54,7 +54,8 @@ def _prepara_import() -> None:
 
 _prepara_import()
 
-from app.update_sync import sincronizza  # noqa: E402
+from app.update_sync import sincronizza, release_update_lock, _pid_alive  # noqa: E402
+from app.install_layout import state_dir  # noqa: E402
 
 #: Quanto aspettare che il processo vecchio molli i suoi file.
 ATTESA_USCITA = 60.0
@@ -79,30 +80,7 @@ def _vivo(pid: int) -> bool:
     `TerminateProcess`, quindi non e' una domanda, e' un'esecuzione — e
     comunque tornava subito, facendo credere che il vecchio fosse uscito quando
     stava ancora chiudendo. Qui si chiede al sistema, e basta."""
-    if sys.platform != "win32":
-        try:
-            os.kill(pid, 0)
-            return True
-        except OSError:
-            return False
-
-    kernel = ctypes.windll.kernel32
-    # `PROCESS_QUERY_LIMITED_INFORMATION` e non `SYNCHRONIZE`: con il secondo
-    # l'handle si apre ma `GetExitCodeProcess` non ha i diritti per rispondere,
-    # fallisce, e l'attesa dichiara uscito un processo ancora vivo. Nel log si
-    # vede come «il processo N e' uscito» nello stesso secondo in cui e' partito.
-    PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
-    handle = kernel.OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, False, pid)
-    if not handle:
-        return False  # non esiste piu', o non e' nostro: in entrambi i casi via
-    try:
-        ANCORA_ATTIVO = 259
-        codice = ctypes.c_ulong()
-        if kernel.GetExitCodeProcess(handle, ctypes.byref(codice)):
-            return codice.value == ANCORA_ATTIVO
-        return False
-    finally:
-        kernel.CloseHandle(handle)
+    return _pid_alive(pid)
 
 
 def _aspetta(pid: int, scrivi) -> None:
@@ -115,7 +93,7 @@ def _aspetta(pid: int, scrivi) -> None:
             scrivi(f"il processo {pid} e' uscito")
             return
         time.sleep(0.3)
-    scrivi(f"il processo {pid} non e' uscito entro {ATTESA_USCITA:.0f}s: provo lo stesso")
+    raise TimeoutError(f"il processo {pid} non e' uscito entro {ATTESA_USCITA:.0f}s: aggiornamento annullato")
 
 
 def _radice(scompattato: Path) -> Path:
@@ -151,6 +129,8 @@ def main() -> int:
     parser.add_argument("--dest", required=True)
     parser.add_argument("--exe", default="")
     parser.add_argument("--pid", type=int, default=0)
+    parser.add_argument("--lock-owner", default="")
+    parser.add_argument("--port", type=int, default=8010)
     parser.add_argument(
         "--temporaneo", default="",
         help="la cartella da cui sto girando, da cancellare quando ho finito",
@@ -158,7 +138,11 @@ def main() -> int:
     args = parser.parse_args()
 
     dest = Path(args.dest).resolve()
-    file_log = _log(dest / "data" / "logs")
+    if not 1 <= args.port <= 65535:
+        return 2
+    data = state_dir(dest)
+    file_log = _log(data / "logs")
+    lock = data / "aggiornamento.lock"
 
     def scrivi(messaggio: str) -> None:
         file_log.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')}  {messaggio}\n")
@@ -174,6 +158,12 @@ def main() -> int:
                 scompattato = Path(temporaneo) / "nuovo"
                 scompattato.mkdir()
                 with zipfile.ZipFile(Path(args.zip).resolve()) as archivio:
+                    for member in archivio.infolist():
+                        relative = Path(member.filename.replace("\\", "/"))
+                        if relative.is_absolute() or ".." in relative.parts or any(":" in part for part in relative.parts):
+                            raise ValueError("Percorso non valido nell'archivio")
+                        if (member.external_attr >> 16) & 0o170000 == 0o120000:
+                            raise ValueError("Collegamento simbolico nell'archivio")
                     archivio.extractall(scompattato)
                 scrivi(f"archivio scompattato in {scompattato}")
 
@@ -181,9 +171,9 @@ def main() -> int:
                 scrivi(f"copiati {scritti} file, data/ intatta")
         except Exception as exc:
             scrivi(f"FALLITO: {exc!r}")
-            scrivi("resta installata la versione di prima")
+            scrivi("copia interrotta: i file già sostituiti sono stati ripristinati")
             with contextlib.suppress(OSError):
-                (dest / "data" / "aggiornamento.lock").unlink(missing_ok=True)
+                release_update_lock(lock, args.lock_owner or None, legacy_parent_pid=args.pid or None)
             return 1
 
         exe = Path(args.exe) if args.exe else dest / "TripFinder.exe"
@@ -199,7 +189,7 @@ def main() -> int:
                 bandiere = subprocess.CREATE_NO_WINDOW | subprocess.CREATE_NEW_PROCESS_GROUP
             with contextlib.suppress(OSError):
                 subprocess.Popen(
-                    [str(exe)],
+                    [str(exe), "--port", str(args.port)],
                     cwd=str(dest),
                     close_fds=True,
                     creationflags=bandiere,
@@ -209,18 +199,7 @@ def main() -> int:
             scrivi(f"non trovo {exe}: non riapro niente")
 
         with contextlib.suppress(OSError):
-            (dest / "data" / "aggiornamento.lock").unlink(missing_ok=True)
-
-        # La cartella da cui stiamo girando non si puo' cancellare da vivi: la
-        # affidiamo a un comando staccato che aspetta e poi la toglie.
-        if args.temporaneo and sys.platform == "win32":
-            with contextlib.suppress(OSError):
-                subprocess.Popen(
-                    ["cmd", "/c", f'timeout /t 6 /nobreak >nul & rmdir /s /q "{args.temporaneo}"'],
-                    close_fds=True,
-                    creationflags=subprocess.DETACHED_PROCESS
-                    | subprocess.CREATE_NEW_PROCESS_GROUP,
-                )
+            release_update_lock(lock, args.lock_owner or None, legacy_parent_pid=args.pid or None)
         return 0
 
 

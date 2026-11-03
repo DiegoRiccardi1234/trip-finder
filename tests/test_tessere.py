@@ -41,13 +41,13 @@ def test_il_catalogo_si_legge_e_ha_dentro_quello_che_serve() -> None:
 def test_le_voci_estratte_portano_le_date_del_documento() -> None:
     """Le date non sono digitate: vengono dal PDF che vincola l'operatore.
 
-    Quello della promo Young dice «valida per viaggi dal 5 aprile al 30 novembre
-    2026», ed e' quello che deve esserci qui."""
+    Il documento efficace dal 20 ottobre 2026 estende la promo Young fino al
+    31 dicembre 2027: la scadenza sta nella sezione Validita', l'inizio nel footer."""
     young = next(v for v in tessere.tutte() if v.id == "trenitalia-promo-young")
 
     assert young.estratto is True
-    assert young.valido_da == "2026-04-05"
-    assert young.valido_a == "2026-11-30"
+    assert young.valido_da == "2026-10-20"
+    assert young.valido_a == "2027-12-31"
     assert young.valore == 20.0
 
 
@@ -102,10 +102,10 @@ def test_scaduta_e_stantia_sono_due_cose_diverse() -> None:
 
 
 def test_utilizzabili_scarta_le_scadute_e_le_non_ancora_partite() -> None:
-    oggi = date(2026, 8, 1)
+    oggi = date(2026, 11, 3)
     usabili = {t.id for t in tessere.utilizzabili(oggi)}
 
-    assert "trenitalia-promo-young" in usabili  # valida fino al 30 novembre
+    assert "trenitalia-promo-young" in usabili  # documento corrente, fino al 31 dicembre 2027
     for voce in tessere.tutte():
         if voce.id in usabili:
             assert not voce.scaduta(oggi)

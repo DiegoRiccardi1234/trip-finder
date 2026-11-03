@@ -121,7 +121,7 @@ class SearchService:
     def __init__(self) -> None:
         self._settings = get_settings()
 
-    async def run(self, query: SearchQuery) -> AsyncIterator[SearchEvent]:
+    async def run(self, query: SearchQuery, *, allow_ai_hubs: bool = True) -> AsyncIterator[SearchEvent]:
         search_id = uuid.uuid4().hex[:12]
         deadline = time.monotonic() + self._settings.search_time_budget
         yield SearchEvent("started", {"search_id": search_id, "query": query})
@@ -146,7 +146,16 @@ class SearchService:
             },
         )
 
-        extra_hubs = await self._suggest_hubs(origin, destination, query)
+        extra_hubs: list[str] = []
+        if allow_ai_hubs:
+            # Hub AI is optional. Its queue/native runtime must never consume
+            # the operators' search budget or hold first results for minutes.
+            try:
+                extra_hubs = await asyncio.wait_for(
+                    self._suggest_hubs(origin, destination, query), timeout=1.5
+                )
+            except TimeoutError:
+                logger.debug("hub AI oltre il budget: proseguo con la composizione geografica")
         paths = composer.plan(origin, destination, query, resolver, extra_hubs)
         hops = composer.required_hops(paths)
 

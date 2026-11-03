@@ -13,13 +13,17 @@ import json
 import logging
 import os
 import sys
+import tempfile
+import threading
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from app.install_layout import env_file, installation_root, state_dir
 
 logger = logging.getLogger(__name__)
+_SECRETS_LOCK = threading.RLock()
 
 
 def _workspace() -> Path:
@@ -34,12 +38,12 @@ def _workspace() -> Path:
     if dichiarato:
         return Path(dichiarato).resolve()
     if getattr(sys, "frozen", False):
-        return Path(sys.executable).resolve().parent
+        return installation_root()
     return Path(__file__).resolve().parent.parent
 
 
 ROOT = _workspace()
-DATA_DIR = ROOT / "data"
+DATA_DIR = state_dir(ROOT)
 #: Le fixture sono materiale del progetto, non dell'utente: da sorgente stanno
 #: accanto ai test e nel bundle non ci sono affatto.
 FIXTURES_DIR = Path(__file__).resolve().parent.parent / "tests" / "fixtures"
@@ -51,7 +55,7 @@ LOCAL_SECRETS_FILE = "local_secrets.json"
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=ROOT / ".env",
+        env_file=env_file(ROOT),
         env_file_encoding="utf-8",
         extra="ignore",
         # I valori salvati dal sito si applicano per assegnazione: senza
@@ -221,6 +225,11 @@ def save_local_secrets(values: dict[str, Any]) -> dict[str, Any]:
     stringa vuota **cancella** (il bottone «Rimuovi»), un campo assente resta
     com'e'. Cosi' la stessa chiamata serve a scrivere una chiave sola senza
     doversi portare dietro tutte le altre."""
+    with _SECRETS_LOCK:
+        return _save_local_secrets(values)
+
+
+def _save_local_secrets(values: dict[str, Any]) -> dict[str, Any]:
     current = read_local_secrets()
     for field, raw in values.items():
         if field not in SETTABLE_FIELDS:
@@ -234,11 +243,47 @@ def save_local_secrets(values: dict[str, Any]) -> dict[str, Any]:
         else:
             current.pop(field, None)
 
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    secrets_path().write_text(
-        json.dumps(current, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
+    _write_secrets(current)
     return current
+
+
+def _write_secrets(values: dict[str, Any]) -> None:
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    temporary: str | None = None
+    try:
+        with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=DATA_DIR, prefix=".secrets-", delete=False) as handle:
+            temporary = handle.name
+            json.dump(values, handle, ensure_ascii=False, indent=2)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, secrets_path())
+    finally:
+        if temporary:
+            Path(temporary).unlink(missing_ok=True)
+
+
+def connection_secret(connection_id: str) -> str:
+    with _SECRETS_LOCK:
+        keys = read_local_secrets().get("ai_connection_keys", {})
+        return str(keys.get(connection_id, "") or "") if isinstance(keys, dict) else ""
+
+
+def update_connection_secret(connection_id: str, value: str | None) -> None:
+    if not connection_id or len(connection_id) > 100:
+        raise ValueError("Identificativo connessione non valido")
+    with _SECRETS_LOCK:
+        current = read_local_secrets()
+        keys = current.get("ai_connection_keys", {})
+        keys = dict(keys) if isinstance(keys, dict) else {}
+        if value:
+            keys[connection_id] = value
+        else:
+            keys.pop(connection_id, None)
+        if keys:
+            current["ai_connection_keys"] = keys
+        else:
+            current.pop("ai_connection_keys", None)
+        _write_secrets(current)
 
 
 def _apply_local_secrets(settings: Settings) -> None:

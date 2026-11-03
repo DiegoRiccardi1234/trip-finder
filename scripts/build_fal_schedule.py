@@ -33,8 +33,8 @@ from app.config import DATA_DIR, ROOT  # noqa: E402
 from app.providers.rail.fal import price_for  # noqa: E402
 
 PDF_URL = (
-    "https://ferrovieappulolucane.it/wp-content/uploads/2026/08/"
-    "ORARIO-TRENI-DA-E-PER-BA-DAL-31-AGO-2026-1.pdf"
+    "https://ferrovieappulolucane.it/wp-content/uploads/2026/10/"
+    "ORARIO-TRENI-DA-E-PER-BA-DAL-12-OTT-2026-1.pdf"
 )
 TIMETABLE_PAGE = "https://ferrovieappulolucane.it/tratta/orari/"
 OUTPUT = ROOT / "app" / "providers" / "rail" / "data" / "fal_schedule.json"
@@ -194,18 +194,23 @@ def extract_notes(data: bytes) -> list[str]:
     with pdfplumber.open(io.BytesIO(data)) as pdf:
         for page in pdf.pages:
             for line in (page.extract_text() or "").splitlines():
-                clean = line.strip()
-                if not clean or len(clean) < 12:
-                    continue
-                if _is_note(clean) and clean not in notes:
-                    notes.append(clean)
+                for clean in note_fragments(line):
+                    if clean not in notes:
+                        notes.append(clean)
             for table in page.extract_tables():
                 for row in table:
                     for cell in row:
-                        text = " ".join((cell or "").split())
-                        if _is_note(text) and text not in notes:
-                            notes.append(text)
+                        for line in (cell or "").splitlines():
+                            for clean in note_fragments(line):
+                                if clean not in notes:
+                                    notes.append(clean)
     return notes
+
+
+def note_fragments(text: str) -> list[str]:
+    """Keep independent legend columns independent, without rewriting them."""
+    text = " ".join(text.split())
+    return [part for part in re.split(r"\s+(?=\(\d+(?:-\d+)?\)\s*-)", text) if _is_note(part)]
 
 
 def _is_note(text: str) -> bool:
@@ -215,7 +220,7 @@ def _is_note(text: str) -> bool:
     si tengono solo le frasi, cioe' quelle con abbastanza parole vere."""
     if len(text) < 20 or "\n" in text:
         return False
-    if not (text.startswith("-") or text.startswith("(")):
+    if not (text.startswith("-") or text.startswith("(") or text.startswith("N.B.")):
         return False
     words = [w for w in text.split() if len(w) > 2 and any(c.isalpha() for c in w)]
     return len(words) >= 4

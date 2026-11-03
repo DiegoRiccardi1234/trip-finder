@@ -8,12 +8,17 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import sqlite3
+import uuid
+from collections.abc import Callable
+from typing import TypeVar
 
 import aiosqlite
 
 from app.config import get_settings
 
 logger = logging.getLogger(__name__)
+_AtomicResult = TypeVar("_AtomicResult")
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS cache (
@@ -70,6 +75,54 @@ CREATE TABLE IF NOT EXISTS preferences (
 CREATE TABLE IF NOT EXISTS discounts (
     id      INTEGER PRIMARY KEY AUTOINCREMENT,
     payload TEXT NOT NULL   -- il Discount serializzato: i campi cambieranno
+);
+
+-- Local assistants share this connection; a stdio bridge never opens this file.
+CREATE TABLE IF NOT EXISTS ai_connections (
+    id TEXT PRIMARY KEY,
+    payload TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS ai_routes (
+    task TEXT PRIMARY KEY,
+    payload TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS agent_operations (
+    id TEXT PRIMARY KEY,
+    request_id TEXT UNIQUE NOT NULL,
+    fingerprint TEXT NOT NULL,
+    kind TEXT NOT NULL,
+    status TEXT NOT NULL,
+    payload TEXT NOT NULL,
+    result TEXT NOT NULL DEFAULT '{}',
+    error TEXT,
+    created_at REAL NOT NULL,
+    updated_at REAL NOT NULL
+);
+CREATE TABLE IF NOT EXISTS agent_proposals (
+    id TEXT PRIMARY KEY,
+    kind TEXT NOT NULL,
+    status TEXT NOT NULL,
+    payload TEXT NOT NULL,
+    context_hash TEXT NOT NULL,
+    result TEXT,
+    created_at REAL NOT NULL,
+    updated_at REAL NOT NULL
+);
+CREATE TABLE IF NOT EXISTS saved_itineraries (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    snapshot TEXT NOT NULL,
+    query TEXT NOT NULL,
+    snapshot_at REAL NOT NULL,
+    created_at REAL NOT NULL
+);
+CREATE TABLE IF NOT EXISTS agent_conversations (
+    id TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
+    context TEXT NOT NULL,
+    messages TEXT NOT NULL DEFAULT '[]',
+    created_at REAL NOT NULL,
+    updated_at REAL NOT NULL
 );
 """
 
@@ -148,3 +201,34 @@ async def close_db() -> None:
                 pass
             _connection = None
             _loop = None
+
+
+async def atomic_write(action: Callable[[sqlite3.Connection], _AtomicResult]) -> _AtomicResult:
+    """Run guards, changes and their terminal marker on one worker queue item.
+
+    Coroutine transactions can be committed by an unrelated cache writer between
+    awaits. aiosqlite's worker interface avoids that window; adaptation tests
+    cover the private ``_execute``/``_conn`` bridge. Callbacks are synchronous
+    and restricted to SQLite operations on the provided connection.
+    """
+    connection = await get_db()
+    savepoint = "agent_" + uuid.uuid4().hex
+
+    def apply() -> _AtomicResult:
+        raw = connection._conn
+        if not raw.in_transaction:
+            raw.execute("BEGIN IMMEDIATE")
+        raw.execute("SAVEPOINT " + savepoint)
+        try:
+            result = action(raw)
+            raw.commit()
+            return result
+        except BaseException:
+            try:
+                raw.execute("ROLLBACK TO SAVEPOINT " + savepoint)
+                raw.execute("RELEASE SAVEPOINT " + savepoint)
+            except sqlite3.Error:
+                raw.rollback()
+            raise
+
+    return await connection._execute(apply)

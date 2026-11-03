@@ -1,9 +1,19 @@
 {
-  "source": "https://ferrovieappulolucane.it/wp-content/uploads/2026/08/ORARIO-TRENI-DA-E-PER-BA-DAL-31-AGO-2026-1.pdf",
+  "source": "https://ferrovieappulolucane.it/wp-content/uploads/2026/10/ORARIO-TRENI-DA-E-PER-BA-DAL-12-OTT-2026-1.pdf",
   "source_page": "https://ferrovieappulolucane.it/tratta/orari/",
+  "valid_from": "2026-10-12",
+  "suppressed_window": {
+    "from": "2026-08-01",
+    "to": "2026-08-31"
+  },
   "note": "Estratto dai documenti ufficiali FAL: orari dal manifesto, prezzi dal listino a fasce chilometriche. Il servizio ferroviario e' sospeso la domenica e nei giorni festivi.",
   "notes": [
+    "- Effettuato con bus da Matera Sud ad Altamura e viceversa.",
+    "(1) - Treni soppressi nel mese di agosto",
+    "- Sui bus è consentito solo il trasporto delle biciclette pieghevoli.",
+    "(2) - Treni garantiti in caso di sciopero",
     "- È consentito il trasporto delle bici a bordo dei treni FAL",
+    "N.B.: - Alcuni collegamenti da Gravina per Potenza e viceversa sono effettuati con BUS sostitutivo",
     "- Treni 153 e 158 tratta Potenza - Genzano - Gravina garantiti in caso di sciopero",
     "- Treni 158 e 163 tratta Potenza - Genzano - Gravina soppressi nel periodo estivo",
     "- Il Servizio Ferroviario è sospeso nei giorni di domenica e festivi"
@@ -204,10 +214,6 @@
         {
           "station": "Altamura (partenza)",
           "minutes": 381
-        },
-        {
-          "station": "Venusio",
-          "minutes": 396
         },
         {
           "station": "Matera Serra Rifusa",
@@ -1853,23 +1859,23 @@
       "stops": [
         {
           "station": "Matera Sud",
-          "minutes": 342
+          "minutes": 337
         },
         {
           "station": "Matera C.le",
-          "minutes": 345
+          "minutes": 340
         },
         {
           "station": "Villa Longo",
-          "minutes": 350
+          "minutes": 345
         },
         {
           "station": "Matera Serra Rifusa",
-          "minutes": 352
+          "minutes": 347
         },
         {
           "station": "Altamura (arrivo)",
-          "minutes": 371
+          "minutes": 366
         }
       ]
     },
@@ -3382,10 +3388,5 @@
         }
       ]
     }
-  ],
-  "valid_from": "2026-08-31",
-  "suppressed_window": {
-    "from": "2026-08-01",
-    "to": "2026-08-31"
-  }
+  ]
 }

@@ -4,6 +4,27 @@ Le versioni seguono [semver](https://semver.org/lang/it/). Il testo di ogni
 sezione finisce nelle note della release: si scrive per chi usa il programma,
 non per chi lo scrive.
 
+## [7.1.0]
+
+**Una chat per organizzare il viaggio, con il motore che scegli tu.** Puoi
+partire da zero o continuare dai risultati, cercare e confrontare itinerari.
+Salvataggi e modifiche al profilo diventano proposte da confermare nell'app.
+
+- Connessioni opzionali Codex e Claude Code tramite i client ufficiali;
+  Hermes tramite endpoint OpenAI-compatible già configurato o come client MCP.
+  Ogni attività ha un motore e fallback esplicitamente scelti.
+- Strumenti MCP per usare Trip Finder da un assistente esterno, sullo stesso
+  archivio dell'app aperta, senza ulteriori chiamate IA nei tool.
+- Itinerari conservati con data di osservazione e prezzi storici, oltre ai
+  parametri per rifare la ricerca aggiornata.
+- Pacchetto portabile organizzato, icona Windows incorporata, identità dello
+  stato e aggiornamenti compatibili con il formato storico.
+- Lock aggiornamento atomico, conservazione della porta e ripristino dei file
+  di programma dopo un errore di copia.
+- Aggiornati gli orari FAL al manifesto del 12 ottobre e le promo regionali
+  Trenitalia Young/Senior fino al 31 dicembre 2027; corretto il parser delle
+  nuove date di validita'.
+
 ## [7.0.2]
 
 **Le preferenze valgono per tutto il viaggio.** «Niente notturni» considera

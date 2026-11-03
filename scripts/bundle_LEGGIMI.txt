@@ -31,29 +31,65 @@ momento in cui premi Cerca.
 L'intelligenza artificiale e' facoltativa
 -----------------------------------------
 
-Servono per due cose sole: scrivere la richiesta a voce ("da Matera a Roma per
-tre giorni, poi a Torino") e il consiglio sotto la classifica. Tutto il resto
-funziona identico senza.
+Puoi interpretare richieste di viaggio, ricevere consigli e usare Chat viaggi.
+Apri Impostazioni -> Assistenti e connessioni: scegli un client ufficiale
+Codex gia' installato e autenticato, oppure uno dei provider API disponibili.
+I task e gli eventuali fallback si scelgono esplicitamente; i runtime non
+vengono attivati automaticamente per gli altri utenti.
 
-Se le vuoi: apri la scheda Impostazioni e incolla la chiave di uno dei
-fornitori gratuiti elencati li'. Ce n'e' abbastanza per non pagare niente e non
-lasciare una carta a nessuno. Le chiavi restano su questo computer, nel file
-data/local_secrets.json.
+Codex usa il tuo account esistente; le API gratuite restano disponibili e
+quelle a pagamento restano disabilitate finche' non le abiliti tu. Le chiavi
+restano in state/local_secrets.json (portable) o data/local_secrets.json
+(layout storico), senza entrare nel pacchetto pubblico.
 
 
 Dove finiscono i tuoi dati
 --------------------------
 
-Tutto nella cartella data/, accanto a TripFinder.exe: il profilo, le ricerche
+Nel pacchetto TripFinder-portable.zip il programma sta in app/ e i tuoi dati
+in state/. La root contiene solo TripFinder.exe e LEGGIMI.txt, oltre alle due
+cartelle. Nel pacchetto storico TripFinder-windows.zip i tuoi dati rimangono
+in data/. Il profilo, le ricerche
 salvate, le tessere, i log, le chiavi. Se sposti la cartella si sposta tutto;
 se la cancelli riparti da zero. Niente esce da qui tranne le richieste ai siti
 degli operatori e, se l'hai acceso, al fornitore di IA che hai scelto.
 
 
+Migrare al layout app/ e state/ senza Python
+------------------------------------------
+
+1. Chiudi Trip Finder dal menu della bussola (Esci).
+2. Scarica TripFinder-portable.zip ed estrailo in una cartella NUOVA, separata
+   dall'installazione da migrare. Non sovrascrivere la vecchia cartella.
+3. Apri PowerShell. Sostituisci i due percorsi nell'esempio e lancia:
+
+& 'C:\Pacchetti\TripFinder\TripFinder.exe' --migrate-from 'C:\Applicazioni\TripFinder'
+
+Il primo percorso e' il nuovo portable; il secondo e' la vecchia installazione
+chiusa. Compare una finestra con l'esito. Il vecchio contenuto resta in un
+backup esterno datato, accanto all'installazione. Per scegliere il backup:
+
+& 'C:\Pacchetti\TripFinder\TripFinder.exe' --migrate-from 'C:\Applicazioni\TripFinder' --migration-backup 'C:\Backup\TripFinder-prima-migrazione'
+
+Il backup deve essere una cartella NUOVA esterna. L'installazione resta allo
+stesso percorso: dopo il messaggio di successo apri il suo TripFinder.exe e
+verifica profilo, ricerche e tessere. Rigenera eventuali configurazioni MCP
+dalle Impostazioni: i file personali ora stanno in state/.
+
+In caso di errore non cancellare alcuna cartella. Per tornare indietro dopo
+una migrazione riuscita, chiudi Trip Finder, rinomina la nuova installazione
+per conservarla e rimetti il backup al nome/percorso originale. Non unire le
+cartelle e non sostituire singolarmente database o credenziali.
+
+Gli aggiornamenti automatici delle vecchie versioni restano nel layout data/:
+la migrazione avviene solo con il comando esplicito qui sopra.
+
+
 Se qualcosa non parte
 ---------------------
 
-Guarda data/logs/trip-finder.log: e' l'unico posto dove un errore d'avvio lascia
+Guarda state/logs/trip-finder.log (portable) oppure data/logs/trip-finder.log
+(layout storico): e' il posto dove un errore d'avvio lascia
 traccia, perche' non c'e' una console dove stamparlo.
 
 

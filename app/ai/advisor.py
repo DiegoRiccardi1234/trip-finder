@@ -311,7 +311,7 @@ async def advise(request: AdviceRequest) -> client.Answer:
     classifiche separate, la pagina una sola scheda per coppia, e il consiglio
     finiva per commentare i prezzi della sola andata sotto schede che
     mostravano il totale."""
-    if not client.is_configured():
+    if not await client.configured_for("advice"):
         return client.Answer(reason=client.NOT_CONFIGURED)
     if not request.options:
         return client.Answer(reason=client.NOTHING)
@@ -418,7 +418,7 @@ async def chat(request: ChatRequest) -> client.Answer:
     soluzioni, stessi vincoli rilassati — piu' i turni precedenti e il Profilo.
     Non lancia ricerche e non tocca il modulo: puo' solo parlare di cio' che ha
     davanti, ed e' la ragione per cui e' difendibile."""
-    if not client.is_configured():
+    if not await client.configured_for("chat"):
         return client.Answer(reason=client.NOT_CONFIGURED)
     if not request.messages or request.messages[-1].role != "user":
         return client.Answer(reason=client.NOTHING)
@@ -449,7 +449,7 @@ async def chat(request: ChatRequest) -> client.Answer:
     # stabile su cui si ragiona, e ripeterlo a ogni turno lo farebbe invecchiare
     # dentro la conversazione mentre a schermo e' sempre lo stesso.
     answer = await client.complete(
-        "advice",
+        "chat",
         f"{CHAT_SYSTEM}\n\n--- Di cosa state parlando ---\n{contesto}",
         domanda,
         max_tokens=700,
@@ -499,7 +499,7 @@ async def compare(request: CompareRequest) -> client.Answer:
     consigli affiancati non possono dire "vai a Palermo, costa 30 euro meno".
     Qui il confronto e' il compito, e ogni possibilita' arriva al modello con
     la sua etichetta."""
-    if not client.is_configured():
+    if not await client.configured_for("advice"):
         return client.Answer(reason=client.NOT_CONFIGURED)
     utili = [candidate for candidate in request.candidates if candidate.options]
     if len(utili) < 2:
@@ -615,7 +615,7 @@ def _describe_leg(leg: TripLeg, index: int) -> str:
 
 
 async def advise_trip(request: TripAdviceRequest) -> client.Answer:
-    if not client.is_configured():
+    if not await client.configured_for("advice"):
         return client.Answer(reason=client.NOT_CONFIGURED)
     # Con una tappa sola non c'e' nessun "insieme" da commentare: quello che si
     # puo' dire lo dice gia' il consiglio in fondo alla sua classifica.

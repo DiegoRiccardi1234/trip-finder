@@ -40,7 +40,7 @@ def test_treni_estivi_soppressi_spariscono(monkeypatch) -> None:
     Cade in pieno agosto, cioe' esattamente quando si scende al Sud: proporre
     un treno marcato (1) in quel periodo sarebbe l'errore piu' costoso che
     questo adapter possa fare."""
-    # Il manifesto attuale parte il 31 agosto: il calendario del vecchio
+    # Il manifesto attuale parte il 12 ottobre: il calendario del vecchio
     # documento si verifica con corse sintetiche, senza retrodatare il nuovo.
     monkeypatch.setattr(fal, "load_schedule", lambda: {
         "runs": [{"flag": "1"}, {"flag": "2"}],
@@ -93,6 +93,8 @@ def test_non_si_usa_un_manifesto_per_date_precedenti(monkeypatch) -> None:
      {"valid_from": "2026-06-22", "suppressed_window": {"from": "2026-07-27", "to": "2026-08-29"}}),
     ("IN VIGORE DAL 31 AGOSTO 2026 (1) - Treni soppressi nel mese di agosto",
      {"valid_from": "2026-08-31", "suppressed_window": {"from": "2026-08-01", "to": "2026-08-31"}}),
+    ("IN VIGORE DAL 12 OTTOBRE 2026 (1) - Treni soppressi nel mese di agosto",
+     {"valid_from": "2026-10-12", "suppressed_window": {"from": "2026-08-01", "to": "2026-08-31"}}),
 ])
 def test_calendario_si_estrae_dal_manifesto(text, expected, monkeypatch) -> None:
     from pathlib import Path
@@ -116,8 +118,8 @@ def test_un_calendario_non_riconosciuto_blocca_la_generazione(monkeypatch) -> No
 @pytest.mark.skipif(not fal.load_schedule().get("runs"), reason="orario FAL non generato")
 @needs_datasets
 def test_bari_matera_come_sul_manifesto() -> None:
-    """Confronto diretto con il PDF: il bus 101 parte da Bari alle 4.14, arriva
-    ad Altamura alle 5.26; il treno 1 riparte alle 6.21 e arriva a Matera
+    """Confronto diretto con il PDF: la corsa 101 parte da Bari alle 4.14, arriva
+    ad Altamura alle 5.26; la corsa 1 riparte alle 6.21 e arriva a Matera
     Centrale alle 6.50. Il motore deve ricostruire quella coincidenza."""
     from app.geo.datasets import load_index
     from app.providers.base import SearchContext
@@ -127,7 +129,7 @@ def test_bari_matera_come_sul_manifesto() -> None:
     matera = index.by_id["ov:fal-matera-centrale"]
 
     provider = registry.get("fal")
-    ctx = SearchContext(date=date(2026, 9, 15))
+    ctx = SearchContext(date=date(2026, 11, 4))
     legs = provider.parse(fal.load_schedule(), bari, matera, ctx)
 
     orari = {(leg.depart.strftime("%H:%M"), leg.arrive.strftime("%H:%M")) for leg in legs}
@@ -143,6 +145,26 @@ def test_bari_matera_come_sul_manifesto() -> None:
     # una stima, ed e' giusto che non sia dichiarata tale.
     assert prima.fare is not None
     assert prima.fare.amount == 6.20
+    assert any("bus da Matera Sud ad Altamura" in note for note in prima.notes)
+
+
+def test_current_manifesto_preserves_changed_return_and_bus_conditions():
+    schedule = fal.load_schedule()
+    assert schedule["valid_from"] == "2026-10-12"
+    returning = next(run for run in schedule["runs"] if run["label"] == "6")
+    assert fal.FerrovieAppuloLucane._stop_times(returning, "ov:fal-matera-centrale") == [5 * 60 + 40]
+    assert fal.FerrovieAppuloLucane._stop_times(returning, "ov:fal-altamura") == [6 * 60 + 6]
+    assert any("biciclette pieghevoli" in note for note in schedule["notes"])
+
+
+def test_side_by_side_legend_notes_do_not_merge(monkeypatch):
+    from pathlib import Path
+    monkeypatch.syspath_prepend(str(Path(__file__).resolve().parents[1] / "scripts"))
+    from build_fal_schedule import note_fragments
+    assert note_fragments("- Effettuato con bus da Matera Sud ad Altamura e viceversa. (1) - Treni soppressi nel mese di agosto") == [
+        "- Effettuato con bus da Matera Sud ad Altamura e viceversa.",
+        "(1) - Treni soppressi nel mese di agosto",
+    ]
 
 
 def test_il_prezzo_fal_esce_dal_listino_a_fasce() -> None:

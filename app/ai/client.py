@@ -186,9 +186,19 @@ class Answer:
         return self.completion.text if self.completion else ""
 
 
-def is_configured() -> bool:
+def is_configured(task: str | None = None) -> bool:
     """Vero se almeno un fornitore e' utilizzabile."""
-    return bool(providers.configured())
+    from app.ai import connections
+    return connections.has_route(task) or bool(providers.configured())
+
+
+async def configured_for(task: str) -> bool:
+    """A named route is configured even without any API key."""
+    from app.ai import connections
+    await connections.initialize()
+    return connections.has_route(task) or (
+        is_configured() and (not connections.has_route() or bool(providers.configured()))
+    )
 
 
 async def _call_openai_dialect(
@@ -299,6 +309,8 @@ async def complete(
     cache_key: str | None = None,
     check: Callable[[str], str] | None = None,
     history: list[dict[str, str]] | None = None,
+    json_schema: dict[str, Any] | None = None,
+    _skip_route: bool = False,
 ) -> Answer:
     """Prova le coppie (fornitore, modello) in ordine finche' una risponde bene.
 
@@ -311,6 +323,15 @@ async def complete(
     bene. Serve a chi puo' verificare la risposta contro i dati che ha mandato
     — per esempio che le soluzioni citate esistano davvero. Uno scarto qui vale
     come un troncamento: penalita' alla coppia e modello successivo."""
+    from app.ai import connections
+    if not _skip_route:
+        routed = await connections.complete_route(
+            task, system, user, json_schema=json_schema if json_mode else None,
+            max_tokens=max_tokens, history=history, check=check, cache_key=cache_key,
+        )
+        if routed is not None:
+            return routed
+    task = connections.legacy_task(task)
     if not is_configured():
         return Answer(reason=NOT_CONFIGURED)
 
@@ -440,6 +461,7 @@ async def complete_json(
     user: str,
     *,
     max_tokens: int = 700,
+    output_schema: dict[str, Any] | None = None,
 ) -> Answer:
     """Come `complete`, ma con l'oggetto gia' interpretato in `Answer.data`.
 
@@ -451,6 +473,7 @@ async def complete_json(
     conversazioni diverse con la stessa chiave si servirebbero a vicenda una
     risposta pensata per l'altra. Chi ha davvero bisogno dei turni separati usa
     `complete`, dove la cache si passa a mano e si sa cosa si sta facendo."""
+    from app.ai.connections import JSON_SCHEMAS, task_name
     answer = await complete(
         task,
         system,
@@ -458,10 +481,13 @@ async def complete_json(
         max_tokens=max_tokens,
         temperature=0.0,
         json_mode=True,
+        json_schema=output_schema or JSON_SCHEMAS.get(task_name(task), {"type": "object"}),
     )
     if not answer.ok:
         return answer
 
+    if answer.data is not None:
+        return answer
     completion = answer.completion
     assert completion is not None  # garantito da answer.ok
     parsed = _extract_json(completion.text)

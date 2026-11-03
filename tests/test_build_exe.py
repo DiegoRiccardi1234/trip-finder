@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import subprocess
 from types import SimpleNamespace
 from zipfile import ZipFile
 
@@ -104,10 +105,21 @@ def test_bundle_contiene_tutti_i_cataloghi_o_non_pubblica_zip(
     def fake_pyinstaller(*args, **kwargs):
         build_exe.BUNDLE.mkdir(parents=True)
         (build_exe.BUNDLE / "TripFinder.exe").write_bytes(b"build simulata")
+        (build_exe.BUNDLE / "TripFinderMCP.exe").write_bytes(b"MCP build simulata")
+        (build_exe.BUNDLE / "_internal").mkdir()
+        (build_exe.BUNDLE / "LEGGIMI.txt").write_text("guida", encoding="utf-8")
         if remove_dataset:
             (build_root / "data" / "airports.csv").unlink()
 
-    monkeypatch.setattr(build_exe, "subprocess", SimpleNamespace(check_call=fake_pyinstaller))
+    monkeypatch.setattr(build_exe, "subprocess", SimpleNamespace(check_call=fake_pyinstaller, STDOUT=subprocess.STDOUT))
+    from scripts import package_windows
+    def fake_portable(source, target):
+        from app.install_layout import LAYOUT_MARKER
+        (target / "app").mkdir(parents=True)
+        (target / "app" / LAYOUT_MARKER).write_text('{"version": 1}', encoding="utf-8")
+        (target / "TripFinder.exe").write_bytes(b"launcher")
+        return target
+    monkeypatch.setattr(package_windows, "organize_bundle", fake_portable)
     zip_path = build_exe.DIST / "TripFinder-windows.zip"
     if remove_dataset:
         with pytest.raises(FileNotFoundError):

@@ -15,6 +15,7 @@
   <!-- `__ASSETS__` lo sostituisce il server con l'impronta di CSS e JS: e' quello
        che impedisce al browser di servire il foglio di stile di ieri. -->
   <link rel="stylesheet" href="/static/style.css?v=__ASSETS__">
+  <link rel="stylesheet" href="/static/assistants.css?v=__ASSETS__">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
 </head>
 <body>
@@ -28,10 +29,39 @@
 
 <nav class="tabs" aria-label="Sezioni">
   <button type="button" class="tab is-active" data-view="ricerca">Ricerca</button>
+  <button type="button" class="tab" data-view="assistente">Chat viaggi</button>
   <button type="button" class="tab" data-view="profilo">Profilo</button>
   <button type="button" class="tab" data-view="impostazioni">Impostazioni</button>
   <button type="button" class="tab" data-view="info">Info</button>
 </nav>
+
+<section id="view-assistente" class="view assistant-view">
+  <div class="assistant-heading">
+    <div><h2>Organizziamo il viaggio</h2>
+      <p class="hint">Parti da una domanda o continua dai risultati. Ricerche su richiesta, salvataggi e modifiche solo dopo la tua conferma.</p></div>
+    <button type="button" class="link" id="agent-new">Nuova conversazione</button>
+  </div>
+  <div class="assistant-layout">
+    <aside class="assistant-history" aria-label="Conversazioni">
+      <h3>Le tue conversazioni</h3>
+      <ul id="agent-history" class="saved"></ul>
+    </aside>
+    <div class="assistant-main">
+      <div id="agent-messages" class="assistant-messages" role="log" aria-label="Messaggi">
+        <p class="hint">Dimmi da dove parti, dove vuoi andare e quando. Puoi aggiungere soste, budget e preferenze.</p>
+      </div>
+      <p id="agent-state" class="hint" role="status"></p>
+      <form id="agent-form" class="assistant-compose">
+        <label class="grow"><span>Il tuo messaggio</span>
+          <textarea id="agent-input" rows="3" maxlength="4000" required placeholder="Cerca da Torino a Matera venerdì prossimo, senza notturni"></textarea>
+        </label>
+        <div class="assistant-actions"><button type="submit" id="agent-send">Invia</button>
+          <button type="button" class="link" id="agent-stop" hidden>Interrompi</button></div>
+      </form>
+      <div id="agent-results"></div>
+    </div>
+  </div>
+</section>
 
 <section id="view-profilo" class="view">
   <h2>Preferenze</h2>
@@ -58,6 +88,14 @@
     <h3>Ricerche salvate</h3>
     <p class="hint">Stanno sul server, non nel browser: restano anche se pulisci i dati di navigazione.</p>
     <ul id="saved-list" class="saved"></ul>
+
+    <h3>Itinerari conservati</h3>
+    <p class="hint">Una copia del viaggio scelto, con orari e prezzi osservati allora. Per partire, ripeti la ricerca e verifica i dati aggiornati.</p>
+    <div id="agent-saved"><p class="hint">Nessun itinerario caricato.</p></div>
+
+    <h3>Proposte da confermare</h3>
+    <p class="hint">Qui decidi se applicare i salvataggi e le modifiche suggerite dalla chat o da un assistente collegato.</p>
+    <div id="agent-proposals"></div>
 
     <h3>Tessere e abbonamenti</h3>
     <p class="hint">
@@ -114,11 +152,40 @@
   </div>
   <p class="hint" id="update-state"></p>
 
+  <h2>Assistenti e connessioni</h2>
+  <p class="hint">Scegli il motore per ogni attività. Codex e Claude Code usano il client ufficiale e il tuo account. Hermes si collega tramite un endpoint già configurato; richiede un proprio provider.</p>
+  <div id="agent-connections"></div>
+  <details id="agent-connection-editor">
+    <summary>Aggiungi o modifica una connessione</summary>
+    <form id="agent-connection-form" class="connection-editor">
+      <label><span>Identificativo</span><input name="id" required pattern="[A-Za-z0-9_-]+" maxlength="80" placeholder="hermes"></label>
+      <label><span>Nome</span><input name="name" required maxlength="100" placeholder="Hermes Agent"></label>
+      <label><span>Tipo</span><select name="kind"><option value="openai_compatible">Endpoint compatibile / Hermes</option><option value="codex">Codex</option><option value="claude">Claude Code</option></select></label>
+      <label><span>Indirizzo endpoint</span><input name="base_url" type="url" placeholder="http://127.0.0.1:8642/v1"></label>
+      <label><span>Modello (vuoto: predefinito del runtime)</span><input name="model" maxlength="200"></label>
+      <label><span>Chiave endpoint (vuota: conserva quella salvata)</span><input name="api_key" type="password" autocomplete="new-password"></label>
+      <label class="inline"><input name="clear_api_key" type="checkbox"> Elimina la chiave salvata per questa connessione</label>
+      <label><span>Timeout in secondi</span><input name="timeout_seconds" type="number" min="10" max="600" value="120"></label>
+      <label class="inline"><input name="enabled" type="checkbox" checked> Connessione abilitata</label>
+      <button type="submit">Salva connessione</button>
+    </form>
+  </details>
+  <h3>Un motore per attività</h3>
+  <p class="hint">«Provider API esistenti» conserva il comportamento precedente. Una connessione scelta usa soltanto i fallback indicati qui, nell’ordine scritto.</p>
+  <form id="agent-routing-form"><div id="agent-routing"></div><button type="submit">Salva attività</button></form>
+  <p id="agent-settings-state" class="hint" role="status"></p>
+
+  <h3>Usa Trip Finder dal tuo assistente</h3>
+  <p class="hint">Collega un client MCP per cercare viaggi e consultare i dati dell’app aperta. Le modifiche richiedono conferma nel Profilo.</p>
+  <div class="row"><label><span>Client</span><select id="agent-mcp-client"><option value="codex">Codex</option><option value="claude">Claude / client MCP</option><option value="hermes">Hermes Agent</option></select></label>
+    <button type="button" id="agent-mcp-setup">Mostra configurazione MCP</button></div>
+  <pre id="agent-mcp-config" class="assistant-config" hidden></pre>
+
   <h2>Intelligenza artificiale</h2>
   <p class="hint">
-    Serve solo per scrivere la richiesta a voce e per il consiglio sotto la
-    classifica. Ne basta <strong>una</strong> chiave: i fornitori si provano in
-    catena, e quando uno rifiuta si passa al successivo.
+    I provider API restano disponibili insieme alle connessioni qui sopra.
+    Senza IA puoi usare normalmente il modulo di ricerca. Nella modalità API
+    esistente i fornitori si provano in catena.
   </p>
 
   <h3>Gratuiti · nessuna carta</h3>
@@ -146,7 +213,7 @@
   <button type="button" class="link" id="ai-refresh">Ricontrolla</button>
 
   <p class="nota-chiavi">
-    Le chiavi restano su questo computer, in <code>data/local_secrets.json</code>,
+    Le chiavi restano su questo computer, nello stato locale dell’app,
     accanto al database. Non escono da qui tranne che verso il fornitore che
     scegli, e non compaiono mai nelle risposte del sito.
   </p>
@@ -451,5 +518,6 @@
 </footer>
 
 <script src="/static/app.js?v=__ASSETS__"></script>
+<script src="/static/assistants.js?v=__ASSETS__"></script>
 </body>
 </html>

@@ -56,7 +56,9 @@ jobs:
         if: github.event_name == 'push'
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/TripFinder-windows.zip
+          files: |
+            dist/TripFinder-windows.zip
+            dist/TripFinder-portable.zip
           body_path: release-notes.md
           fail_on_unmatched_files: true
 
@@ -65,5 +67,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: TripFinder-windows
-          path: dist/TripFinder-windows.zip
+          path: |
+            dist/TripFinder-windows.zip
+            dist/TripFinder-portable.zip
           retention-days: 14
